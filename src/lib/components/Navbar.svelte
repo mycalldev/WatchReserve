@@ -101,7 +101,7 @@
 		margin: 0;
 		position: sticky;
 		top: 0;
-		z-index: 1000;
+		z-index: 1001;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 	}
 
@@ -254,13 +254,10 @@
 		bottom: 0;
 		z-index: 1000;
 		pointer-events: none;
-		opacity: 0;
-		transition: opacity 0.3s ease;
 	}
 
 	.mobile-menu.open {
 		pointer-events: all;
-		opacity: 1;
 	}
 
 	.mobile-menu-overlay {
@@ -271,25 +268,32 @@
 		bottom: 0;
 		background-color: rgba(0, 0, 0, 0.7);
 		backdrop-filter: blur(4px);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.mobile-menu.open .mobile-menu-overlay {
+		opacity: 1;
 	}
 
 	.mobile-menu-content {
 		position: absolute;
 		top: 0;
+		left: 0;
 		right: 0;
-		width: 80%;
-		max-width: 320px;
-		height: 100%;
+		width: 100%;
 		background-color: #160b11;
-		box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
-		transform: translateX(100%);
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+		transform: translateY(calc(-100% - 60px));
 		transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 		overflow-y: auto;
-		padding: 80px 0 40px;
+		padding-top: 60px;
+		padding-bottom: 40px;
+		max-height: calc(100vh - 60px);
 	}
 
 	.mobile-menu.open .mobile-menu-content {
-		transform: translateX(0);
+		transform: translateY(60px);
 	}
 
 	.mobile-nav-links {
@@ -311,8 +315,10 @@
 		border-bottom: none;
 		display: flex;
 		justify-content: center;
+		align-items: center;
 		padding: 0;
 		text-align: center;
+		width: 100%;
 	}
 
 	.mobile-nav-links a {
@@ -356,7 +362,7 @@
 
 	.mobile-contact-link {
 		background-color: #a1846d;
-		margin: 24px 0 0;
+		margin: 24px auto 0;
 		border-radius: 6px;
 		text-align: center;
 		padding: 12px 24px;
@@ -364,8 +370,6 @@
 		min-width: 140px;
 		font-size: 14px;
 		display: block;
-		margin-left: auto;
-		margin-right: auto;
 	}
 
 	.mobile-contact-link::before {
@@ -470,6 +474,16 @@
 
 		.mobile-only {
 			display: flex;
+		}
+
+		.mobile-menu-content {
+			transform: translateY(calc(-100% - 56px));
+			padding-top: 56px;
+			max-height: calc(100vh - 56px);
+		}
+
+		.mobile-menu.open .mobile-menu-content {
+			transform: translateY(56px);
 		}
 	}
 </style>
