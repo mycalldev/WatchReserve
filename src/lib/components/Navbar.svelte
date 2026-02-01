@@ -9,6 +9,13 @@
 	function closeMenu() {
 		isMenuOpen = false;
 	}
+
+	function handleOverlayKeydown(event) {
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			closeMenu();
+		}
+	}
 </script>
 
 <nav class="navbar">
@@ -79,7 +86,14 @@
 
 	<!-- Mobile Menu -->
 	<div class="mobile-menu" class:open={isMenuOpen}>
-		<div class="mobile-menu-overlay" onclick={closeMenu}></div>
+		<div
+			class="mobile-menu-overlay"
+			onclick={closeMenu}
+			onkeydown={handleOverlayKeydown}
+			role="button"
+			tabindex="0"
+			aria-label="Close menu"
+		></div>
 		<div class="mobile-menu-content">
 			<ul class="mobile-nav-links">
 				<li><a href="/shop" onclick={closeMenu}>SHOP</a></li>
@@ -460,6 +474,12 @@
 	}
 
 	@media (max-width: 640px) {
+		.navbar {
+			position: sticky;
+			top: 0;
+			z-index: 1001;
+		}
+
 		.nav-links {
 			display: none;
 		}

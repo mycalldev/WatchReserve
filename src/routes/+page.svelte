@@ -3,6 +3,7 @@
 	import LinkButton from '$lib/components/LinkButton.svelte';
 	import SocialFollow from '$lib/components/SocialFollow.svelte';
 	import ElevateCollection from '$lib/components/ElevateCollection.svelte';
+	import FeaturedTimepieces from '$lib/components/FeaturedTimepieces.svelte';
 </script>
 
 <section class="hero-section">
@@ -24,32 +25,7 @@
 
 <SocialFollow />
 
-<section class="luxury-section">
-	<div class="luxury-container">
-		<div class="luxury-image-wrapper">
-			<img
-				src="/assets/gifs/giffycanvas (12).gif"
-				alt="Luxury watch"
-				class="luxury-image"
-			/>
-		</div>
-		<div class="luxury-content">
-			<h2 class="luxury-headline">
-				Luxury is <em>Personal</em>
-			</h2>
-			<p class="luxury-text">
-				At Watch Reserve, we believe the experience should reflect the calibre of the watch. Whether you're building a collection or investing in your first timepiece, our service is personal, thoughtful, and rooted in genuine expertise.
-			</p>
-			<p class="luxury-text">
-				We stock and source rare watches from the world's most iconic brands — and we back every transaction with guidance you can trust.
-			</p>
-			<p class="luxury-text">
-				This isn't just a purchase. It's your next signature piece, handled with care by people who understand its value.
-			</p>
-			<button class="about-btn">About Us</button>
-		</div>
-	</div>
-</section>
+<FeaturedTimepieces />
 
 <section class="sell-source-section">
 	<div class="sell-source-container">
@@ -82,6 +58,33 @@
 					<span class="arrow">→</span>
 				</a>
 			</div>
+		</div>
+	</div>
+</section>
+
+<section class="luxury-section">
+	<div class="luxury-container">
+		<div class="luxury-image-wrapper">
+			<img
+				src="/assets/gifs/giffycanvas (12).gif"
+				alt="Luxury watch"
+				class="luxury-image"
+			/>
+		</div>
+		<div class="luxury-content">
+			<h2 class="luxury-headline">
+				Luxury is <em>Personal</em>
+			</h2>
+			<p class="luxury-text">
+				At Watch Reserve, we believe the experience should reflect the calibre of the watch. Whether you're building a collection or investing in your first timepiece, our service is personal, thoughtful, and rooted in genuine expertise.
+			</p>
+			<p class="luxury-text">
+				We stock and source rare watches from the world's most iconic brands — and we back every transaction with guidance you can trust.
+			</p>
+			<p class="luxury-text">
+				This isn't just a purchase. It's your next signature piece, handled with care by people who understand its value.
+			</p>
+			<button class="about-btn">About Us</button>
 		</div>
 	</div>
 </section>
