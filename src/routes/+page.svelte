@@ -4,6 +4,8 @@
 	import SocialFollow from '$lib/components/SocialFollow.svelte';
 	import ElevateCollection from '$lib/components/ElevateCollection.svelte';
 	import FeaturedTimepieces from '$lib/components/FeaturedTimepieces.svelte';
+	import Reviews from '$lib/components/Reviews.svelte';
+	import TrustBanner from '$lib/components/TrustBanner.svelte';
 </script>
 
 <section class="hero-section">
@@ -22,6 +24,8 @@
 		</div>
 	</div>
 </section>
+
+<TrustBanner />
 
 <SocialFollow />
 
@@ -79,7 +83,7 @@
 				At Watch Reserve, we believe the experience should reflect the calibre of the watch. Whether you're building a collection or investing in your first timepiece, our service is personal, thoughtful, and rooted in genuine expertise.
 			</p>
 			<p class="luxury-text">
-				We stock and source rare watches from the world's most iconic brands — and we back every transaction with guidance you can trust.
+				We stock and source rare watches from the world's most iconic brands and we back every transaction with guidance you can trust.
 			</p>
 			<p class="luxury-text">
 				This isn't just a purchase. It's your next signature piece, handled with care by people who understand its value.
@@ -149,7 +153,41 @@
 	</div>
 </section>
 
+<section class="expertise-section">
+	<div class="expertise-image-wrapper">
+	</div>
+	<div class="expertise-content">
+		<div class="expertise-container">
+			<div class="expertise-column">
+				<h3 class="expertise-heading">Unmatched Expertise</h3>
+				<p class="expertise-text">
+					Years of hands-on industry experience mean you receive informed, honest advice — whether you're
+					buying your first timepiece or your fifteenth. We don't just sell watches — we guide collectors.
+				</p>
+			</div>
+			<div class="expertise-divider"></div>
+			<div class="expertise-column">
+				<h3 class="expertise-heading">Tailored, White-Glove Service</h3>
+				<p class="expertise-text">
+					From first enquiry to final delivery, we offer a seamless and personal buying experience. No hard
+					sell, no jargon — just attentive support and total discretion at every step.
+				</p>
+			</div>
+			<div class="expertise-divider"></div>
+			<div class="expertise-column">
+				<h3 class="expertise-heading">Direct Access to Rare Pieces</h3>
+				<p class="expertise-text">
+					Based in Canary Wharf with a trusted global network, we source highly sought-after timepieces that
+					rarely hit the open market — getting you closer to the watch you've been searching for.
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+
 <ElevateCollection />
+
+<Reviews />
 
 <style>
 	.hero-section {
@@ -292,6 +330,8 @@
 		padding: 0;
 		display: flex;
 		min-height: 600px;
+		box-sizing: border-box;
+		overflow-x: hidden;
 	}
 
 	.luxury-container {
@@ -299,6 +339,7 @@
 		width: 100%;
 		margin: 0;
 		padding: 0;
+		box-sizing: border-box;
 	}
 
 	.luxury-image-wrapper {
@@ -328,6 +369,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		box-sizing: border-box;
 	}
 
 	.luxury-headline {
@@ -427,14 +469,19 @@
 			width: 100%;
 			padding: 50px 30px;
 			order: 2;
+			box-sizing: border-box;
+			text-align: start;
+			align-items: flex-start;
 		}
 
 		.luxury-headline {
 			margin: 0 0 24px 0;
+			text-align: start;
 		}
 
 		.luxury-text {
 			margin: 0 0 20px 0;
+			text-align: start;
 		}
 
 		.luxury-text:last-of-type {
@@ -444,6 +491,7 @@
 		.about-btn {
 			width: 100%;
 			max-width: 300px;
+			align-self: center;
 		}
 	}
 
@@ -467,6 +515,7 @@
 
 		.luxury-content {
 			padding: 40px 20px;
+			box-sizing: border-box;
 		}
 
 		.luxury-text {
@@ -735,6 +784,115 @@
 
 		.brand-content {
 			padding: 24px 20px;
+		}
+	}
+
+	.expertise-section {
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		background-color: #160b11;
+	}
+
+
+	.expertise-content {
+		width: 100%;
+		background-color: #160b11;
+		padding: 80px 60px;
+		box-sizing: border-box;
+		position: relative;
+	}
+
+	.expertise-content::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 1px;
+		background-color: rgba(255, 255, 255, 0.3);
+	}
+
+	.expertise-container {
+		max-width: 1400px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr auto 1fr auto 1fr;
+		gap: 60px;
+		align-items: start;
+	}
+
+	.expertise-column {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.expertise-heading {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.5rem, 2.5vw, 2rem);
+		font-weight: 400;
+		color: #ffffff;
+		margin: 0;
+		line-height: 1.3;
+		letter-spacing: -0.01em;
+	}
+
+	.expertise-text {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
+		color: #ffffff;
+		line-height: 1.7;
+		font-weight: 300;
+		letter-spacing: 0.01em;
+		margin: 0;
+	}
+
+	.expertise-divider {
+		width: 1px;
+		background-color: rgba(255, 255, 255, 0.3);
+		height: 100%;
+		min-height: 100px;
+	}
+
+	@media (max-width: 1024px) {
+		.expertise-content {
+			padding: 60px 40px;
+		}
+
+		.expertise-container {
+			gap: 40px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.expertise-content {
+			padding: 50px 30px;
+		}
+
+		.expertise-container {
+			grid-template-columns: 1fr;
+			gap: 40px;
+		}
+
+		.expertise-divider {
+			display: none;
+		}
+
+		.expertise-column {
+			gap: 16px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.expertise-content {
+			padding: 40px 20px;
+		}
+
+		.expertise-container {
+			gap: 32px;
 		}
 	}
 </style>
