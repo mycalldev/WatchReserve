@@ -17,14 +17,24 @@
 <Footer />
 
 <style>
-	:global(body) {
-		margin: 0;
-		padding: 0;
-	}
-
 	:global(html) {
 		margin: 0;
 		padding: 0;
+		overflow-x: hidden;
+		max-width: 100%;
+	}
+
+	:global(body) {
+		margin: 0;
+		padding: 0;
+		overflow-x: hidden;
+		max-width: 100%;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	:global(*, *::before, *::after) {
+		box-sizing: border-box;
 	}
 </style>
 

@@ -30,6 +30,7 @@
 			<li><a href="/source">SOURCE</a></li>
 			<li><a href="/about">ABOUT</a></li>
 			<li><a href="/blogs">BLOGS & GUIDES</a></li>
+			<li><a href="/api">API</a></li>
 		</ul>
 
 		<div class="navbar-right">
@@ -101,6 +102,7 @@
 				<li><a href="/source" onclick={closeMenu}>SOURCE</a></li>
 				<li><a href="/about" onclick={closeMenu}>ABOUT</a></li>
 				<li><a href="/blogs" onclick={closeMenu}>BLOGS & GUIDES</a></li>
+				<li><a href="/api" onclick={closeMenu}>API</a></li>
 				<li class="contact-li"><a href="/contact" onclick={closeMenu} class="mobile-contact-link">CONTACT</a></li>
 			</ul>
 		</div>

@@ -6,7 +6,10 @@
 	import FeaturedTimepieces from '$lib/components/FeaturedTimepieces.svelte';
 	import Reviews from '$lib/components/Reviews.svelte';
 	import TrustBanner from '$lib/components/TrustBanner.svelte';
+	import ApiTrialModal from '$lib/components/ApiTrialModal.svelte';
 </script>
+
+<ApiTrialModal />
 
 <section class="hero-section">
 	<div class="hero-container">
