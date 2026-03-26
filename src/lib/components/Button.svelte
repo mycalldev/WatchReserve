@@ -8,7 +8,7 @@
 
 <style>
 	.button {
-		background-color: #e5e5e5;
+		background-color: #ffffff;
 		color: #160B11;
 		border: none;
 		padding: 14px 32px;
@@ -22,7 +22,7 @@
 	}
 
 	.button:hover {
-		background-color: #d0d0d0;
+		background-color: #f0f0f0;
 		transform: translateY(-2px);
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 	}

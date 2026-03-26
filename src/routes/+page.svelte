@@ -22,7 +22,6 @@
 			</p>
 			<div class="hero-actions">
 				<Button>Browse All Watches</Button>
-				<LinkButton href="/source">Source a Watch</LinkButton>
 			</div>
 		</div>
 	</div>

@@ -201,9 +201,7 @@
 	.backdrop {
 		position: fixed;
 		inset: 0;
-		background-color: rgba(6, 2, 5, 0.78);
-		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
+		background-color: rgba(6, 2, 5, 0.72);
 		z-index: 1100;
 		opacity: 0;
 		transition: opacity 0.4s ease;
