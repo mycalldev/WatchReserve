@@ -10,7 +10,7 @@
 				A Trusted Way to Sell Your Luxury Watch
 			</h1>
 			<p class="sell-hero-text">
-				Receive a fast, competitive offer from a team trusted by collectors across the UK and beyond — with a personalised service tailored to you.
+				Receive a fast, competitive offer from a team trusted by collectors across the UK and beyond with a personalised service tailored to you.
 			</p>
 			<div class="sell-hero-action">
 				<Button className="sell-cta-btn">Speak to Our Team</Button>
@@ -25,7 +25,7 @@
 			<p class="steps-eyebrow">The Process</p>
 			<h2 class="steps-title">Why Sell with Watch Reserve?</h2>
 			<p class="steps-subtitle">
-				From first enquiry to completed sale — a simple, transparent process built around you.
+				From first enquiry to completed sale a simple, transparent process built around you.
 			</p>
 		</div>
 
@@ -53,7 +53,7 @@
 				<div class="step-content">
 					<h3 class="step-heading">Flexible, Secure Sale</h3>
 					<p class="step-text">
-						Meet us in Canary Wharf or complete your sale from anywhere with our fully insured remote process — whatever works best for you.
+						Meet us in Canary Wharf or complete your sale from anywhere with our fully insured remote process whatever works best for you.
 					</p>
 				</div>
 			</div>
@@ -66,7 +66,7 @@
 				<div class="step-content">
 					<h3 class="step-heading">Expert Guidance Throughout</h3>
 					<p class="step-text">
-						Backed by years of hands-on experience, our team provides honest guidance and exceptional service at every step — from enquiry to payment.
+						Backed by years of hands-on experience, our team provides honest guidance and exceptional service at every step from enquiry to payment.
 					</p>
 				</div>
 			</div>

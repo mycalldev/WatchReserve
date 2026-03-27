@@ -1,5 +1,6 @@
 <script>
 	import { enhance } from '$app/forms';
+	import ProductViewCount from '$lib/components/ProductViewCount.svelte';
 
 	let { data, form } = $props();
 	const { product } = data;
@@ -62,6 +63,26 @@
 	);
 
 	const { metafieldsByGroup } = data;
+
+	// Extract status from metafields (custom.status), fallback to null
+	const productStatus = $derived(() => {
+		const m = product.metafields?.find(
+			(f) => f && f.namespace === 'custom' && f.key === 'status'
+		);
+		return m?.value?.trim() ?? null;
+	});
+
+	const statusSlug = $derived(() =>
+		productStatus() ? productStatus().toLowerCase().replace(/\s+/g, '-') : null
+	);
+
+	// Extract view count from metafields (custom.viewed), fallback to null
+	const viewedCount = $derived(() => {
+		const m = product.metafields?.find(
+			(f) => f && f.namespace === 'custom' && f.key === 'viewed'
+		);
+		return m?.value ?? null;
+	});
 
 	function formatMetafieldValue(value, typeName) {
 		if (value === null || value === undefined || value === '') return null;
@@ -192,9 +213,22 @@
 
 		<!-- ── PRODUCT DETAILS ── -->
 		<div class="details">
-			{#if product.vendor}
-				<p class="vendor">{product.vendor}</p>
-			{/if}
+			<div class="details-top-row">
+				{#if product.vendor}
+					<p class="vendor">{product.vendor}</p>
+				{/if}
+				{#if productStatus()}
+					<div class="status-badge status-{statusSlug()}" aria-label="Status: {productStatus()}">
+						<span class="status-dot" aria-hidden="true"></span>
+						{productStatus()}
+					</div>
+				{:else}
+					<div class="status-badge status-available" aria-label="Status: Available">
+						<span class="status-dot" aria-hidden="true"></span>
+						Available
+					</div>
+				{/if}
+			</div>
 
 			<h1 class="title">{product.title}</h1>
 
@@ -243,6 +277,9 @@
 				<span class="availability-dot" aria-hidden="true"></span>
 				{isAvailable ? 'Available' : 'Currently Unavailable'}
 			</div>
+
+			<!-- View count -->
+			<ProductViewCount count={viewedCount()} />
 
 			<!-- Add to cart form -->
 			<form
@@ -586,6 +623,14 @@
 		padding-top: 8px;
 	}
 
+	.details-top-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
 	.vendor {
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 		font-size: 0.8rem;
@@ -595,6 +640,35 @@
 		color: #a1846d;
 		margin: 0;
 	}
+
+	/* ── STATUS BADGE (product page) ── */
+	.status-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 5px 12px;
+		border-radius: 100px;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.8rem;
+		font-weight: 400;
+		letter-spacing: 0.01em;
+		color: #160b11;
+		background-color: #f5f2f0;
+		border: 1px solid rgba(22, 11, 17, 0.1);
+		flex-shrink: 0;
+	}
+
+	.status-dot {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+	.status-available .status-dot    { background-color: #22a05a; }
+	.status-sold .status-dot         { background-color: #c94040; }
+	.status-new-arrival .status-dot  { background-color: #c9a230; }
+	.status-reserved .status-dot     { background-color: #422635; }
 
 	.title {
 		font-family: 'Georgia', 'Times New Roman', serif;
@@ -1104,7 +1178,9 @@
 
 		.add-btn {
 			width: 100%;
-			height: 56px;
+			height: auto;
+			padding-top: 18px;
+			padding-bottom: 18px;
 			font-size: 1rem;
 		}
 

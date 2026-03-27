@@ -1,8 +1,14 @@
 import { getProduct, getMetafieldDefinitions, createCart, addToCart } from '$lib/shopify.js';
 import { error } from '@sveltejs/kit';
 
+// Metafields that are always fetched regardless of Admin API definitions
+const REQUIRED_IDENTIFIERS = [
+	{ namespace: 'custom', key: 'status' },
+	{ namespace: 'custom', key: 'viewed' }
+];
+
 export async function load({ params }) {
-	// Fetch product metafield definitions and category metafield definitions in parallel
+	// Fetch product metafield definitions from Admin API (best-effort)
 	const [productDefinitions, categoryDefinitions] = await Promise.allSettled([
 		getMetafieldDefinitions('PRODUCT'),
 		getMetafieldDefinitions('PRODUCT_TAXONOMY_NODE')
@@ -10,10 +16,16 @@ export async function load({ params }) {
 
 	const productDefs = productDefinitions.status === 'fulfilled' ? productDefinitions.value : [];
 	const categoryDefs = categoryDefinitions.status === 'fulfilled' ? categoryDefinitions.value : [];
-
-	// Combine all definitions into Storefront API identifiers
 	const allDefs = [...productDefs, ...categoryDefs];
-	const identifiers = allDefs.map((d) => ({ namespace: d.namespace, key: d.key }));
+
+	// Always include required identifiers, then merge any additional ones from Admin API
+	const adminIdentifiers = allDefs.map((d) => ({ namespace: d.namespace, key: d.key }));
+	const identifiers = [
+		...REQUIRED_IDENTIFIERS,
+		...adminIdentifiers.filter(
+			(ai) => !REQUIRED_IDENTIFIERS.some((r) => r.namespace === ai.namespace && r.key === ai.key)
+		)
+	];
 
 	// Fetch product with all metafield values resolved
 	const product = await getProduct(params.handle, identifiers);

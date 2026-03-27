@@ -204,6 +204,132 @@ export async function getProduct(handle, metafieldIdentifiers = []) {
 	};
 }
 
+// ── Single collection with products (Storefront) ──────────────────────────────
+
+const COLLECTION_QUERY = `
+  query GetCollection($handle: String!, $first: Int!, $after: String) {
+    collection(handle: $handle) {
+      id
+      title
+      handle
+      description
+      descriptionHtml
+      image {
+        url
+        altText
+        width
+        height
+      }
+      products(first: $first, after: $after) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        edges {
+          node {
+            id
+            title
+            handle
+            vendor
+            productType
+            tags
+            featuredImage {
+              url
+              altText
+            }
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            collections(first: 10) {
+              edges {
+                node { title handle }
+              }
+            }
+            metafields(identifiers: [{namespace: "custom", key: "status"}]) {
+              namespace
+              key
+              value
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export async function getCollection(handle) {
+	const allProducts = [];
+	let hasNextPage = true;
+	let cursor = null;
+	let collectionMeta = null;
+
+	while (hasNextPage) {
+		let data;
+		try {
+			data = await shopifyFetch(COLLECTION_QUERY, { handle, first: 250, after: cursor });
+		} catch (e) {
+			console.error('[getCollection] Shopify fetch error for handle:', handle, e?.message);
+			return null;
+		}
+
+		console.log('[getCollection] raw response for handle:', handle, JSON.stringify(data?.collection ? { id: data.collection.id, title: data.collection.title } : null));
+
+		if (!data?.collection) return null;
+
+		const { products, ...meta } = data.collection;
+
+		if (!collectionMeta) {
+			collectionMeta = {
+				id: meta.id,
+				title: meta.title,
+				handle: meta.handle,
+				description: meta.description,
+				descriptionHtml: meta.descriptionHtml,
+				image: meta.image
+					? {
+							url: meta.image.url,
+							altText: meta.image.altText ?? meta.title,
+							width: meta.image.width,
+							height: meta.image.height
+						}
+					: null
+			};
+		}
+
+		for (const { node } of products.edges) {
+			const statusMeta = (node.metafields ?? []).find(
+				(m) => m && m.namespace === 'custom' && m.key === 'status'
+			);
+			const collections = (node.collections?.edges ?? []).map(({ node: c }) => ({
+				title: c.title,
+				handle: c.handle
+			}));
+			allProducts.push({
+				id: node.id,
+				title: node.title,
+				handle: node.handle,
+				vendor: node.vendor,
+				productType: node.productType,
+				tags: node.tags,
+				collections,
+				image: node.featuredImage?.url ?? null,
+				imageAlt: node.featuredImage?.altText ?? node.title,
+				price: parseFloat(node.priceRange.minVariantPrice.amount),
+				currencyCode: node.priceRange.minVariantPrice.currencyCode,
+				status: statusMeta?.value ?? null
+			});
+		}
+
+		hasNextPage = products.pageInfo.hasNextPage;
+		cursor = products.pageInfo.endCursor;
+	}
+
+	return { ...collectionMeta, products: allProducts };
+}
+
 // ── All products (Storefront) ─────────────────────────────────────────────────
 
 const PRODUCTS_QUERY = `
@@ -231,6 +357,19 @@ const PRODUCTS_QUERY = `
               currencyCode
             }
           }
+          collections(first: 10) {
+            edges {
+              node {
+                title
+                handle
+              }
+            }
+          }
+          metafields(identifiers: [{namespace: "custom", key: "status"}]) {
+            namespace
+            key
+            value
+          }
         }
       }
     }
@@ -248,6 +387,14 @@ export async function getProducts() {
 		const { edges, pageInfo } = data.products;
 
 		for (const { node } of edges) {
+			const statusMeta = (node.metafields ?? []).find(
+				(m) => m && m.namespace === 'custom' && m.key === 'status'
+			);
+			// Store { title, handle } pairs so the UI can build correct collection URLs
+			const collections = (node.collections?.edges ?? []).map(({ node: c }) => ({
+				title: c.title,
+				handle: c.handle
+			}));
 			allProducts.push({
 				id: node.id,
 				title: node.title,
@@ -255,10 +402,12 @@ export async function getProducts() {
 				vendor: node.vendor,
 				productType: node.productType,
 				tags: node.tags,
+				collections,
 				image: node.featuredImage?.url ?? null,
 				imageAlt: node.featuredImage?.altText ?? node.title,
 				price: parseFloat(node.priceRange.minVariantPrice.amount),
-				currencyCode: node.priceRange.minVariantPrice.currencyCode
+				currencyCode: node.priceRange.minVariantPrice.currencyCode,
+				status: statusMeta?.value ?? null
 			});
 		}
 

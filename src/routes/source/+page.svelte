@@ -10,7 +10,7 @@
 				Let Us <em>Source</em> Your Next Timepiece
 			</h1>
 			<p class="source-hero-text">
-				From hard-to-find classics to the latest releases, we tap into our global network to help you secure the perfect watch – without delay or pressure.
+				From hard-to-find classics to the latest releases, we tap into our global network to help you secure the perfect watch without delay or pressure.
 			</p>
 			<div class="source-hero-action">
 				<Button className="source-cta-btn">Speak to Our Team</Button>
@@ -66,7 +66,7 @@
 				<div class="step-content">
 					<h3 class="step-heading">White-Glove Delivery</h3>
 					<p class="step-text">
-						Backed by five-star reviews and years of expertise, we deliver your timepiece with insured, seamless service — from first enquiry to your wrist.
+						Backed by five-star reviews and years of expertise, we deliver your timepiece with insured, seamless service from first enquiry to your wrist.
 					</p>
 				</div>
 			</div>

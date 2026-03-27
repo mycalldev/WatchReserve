@@ -8,11 +8,41 @@
 		...new Set(products.map((p) => p.productType).filter(Boolean))
 	]);
 
+	// Featured brand titles to show in the tab bar
+	const FEATURED_BRAND_TITLES = ['Rolex', 'Patek Philippe', 'Audemars Piguet'];
+
+	// Build a title → handle map from the actual collection data on products
+	const collectionHandleMap = $derived(() => {
+		const map = new Map();
+		for (const p of products) {
+			for (const col of (p.collections ?? [])) {
+				if (!map.has(col.title)) map.set(col.title, col.handle);
+			}
+		}
+		return map;
+	});
+
+	// Only show brands that we have a known handle for
+	const FEATURED_BRANDS = $derived(() =>
+		FEATURED_BRAND_TITLES
+			.filter((title) => collectionHandleMap().has(title))
+			.map((title) => ({ label: title, handle: collectionHandleMap().get(title) }))
+	);
+
 	let selectedType = $state('All');
+	let selectedBrand = $state('All');
 	let sortOrder = $state('default');
 
 	const filteredProducts = $derived(() => {
-		let result = selectedType === 'All' ? products : products.filter((p) => p.productType === selectedType);
+		let result = products;
+
+		if (selectedBrand !== 'All') {
+			result = result.filter((p) => p.collections?.some((c) => c.title === selectedBrand));
+		}
+
+		if (selectedType !== 'All') {
+			result = result.filter((p) => p.productType === selectedType);
+		}
 
 		if (sortOrder === 'price-asc') {
 			result = [...result].sort((a, b) => a.price - b.price);
@@ -24,6 +54,7 @@
 
 		return result;
 	});
+
 
 	function formatPrice(amount, currencyCode) {
 		return new Intl.NumberFormat('en-GB', {
@@ -43,6 +74,24 @@
 	<div class="shop-header">
 		<h1 class="shop-title">The Collection</h1>
 		<p class="shop-subtitle">Curated luxury timepieces, authenticated and ready to wear</p>
+	</div>
+
+	<!-- Brand filter bar -->
+	<div class="brand-bar">
+		<div class="brand-bar-inner">
+			<button
+				class="brand-pill"
+				class:active={selectedBrand === 'All'}
+				onclick={() => (selectedBrand = 'All')}
+			>
+				All
+			</button>
+			{#each FEATURED_BRANDS() as brand}
+				<a href="/collections/{brand.handle}" class="brand-pill brand-pill-link">
+					{brand.label}
+				</a>
+			{/each}
+		</div>
 	</div>
 
 	<div class="shop-container">
@@ -81,13 +130,15 @@
 		{:else}
 			<div class="products-grid">
 				{#each filteredProducts() as product (product.id)}
+					{@const status = product.status?.trim() ?? null}
+					{@const statusSlug = status ? status.toLowerCase().replace(/\s+/g, '-') : 'available'}
 					<a href="/shop/{product.handle}" class="product-card">
 						<div class="product-image-wrapper">
 							{#if product.image}
-								<img src={product.image} alt={product.imageAlt} class="product-image" />
+								<img src={product.image} alt={product.imageAlt} class="product-image" loading="lazy" />
 							{:else}
 								<div class="product-image-placeholder">
-									<svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 										<circle cx="12" cy="12" r="9" stroke="#a1846d" stroke-width="1.5" />
 										<circle cx="12" cy="12" r="3" stroke="#a1846d" stroke-width="1.5" />
 										<line x1="12" y1="3" x2="12" y2="6" stroke="#a1846d" stroke-width="1.5" stroke-linecap="round" />
@@ -97,13 +148,25 @@
 									</svg>
 								</div>
 							{/if}
+
+							<!-- Status badge -->
+							<div class="status-badge status-{statusSlug}" aria-label="Status: {status ?? 'Available'}">
+								<span class="status-dot" aria-hidden="true"></span>
+								{status ?? 'Available'}
+							</div>
 						</div>
+
 						<div class="product-details">
-							{#if product.vendor}
-								<p class="product-vendor">{product.vendor}</p>
-							{/if}
+							<div class="product-meta-row">
+								{#if product.vendor}
+									<p class="product-vendor">{product.vendor}</p>
+								{/if}
+							</div>
 							<p class="product-title">{product.title}</p>
-							<p class="product-price">{formatPrice(product.price, product.currencyCode)}</p>
+							<div class="product-footer">
+								<p class="product-price">{formatPrice(product.price, product.currencyCode)}</p>
+								<span class="product-arrow" aria-hidden="true">→</span>
+							</div>
 						</div>
 					</a>
 				{/each}
@@ -143,6 +206,64 @@
 		letter-spacing: 0.03em;
 	}
 
+	/* ── BRAND BAR ── */
+	.brand-bar {
+		background-color: #ffffff;
+		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+	}
+
+	.brand-bar-inner {
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 0 40px;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		overflow-x: auto;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+
+	.brand-bar-inner::-webkit-scrollbar { display: none; }
+
+	.brand-pill {
+		flex-shrink: 0;
+		display: inline-flex;
+		align-items: center;
+		padding: 12px 22px;
+		background: none;
+		border: none;
+		border-bottom: 2px solid transparent;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: #888;
+		cursor: pointer;
+		white-space: nowrap;
+		transition: color 0.2s ease, border-color 0.2s ease;
+		margin-bottom: -1px;
+	}
+
+	.brand-pill:hover {
+		color: #160b11;
+	}
+
+	.brand-pill.active {
+		color: #160b11;
+		font-weight: 600;
+		border-bottom-color: #a1846d;
+	}
+
+	.brand-pill-link {
+		text-decoration: none;
+	}
+
+	.brand-pill-link:hover {
+		color: #160b11;
+		border-bottom-color: rgba(161, 132, 109, 0.4);
+	}
+
+	/* ── CONTAINER ── */
 	.shop-container {
 		max-width: 1400px;
 		margin: 0 auto;
@@ -209,54 +330,47 @@
 		outline: none;
 	}
 
+	/* ── GRID ── */
 	.products-grid {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
-		gap: 28px;
+		gap: 24px;
 	}
 
+	/* ── CARD ── */
 	.product-card {
 		display: flex;
 		flex-direction: column;
 		background-color: #ffffff;
-		border-radius: 16px;
+		border-radius: 12px;
 		overflow: hidden;
 		border: 1px solid rgba(22, 11, 17, 0.08);
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.04);
-		transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-		cursor: pointer;
+		box-shadow:
+			0 1px 2px rgba(0, 0, 0, 0.04),
+			0 4px 16px rgba(0, 0, 0, 0.05);
+		transition:
+			transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+			box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+			border-color 0.35s ease;
 		text-decoration: none;
 		color: inherit;
 		position: relative;
 	}
 
-	.product-card::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		border-radius: 16px;
-		background: linear-gradient(135deg, rgba(161, 132, 109, 0.03), rgba(22, 11, 17, 0.01));
-		opacity: 0;
-		transition: opacity 0.4s ease;
-		pointer-events: none;
-		z-index: 0;
-	}
-
 	.product-card:hover {
-		transform: translateY(-6px);
-		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 16px 48px rgba(0, 0, 0, 0.06);
-		border-color: rgba(22, 11, 17, 0.12);
+		transform: translateY(-5px);
+		box-shadow:
+			0 4px 12px rgba(0, 0, 0, 0.06),
+			0 16px 40px rgba(0, 0, 0, 0.09);
+		border-color: rgba(161, 132, 109, 0.25);
 	}
 
-	.product-card:hover::before {
-		opacity: 1;
-	}
-
+	/* ── IMAGE ── */
 	.product-image-wrapper {
 		width: 100%;
-		aspect-ratio: 1;
+		aspect-ratio: 1 / 1;
 		overflow: hidden;
-		background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+		background: linear-gradient(135deg, #f8f6f4 0%, #f0ece8 100%);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -267,12 +381,13 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 		will-change: transform;
+		display: block;
 	}
 
 	.product-card:hover .product-image {
-		transform: scale(1.08);
+		transform: scale(1.07);
 	}
 
 	.product-image-placeholder {
@@ -284,21 +399,63 @@
 		background: linear-gradient(135deg, #f5f0ed 0%, #ede8e4 100%);
 	}
 
+	/* ── STATUS BADGE ── */
+	.status-badge {
+		position: absolute;
+		top: 12px;
+		left: 12px;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 5px 10px;
+		border-radius: 100px;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		color: #160b11;
+		background-color: rgba(255, 255, 255, 0.88);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		border: 1px solid rgba(22, 11, 17, 0.1);
+		z-index: 2;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.status-dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+	.status-available .status-dot    { background-color: #22a05a; }
+	.status-sold .status-dot         { background-color: #c94040; }
+	.status-new-arrival .status-dot  { background-color: #c9a230; }
+	.status-reserved .status-dot     { background-color: #422635; }
+
+	/* ── DETAILS ── */
 	.product-details {
-		padding: 24px;
+		padding: 20px 20px 22px;
 		display: flex;
 		flex-direction: column;
-		gap: 6px;
+		gap: 4px;
 		flex: 1;
 		background-color: #ffffff;
-		position: relative;
-		z-index: 1;
+	}
+
+	.product-meta-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 18px;
 	}
 
 	.product-vendor {
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-		font-size: 0.75rem;
-		font-weight: 600;
+		font-size: 0.7rem;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: #a1846d;
@@ -307,28 +464,52 @@
 
 	.product-title {
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-		font-size: clamp(0.875rem, 1.1vw, 1rem);
-		line-height: 1.5;
-		color: #4a4a4a;
-		margin: 0;
+		font-size: clamp(0.85rem, 1vw, 0.9375rem);
+		line-height: 1.45;
+		color: #3a2e33;
+		margin: 4px 0 0 0;
 		font-weight: 400;
-		transition: color 0.3s ease;
+		transition: color 0.25s ease;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 
 	.product-card:hover .product-title {
 		color: #160b11;
 	}
 
-	.product-price {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-		font-size: clamp(1.05rem, 1.3vw, 1.25rem);
-		font-weight: 600;
-		color: #160b11;
-		margin: 6px 0 0 0;
-		letter-spacing: -0.02em;
-		line-height: 1.3;
+	.product-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 10px;
 	}
 
+	.product-price {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-size: clamp(1rem, 1.2vw, 1.125rem);
+		font-weight: 600;
+		color: #160b11;
+		margin: 0;
+		letter-spacing: -0.02em;
+		line-height: 1;
+	}
+
+	.product-arrow {
+		font-size: 1rem;
+		color: #c8b8ae;
+		transition: color 0.25s ease, transform 0.25s ease;
+		display: inline-block;
+	}
+
+	.product-card:hover .product-arrow {
+		color: #a1846d;
+		transform: translateX(3px);
+	}
+
+	/* ── EMPTY STATE ── */
 	.empty-state {
 		text-align: center;
 		padding: 100px 20px;
@@ -349,10 +530,11 @@
 		margin: 0;
 	}
 
+	/* ── RESPONSIVE ── */
 	@media (max-width: 1200px) {
 		.products-grid {
 			grid-template-columns: repeat(3, 1fr);
-			gap: 24px;
+			gap: 20px;
 		}
 	}
 
@@ -363,7 +545,7 @@
 
 		.products-grid {
 			grid-template-columns: repeat(2, 1fr);
-			gap: 20px;
+			gap: 18px;
 		}
 	}
 
@@ -372,8 +554,17 @@
 			padding: 60px 20px 50px;
 		}
 
+		.brand-bar-inner {
+			padding: 0 16px;
+		}
+
+		.brand-pill {
+			padding: 12px 16px;
+			font-size: 0.8125rem;
+		}
+
 		.shop-container {
-			padding: 32px 20px 60px;
+			padding: 32px 16px 60px;
 		}
 
 		.shop-controls {
@@ -388,17 +579,22 @@
 
 		.products-grid {
 			grid-template-columns: repeat(2, 1fr);
-			gap: 16px;
+			gap: 14px;
 		}
 
 		.product-details {
-			padding: 18px;
+			padding: 14px 14px 16px;
+		}
+
+		.product-footer {
+			margin-top: 8px;
 		}
 	}
 
-	@media (max-width: 400px) {
+	@media (max-width: 380px) {
 		.products-grid {
 			grid-template-columns: 1fr;
+			gap: 16px;
 		}
 	}
 </style>

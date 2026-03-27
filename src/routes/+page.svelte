@@ -7,6 +7,8 @@
 	import Reviews from '$lib/components/Reviews.svelte';
 	import TrustBanner from '$lib/components/TrustBanner.svelte';
 	import ApiTrialModal from '$lib/components/ApiTrialModal.svelte';
+
+	let { data } = $props();
 </script>
 
 <ApiTrialModal />
@@ -31,7 +33,7 @@
 
 <SocialFollow />
 
-<FeaturedTimepieces />
+<FeaturedTimepieces products={data.featuredProducts} />
 
 <section class="sell-source-section">
 	<div class="sell-source-container">
