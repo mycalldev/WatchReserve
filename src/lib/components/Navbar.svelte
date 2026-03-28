@@ -1,4 +1,6 @@
 <script>
+	import Search from '$lib/components/Search.svelte';
+
 	let cartCount = $state(0);
 	let isMenuOpen = $state(false);
 
@@ -28,12 +30,14 @@
 			<li><a href="/shop">SHOP</a></li>
 			<li><a href="/sell">SELL</a></li>
 			<li><a href="/source">SOURCE</a></li>
+			<li><a href="/service">SERVICES</a></li>
 			<li><a href="/about">ABOUT</a></li>
 			<li><a href="/blogs">BLOGS & GUIDES</a></li>
 			<li><a href="/api">API</a></li>
 		</ul>
 
 		<div class="navbar-right">
+			<Search />
 			<button class="contact-btn desktop-only">Contact</button>
 			<a href="/cart" class="cart-link" aria-label="Shopping cart">
 				<svg
@@ -97,12 +101,13 @@
 		></div>
 		<div class="mobile-menu-content">
 			<ul class="mobile-nav-links">
-				<li><a href="/shop" onclick={closeMenu}>SHOP</a></li>
-				<li><a href="/sell" onclick={closeMenu}>SELL</a></li>
-				<li><a href="/source" onclick={closeMenu}>SOURCE</a></li>
-				<li><a href="/about" onclick={closeMenu}>ABOUT</a></li>
-				<li><a href="/blogs" onclick={closeMenu}>BLOGS & GUIDES</a></li>
-				<li><a href="/api" onclick={closeMenu}>API</a></li>
+			<li><a href="/shop" onclick={closeMenu}>SHOP</a></li>
+			<li><a href="/sell" onclick={closeMenu}>SELL</a></li>
+			<li><a href="/source" onclick={closeMenu}>SOURCE</a></li>
+			<li><a href="/service" onclick={closeMenu}>SERVICES</a></li>
+			<li><a href="/about" onclick={closeMenu}>ABOUT</a></li>
+			<li><a href="/blogs" onclick={closeMenu}>BLOGS & GUIDES</a></li>
+			<li><a href="/api" onclick={closeMenu}>API</a></li>
 				<li class="contact-li"><a href="/contact" onclick={closeMenu} class="mobile-contact-link">CONTACT</a></li>
 			</ul>
 		</div>
@@ -128,7 +133,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 16px 40px;
-		gap: 40px;
+		gap: 24px;
 	}
 
 	.logo-link {
@@ -147,7 +152,7 @@
 	.nav-links {
 		display: flex;
 		align-items: center;
-		gap: 32px;
+		gap: 24px;
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -179,7 +184,7 @@
 	.navbar-right {
 		display: flex;
 		align-items: center;
-		gap: 20px;
+		gap: 16px;
 		flex-shrink: 0;
 	}
 
@@ -436,18 +441,33 @@
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	}
 
-	@media (max-width: 1024px) {
+	@media (max-width: 1100px) {
 		.navbar-container {
-			padding: 16px 30px;
-			gap: 30px;
+			padding: 16px 28px;
+			gap: 16px;
 		}
 
 		.nav-links {
-			gap: 24px;
+			gap: 18px;
 		}
 
 		.nav-links a {
-			font-size: 13px;
+			font-size: 12px;
+		}
+	}
+
+	@media (max-width: 1024px) {
+		.navbar-container {
+			padding: 16px 24px;
+			gap: 12px;
+		}
+
+		.nav-links {
+			gap: 14px;
+		}
+
+		.nav-links a {
+			font-size: 11.5px;
 		}
 	}
 

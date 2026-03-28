@@ -1,4 +1,4 @@
-import { getProduct, getMetafieldDefinitions, createCart, addToCart } from '$lib/shopify.js';
+import { getProduct, getMetafieldDefinitions, getProductsByVendor, createCart, addToCart } from '$lib/shopify.js';
 import { error } from '@sveltejs/kit';
 
 // Metafields that are always fetched regardless of Admin API definitions
@@ -53,9 +53,15 @@ export async function load({ params }) {
 		category: enrichedMetafields.filter((mf) => mf.ownerType === 'PRODUCT_TAXONOMY_NODE')
 	};
 
+	// Fetch related products from the same vendor, excluding the current product
+	const relatedProducts = product.vendor
+		? await getProductsByVendor(product.vendor, params.handle, 8).catch(() => [])
+		: [];
+
 	return {
 		product: { ...product, metafields: enrichedMetafields },
-		metafieldsByGroup
+		metafieldsByGroup,
+		relatedProducts
 	};
 }
 

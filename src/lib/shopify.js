@@ -418,6 +418,143 @@ export async function getProducts() {
 	return allProducts;
 }
 
+// ── Product search with tag support + fallback (Storefront) ──────────────────
+
+const SEARCH_QUERY = `
+  query SearchProducts($query: String!, $first: Int!) {
+    products(first: $first, query: $query) {
+      edges {
+        node {
+          id
+          title
+          handle
+          vendor
+          tags
+          featuredImage { url altText }
+          priceRange {
+            minVariantPrice { amount currencyCode }
+          }
+          metafields(identifiers: [{namespace: "custom", key: "status"}]) {
+            namespace key value
+          }
+        }
+      }
+    }
+  }
+`;
+
+function mapSearchNodes(edges) {
+	return (edges ?? []).map(({ node }) => {
+		const statusMeta = (node.metafields ?? []).find(
+			(m) => m && m.namespace === 'custom' && m.key === 'status'
+		);
+		return {
+			id: node.id,
+			title: node.title,
+			handle: node.handle,
+			vendor: node.vendor,
+			tags: node.tags ?? [],
+			image: node.featuredImage?.url ?? null,
+			imageAlt: node.featuredImage?.altText ?? node.title,
+			price: parseFloat(node.priceRange.minVariantPrice.amount),
+			currencyCode: node.priceRange.minVariantPrice.currencyCode,
+			status: statusMeta?.value ?? null
+		};
+	});
+}
+
+export async function searchProducts(term, limit = 8) {
+	const sanitized = term.trim().replace(/"/g, '').slice(0, 100);
+	if (!sanitized || sanitized.length < 2) {
+		return { results: [], fallback: false, fallbackTerm: null };
+	}
+
+	// Shopify's product query searches title, vendor, product_type, and tags natively
+	const primary = await shopifyFetch(SEARCH_QUERY, { query: sanitized, first: limit });
+	const primaryResults = mapSearchNodes(primary.products?.edges);
+
+	if (primaryResults.length > 0) {
+		return { results: primaryResults, fallback: false, fallbackTerm: null };
+	}
+
+	// Fallback: truncate to first half of the term (min 2 chars) and retry
+	const fallbackLength = Math.max(2, Math.floor(sanitized.length / 2));
+	const fallbackTerm = sanitized.slice(0, fallbackLength);
+
+	if (fallbackTerm === sanitized) {
+		return { results: [], fallback: false, fallbackTerm: null };
+	}
+
+	const secondary = await shopifyFetch(SEARCH_QUERY, { query: fallbackTerm, first: limit });
+	const fallbackResults = mapSearchNodes(secondary.products?.edges);
+
+	return {
+		results: fallbackResults,
+		fallback: fallbackResults.length > 0,
+		fallbackTerm: fallbackResults.length > 0 ? fallbackTerm : null
+	};
+}
+
+// ── Products by vendor (Storefront) ──────────────────────────────────────────
+
+const PRODUCTS_BY_VENDOR_QUERY = `
+  query GetProductsByVendor($query: String!, $first: Int!) {
+    products(first: $first, query: $query) {
+      edges {
+        node {
+          id
+          title
+          handle
+          vendor
+          featuredImage {
+            url
+            altText
+          }
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          metafields(identifiers: [{namespace: "custom", key: "status"}]) {
+            namespace
+            key
+            value
+          }
+        }
+      }
+    }
+  }
+`;
+
+export async function getProductsByVendor(vendor, excludeHandle, limit = 8) {
+	// Fetch one extra so we still have `limit` after excluding the current product
+	const data = await shopifyFetch(PRODUCTS_BY_VENDOR_QUERY, {
+		query: `vendor:"${vendor}"`,
+		first: limit + 1
+	});
+
+	return (data.products?.edges ?? [])
+		.map(({ node }) => {
+			const statusMeta = (node.metafields ?? []).find(
+				(m) => m && m.namespace === 'custom' && m.key === 'status'
+			);
+			return {
+				id: node.id,
+				title: node.title,
+				handle: node.handle,
+				vendor: node.vendor,
+				image: node.featuredImage?.url ?? null,
+				imageAlt: node.featuredImage?.altText ?? node.title,
+				price: parseFloat(node.priceRange.minVariantPrice.amount),
+				currencyCode: node.priceRange.minVariantPrice.currencyCode,
+				status: statusMeta?.value ?? null
+			};
+		})
+		.filter((p) => p.handle !== excludeHandle)
+		.slice(0, limit);
+}
+
 // ── Cart mutations (Storefront) ───────────────────────────────────────────────
 
 const CREATE_CART_MUTATION = `

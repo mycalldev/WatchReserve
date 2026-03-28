@@ -1,14 +1,60 @@
 <script>
+	import { onMount, onDestroy } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
 	import LinkButton from '$lib/components/LinkButton.svelte';
-	import SocialFollow from '$lib/components/SocialFollow.svelte';
 	import ElevateCollection from '$lib/components/ElevateCollection.svelte';
 	import FeaturedTimepieces from '$lib/components/FeaturedTimepieces.svelte';
 	import Reviews from '$lib/components/Reviews.svelte';
-	import TrustBanner from '$lib/components/TrustBanner.svelte';
 	import ApiTrialModal from '$lib/components/ApiTrialModal.svelte';
 
 	let { data } = $props();
+
+	// ── API Feed widget ──────────────────────────────────────────────────────────
+	const ROLEX_BASE = [
+		{ id: 1, model: 'Submariner Date',  ref: '126610LN',    base: 12800 },
+		{ id: 2, model: 'Daytona',          ref: '116500LN',    base: 28500 },
+		{ id: 3, model: 'GMT-Master II',    ref: '126710BLNR',  base: 16200 },
+		{ id: 4, model: 'Datejust 41',      ref: '126334',      base: 9400  },
+		{ id: 5, model: 'Sky-Dweller',      ref: '326935',      base: 22000 }
+	];
+
+	function tickPrice(base) {
+		const delta = base * 0.009 * (Math.random() * 2 - 1);
+		return Math.round(base + delta);
+	}
+
+	function buildFeedRow(item) {
+		const price = tickPrice(item.base);
+		const change = parseFloat(((price - item.base) / item.base * 100).toFixed(2));
+		return { ...item, price, change, flash: true };
+	}
+
+	let apiFeed = $state(ROLEX_BASE.map(buildFeedRow));
+	let apiTime  = $state(new Date());
+	let apiTimer;
+
+	function formatFeedPrice(n) {
+		return new Intl.NumberFormat('en-GB', {
+			style: 'currency', currency: 'GBP',
+			minimumFractionDigits: 0, maximumFractionDigits: 0
+		}).format(n);
+	}
+
+	function formatFeedTime(d) {
+		return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+	}
+
+	onMount(() => {
+		apiTimer = setInterval(() => {
+			const idx = Math.floor(Math.random() * apiFeed.length);
+			apiFeed = apiFeed.map((row, i) =>
+				i === idx ? buildFeedRow(ROLEX_BASE[i]) : { ...row, flash: false }
+			);
+			apiTime = new Date();
+		}, 2000);
+	});
+
+	onDestroy(() => clearInterval(apiTimer));
 </script>
 
 <ApiTrialModal />
@@ -29,9 +75,13 @@
 	</div>
 </section>
 
-<TrustBanner />
+<div class="homepage-badges-placeholder">
+	<div class="placeholder-banner">Trust Pilot Banner</div>
+	<div class="placeholder-banner">Finance</div>
+	<div class="placeholder-banner">Secure Delivery</div>
+</div>
 
-<SocialFollow />
+
 
 <FeaturedTimepieces products={data.featuredProducts} />
 
@@ -191,6 +241,90 @@
 
 <ElevateCollection />
 
+<!-- ── API SECTION ── -->
+<section class="api-section">
+	<div class="api-widget-col">
+		<div class="api-widget">
+
+			<!-- Widget header -->
+			<div class="widget-header">
+				<div class="widget-header-left">
+					<span class="widget-brand-dot" aria-hidden="true"></span>
+					<span class="widget-title">ROLEX MARKET FEED</span>
+				</div>
+				<div class="widget-header-right">
+					<span class="widget-live">
+						<span class="api-pulse-dot" aria-hidden="true"></span>
+						LIVE
+					</span>
+					<span class="widget-time" aria-live="polite" aria-label="Last updated">{formatFeedTime(apiTime)}</span>
+				</div>
+			</div>
+
+			<!-- Column headers -->
+			<div class="widget-col-headers">
+				<span>Model</span>
+				<span>Reference</span>
+				<span class="align-right">Market Price</span>
+				<span class="align-right">24h</span>
+			</div>
+
+			<!-- Live rows -->
+			<div class="widget-rows" role="list" aria-label="Rolex live prices">
+				{#each apiFeed as row (row.id)}
+					<div class="widget-row" class:widget-row--flash={row.flash} role="listitem">
+						<span class="widget-model">{row.model}</span>
+						<code class="widget-ref">{row.ref}</code>
+						<span class="widget-price">{formatFeedPrice(row.price)}</span>
+						<span class="widget-change" class:positive={row.change >= 0} class:negative={row.change < 0}>
+							{row.change >= 0 ? '▲' : '▼'} {Math.abs(row.change)}%
+						</span>
+					</div>
+				{/each}
+			</div>
+
+			<!-- Widget footer -->
+			<div class="widget-footer">
+				<span class="widget-footer-label">Powered by Watch Reserve API</span>
+				<span class="widget-footer-note">Indicative prices — demo data</span>
+			</div>
+
+		</div>
+	</div>
+	<div class="api-content-col">
+		<div class="api-live-badge">
+			<span class="api-pulse-dot" aria-hidden="true"></span>
+			Live Market Data
+		</div>
+		<h2 class="api-heading">
+			Market Intelligence,<br /><em>At Your Fingertips</em>
+		</h2>
+		<p class="api-body">
+			The Watch Reserve Intelligence API delivers real-time pricing, 15 years of historical trends,
+			and deep reference data across 40,000+ references — built for dealers, collectors, and
+			platforms who demand accuracy.
+		</p>
+		<div class="api-features">
+			<div class="api-feature">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+				Sub-second price updates from verified transactions
+			</div>
+			<div class="api-feature">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+				Dealer-grade authenticated data — no estimates
+			</div>
+			<div class="api-feature">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+				RESTful & GraphQL endpoints, full OpenAPI spec
+			</div>
+		</div>
+		<a href="/api" class="api-cta">
+			Explore the API
+			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+		</a>
+	</div>
+</section>
+
 <Reviews />
 
 <style>
@@ -326,6 +460,24 @@
 		.hero-content {
 			padding-left: 20px;
 		}
+	}
+
+	.homepage-badges-placeholder {
+		display: flex;
+		justify-content: center;
+		gap: 2rem;
+		margin: 2rem 0;
+	}
+	.placeholder-banner {
+		background: #f3f3f3;
+		color: #333;
+		border-radius: 8px;
+		padding: 1.25rem 2rem;
+		font-size: 1.1rem;
+		font-weight: 600;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+		text-align: center;
+		min-width: 160px;
 	}
 
 	.luxury-section {
@@ -897,6 +1049,398 @@
 
 		.expertise-container {
 			gap: 32px;
+		}
+	}
+
+	/* ── API SECTION ── */
+	.api-section {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		min-height: 680px;
+		background-color: #160b11;
+	}
+
+	/* ── Widget column ── */
+	.api-widget-col {
+		padding: 48px;
+		box-sizing: border-box;
+		background-color: #160b11;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.api-widget {
+		width: 100%;
+		background-color: #ffffff;
+		border-radius: 16px;
+		overflow: hidden;
+		box-shadow:
+			0 0 0 1px rgba(255, 255, 255, 0.06),
+			0 24px 64px rgba(0, 0, 0, 0.45);
+	}
+
+	/* Widget header bar */
+	.widget-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		background-color: #160b11;
+		padding: 14px 20px;
+		gap: 12px;
+	}
+
+	.widget-header-left {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.widget-brand-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background-color: #a1846d;
+		flex-shrink: 0;
+	}
+
+	.widget-title {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.7);
+	}
+
+	.widget-header-right {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+	}
+
+	.widget-live {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		background-color: rgba(74, 222, 128, 0.12);
+		border: 1px solid rgba(74, 222, 128, 0.22);
+		color: #4ade80;
+		padding: 3px 10px;
+		border-radius: 100px;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+	}
+
+	.widget-time {
+		font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+		font-size: 0.72rem;
+		color: rgba(255, 255, 255, 0.35);
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* Column headers */
+	.widget-col-headers {
+		display: grid;
+		grid-template-columns: 1fr 100px 100px 64px;
+		padding: 10px 20px;
+		background-color: #faf8f5;
+		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+		gap: 8px;
+	}
+
+	.widget-col-headers span {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #aaa;
+	}
+
+	.widget-col-headers .align-right {
+		text-align: right;
+	}
+
+	/* Data rows */
+	.widget-rows {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.widget-row {
+		display: grid;
+		grid-template-columns: 1fr 100px 100px 64px;
+		padding: 13px 20px;
+		border-bottom: 1px solid rgba(22, 11, 17, 0.05);
+		gap: 8px;
+		align-items: center;
+		transition: background-color 0.2s ease;
+	}
+
+	.widget-row:last-child {
+		border-bottom: none;
+	}
+
+	.widget-row:hover {
+		background-color: rgba(161, 132, 109, 0.04);
+	}
+
+	.widget-row--flash {
+		animation: widgetFlash 0.7s ease-out;
+	}
+
+	@keyframes widgetFlash {
+		0%   { background-color: rgba(161, 132, 109, 0.18); }
+		100% { background-color: transparent; }
+	}
+
+	.widget-model {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: #160b11;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.widget-ref {
+		font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+		font-size: 0.75rem;
+		color: #888;
+		background-color: rgba(22, 11, 17, 0.05);
+		padding: 2px 7px;
+		border-radius: 4px;
+		width: fit-content;
+	}
+
+	.widget-price {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: #160b11;
+		text-align: right;
+		font-variant-numeric: tabular-nums;
+		letter-spacing: -0.01em;
+	}
+
+	.widget-change {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-align: right;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.widget-change.positive { color: #16a34a; }
+	.widget-change.negative { color: #dc2626; }
+
+	/* Widget footer */
+	.widget-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 10px 20px;
+		background-color: #faf8f5;
+		border-top: 1px solid rgba(22, 11, 17, 0.07);
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+
+	.widget-footer-label {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: #a1846d;
+	}
+
+	.widget-footer-note {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: 0.68rem;
+		color: #bbb;
+	}
+
+	.api-content-col {
+		padding: 80px 64px 80px 48px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		box-sizing: border-box;
+		border-left: 1px solid rgba(255, 255, 255, 0.06);
+	}
+
+	/* Live badge */
+	.api-live-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		background-color: rgba(74, 222, 128, 0.1);
+		border: 1px solid rgba(74, 222, 128, 0.22);
+		color: #4ade80;
+		padding: 6px 14px;
+		border-radius: 100px;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		margin-bottom: 28px;
+		width: fit-content;
+	}
+
+	.api-pulse-dot {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background-color: #4ade80;
+		flex-shrink: 0;
+		position: relative;
+	}
+
+	.api-pulse-dot::after {
+		content: '';
+		position: absolute;
+		inset: -3px;
+		border-radius: 50%;
+		background-color: #4ade80;
+		opacity: 0.3;
+		animation: apiPulse 1.8s ease-in-out infinite;
+	}
+
+	@keyframes apiPulse {
+		0%, 100% { transform: scale(1); opacity: 0.3; }
+		50% { transform: scale(1.9); opacity: 0; }
+	}
+
+	/* Heading */
+	.api-heading {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(2rem, 3.5vw, 3.25rem);
+		font-weight: 400;
+		color: #ffffff;
+		margin: 0 0 24px 0;
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+	}
+
+	.api-heading em {
+		font-style: italic;
+		color: #a1846d;
+	}
+
+	/* Body */
+	.api-body {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+		color: rgba(255, 255, 255, 0.65);
+		line-height: 1.75;
+		font-weight: 300;
+		margin: 0 0 40px 0;
+	}
+
+
+	/* Feature list */
+	.api-features {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		margin-bottom: 44px;
+	}
+
+	.api-feature {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: 0.9rem;
+		color: rgba(255, 255, 255, 0.7);
+		font-weight: 300;
+		line-height: 1.5;
+	}
+
+	.api-feature svg {
+		color: #a1846d;
+		flex-shrink: 0;
+	}
+
+	/* CTA */
+	.api-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		background-color: #a1846d;
+		color: #ffffff;
+		text-decoration: none;
+		padding: 14px 32px;
+		border-radius: 8px;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-size: 0.9375rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		align-self: flex-start;
+		transition: all 0.25s ease;
+	}
+
+	.api-cta:hover {
+		background-color: #8a6f59;
+		transform: translateY(-2px);
+		box-shadow: 0 6px 24px rgba(161, 132, 109, 0.35);
+		gap: 14px;
+	}
+
+	/* Responsive */
+	@media (max-width: 1200px) {
+		.widget-col-headers,
+		.widget-row {
+			grid-template-columns: 1fr 90px 90px 58px;
+		}
+	}
+
+	@media (max-width: 1100px) {
+		.api-content-col {
+			padding: 64px 48px 64px 40px;
+		}
+	}
+
+	@media (max-width: 900px) {
+		.api-section {
+			grid-template-columns: 1fr;
+			min-height: auto;
+		}
+
+		.api-widget-col {
+			padding: 40px 32px 0;
+		}
+
+		.api-content-col {
+			padding: 56px 36px;
+			border-left: none;
+			border-top: 1px solid rgba(255, 255, 255, 0.06);
+		}
+	}
+
+	@media (max-width: 640px) {
+		.api-widget-col {
+			padding: 28px 20px 0;
+		}
+
+		.api-content-col {
+			padding: 44px 24px;
+		}
+
+		.widget-col-headers,
+		.widget-row {
+			grid-template-columns: 1fr 80px 58px;
+		}
+
+		/* Hide reference column on very small screens */
+		.widget-ref {
+			display: none;
 		}
 	}
 </style>

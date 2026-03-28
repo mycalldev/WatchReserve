@@ -1,9 +1,10 @@
 <script>
 	import { enhance } from '$app/forms';
 	import ProductViewCount from '$lib/components/ProductViewCount.svelte';
+	import MoreOf from '$lib/components/MoreOf.svelte';
 
 	let { data, form } = $props();
-	const { product } = data;
+	const { product, relatedProducts } = data;
 
 	let activeImageIndex = $state(0);
 	let selectedVariantId = $state(product.variants[0]?.id ?? '');
@@ -140,6 +141,16 @@
 	function isUrlType(typeName) {
 		return typeName === 'url';
 	}
+
+	// Derive the Shopify collection handle from the vendor name
+	// e.g. "Audemars Piguet" → "audemars-piguet"
+	const vendorHandle = $derived(
+		product.vendor
+			? product.vendor.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+			: null
+	);
+
+	const vendorUrl = $derived(vendorHandle ? `/collections/${vendorHandle}` : '/shop');
 </script>
 
 <svelte:head>
@@ -153,8 +164,10 @@
 		<a href="/">Home</a>
 		<span class="sep" aria-hidden="true">/</span>
 		<a href="/shop">Shop</a>
-		<span class="sep" aria-hidden="true">/</span>
-		<span aria-current="page">{product.title}</span>
+		{#if product.vendor}
+			<span class="sep" aria-hidden="true">/</span>
+			<a href={vendorUrl} class="breadcrumb-vendor">{product.vendor}</a>
+		{/if}
 	</div>
 </nav>
 
@@ -382,6 +395,8 @@
 </main>
 
 <!-- ── METAFIELDS PANELS ── -->
+<MoreOf products={relatedProducts} vendor={product.vendor} />
+
 {#if metafieldsByGroup.product.length > 0}
 	<section class="metafields-section">
 		<div class="metafields-container">
@@ -464,6 +479,15 @@
 	.breadcrumb-inner span[aria-current] {
 		color: #160b11;
 		font-weight: 500;
+	}
+
+	.breadcrumb-vendor {
+		color: #422635 !important;
+		font-weight: 600;
+	}
+
+	.breadcrumb-vendor:hover {
+		color: #160b11 !important;
 	}
 
 	.sep { color: #ccc; }
