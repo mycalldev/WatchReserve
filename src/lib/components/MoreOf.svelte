@@ -224,7 +224,7 @@
 	.ctrl-btn {
 		width: 46px;
 		height: 46px;
-		border-radius: 50%;
+		border-radius: 0;
 		background-color: #160b11;
 		color: #ffffff;
 		border: none;

@@ -293,7 +293,7 @@
 		text-decoration: none;
 		border: none;
 		padding: 14px 32px;
-		border-radius: 8px;
+		border-radius: 0;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 500;
@@ -318,7 +318,7 @@
 		text-decoration: none;
 		border: 1px solid rgba(255,255,255,0.4);
 		padding: 14px 32px;
-		border-radius: 8px;
+		border-radius: 0;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 400;

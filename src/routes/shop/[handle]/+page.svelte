@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import ProductViewCount from '$lib/components/ProductViewCount.svelte';
 	import MoreOf from '$lib/components/MoreOf.svelte';
+	import ProductEnquiryDrawer from '$lib/components/ProductEnquiryDrawer.svelte';
 
 	let { data, form } = $props();
 	const { product, relatedProducts } = data;
@@ -151,6 +152,11 @@
 	);
 
 	const vendorUrl = $derived(vendorHandle ? `/collections/${vendorHandle}` : '/shop');
+
+	// Extract reference number from tags (e.g. "reference:126610LN")
+	const productReference = $derived(
+		productDetails.find((d) => d.key.toLowerCase() === 'reference')?.value ?? null
+	);
 </script>
 
 <svelte:head>
@@ -337,6 +343,30 @@
 				</div>
 			</form>
 
+			<!-- Secondary action buttons -->
+			<div class="action-stack">
+				<div class="action-row-2">
+					<a href="/sell" class="btn-action-dark">
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M3 7h18m0 0l-4-4m4 4l-4 4M21 17H3m0 0l4-4m-4 4l4 4"/>
+						</svg>
+						Part Exchange
+					</a>
+					<a href="/contact" class="btn-action-dark">
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<rect x="1" y="4" width="22" height="16" rx="0" ry="0"/><line x1="1" y1="10" x2="23" y2="10"/>
+						</svg>
+						Deposit
+					</a>
+				</div>
+				<a href="/service#finance" class="btn-action-outline">
+					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/>
+					</svg>
+					Apply for Finance
+				</a>
+			</div>
+
 			{#if form?.success && form?.checkoutUrl}
 				<a href={form.checkoutUrl} class="checkout-link" target="_blank" rel="noopener">
 					Proceed to Checkout
@@ -381,6 +411,13 @@
 					Secure Payment
 				</div>
 			</div>
+
+			<!-- Enquiry drawer -->
+			<ProductEnquiryDrawer
+				title={product.title}
+				vendor={product.vendor ?? ''}
+				reference={productReference}
+			/>
 
 			<!-- Tags -->
 			{#if product.tags.length > 0}
@@ -561,7 +598,7 @@
 		transform: translateY(-50%);
 		width: 44px;
 		height: 44px;
-		border-radius: 50%;
+		border-radius: 0;
 		background-color: rgba(255, 255, 255, 0.92);
 		border: 1px solid rgba(22, 11, 17, 0.1);
 		color: #160b11;
@@ -780,7 +817,7 @@
 
 	.variant-pill {
 		padding: 8px 18px;
-		border-radius: 6px;
+		border-radius: 0;
 		border: 1px solid rgba(22, 11, 17, 0.2);
 		background: none;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -838,7 +875,7 @@
 		display: flex;
 		align-items: center;
 		border: 1px solid rgba(22, 11, 17, 0.18);
-		border-radius: 10px;
+		border-radius: 0;
 		overflow: hidden;
 		flex-shrink: 0;
 	}
@@ -876,14 +913,15 @@
 	.add-btn {
 		flex: 1;
 		height: 52px;
-		background-color: #160b11;
+		background-color: #a1846d;
 		color: #ffffff;
 		border: none;
-		border-radius: 10px;
+		border-radius: 0;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-		font-size: 0.9375rem;
-		font-weight: 500;
-		letter-spacing: 0.02em;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
 		cursor: pointer;
 		display: flex;
 		align-items: center;
@@ -893,9 +931,9 @@
 	}
 
 	.add-btn:hover:not(:disabled) {
-		background-color: #2a1420;
+		background-color: #8a6f59;
 		transform: translateY(-1px);
-		box-shadow: 0 6px 20px rgba(22, 11, 17, 0.25);
+		box-shadow: 0 6px 20px rgba(161, 132, 109, 0.35);
 	}
 
 	.add-btn:active:not(:disabled) { transform: translateY(0); }
@@ -928,6 +966,76 @@
 	}
 
 	.checkout-link:hover { color: #8a6f59; border-color: #8a6f59; }
+
+	/* ── SECONDARY ACTION BUTTONS ── */
+	.action-stack {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		margin-top: 2px;
+	}
+
+	.action-row-2 {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
+	}
+
+	.btn-action-dark,
+	.btn-action-outline {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		height: 52px;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		text-decoration: none;
+		cursor: pointer;
+		border-radius: 0;
+		transition: background-color 0.22s ease, color 0.22s ease, transform 0.2s ease, box-shadow 0.22s ease;
+		white-space: nowrap;
+	}
+
+	/* Dark filled — Part Exchange + Deposit */
+	.btn-action-dark {
+		background-color: #2a1c22;
+		color: #ffffff;
+		border: none;
+	}
+
+	.btn-action-dark:hover {
+		background-color: #422635;
+		transform: translateY(-1px);
+		box-shadow: 0 4px 16px rgba(42, 28, 34, 0.28);
+	}
+
+	.btn-action-dark:active { transform: translateY(0); }
+
+	.btn-action-dark svg { color: rgba(255, 255, 255, 0.55); transition: color 0.2s ease; }
+	.btn-action-dark:hover svg { color: rgba(255, 255, 255, 0.9); }
+
+	/* Gold outline — Apply for Finance */
+	.btn-action-outline {
+		background-color: transparent;
+		color: #160b11;
+		border: 1.5px solid #c9a230;
+	}
+
+	.btn-action-outline:hover {
+		background-color: rgba(201, 162, 48, 0.06);
+		border-color: #b08e20;
+		transform: translateY(-1px);
+		box-shadow: 0 4px 16px rgba(201, 162, 48, 0.15);
+	}
+
+	.btn-action-outline:active { transform: translateY(0); }
+
+	.btn-action-outline svg { color: #c9a230; transition: color 0.2s ease; }
+	.btn-action-outline:hover svg { color: #b08e20; }
 
 	.form-error {
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -1205,10 +1313,22 @@
 			height: auto;
 			padding-top: 18px;
 			padding-bottom: 18px;
-			font-size: 1rem;
+			font-size: 0.8125rem;
 		}
 
 		.trust-strip { flex-direction: column; gap: 12px; }
+
+		.action-row-2 {
+			grid-template-columns: 1fr;
+		}
+
+		.btn-action-dark,
+		.btn-action-outline {
+			height: auto;
+			padding-top: 16px;
+			padding-bottom: 16px;
+			font-size: 0.8125rem;
+		}
 	}
 
 	@media (max-width: 480px) {

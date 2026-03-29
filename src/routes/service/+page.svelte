@@ -397,7 +397,7 @@
 		color: #ffffff;
 		text-decoration: none;
 		padding: 14px 32px;
-		border-radius: 6px;
+		border-radius: 0;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
 			sans-serif;
 		font-size: 0.9375rem;
@@ -528,8 +528,9 @@
 
 	/* ── Service navigation bar ──────────────────────── */
 	.service-nav {
-		background-color: #160b11;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		background-color: #faf8f5;
+		border-top: 1px solid rgba(22, 11, 17, 0.07);
+		border-bottom: 1px solid rgba(22, 11, 17, 0.09);
 		width: 100%;
 		overflow-x: auto;
 		-webkit-overflow-scrolling: touch;
@@ -553,7 +554,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-		color: rgba(255, 255, 255, 0.6);
+		color: rgba(22, 11, 17, 0.75);
 		text-decoration: none;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 		font-size: 0.8125rem;
@@ -562,20 +563,23 @@
 		text-transform: uppercase;
 		padding: 20px 24px;
 		border-bottom: 2px solid transparent;
-		transition: all 0.25s ease;
+		transition: color 0.2s ease, border-color 0.2s ease;
 		white-space: nowrap;
 	}
 
 	.service-nav-item:hover {
-		color: #ffffff;
+		color: #160b11;
 		border-bottom-color: #a1846d;
 	}
 
 	.service-nav-icon {
 		font-size: 0.625rem;
 		color: #a1846d;
-		opacity: 0.7;
+		opacity: 0.6;
+		transition: opacity 0.2s ease;
 	}
+
+	.service-nav-item:hover .service-nav-icon { opacity: 1; }
 
 	@media (max-width: 768px) {
 		.service-nav-inner {

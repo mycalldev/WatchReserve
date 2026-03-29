@@ -169,7 +169,7 @@
 		border: 1px solid rgba(255, 255, 255, 0.1);
 		width: 48px;
 		height: 48px;
-		border-radius: 50%;
+		border-radius: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;

@@ -241,7 +241,7 @@
 		right: 14px;
 		width: 32px;
 		height: 32px;
-		border-radius: 50%;
+		border-radius: 0;
 		background-color: rgba(255, 255, 255, 0.1);
 		border: 1px solid rgba(255, 255, 255, 0.12);
 		color: rgba(255, 255, 255, 0.6);
@@ -411,7 +411,7 @@
 		background: linear-gradient(135deg, #a1846d 0%, #8d7060 100%);
 		color: #ffffff;
 		border: none;
-		border-radius: 10px;
+		border-radius: 0;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 600;

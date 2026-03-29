@@ -1,5 +1,5 @@
 <script>
-	import ContactForm from '$lib/components/ContactForm.svelte';
+	import LuxuryForm from '$lib/components/LuxuryForm.svelte';
 </script>
 
 <section class="contact-page">
@@ -60,7 +60,7 @@
 							stroke-linejoin="round"
 						/>
 					</svg>
-					<a href="tel:+447850250984" class="contact-link">+44 78 5025 0984</a>
+					<a href="tel:+447850250984" class="contact-link">0208 150 1987</a>
 				</div>
 
 				<div class="contact-detail-item">
@@ -95,7 +95,7 @@
 		</div>
 
 		<div class="contact-form-wrapper">
-			<ContactForm />
+			<LuxuryForm />
 		</div>
 	</div>
 </section>

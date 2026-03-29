@@ -12,7 +12,7 @@
 		color: #160B11;
 		border: none;
 		padding: 14px 32px;
-		border-radius: 8px;
+		border-radius: 0;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 		font-size: 1rem;
 		font-weight: 700;

@@ -44,7 +44,7 @@
 		width: 32px;
 		height: 32px;
 		background-color: #ffffff;
-		border-radius: 50%;
+		border-radius: 0;
 		border: 1px solid #4a4a4a;
 		transition: all 0.3s ease;
 	}

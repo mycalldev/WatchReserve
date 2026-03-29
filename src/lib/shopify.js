@@ -495,6 +495,60 @@ export async function searchProducts(term, limit = 8) {
 	};
 }
 
+// ── New Arrivals — filter by status metafield (Storefront) ───────────────────
+
+const NEW_ARRIVALS_QUERY = `
+  query NewArrivalsProducts($first: Int!) {
+    products(first: $first, sortKey: CREATED_AT, reverse: true) {
+      edges {
+        node {
+          id
+          title
+          handle
+          vendor
+          featuredImage { url altText }
+          priceRange {
+            minVariantPrice { amount currencyCode }
+          }
+          metafields(identifiers: [{namespace: "custom", key: "status"}]) {
+            namespace key value
+          }
+        }
+      }
+    }
+  }
+`;
+
+export async function getNewArrivals(limit = 12) {
+	// Fetch a generous batch sorted by newest first, then filter by status
+	const data = await shopifyFetch(NEW_ARRIVALS_QUERY, { first: 50 });
+	const edges = data.products?.edges ?? [];
+
+	const results = [];
+	for (const { node } of edges) {
+		const statusMeta = (node.metafields ?? []).find(
+			(m) => m && m.namespace === 'custom' && m.key === 'status'
+		);
+		const status = statusMeta?.value?.trim() ?? null;
+		if (status?.toLowerCase() === 'new arrival') {
+			results.push({
+				id: node.id,
+				title: node.title,
+				handle: node.handle,
+				vendor: node.vendor,
+				image: node.featuredImage?.url ?? null,
+				imageAlt: node.featuredImage?.altText ?? node.title,
+				price: parseFloat(node.priceRange.minVariantPrice.amount),
+				currencyCode: node.priceRange.minVariantPrice.currencyCode,
+				status
+			});
+			if (results.length >= limit) break;
+		}
+	}
+
+	return results;
+}
+
 // ── Products by vendor (Storefront) ──────────────────────────────────────────
 
 const PRODUCTS_BY_VENDOR_QUERY = `

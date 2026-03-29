@@ -1,5 +1,5 @@
 <script>
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 
 	let query      = $state('');
@@ -111,13 +111,13 @@
 		document.addEventListener('pointerdown', handlePointerDown);
 		window.addEventListener('scroll', handleScroll, { passive: true });
 		window.addEventListener('resize', computeDropdownTop);
-	});
 
-	onDestroy(() => {
-		document.removeEventListener('pointerdown', handlePointerDown);
-		window.removeEventListener('scroll', handleScroll);
-		window.removeEventListener('resize', computeDropdownTop);
-		clearTimeout(searchTimer);
+		return () => {
+			document.removeEventListener('pointerdown', handlePointerDown);
+			window.removeEventListener('scroll', handleScroll);
+			window.removeEventListener('resize', computeDropdownTop);
+			clearTimeout(searchTimer);
+		};
 	});
 </script>
 
@@ -295,7 +295,7 @@
 		background: none;
 		border: 1px solid rgba(255, 255, 255, 0.18);
 		color: rgba(255, 255, 255, 0.75);
-		border-radius: 6px;
+		border-radius: 0;
 		padding: 7px 14px 7px 10px;
 		cursor: pointer;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -377,7 +377,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border-radius: 4px;
+		border-radius: 0;
 		transition: color 0.2s ease;
 		flex-shrink: 0;
 	}

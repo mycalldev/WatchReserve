@@ -38,7 +38,7 @@
 
 		<div class="navbar-right">
 			<Search />
-			<button class="contact-btn desktop-only">Contact</button>
+			<a href="/contact" class="contact-btn desktop-only">Contact</a>
 			<a href="/cart" class="cart-link" aria-label="Shopping cart">
 				<svg
 					class="cart-icon"
@@ -193,7 +193,7 @@
 		color: #ffffff;
 		border: none;
 		padding: 10px 24px;
-		border-radius: 6px;
+		border-radius: 0;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 		font-size: 14px;
 		font-weight: 500;
@@ -384,7 +384,7 @@
 	.mobile-contact-link {
 		background-color: #a1846d;
 		margin: 24px auto 0;
-		border-radius: 6px;
+		border-radius: 0;
 		text-align: center;
 		padding: 12px 24px;
 		width: fit-content;

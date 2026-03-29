@@ -18,7 +18,7 @@
 					<a href="mailto:info@thewatchreserve.co.uk" class="contact-link-text">info@thewatchreserve.co.uk</a>
 				</p>
 				<p class="contact-item">
-					<a href="tel:07850250984" class="contact-link-text">07850 250 984 LandLine Required Here *****</a>
+					<a href="tel:07850250984" class="contact-link-text">0208 150 1987</a>
 				</p>
 				<a href="/contact" class="contact-link-btn">
 					Contact Us

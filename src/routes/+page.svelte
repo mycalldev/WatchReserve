@@ -2,8 +2,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
 	import LinkButton from '$lib/components/LinkButton.svelte';
-	import ElevateCollection from '$lib/components/ElevateCollection.svelte';
-	import FeaturedTimepieces from '$lib/components/FeaturedTimepieces.svelte';
+	import NewArrivals from '$lib/components/NewArrivals.svelte';
 	import Reviews from '$lib/components/Reviews.svelte';
 	import ApiTrialModal from '$lib/components/ApiTrialModal.svelte';
 
@@ -82,70 +81,7 @@
 </div>
 
 
-
-<FeaturedTimepieces products={data.featuredProducts} />
-
-<section class="sell-source-section">
-	<div class="sell-source-container">
-		<div class="sell-source-image-wrapper">
-			<img
-				src="/assets/lifestyle/AP_wrist_jean1.avif"
-				alt="Luxury watch on wrist"
-				class="sell-source-image"
-			/>
-		</div>
-		<div class="sell-source-content">
-			<h2 class="sell-source-heading">
-				Looking to Sell or<br />
-				Source a Watch?
-			</h2>
-			<p class="sell-source-text">
-				While our primary focus is helping you find the perfect timepiece, we also offer expert valuations and bespoke sourcing for collectors.
-			</p>
-			<div class="sell-source-links">
-				<a href="/sell" class="sell-source-link">
-					Sell Your Watch
-					<span class="arrow">→</span>
-				</a>
-				<a href="/source" class="sell-source-link">
-					Request a Watch
-					<span class="arrow">→</span>
-				</a>
-				<a href="/contact" class="sell-source-link">
-					Contact Us
-					<span class="arrow">→</span>
-				</a>
-			</div>
-		</div>
-	</div>
-</section>
-
-<section class="luxury-section">
-	<div class="luxury-container">
-		<div class="luxury-image-wrapper">
-			<img
-				src="/assets/gifs/giffycanvas (12).gif"
-				alt="Luxury watch"
-				class="luxury-image"
-			/>
-		</div>
-		<div class="luxury-content">
-			<h2 class="luxury-headline">
-				Luxury is <em>Personal</em>
-			</h2>
-			<p class="luxury-text">
-				At Watch Reserve, we believe the experience should reflect the calibre of the watch. Whether you're building a collection or investing in your first timepiece, our service is personal, thoughtful, and rooted in genuine expertise.
-			</p>
-			<p class="luxury-text">
-				We stock and source rare watches from the world's most iconic brands and we back every transaction with guidance you can trust.
-			</p>
-			<p class="luxury-text">
-				This isn't just a purchase. It's your next signature piece, handled with care by people who understand its value.
-			</p>
-			<button class="about-btn">About Us</button>
-		</div>
-	</div>
-</section>
+<NewArrivals products={data.newArrivals} />
 
 <section class="brands-section">
 	<div class="brands-container">
@@ -206,40 +142,6 @@
 		</div>
 	</div>
 </section>
-
-<section class="expertise-section">
-	<div class="expertise-image-wrapper">
-	</div>
-	<div class="expertise-content">
-		<div class="expertise-container">
-			<div class="expertise-column">
-				<h3 class="expertise-heading">Unmatched Expertise</h3>
-				<p class="expertise-text">
-					Years of hands-on industry experience mean you receive informed, honest advice — whether you're
-					buying your first timepiece or your fifteenth. We don't just sell watches — we guide collectors.
-				</p>
-			</div>
-			<div class="expertise-divider"></div>
-			<div class="expertise-column">
-				<h3 class="expertise-heading">Tailored, White-Glove Service</h3>
-				<p class="expertise-text">
-					From first enquiry to final delivery, we offer a seamless and personal buying experience. No hard
-					sell, no jargon — just attentive support and total discretion at every step.
-				</p>
-			</div>
-			<div class="expertise-divider"></div>
-			<div class="expertise-column">
-				<h3 class="expertise-heading">Direct Access to Rare Pieces</h3>
-				<p class="expertise-text">
-					Based in Canary Wharf with a trusted global network, we source highly sought-after timepieces that
-					rarely hit the open market — getting you closer to the watch you've been searching for.
-				</p>
-			</div>
-		</div>
-	</div>
-</section>
-
-<ElevateCollection />
 
 <!-- ── API SECTION ── -->
 <section class="api-section">
@@ -322,6 +224,68 @@
 			Explore the API
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 		</a>
+	</div>
+</section>
+
+<section class="sell-source-section">
+	<div class="sell-source-container">
+		<div class="sell-source-image-wrapper">
+			<img
+				src="/assets/lifestyle/AP_wrist_jean1.avif"
+				alt="Luxury watch on wrist"
+				class="sell-source-image"
+			/>
+		</div>
+		<div class="sell-source-content">
+			<h2 class="sell-source-heading">
+				Looking to Sell or<br />
+				Source a Watch?
+			</h2>
+			<p class="sell-source-text">
+				While our primary focus is helping you find the perfect timepiece, we also offer expert valuations and bespoke sourcing for collectors.
+			</p>
+			<div class="sell-source-links">
+				<a href="/sell" class="sell-source-link">
+					Sell Your Watch
+					<span class="arrow">→</span>
+				</a>
+				<a href="/source" class="sell-source-link">
+					Request a Watch
+					<span class="arrow">→</span>
+				</a>
+				<a href="/contact" class="sell-source-link">
+					Contact Us
+					<span class="arrow">→</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="luxury-section">
+	<div class="luxury-container">
+		<div class="luxury-image-wrapper">
+			<img
+				src="/assets/gifs/giffycanvas (12).gif"
+				alt="Luxury watch"
+				class="luxury-image"
+			/>
+		</div>
+		<div class="luxury-content">
+			<h2 class="luxury-headline">
+				Luxury is <em>Personal</em>
+			</h2>
+			<p class="luxury-text">
+				At Watch Reserve, we believe the experience should reflect the calibre of the watch. Whether you're building a collection or investing in your first timepiece, our service is personal, thoughtful, and rooted in genuine expertise.
+			</p>
+			<p class="luxury-text">
+				We stock and source rare watches from the world's most iconic brands and we back every transaction with guidance you can trust.
+			</p>
+			<p class="luxury-text">
+				This isn't just a purchase. It's your next signature piece, handled with care by people who understand its value.
+			</p>
+			<button class="about-btn">About Us</button>
+		</div>
 	</div>
 </section>
 
@@ -562,7 +526,7 @@
 		color: #ffffff;
 		border: none;
 		padding: 14px 32px;
-		border-radius: 8px;
+		border-radius: 0;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 		font-size: 1rem;
 		font-weight: 500;
@@ -1053,18 +1017,19 @@
 	}
 
 	/* ── API SECTION ── */
+	/* ── API SECTION — Light theme ── */
 	.api-section {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		min-height: 680px;
-		background-color: #160b11;
+		background-color: #ffffff;
 	}
 
 	/* ── Widget column ── */
 	.api-widget-col {
-		padding: 48px;
+		padding: 64px 48px;
 		box-sizing: border-box;
-		background-color: #160b11;
+		background-color: #ffffff;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -1075,17 +1040,18 @@
 		background-color: #ffffff;
 		border-radius: 16px;
 		overflow: hidden;
+		border: 1px solid rgba(22, 11, 17, 0.1);
 		box-shadow:
-			0 0 0 1px rgba(255, 255, 255, 0.06),
-			0 24px 64px rgba(0, 0, 0, 0.45);
+			0 4px 16px rgba(22, 11, 17, 0.06),
+			0 16px 48px rgba(22, 11, 17, 0.08);
 	}
 
-	/* Widget header bar */
+	/* Widget header bar — kept dark as a branded terminal chrome */
 	.widget-header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		background-color: #160b11;
+		background-color: #422635;
 		padding: 14px 20px;
 		gap: 12px;
 	}
@@ -1100,7 +1066,7 @@
 		width: 8px;
 		height: 8px;
 		border-radius: 50%;
-		background-color: #a1846d;
+		background-color: #c9a230;
 		flex-shrink: 0;
 	}
 
@@ -1110,7 +1076,7 @@
 		font-weight: 700;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
-		color: rgba(255, 255, 255, 0.7);
+		color: rgba(255, 255, 255, 0.75);
 	}
 
 	.widget-header-right {
@@ -1123,8 +1089,8 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 6px;
-		background-color: rgba(74, 222, 128, 0.12);
-		border: 1px solid rgba(74, 222, 128, 0.22);
+		background-color: rgba(74, 222, 128, 0.15);
+		border: 1px solid rgba(74, 222, 128, 0.3);
 		color: #4ade80;
 		padding: 3px 10px;
 		border-radius: 100px;
@@ -1137,7 +1103,7 @@
 	.widget-time {
 		font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
 		font-size: 0.72rem;
-		color: rgba(255, 255, 255, 0.35);
+		color: rgba(255, 255, 255, 0.4);
 		font-variant-numeric: tabular-nums;
 	}
 
@@ -1157,7 +1123,7 @@
 		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
-		color: #aaa;
+		color: #b0a09a;
 	}
 
 	.widget-col-headers .align-right {
@@ -1185,7 +1151,7 @@
 	}
 
 	.widget-row:hover {
-		background-color: rgba(161, 132, 109, 0.04);
+		background-color: rgba(66, 38, 53, 0.03);
 	}
 
 	.widget-row--flash {
@@ -1193,7 +1159,7 @@
 	}
 
 	@keyframes widgetFlash {
-		0%   { background-color: rgba(161, 132, 109, 0.18); }
+		0%   { background-color: rgba(201, 162, 48, 0.12); }
 		100% { background-color: transparent; }
 	}
 
@@ -1210,8 +1176,8 @@
 	.widget-ref {
 		font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
 		font-size: 0.75rem;
-		color: #888;
-		background-color: rgba(22, 11, 17, 0.05);
+		color: #8a7570;
+		background-color: rgba(66, 38, 53, 0.06);
 		padding: 2px 7px;
 		border-radius: 4px;
 		width: fit-content;
@@ -1262,26 +1228,28 @@
 	.widget-footer-note {
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 		font-size: 0.68rem;
-		color: #bbb;
+		color: #c0b4ae;
 	}
 
+	/* ── Content column ── */
 	.api-content-col {
-		padding: 80px 64px 80px 48px;
+		padding: 80px 64px 80px 64px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		box-sizing: border-box;
-		border-left: 1px solid rgba(255, 255, 255, 0.06);
+		background-color: #faf8f5;
+		border-left: 1px solid rgba(22, 11, 17, 0.08);
 	}
 
-	/* Live badge */
+	/* Live badge — adapted for light background */
 	.api-live-badge {
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-		background-color: rgba(74, 222, 128, 0.1);
-		border: 1px solid rgba(74, 222, 128, 0.22);
-		color: #4ade80;
+		background-color: #f0fdf4;
+		border: 1px solid #bbf7d0;
+		color: #16a34a;
 		padding: 6px 14px;
 		border-radius: 100px;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -1297,7 +1265,7 @@
 		width: 7px;
 		height: 7px;
 		border-radius: 50%;
-		background-color: #4ade80;
+		background-color: #22c55e;
 		flex-shrink: 0;
 		position: relative;
 	}
@@ -1307,14 +1275,14 @@
 		position: absolute;
 		inset: -3px;
 		border-radius: 50%;
-		background-color: #4ade80;
-		opacity: 0.3;
+		background-color: #22c55e;
+		opacity: 0.35;
 		animation: apiPulse 1.8s ease-in-out infinite;
 	}
 
 	@keyframes apiPulse {
-		0%, 100% { transform: scale(1); opacity: 0.3; }
-		50% { transform: scale(1.9); opacity: 0; }
+		0%, 100% { transform: scale(1); opacity: 0.35; }
+		50%       { transform: scale(2); opacity: 0; }
 	}
 
 	/* Heading */
@@ -1322,7 +1290,7 @@
 		font-family: 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 3.5vw, 3.25rem);
 		font-weight: 400;
-		color: #ffffff;
+		color: #160b11;
 		margin: 0 0 24px 0;
 		line-height: 1.15;
 		letter-spacing: -0.02em;
@@ -1337,12 +1305,11 @@
 	.api-body {
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 		font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
-		color: rgba(255, 255, 255, 0.65);
+		color: rgba(22, 11, 17, 0.65);
 		line-height: 1.75;
 		font-weight: 300;
 		margin: 0 0 40px 0;
 	}
-
 
 	/* Feature list */
 	.api-features {
@@ -1358,8 +1325,8 @@
 		gap: 12px;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 		font-size: 0.9rem;
-		color: rgba(255, 255, 255, 0.7);
-		font-weight: 300;
+		color: rgba(22, 11, 17, 0.7);
+		font-weight: 400;
 		line-height: 1.5;
 	}
 
@@ -1373,27 +1340,27 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 10px;
-		background-color: #a1846d;
+		background-color: #422635;
 		color: #ffffff;
 		text-decoration: none;
 		padding: 14px 32px;
-		border-radius: 8px;
+		border-radius: 0;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 500;
 		letter-spacing: 0.02em;
 		align-self: flex-start;
-		transition: all 0.25s ease;
+		transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, gap 0.25s ease;
 	}
 
 	.api-cta:hover {
-		background-color: #8a6f59;
+		background-color: #2e1924;
 		transform: translateY(-2px);
-		box-shadow: 0 6px 24px rgba(161, 132, 109, 0.35);
+		box-shadow: 0 6px 24px rgba(66, 38, 53, 0.3);
 		gap: 14px;
 	}
 
-	/* Responsive */
+	/* ── Responsive ── */
 	@media (max-width: 1200px) {
 		.widget-col-headers,
 		.widget-row {
@@ -1402,8 +1369,12 @@
 	}
 
 	@media (max-width: 1100px) {
+		.api-widget-col {
+			padding: 48px 36px;
+		}
+
 		.api-content-col {
-			padding: 64px 48px 64px 40px;
+			padding: 64px 48px 64px 48px;
 		}
 	}
 
@@ -1414,23 +1385,23 @@
 		}
 
 		.api-widget-col {
-			padding: 40px 32px 0;
+			padding: 56px 40px 0;
 		}
 
 		.api-content-col {
-			padding: 56px 36px;
+			padding: 56px 40px 64px;
 			border-left: none;
-			border-top: 1px solid rgba(255, 255, 255, 0.06);
+			border-top: 1px solid rgba(22, 11, 17, 0.08);
 		}
 	}
 
 	@media (max-width: 640px) {
 		.api-widget-col {
-			padding: 28px 20px 0;
+			padding: 40px 24px 0;
 		}
 
 		.api-content-col {
-			padding: 44px 24px;
+			padding: 44px 24px 56px;
 		}
 
 		.widget-col-headers,
@@ -1438,7 +1409,6 @@
 			grid-template-columns: 1fr 80px 58px;
 		}
 
-		/* Hide reference column on very small screens */
 		.widget-ref {
 			display: none;
 		}
