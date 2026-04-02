@@ -38,7 +38,6 @@
 
 		<div class="navbar-right">
 			<Search />
-			<a href="/contact" class="contact-btn desktop-only">Contact</a>
 			<a href="/cart" class="cart-link" aria-label="Shopping cart">
 				<svg
 					class="cart-icon"
@@ -186,35 +185,6 @@
 		align-items: center;
 		gap: 16px;
 		flex-shrink: 0;
-	}
-
-	.contact-btn {
-		background-color: #a1846d;
-		color: #ffffff;
-		border: none;
-		padding: 10px 24px;
-		border-radius: 0;
-		font-family: 'Montserrat', sans-serif;
-		font-size: 14px;
-		font-weight: 500;
-		letter-spacing: 0.05em;
-		text-transform: uppercase;
-		cursor: pointer;
-		transition: all 0.3s ease;
-		white-space: nowrap;
-	}
-
-	.contact-btn:hover {
-		background-color: #8a6f59;
-		transform: translateY(-1px);
-	}
-
-	.contact-btn:active {
-		transform: translateY(0);
-	}
-
-	.desktop-only {
-		display: block;
 	}
 
 	.mobile-only {
@@ -508,10 +478,6 @@
 
 		.navbar-container {
 			justify-content: space-between;
-		}
-
-		.desktop-only {
-			display: none;
 		}
 
 		.mobile-only {

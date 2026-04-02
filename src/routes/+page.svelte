@@ -262,6 +262,71 @@
 	</div>
 </section>
 
+<!-- ── ABOUT WATCH RESERVE ── -->
+<section class="about-wr-section">
+	<div class="about-wr-inner">
+
+		<!-- Left: heading + copy + CTA -->
+		<div class="about-wr-left">
+			<h2 class="about-wr-heading">About Watch Reserve</h2>
+			<p class="about-wr-body">
+				Watch Reserve is a London-based boutique specialising in the acquisition, sale, and sourcing
+				of pre-owned luxury timepieces. Operating from Canary Wharf, our team brings deep market
+				knowledge and a genuine passion for horology to every transaction. Whether you are buying,
+				selling, or looking to part-exchange, we offer a discreet, five-star service tailored to
+				serious collectors and first-time buyers alike. We stock an exceptional range of timepieces
+				from Rolex, Patek Philippe, Audemars Piguet, Richard Mille, Cartier, and more — all
+				rigorously authenticated and fairly priced using live market data.
+			</p>
+			<a href="/about" class="about-wr-cta">
+				Learn More About Us
+				<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<path d="M5 12h14M12 5l7 7-7 7"/>
+				</svg>
+			</a>
+		</div>
+
+		<!-- Right: feature list -->
+		<div class="about-wr-right">
+			<ul class="about-wr-features" aria-label="Our promises">
+				<li class="about-wr-feature">
+					<span class="about-wr-feature-icon" aria-hidden="true">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+						</svg>
+					</span>
+					<span>Insured Priority Delivery</span>
+				</li>
+				<li class="about-wr-feature">
+					<span class="about-wr-feature-icon" aria-hidden="true">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+						</svg>
+					</span>
+					<span>24 Month Warranty</span>
+				</li>
+				<li class="about-wr-feature">
+					<span class="about-wr-feature-icon" aria-hidden="true">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M8 18h8M6 12h8M10 12V7a4 4 0 014-4 4 4 0 011 .1"/>
+						</svg>
+					</span>
+					<span>Price Promise</span>
+				</li>
+				<li class="about-wr-feature">
+					<span class="about-wr-feature-icon" aria-hidden="true">
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M3 7h18m0 0l-4-4m4 4l-4 4M21 17H3m0 0l4-4m-4 4l4 4"/>
+						</svg>
+					</span>
+					<span>Part Exchange</span>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+</section>
+
 <section class="luxury-section">
 	<div class="luxury-container">
 		<div class="luxury-image-wrapper">
@@ -643,6 +708,114 @@
 		}
 	}
 
+	/* ── ABOUT WATCH RESERVE ── */
+	.about-wr-section {
+		width: 100%;
+		background: #ffffff;
+		padding: 64px 60px;
+		box-sizing: border-box;
+		border-top: 1px solid rgba(22, 11, 17, 0.06);
+	}
+
+	.about-wr-inner {
+		max-width: 1240px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 80px;
+		align-items: center;
+	}
+
+	.about-wr-right {
+		padding-left: 80px;
+	}
+
+	.about-wr-heading {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.8rem, 3vw, 2.6rem);
+		font-weight: 400;
+		color: #160b11;
+		margin: 0 0 28px 0;
+		line-height: 1.2;
+		letter-spacing: -0.02em;
+	}
+
+	.about-wr-body {
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.875rem, 1.1vw, 0.9375rem);
+		color: rgba(22, 11, 17, 0.65);
+		line-height: 1.8;
+		font-weight: 300;
+		margin: 0 0 40px 0;
+	}
+
+	.about-wr-features {
+		list-style: none;
+		margin: 0 0 40px 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		border-top: 1px solid rgba(22, 11, 17, 0.08);
+	}
+
+	.about-wr-feature {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		padding: 16px 0;
+		border-bottom: 1px solid rgba(22, 11, 17, 0.08);
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: #160b11;
+		letter-spacing: 0.01em;
+	}
+
+	.about-wr-feature-icon {
+		width: 40px;
+		height: 40px;
+		border: 1px solid rgba(161, 132, 109, 0.25);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #a1846d;
+		flex-shrink: 0;
+		background: rgba(161, 132, 109, 0.04);
+	}
+
+	.about-wr-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #a1846d;
+		text-decoration: none;
+		transition: gap 0.2s ease, color 0.2s ease;
+	}
+
+	.about-wr-cta:hover { gap: 14px; color: #8a6f59; }
+
+	@media (max-width: 1024px) {
+		.about-wr-section { padding: 52px 40px; }
+		.about-wr-inner { gap: 48px; }
+		.about-wr-right { padding-left: 48px; }
+	}
+
+	@media (max-width: 768px) {
+		.about-wr-section { padding: 48px 28px; }
+		.about-wr-inner { grid-template-columns: 1fr; gap: 40px; }
+		.about-wr-right { padding-left: 0; padding-top: 40px; }
+	}
+
+	@media (max-width: 480px) {
+		.about-wr-section { padding: 40px 20px; }
+	}
+
 	.sell-source-section {
 		width: 100%;
 		margin: 0;
@@ -815,13 +988,7 @@
 		flex-direction: column;
 		overflow: hidden;
 		cursor: pointer;
-		transition: transform 0.3s ease;
 		min-height: 500px;
-	}
-
-	.brand-card:hover {
-		transform: scale(1.02);
-		z-index: 1;
 	}
 
 	.brand-image-wrapper {
@@ -836,11 +1003,6 @@
 		height: 100%;
 		object-fit: cover;
 		display: block;
-		transition: transform 0.3s ease;
-	}
-
-	.brand-card:hover .brand-image {
-		transform: scale(1.05);
 	}
 
 	.brand-content {

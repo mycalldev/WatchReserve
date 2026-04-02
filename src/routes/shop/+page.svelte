@@ -72,8 +72,17 @@
 
 <main class="shop-page">
 	<div class="shop-header">
-		<h1 class="shop-title">The Collection</h1>
-		<p class="shop-subtitle">Curated luxury timepieces, authenticated and ready to wear</p>
+		<img
+			src="/assets/hero/daytona_hero.jpg"
+			alt="Rolex Daytona on slate"
+			class="shop-header-img"
+			fetchpriority="high"
+		/>
+		<div class="shop-header-overlay" aria-hidden="true"></div>
+		<div class="shop-header-content">
+			<h1 class="shop-title">The Collection</h1>
+			<p class="shop-subtitle">Curated luxury timepieces, authenticated and ready to wear</p>
+		</div>
 	</div>
 
 	<!-- Brand filter bar -->
@@ -183,9 +192,40 @@
 	}
 
 	.shop-header {
-		background-color: #160b11;
-		padding: 80px 40px 70px;
+		position: relative;
+		width: 100%;
+		height: clamp(300px, 42vh, 480px);
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		text-align: center;
+	}
+
+	.shop-header-img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center 35%;
+		display: block;
+	}
+
+	.shop-header-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to bottom,
+			rgba(22, 11, 17, 0.45) 0%,
+			rgba(22, 11, 17, 0.65) 100%
+		);
+	}
+
+	.shop-header-content {
+		position: relative;
+		z-index: 1;
+		padding: 0 40px;
 	}
 
 	.shop-title {
@@ -551,7 +591,7 @@
 
 	@media (max-width: 640px) {
 		.shop-header {
-			padding: 60px 20px 50px;
+			height: clamp(220px, 45vw, 320px);
 		}
 
 		.brand-bar-inner {

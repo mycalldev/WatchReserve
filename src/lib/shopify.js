@@ -609,6 +609,69 @@ export async function getProductsByVendor(vendor, excludeHandle, limit = 8) {
 		.slice(0, limit);
 }
 
+// ── Blogs & Articles (Storefront) ────────────────────────────────────────────
+
+const BLOGS_QUERY = `
+  query GetBlogs($first: Int!) {
+    blogs(first: $first) {
+      edges {
+        node {
+          id
+          handle
+          title
+          articles(first: 50, sortKey: PUBLISHED_AT, reverse: true) {
+            edges {
+              node {
+                id
+                title
+                handle
+                excerpt
+                excerptHtml
+                publishedAt
+                tags
+                image {
+                  url
+                  altText
+                  width
+                  height
+                }
+                author {
+                  name
+                }
+                blog {
+                  handle
+                  title
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export async function getBlogs(first = 10) {
+	const data = await shopifyFetch(BLOGS_QUERY, { first });
+	return (data.blogs?.edges ?? []).map(({ node: blog }) => ({
+		id: blog.id,
+		handle: blog.handle,
+		title: blog.title,
+		articles: (blog.articles?.edges ?? []).map(({ node: a }) => ({
+			id: a.id,
+			title: a.title,
+			handle: a.handle,
+			excerpt: a.excerpt ?? '',
+			publishedAt: a.publishedAt,
+			tags: a.tags ?? [],
+			image: a.image ? { url: a.image.url, alt: a.image.altText ?? a.title } : null,
+			author: a.author?.name ?? null,
+			blogHandle: blog.handle,
+			blogTitle: blog.title
+		}))
+	}));
+}
+
 // ── Cart mutations (Storefront) ───────────────────────────────────────────────
 
 const CREATE_CART_MUTATION = `

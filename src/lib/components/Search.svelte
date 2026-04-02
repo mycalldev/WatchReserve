@@ -121,10 +121,44 @@
 	});
 </script>
 
-<!-- ── Inline navbar trigger / expanded input ─────────────────────────────── -->
+<!-- ── Desktop / Tablet: always-visible inline underline input ────────────── -->
 <div
-	class="search-root"
+	class="search-root si-root"
 	bind:this={rootRef}
+	onkeydown={handleKeydown}
+	role="search"
+	aria-label="Search watches"
+>
+	<div class="si-field" class:si-field--active={expanded}>
+		<input
+			bind:value={query}
+			oninput={handleInput}
+			onfocus={() => { expanded = true; computeDropdownTop(); }}
+			type="search"
+			placeholder="SEARCH"
+			class="si-input"
+			autocomplete="off"
+			spellcheck="false"
+			aria-label="Search"
+			aria-autocomplete="list"
+			aria-expanded={open}
+			aria-haspopup="listbox"
+		/>
+		{#if loading}
+			<span class="si-spinner" aria-hidden="true"></span>
+		{:else}
+			<span class="si-icon" aria-hidden="true">
+				<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+				</svg>
+			</span>
+		{/if}
+	</div>
+</div>
+
+<!-- ── Mobile: collapsible trigger (hidden on desktop via CSS) ───────────── -->
+<div
+	class="search-root sm-root"
 	onkeydown={handleKeydown}
 	role="search"
 	aria-label="Search watches"
@@ -139,7 +173,7 @@
 				bind:value={query}
 				oninput={handleInput}
 				type="search"
-				placeholder="Search watches, brands, references…"
+				placeholder="Search watches…"
 				class="search-input"
 				autocomplete="off"
 				spellcheck="false"
@@ -162,13 +196,12 @@
 			<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 				<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
 			</svg>
-			<span class="search-trigger-label">Search</span>
 		</button>
 	{/if}
 </div>
 
 <!-- ── Results dropdown panel (fixed, below navbar) ──────────────────────── -->
-{#if expanded && (open || loading)}
+{#if (open || loading)}
 	<div
 		id="wr-search-dropdown"
 		class="search-dropdown"
@@ -287,45 +320,103 @@
 {/if}
 
 <style>
-	/* ── Trigger button ──────────────────────────────── */
+	/* ── Shared root ─────────────────────────────────── */
+	.search-root { position: relative; }
+
+	/* ── Desktop / Tablet: inline underline field ────── */
+	.si-root {
+		display: flex;
+		align-items: center;
+	}
+
+	.si-field {
+		display: flex;
+		align-items: center;
+		gap: 0;
+		border-bottom: 1.5px solid #a1846d;
+		transition: border-color 0.2s ease;
+	}
+
+	.si-field--active {
+		border-color: #a1846d;
+	}
+
+	.si-input {
+		background: none;
+		border: none;
+		outline: none;
+		color: #ffffff;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		font-weight: 500;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		padding: 6px 8px 6px 0;
+		width: 140px;
+		min-width: 0;
+		transition: width 0.25s ease;
+	}
+
+	.si-field--active .si-input { width: 200px; }
+
+	.si-input::placeholder {
+		color: rgba(255, 255, 255, 0.45);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.si-input::-webkit-search-cancel-button { display: none; }
+
+	.si-icon {
+		display: flex;
+		align-items: center;
+		color: rgba(255, 255, 255, 0.55);
+		flex-shrink: 0;
+		padding-bottom: 2px;
+		transition: color 0.2s ease;
+	}
+
+	.si-field--active .si-icon,
+	.si-field:focus-within .si-icon { color: #a1846d; }
+
+	.si-spinner {
+		width: 13px;
+		height: 13px;
+		border: 1.5px solid rgba(255, 255, 255, 0.2);
+		border-top-color: #a1846d;
+		border-radius: 50%;
+		animation: spin 0.65s linear infinite;
+		flex-shrink: 0;
+	}
+
+	/* Mobile root: hidden on desktop */
+	.sm-root { display: none; }
+
+	/* ── Mobile trigger button ───────────────────────── */
 	.search-trigger {
 		display: inline-flex;
 		align-items: center;
 		gap: 7px;
 		background: none;
-		border: 1px solid rgba(255, 255, 255, 0.18);
+		border: none;
 		color: rgba(255, 255, 255, 0.75);
-		border-radius: 0;
-		padding: 7px 14px 7px 10px;
+		padding: 6px;
 		cursor: pointer;
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.8125rem;
-		font-weight: 400;
-		letter-spacing: 0.02em;
-		transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
-		white-space: nowrap;
+		transition: color 0.2s ease;
 	}
 
-	.search-trigger:hover {
-		color: #ffffff;
-		border-color: rgba(255, 255, 255, 0.4);
-		background-color: rgba(255, 255, 255, 0.06);
-	}
+	.search-trigger:hover { color: #ffffff; }
 
-	.search-trigger-label {
-		font-size: 0.8125rem;
-	}
-
-	/* ── Expanded search bar ─────────────────────────── */
+	/* ── Mobile expanded search bar ──────────────────── */
 	.search-bar {
 		display: flex;
 		align-items: center;
 		gap: 8px;
 		background-color: rgba(255, 255, 255, 0.1);
 		border: 1px solid rgba(255, 255, 255, 0.25);
-		border-radius: 8px;
+		border-radius: 0;
 		padding: 7px 10px 7px 12px;
-		width: 300px;
+		width: 220px;
 		transition: border-color 0.2s ease, background-color 0.2s ease;
 	}
 
@@ -354,7 +445,7 @@
 	.search-input::placeholder { color: rgba(255, 255, 255, 0.38); }
 	.search-input::-webkit-search-cancel-button { display: none; }
 
-	/* Spinner */
+	/* Spinner (mobile bar) */
 	.search-spinner {
 		width: 14px;
 		height: 14px;
@@ -377,7 +468,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border-radius: 0;
 		transition: color 0.2s ease;
 		flex-shrink: 0;
 	}
@@ -679,17 +769,20 @@
 	}
 
 	@media (max-width: 900px) {
-		.search-bar { width: 240px; }
 		.results-grid { grid-template-columns: repeat(2, 1fr); }
 		.dropdown-inner { padding: 16px 24px 20px; }
 	}
 
-	@media (max-width: 640px) {
-		.search-trigger-label { display: none; }
+	/* Tablet: keep inline input but slightly narrower */
+	@media (max-width: 768px) {
+		.si-input { width: 110px; }
+		.si-field--active .si-input { width: 160px; }
+	}
 
-		.search-bar {
-			width: 200px;
-		}
+	/* Mobile: swap to collapsible trigger */
+	@media (max-width: 640px) {
+		.si-root  { display: none; }
+		.sm-root  { display: flex; align-items: center; }
 
 		.results-grid {
 			grid-template-columns: repeat(2, 1fr);
@@ -706,7 +799,6 @@
 	}
 
 	@media (max-width: 400px) {
-		.search-bar { width: 160px; }
 		.results-grid { grid-template-columns: 1fr; }
 	}
 </style>

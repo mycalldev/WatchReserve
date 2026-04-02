@@ -1,0 +1,1705 @@
+<script>
+	import { fly, fade } from 'svelte/transition';
+	import { cubicOut, cubicInOut } from 'svelte/easing';
+	import { onMount } from 'svelte';
+
+	/**
+	 * @typedef {'cart' | 'part-exchange' | 'deposit' | 'finance'} DrawerType
+	 */
+
+	/** @type {{ open: boolean, type: DrawerType, product: any, selectedVariant: any, checkoutUrl: string | null, onclose: () => void }} */
+	let {
+		open = false,
+		type = 'cart',
+		product = null,
+		selectedVariant = null,
+		checkoutUrl = null,
+		onclose
+	} = $props();
+
+	// ── Lock body scroll when open ─────────────────────────────────────────────
+	$effect(() => {
+		if (typeof document !== 'undefined') {
+			document.body.style.overflow = open ? 'hidden' : '';
+		}
+		return () => {
+			if (typeof document !== 'undefined') document.body.style.overflow = '';
+		};
+	});
+
+	// ── Escape key closes drawer ───────────────────────────────────────────────
+	function handleKeydown(e) {
+		if (e.key === 'Escape' && open) onclose?.();
+	}
+
+	onMount(() => {
+		window.addEventListener('keydown', handleKeydown);
+		return () => window.removeEventListener('keydown', handleKeydown);
+	});
+
+	// ── Helpers ────────────────────────────────────────────────────────────────
+	function formatPrice(amount, currency = 'GBP') {
+		return new Intl.NumberFormat('en-GB', {
+			style: 'currency',
+			currency,
+			minimumFractionDigits: 0,
+			maximumFractionDigits: 0
+		}).format(amount);
+	}
+
+	const productImage = $derived(product?.images?.[0]?.url ?? null);
+	const productTitle = $derived(product?.title ?? '');
+	const productVendor = $derived(product?.vendor ?? '');
+	const productPrice = $derived(
+		selectedVariant?.price
+			? formatPrice(selectedVariant.price, selectedVariant.currencyCode ?? 'GBP')
+			: product?.minPrice
+			? formatPrice(product.minPrice, product.currencyCode ?? 'GBP')
+			: ''
+	);
+
+	const depositRawPrice = $derived(selectedVariant?.price ?? product?.minPrice ?? null);
+	const depositAmount = $derived(
+		depositRawPrice != null
+			? formatPrice(depositRawPrice * 0.10, selectedVariant?.currencyCode ?? product?.currencyCode ?? 'GBP')
+			: null
+	);
+	const balanceAmount = $derived(
+		depositRawPrice != null
+			? formatPrice(depositRawPrice * 0.90, selectedVariant?.currencyCode ?? product?.currencyCode ?? 'GBP')
+			: null
+	);
+
+	// ── Panel titles / subtitles ───────────────────────────────────────────────
+	const panelMeta = {
+		cart: {
+			title: 'Added to Cart',
+			subtitle: 'Review your selection before checkout',
+			icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>`
+		},
+		'part-exchange': {
+			title: 'Part Exchange',
+			subtitle: 'Trade in your current watch',
+			icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18m0 0l-4-4m4 4l-4 4M21 17H3m0 0l4-4m-4 4l4 4"/></svg>`
+		},
+		deposit: {
+			title: 'Reserve This Timepiece',
+			subtitle: 'Secure your watch with a deposit',
+			icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>`
+		},
+		finance: {
+			title: 'Apply for Finance',
+			subtitle: 'Spread the cost over time',
+			icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg>`
+		}
+	};
+
+	// ── PART EXCHANGE FORM ─────────────────────────────────────────────────────
+	let pxForm = $state({
+		brand: '', model: '', reference: '', year: '',
+		condition: '', estimatedValue: '',
+		fullName: '', email: '', phone: ''
+	});
+	let pxTouched = $state({});
+	let pxSubmitting = $state(false);
+	let pxSuccess = $state(false);
+
+	const conditionOptions = [
+		{ value: '', label: 'Select condition…' },
+		{ value: 'unworn', label: 'Unworn / New' },
+		{ value: 'excellent', label: 'Excellent' },
+		{ value: 'very-good', label: 'Very Good' },
+		{ value: 'good', label: 'Good' },
+		{ value: 'fair', label: 'Fair' }
+	];
+
+	function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+	function isValidPhone(v) { return /^[\d\s\+\-\(\)]{7,}$/.test(v.trim()); }
+
+	const pxValid = $derived({
+		brand: pxForm.brand.trim().length >= 1,
+		model: pxForm.model.trim().length >= 1,
+		condition: pxForm.condition !== '',
+		fullName: pxForm.fullName.trim().length >= 2,
+		email: isValidEmail(pxForm.email)
+	});
+
+	const pxCanSubmit = $derived(
+		pxValid.brand && pxValid.model && pxValid.condition && pxValid.fullName && pxValid.email
+	);
+
+	async function submitPartExchange(e) {
+		e.preventDefault();
+		pxTouched = { brand: true, model: true, condition: true, fullName: true, email: true };
+		if (!pxCanSubmit) return;
+		pxSubmitting = true;
+		await new Promise(r => setTimeout(r, 1200));
+		pxSubmitting = false;
+		pxSuccess = true;
+	}
+
+	function resetPx() {
+		pxForm = { brand: '', model: '', reference: '', year: '', condition: '', estimatedValue: '', fullName: '', email: '', phone: '' };
+		pxTouched = {};
+		pxSuccess = false;
+	}
+
+	// ── DEPOSIT FORM ───────────────────────────────────────────────────────────
+	let depForm = $state({ fullName: '', email: '', phone: '', notes: '' });
+	let depTouched = $state({});
+	let depSubmitting = $state(false);
+	let depSuccess = $state(false);
+
+	const depValid = $derived({
+		fullName: depForm.fullName.trim().length >= 2,
+		email: isValidEmail(depForm.email),
+		phone: isValidPhone(depForm.phone)
+	});
+
+	const depCanSubmit = $derived(depValid.fullName && depValid.email && depValid.phone);
+
+	async function submitDeposit(e) {
+		e.preventDefault();
+		depTouched = { fullName: true, email: true, phone: true };
+		if (!depCanSubmit) return;
+		depSubmitting = true;
+		await new Promise(r => setTimeout(r, 1200));
+		depSubmitting = false;
+		depSuccess = true;
+	}
+
+	function resetDep() {
+		depForm = { fullName: '', email: '', phone: '', notes: '' };
+		depTouched = {};
+		depSuccess = false;
+	}
+
+	// ── FINANCE CALCULATOR ─────────────────────────────────────────────────────
+	const REPRESENTATIVE_APR = 9.9;
+	const financeTerms = [12, 24, 36, 48, 60];
+
+	let financeTerm = $state(36);
+
+	const rawPrice = $derived(
+		Number(selectedVariant?.price ?? product?.minPrice ?? 0)
+	);
+
+	const monthlyPayment = $derived(() => {
+		if (!rawPrice || rawPrice <= 0) return null;
+		const principal = rawPrice;
+		const annualRate = REPRESENTATIVE_APR / 100;
+		const monthlyRate = annualRate / 12;
+		const n = financeTerm;
+		if (monthlyRate === 0) return principal / n;
+		const payment = principal * (monthlyRate * Math.pow(1 + monthlyRate, n)) / (Math.pow(1 + monthlyRate, n) - 1);
+		return payment;
+	});
+
+	const totalRepayable = $derived(
+		monthlyPayment() ? monthlyPayment() * financeTerm : null
+	);
+
+	const totalInterest = $derived(
+		totalRepayable && rawPrice ? totalRepayable - rawPrice : null
+	);
+</script>
+
+{#if open}
+	<!-- Backdrop -->
+	<div
+		class="so-backdrop"
+		transition:fade={{ duration: 250, easing: cubicInOut }}
+		onclick={onclose}
+		aria-hidden="true"
+	></div>
+
+	<!-- Panel -->
+	<div
+		class="so-panel"
+		role="dialog"
+		aria-modal="true"
+		aria-label={panelMeta[type]?.title}
+		transition:fly={{ x: 520, duration: 380, easing: cubicOut }}
+	>
+		<!-- Header -->
+		<div class="so-header">
+			<div class="so-header-left">
+				<span class="so-header-icon" aria-hidden="true">
+					{@html panelMeta[type]?.icon}
+				</span>
+				<div class="so-header-copy">
+					<h2 class="so-title">{panelMeta[type]?.title}</h2>
+					<p class="so-subtitle">{panelMeta[type]?.subtitle}</p>
+				</div>
+			</div>
+			<button class="so-close" onclick={onclose} aria-label="Close panel" type="button">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+				</svg>
+			</button>
+		</div>
+
+		<!-- Scrollable body -->
+		<div class="so-body">
+
+			<!-- ── CART PANEL ── -->
+			{#if type === 'cart'}
+				<div class="cart-panel">
+					<!-- Added item card -->
+					<div class="cart-item-card">
+						{#if productImage}
+							<div class="cart-item-img">
+								<img src={productImage} alt={productTitle} />
+							</div>
+						{/if}
+						<div class="cart-item-info">
+							<p class="cart-item-vendor">{productVendor}</p>
+							<p class="cart-item-title">{productTitle}</p>
+							{#if selectedVariant?.title && selectedVariant.title !== 'Default Title'}
+								<p class="cart-item-variant">{selectedVariant.title}</p>
+							{/if}
+							<p class="cart-item-price">{productPrice}</p>
+						</div>
+						<div class="cart-item-check" aria-label="Item added">
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+								<polyline points="20 6 9 17 4 12"/>
+							</svg>
+						</div>
+					</div>
+
+					<!-- Order summary -->
+					<div class="cart-summary">
+						<div class="cart-summary-row">
+							<span>Subtotal</span>
+							<span class="cart-summary-amount">{productPrice}</span>
+						</div>
+						<div class="cart-summary-row cart-summary-row--note">
+							<span>Shipping &amp; taxes calculated at checkout</span>
+						</div>
+					</div>
+
+					<!-- Trust strip -->
+					<div class="cart-trust">
+						<div class="cart-trust-item">
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+							</svg>
+							Authenticated
+						</div>
+						<div class="cart-trust-item">
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+							</svg>
+							Insured Delivery
+						</div>
+						<div class="cart-trust-item">
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+							</svg>
+							Secure Payment
+						</div>
+					</div>
+
+					<!-- Actions -->
+					<div class="cart-actions">
+						{#if checkoutUrl}
+							<a href={checkoutUrl} class="so-btn so-btn--primary" target="_blank" rel="noopener">
+								Proceed to Checkout
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M7 17L17 7M7 7h10v10" />
+								</svg>
+							</a>
+						{:else}
+							<a href="/cart" class="so-btn so-btn--primary">
+								View Cart & Checkout
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M5 12h14M12 5l7 7-7 7"/>
+								</svg>
+							</a>
+						{/if}
+						<button class="so-btn so-btn--ghost" onclick={onclose} type="button">
+							Continue Shopping
+						</button>
+					</div>
+
+					<!-- Also interested in -->
+					<div class="cart-also-interest">
+						<p class="cart-also-label">Also available for this timepiece</p>
+						<div class="cart-also-links">
+							<button class="cart-also-link" type="button" onclick={() => { onclose?.(); setTimeout(() => document.dispatchEvent(new CustomEvent('open-drawer', { detail: 'part-exchange' })), 50); }}>
+								<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M3 7h18m0 0l-4-4m4 4l-4 4M21 17H3m0 0l4-4m-4 4l4 4"/>
+								</svg>
+								Part Exchange
+							</button>
+							<button class="cart-also-link" type="button" onclick={() => { onclose?.(); setTimeout(() => document.dispatchEvent(new CustomEvent('open-drawer', { detail: 'finance' })), 50); }}>
+								<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/>
+								</svg>
+								Finance Options
+							</button>
+						</div>
+					</div>
+				</div>
+
+			<!-- ── PART EXCHANGE PANEL ── -->
+			{:else if type === 'part-exchange'}
+				<div class="px-panel">
+					{#if pxSuccess}
+						<div class="so-success-state">
+							<div class="so-success-icon" aria-hidden="true">
+								<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+									<polyline points="20 6 9 17 4 12"/>
+								</svg>
+							</div>
+							<h3 class="so-success-title">Enquiry Submitted</h3>
+							<p class="so-success-body">Thank you — a Watch Reserve specialist will assess your watch and contact you within 24 hours with a valuation.</p>
+							<button class="so-btn so-btn--outline so-btn--sm" onclick={resetPx} type="button">
+								Submit Another
+							</button>
+						</div>
+					{:else}
+						<!-- Product being purchased context -->
+						<div class="so-context-pill">
+							<span class="so-context-label">Part exchange towards</span>
+							<span class="so-context-item">{productVendor} {productTitle}</span>
+						</div>
+
+						<div class="so-section-head">
+							<span class="so-section-eyebrow">Your Watch</span>
+							<div class="so-section-rule"></div>
+						</div>
+
+						<form class="so-form" onsubmit={submitPartExchange} novalidate>
+
+							<div class="so-row-2">
+								<div class="so-field" class:so-field--error={pxTouched.brand && !pxValid.brand}>
+									<label for="px-brand" class="so-label">Brand <span class="so-req">*</span></label>
+									<input id="px-brand" class="so-input" type="text" placeholder="e.g. Rolex" bind:value={pxForm.brand} onblur={() => (pxTouched.brand = true)} />
+									{#if pxTouched.brand && !pxValid.brand}
+										<p class="so-hint-err">Please enter the brand.</p>
+									{/if}
+								</div>
+								<div class="so-field" class:so-field--error={pxTouched.model && !pxValid.model}>
+									<label for="px-model" class="so-label">Model <span class="so-req">*</span></label>
+									<input id="px-model" class="so-input" type="text" placeholder="e.g. Submariner" bind:value={pxForm.model} onblur={() => (pxTouched.model = true)} />
+									{#if pxTouched.model && !pxValid.model}
+										<p class="so-hint-err">Please enter the model.</p>
+									{/if}
+								</div>
+							</div>
+
+							<div class="so-row-2">
+								<div class="so-field">
+									<label for="px-ref" class="so-label">Reference <span class="so-optional">Optional</span></label>
+									<input id="px-ref" class="so-input" type="text" placeholder="e.g. 126610LN" bind:value={pxForm.reference} />
+								</div>
+								<div class="so-field">
+									<label for="px-year" class="so-label">Year <span class="so-optional">Optional</span></label>
+									<input id="px-year" class="so-input" type="text" placeholder="e.g. 2019" bind:value={pxForm.year} />
+								</div>
+							</div>
+
+							<div class="so-row-2">
+								<div class="so-field" class:so-field--error={pxTouched.condition && !pxValid.condition}>
+									<label for="px-condition" class="so-label">Condition <span class="so-req">*</span></label>
+									<div class="so-select-wrap">
+										<select id="px-condition" class="so-select" bind:value={pxForm.condition} onblur={() => (pxTouched.condition = true)} onchange={() => (pxTouched.condition = true)}>
+											{#each conditionOptions as opt}
+												<option value={opt.value}>{opt.label}</option>
+											{/each}
+										</select>
+										<span class="so-select-arrow" aria-hidden="true">
+											<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+										</span>
+									</div>
+									{#if pxTouched.condition && !pxValid.condition}
+										<p class="so-hint-err">Please select a condition.</p>
+									{/if}
+								</div>
+								<div class="so-field">
+									<label for="px-value" class="so-label">Est. Value <span class="so-optional">Optional</span></label>
+									<input id="px-value" class="so-input" type="text" placeholder="e.g. £8,500" bind:value={pxForm.estimatedValue} />
+								</div>
+							</div>
+
+							<div class="so-divider"></div>
+							<p class="so-section-eyebrow">Your Details</p>
+
+							<div class="so-field" class:so-field--error={pxTouched.fullName && !pxValid.fullName}>
+								<label for="px-name" class="so-label">Full Name <span class="so-req">*</span></label>
+								<input id="px-name" class="so-input" type="text" placeholder="e.g. James Whitmore" autocomplete="name" bind:value={pxForm.fullName} onblur={() => (pxTouched.fullName = true)} />
+								{#if pxTouched.fullName && !pxValid.fullName}
+									<p class="so-hint-err">Please enter your full name.</p>
+								{/if}
+							</div>
+
+							<div class="so-row-2">
+								<div class="so-field" class:so-field--error={pxTouched.email && !pxValid.email}>
+									<label for="px-email" class="so-label">Email <span class="so-req">*</span></label>
+									<input id="px-email" class="so-input" type="email" placeholder="you@example.com" autocomplete="email" bind:value={pxForm.email} onblur={() => (pxTouched.email = true)} />
+									{#if pxTouched.email && !pxValid.email}
+										<p class="so-hint-err">Please enter a valid email.</p>
+									{/if}
+								</div>
+								<div class="so-field">
+									<label for="px-phone" class="so-label">Phone <span class="so-optional">Optional</span></label>
+									<input id="px-phone" class="so-input" type="tel" placeholder="+44 7700 000000" autocomplete="tel" bind:value={pxForm.phone} />
+								</div>
+							</div>
+
+							<p class="so-privacy">
+								By submitting you agree to our <a href="/privacy-policy" class="so-privacy-link">Privacy Policy</a>.
+							</p>
+
+							<button type="submit" class="so-btn so-btn--primary" disabled={pxSubmitting}>
+								{#if pxSubmitting}
+									<span class="so-spinner" aria-hidden="true"></span>
+									Sending…
+								{:else}
+									Request Valuation
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+										<path d="M5 12h14M12 5l7 7-7 7"/>
+									</svg>
+								{/if}
+							</button>
+
+						</form>
+
+						<div class="so-footer-note">
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+							</svg>
+							For an immediate valuation, call us on <a href="tel:+442081501987" class="so-link">+44 (0)20 8150 1987</a> or visit us in Canary Wharf.
+						</div>
+					{/if}
+				</div>
+
+			<!-- ── DEPOSIT / RESERVE PANEL ── -->
+			{:else if type === 'deposit'}
+				<div class="dep-panel">
+					{#if depSuccess}
+						<div class="so-success-state">
+							<div class="so-success-icon" aria-hidden="true">
+								<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+									<polyline points="20 6 9 17 4 12"/>
+								</svg>
+							</div>
+							<h3 class="so-success-title">Reservation Request Received</h3>
+							<p class="so-success-body">A Watch Reserve specialist will contact you within 2 hours to confirm your deposit and secure this timepiece for you.</p>
+							<button class="so-btn so-btn--outline so-btn--sm" onclick={resetDep} type="button">
+								Submit Another
+							</button>
+						</div>
+					{:else}
+						<!-- Product being reserved -->
+						<div class="dep-product-card">
+							{#if productImage}
+								<img class="dep-product-img" src={productImage} alt={productTitle} />
+							{/if}
+							<div class="dep-product-details">
+								<p class="dep-product-vendor">{productVendor}</p>
+								<p class="dep-product-title">{productTitle}</p>
+								<p class="dep-product-price">{productPrice}</p>
+							</div>
+						</div>
+
+					<!-- Deposit info -->
+					<div class="dep-info-block">
+						<!-- 10% breakdown -->
+						<div class="dep-breakdown">
+							<div class="dep-breakdown-row">
+								<span class="dep-breakdown-label">Watch Price</span>
+								<span class="dep-breakdown-val">{productPrice}</span>
+							</div>
+							<div class="dep-breakdown-row dep-breakdown-row--deposit">
+								<span class="dep-breakdown-label">
+									<strong>10% Deposit Required</strong>
+								</span>
+								<span class="dep-breakdown-val dep-breakdown-val--accent">
+									{#if depositAmount}{depositAmount}{:else}10% of price{/if}
+								</span>
+							</div>
+							<div class="dep-breakdown-rule" aria-hidden="true"></div>
+							<div class="dep-breakdown-row dep-breakdown-row--balance">
+								<span class="dep-breakdown-label">Balance on Collection / Delivery</span>
+								<span class="dep-breakdown-val">
+									{#if balanceAmount}{balanceAmount}{:else}90% of price{/if}
+								</span>
+							</div>
+						</div>
+
+						<div class="dep-info-row">
+							<div class="dep-info-item">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+								</svg>
+								<div>
+									<span class="dep-info-label">Watch Reserved For</span>
+									<span class="dep-info-value">7 Days</span>
+								</div>
+							</div>
+							<div class="dep-info-item">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+								</svg>
+								<div>
+									<span class="dep-info-label">Deposit Due</span>
+									<span class="dep-info-value">{#if depositAmount}{depositAmount}{:else}10% of price{/if}</span>
+								</div>
+							</div>
+						</div>
+						<p class="dep-info-note">
+							A 10% holding deposit secures this timepiece exclusively for you for 7 days. The remaining balance is payable upon collection or delivery.
+						</p>
+					</div>
+
+						<div class="so-section-head">
+							<span class="so-section-eyebrow">Your Details</span>
+							<div class="so-section-rule"></div>
+						</div>
+
+						<form class="so-form" onsubmit={submitDeposit} novalidate>
+
+							<div class="so-field" class:so-field--error={depTouched.fullName && !depValid.fullName}>
+								<label for="dep-name" class="so-label">Full Name <span class="so-req">*</span></label>
+								<input id="dep-name" class="so-input" type="text" placeholder="e.g. James Whitmore" autocomplete="name" bind:value={depForm.fullName} onblur={() => (depTouched.fullName = true)} />
+								{#if depTouched.fullName && !depValid.fullName}
+									<p class="so-hint-err">Please enter your full name.</p>
+								{/if}
+							</div>
+
+							<div class="so-row-2">
+								<div class="so-field" class:so-field--error={depTouched.email && !depValid.email}>
+									<label for="dep-email" class="so-label">Email <span class="so-req">*</span></label>
+									<input id="dep-email" class="so-input" type="email" placeholder="you@example.com" autocomplete="email" bind:value={depForm.email} onblur={() => (depTouched.email = true)} />
+									{#if depTouched.email && !depValid.email}
+										<p class="so-hint-err">Please enter a valid email.</p>
+									{/if}
+								</div>
+								<div class="so-field" class:so-field--error={depTouched.phone && !depValid.phone}>
+									<label for="dep-phone" class="so-label">Phone <span class="so-req">*</span></label>
+									<input id="dep-phone" class="so-input" type="tel" placeholder="+44 7700 000000" autocomplete="tel" bind:value={depForm.phone} onblur={() => (depTouched.phone = true)} />
+									{#if depTouched.phone && !depValid.phone}
+										<p class="so-hint-err">Please enter a valid phone number.</p>
+									{/if}
+								</div>
+							</div>
+
+							<div class="so-field">
+								<label for="dep-notes" class="so-label">Additional Notes <span class="so-optional">Optional</span></label>
+								<textarea id="dep-notes" class="so-textarea" rows="3" placeholder="Any questions or preferred contact times…" bind:value={depForm.notes}></textarea>
+							</div>
+
+						<p class="so-privacy">
+								By submitting you agree to our <a href="/privacy-policy" class="so-privacy-link">Privacy Policy</a>.
+							</p>
+
+							<button type="submit" class="so-btn so-btn--primary" disabled={depSubmitting}>
+								{#if depSubmitting}
+									<span class="so-spinner" aria-hidden="true"></span>
+									Processing…
+								{:else}
+									Reserve This Watch
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+										<path d="M5 12h14M12 5l7 7-7 7"/>
+									</svg>
+								{/if}
+							</button>
+
+						</form>
+					{/if}
+				</div>
+
+			<!-- ── FINANCE PANEL ── -->
+			{:else if type === 'finance'}
+				<div class="fin-panel">
+					<!-- Product being financed -->
+					<div class="dep-product-card">
+						{#if productImage}
+							<img class="dep-product-img" src={productImage} alt={productTitle} />
+						{/if}
+						<div class="dep-product-details">
+							<p class="dep-product-vendor">{productVendor}</p>
+							<p class="dep-product-title">{productTitle}</p>
+							<p class="dep-product-price">{productPrice}</p>
+						</div>
+					</div>
+
+					<!-- Finance calculator -->
+					<div class="fin-calculator">
+						<div class="so-section-head">
+							<span class="so-section-eyebrow">Payment Calculator</span>
+							<div class="so-section-rule"></div>
+						</div>
+
+						<!-- APR badge -->
+						<div class="fin-apr-badge">
+							<span class="fin-apr-value">{REPRESENTATIVE_APR}%</span>
+							<span class="fin-apr-label">Representative APR</span>
+						</div>
+
+						<!-- Term selector -->
+						<div class="fin-term-group">
+							<p class="so-label" style="margin-bottom: 10px;">Select Term</p>
+							<div class="fin-term-pills">
+								{#each financeTerms as term}
+									<button
+										type="button"
+										class="fin-term-pill"
+										class:active={financeTerm === term}
+										onclick={() => (financeTerm = term)}
+									>
+										{term}m
+									</button>
+								{/each}
+							</div>
+						</div>
+
+						<!-- Monthly payment -->
+						{#if monthlyPayment()}
+							<div class="fin-result">
+								<div class="fin-result-main">
+									<span class="fin-monthly-label">Monthly Payment</span>
+									<span class="fin-monthly-value">
+										{new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(monthlyPayment())}
+									</span>
+									<span class="fin-monthly-sub">over {financeTerm} months</span>
+								</div>
+								<div class="fin-result-breakdown">
+									<div class="fin-breakdown-row">
+										<span>Loan amount</span>
+										<span>{productPrice}</span>
+									</div>
+									<div class="fin-breakdown-row">
+										<span>Total interest</span>
+										<span>{totalInterest ? new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(totalInterest) : '—'}</span>
+									</div>
+									<div class="fin-breakdown-row fin-breakdown-row--total">
+										<span>Total repayable</span>
+										<span>{totalRepayable ? new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(totalRepayable) : '—'}</span>
+									</div>
+								</div>
+							</div>
+						{/if}
+
+						<p class="fin-disclaimer">
+							Representative example for illustration purposes only. Subject to status and credit check. Finance provided by a third party lender. <a href="/service#finance" class="so-link">Full terms apply</a>.
+						</p>
+					</div>
+
+					<!-- Finance options -->
+					<div class="fin-actions">
+						<a href="/service#finance" class="so-btn so-btn--primary">
+							Apply for Finance
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M5 12h14M12 5l7 7-7 7"/>
+							</svg>
+						</a>
+						<a href="/contact" class="so-btn so-btn--ghost">
+							Speak to a Specialist
+						</a>
+					</div>
+				</div>
+			{/if}
+
+		</div>
+	</div>
+{/if}
+
+<style>
+	/* ── Backdrop ── */
+	.so-backdrop {
+		position: fixed;
+		inset: 0;
+		background-color: rgba(22, 11, 17, 0.55);
+		backdrop-filter: blur(3px);
+		z-index: 900;
+		cursor: pointer;
+	}
+
+	/* ── Panel ── */
+	.so-panel {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: min(480px, 100vw);
+		background-color: #ffffff;
+		z-index: 901;
+		display: flex;
+		flex-direction: column;
+		box-shadow: -8px 0 48px rgba(22, 11, 17, 0.18);
+		overflow: hidden;
+	}
+
+	/* ── Header ── */
+	.so-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 22px 24px;
+		border-bottom: 1px solid rgba(22, 11, 17, 0.08);
+		background-color: #faf8f5;
+		flex-shrink: 0;
+	}
+
+	.so-header-left {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		min-width: 0;
+	}
+
+	.so-header-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		background-color: rgba(161, 132, 109, 0.1);
+		color: #a1846d;
+		flex-shrink: 0;
+	}
+
+	.so-header-copy {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		min-width: 0;
+	}
+
+	.so-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 1.0625rem;
+		font-weight: 400;
+		color: #160b11;
+		margin: 0;
+		letter-spacing: -0.01em;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.so-subtitle {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.725rem;
+		font-weight: 400;
+		color: rgba(22, 11, 17, 0.45);
+		margin: 0;
+		letter-spacing: 0.01em;
+	}
+
+	.so-close {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		background: none;
+		border: 1px solid rgba(22, 11, 17, 0.12);
+		color: rgba(22, 11, 17, 0.5);
+		cursor: pointer;
+		flex-shrink: 0;
+		transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+	}
+
+	.so-close:hover {
+		background-color: #160b11;
+		color: #ffffff;
+		border-color: #160b11;
+	}
+
+	/* ── Body ── */
+	.so-body {
+		flex: 1;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding: 28px 24px 32px;
+		scrollbar-width: thin;
+		scrollbar-color: rgba(161, 132, 109, 0.3) transparent;
+	}
+
+	.so-body::-webkit-scrollbar { width: 4px; }
+	.so-body::-webkit-scrollbar-track { background: transparent; }
+	.so-body::-webkit-scrollbar-thumb { background-color: rgba(161, 132, 109, 0.3); border-radius: 2px; }
+
+	/* ── Shared form primitives ── */
+	.so-form {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
+	.so-row-2 {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 14px;
+	}
+
+	.so-field {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.so-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.66rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #3a2e33;
+		display: flex;
+		align-items: center;
+		gap: 5px;
+	}
+
+	.so-req { color: #a1846d; font-size: 0.75rem; }
+	.so-optional { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.06em; color: #aaa; text-transform: uppercase; }
+
+	.so-input,
+	.so-select,
+	.so-textarea {
+		width: 100%;
+		box-sizing: border-box;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		color: #160b11;
+		background-color: #ffffff;
+		border: 1px solid #d8d0c8;
+		border-bottom: 2px solid #d8d0c8;
+		padding: 11px 14px;
+		outline: none;
+		transition: border-color 0.2s ease, background-color 0.2s ease;
+		-webkit-appearance: none;
+		appearance: none;
+	}
+
+	.so-input::placeholder,
+	.so-textarea::placeholder { color: #b8b0a8; font-size: 0.825rem; }
+
+	.so-input:focus,
+	.so-select:focus,
+	.so-textarea:focus {
+		border-color: rgba(22, 11, 17, 0.18);
+		border-bottom-color: #a1846d;
+		background-color: #fefcfb;
+	}
+
+	.so-field--error .so-input,
+	.so-field--error .so-select { border-bottom-color: #c94040; background-color: #fff8f8; }
+
+	.so-hint-err {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		color: #c94040;
+		margin: 0;
+	}
+
+	.so-select-wrap { position: relative; }
+
+	.so-select {
+		padding-right: 36px;
+		cursor: pointer;
+	}
+
+	.so-select-arrow {
+		position: absolute;
+		right: 12px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: #a1846d;
+		pointer-events: none;
+		display: flex;
+	}
+
+	.so-textarea {
+		resize: vertical;
+		min-height: 90px;
+		line-height: 1.6;
+		padding: 12px 14px;
+	}
+
+	/* Section head */
+	.so-section-head {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		margin: 20px 0 16px;
+	}
+
+	.so-section-head:first-child { margin-top: 0; }
+
+	.so-section-eyebrow {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: rgba(22, 11, 17, 0.4);
+		white-space: nowrap;
+	}
+
+	.so-section-rule {
+		flex: 1;
+		height: 1px;
+		background-color: rgba(22, 11, 17, 0.08);
+	}
+
+	.so-divider {
+		height: 1px;
+		background-color: rgba(22, 11, 17, 0.08);
+		margin: 4px 0;
+	}
+
+	/* Context pill */
+	.so-context-pill {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 13px 16px;
+		background-color: #f9f5f7;
+		border-left: 3px solid #a1846d;
+		margin-bottom: 24px;
+	}
+
+	.so-context-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.62rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: #a1846d;
+	}
+
+	.so-context-item {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 0.9rem;
+		color: #160b11;
+	}
+
+	/* Privacy */
+	.so-privacy {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		color: rgba(22, 11, 17, 0.42);
+		line-height: 1.5;
+		margin: 0;
+		padding-top: 6px;
+		border-top: 1px solid rgba(22, 11, 17, 0.06);
+	}
+
+	.so-privacy-link,
+	.so-link {
+		color: #a1846d;
+		text-decoration: none;
+		border-bottom: 1px solid rgba(161, 132, 109, 0.3);
+		transition: color 0.2s ease, border-color 0.2s ease;
+	}
+
+	.so-privacy-link:hover,
+	.so-link:hover { color: #8a6f59; border-color: #8a6f59; }
+
+	/* Footer note */
+	.so-footer-note {
+		display: flex;
+		align-items: flex-start;
+		gap: 8px;
+		padding: 14px 16px;
+		background-color: #faf8f5;
+		border: 1px solid rgba(22, 11, 17, 0.08);
+		margin-top: 8px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.78rem;
+		color: rgba(22, 11, 17, 0.55);
+		line-height: 1.5;
+	}
+
+	.so-footer-note svg { flex-shrink: 0; color: #a1846d; margin-top: 1px; }
+
+	/* ── Buttons ── */
+	.so-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		height: 50px;
+		padding: 0 24px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		text-decoration: none;
+		border: none;
+		cursor: pointer;
+		transition: background-color 0.22s ease, color 0.22s ease, transform 0.2s ease, box-shadow 0.22s ease;
+		white-space: nowrap;
+	}
+
+	.so-btn--primary {
+		background-color: #a1846d;
+		color: #ffffff;
+		width: 100%;
+	}
+
+	.so-btn--primary:hover:not(:disabled) {
+		background-color: #8a6f59;
+		transform: translateY(-1px);
+		box-shadow: 0 6px 20px rgba(161, 132, 109, 0.3);
+	}
+
+	.so-btn--primary:active:not(:disabled) { transform: translateY(0); }
+	.so-btn--primary:disabled { background-color: #ccc; cursor: not-allowed; }
+
+	.so-btn--ghost {
+		background-color: transparent;
+		color: #160b11;
+		border: 1px solid rgba(22, 11, 17, 0.18);
+		width: 100%;
+	}
+
+	.so-btn--ghost:hover {
+		background-color: rgba(22, 11, 17, 0.04);
+		border-color: rgba(22, 11, 17, 0.3);
+	}
+
+	.so-btn--outline {
+		background-color: transparent;
+		color: #a1846d;
+		border: 1.5px solid #a1846d;
+	}
+
+	.so-btn--outline:hover {
+		background-color: rgba(161, 132, 109, 0.06);
+		transform: translateY(-1px);
+	}
+
+	.so-btn--sm { height: 40px; font-size: 0.75rem; padding: 0 20px; }
+
+	/* Spinner */
+	.so-spinner {
+		width: 14px;
+		height: 14px;
+		border: 2px solid rgba(255, 255, 255, 0.3);
+		border-top-color: #ffffff;
+		border-radius: 50%;
+		animation: so-spin 0.65s linear infinite;
+		flex-shrink: 0;
+	}
+
+	@keyframes so-spin { to { transform: rotate(360deg); } }
+
+	/* ── Success state ── */
+	.so-success-state {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 16px;
+		padding: 40px 24px;
+	}
+
+	.so-success-icon {
+		width: 56px;
+		height: 56px;
+		background-color: #a1846d;
+		color: #ffffff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+	}
+
+	.so-success-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 1.25rem;
+		font-weight: 400;
+		color: #160b11;
+		margin: 0;
+	}
+
+	.so-success-body {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		color: rgba(22, 11, 17, 0.6);
+		line-height: 1.65;
+		margin: 0;
+		max-width: 320px;
+	}
+
+	/* ── CART PANEL ── */
+	.cart-panel {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.cart-item-card {
+		display: flex;
+		align-items: flex-start;
+		gap: 16px;
+		padding: 16px;
+		border: 1px solid rgba(22, 11, 17, 0.08);
+		background-color: #fafaf9;
+		position: relative;
+	}
+
+	.cart-item-img {
+		width: 80px;
+		height: 80px;
+		flex-shrink: 0;
+		overflow: hidden;
+		background-color: #f0ece9;
+	}
+
+	.cart-item-img img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	.cart-item-info {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		min-width: 0;
+		flex: 1;
+	}
+
+	.cart-item-vendor {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #a1846d;
+		margin: 0;
+	}
+
+	.cart-item-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 0.9375rem;
+		color: #160b11;
+		margin: 0;
+		line-height: 1.3;
+	}
+
+	.cart-item-variant {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.78rem;
+		color: rgba(22, 11, 17, 0.5);
+		margin: 0;
+	}
+
+	.cart-item-price {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.9375rem;
+		font-weight: 600;
+		color: #160b11;
+		margin: 0;
+		margin-top: 4px;
+	}
+
+	.cart-item-check {
+		flex-shrink: 0;
+		width: 26px;
+		height: 26px;
+		background-color: #22a05a;
+		color: #ffffff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+	}
+
+	.cart-summary {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding: 14px 16px;
+		background-color: #faf8f5;
+		border: 1px solid rgba(22, 11, 17, 0.07);
+	}
+
+	.cart-summary-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		color: #160b11;
+	}
+
+	.cart-summary-row--note {
+		font-size: 0.72rem;
+		color: rgba(22, 11, 17, 0.45);
+		justify-content: flex-start;
+	}
+
+	.cart-summary-amount {
+		font-weight: 600;
+	}
+
+	.cart-trust {
+		display: flex;
+		gap: 16px;
+		flex-wrap: wrap;
+		padding: 14px 0;
+		border-top: 1px solid rgba(22, 11, 17, 0.07);
+		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+	}
+
+	.cart-trust-item {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		font-weight: 500;
+		color: rgba(22, 11, 17, 0.55);
+	}
+
+	.cart-trust-item svg { color: #a1846d; flex-shrink: 0; }
+
+	.cart-actions {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.cart-also-interest {
+		padding-top: 4px;
+	}
+
+	.cart-also-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: rgba(22, 11, 17, 0.35);
+		margin: 0 0 10px;
+	}
+
+	.cart-also-links {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+	}
+
+	.cart-also-link {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		padding: 8px 14px;
+		background: none;
+		border: 1px solid rgba(22, 11, 17, 0.12);
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		color: rgba(22, 11, 17, 0.6);
+		cursor: pointer;
+		text-decoration: none;
+		transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+	}
+
+	.cart-also-link svg { color: #a1846d; }
+
+	.cart-also-link:hover {
+		border-color: #a1846d;
+		color: #a1846d;
+		background-color: rgba(161, 132, 109, 0.04);
+	}
+
+	/* ── PART EXCHANGE PANEL ── */
+	.px-panel {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	/* ── DEPOSIT PANEL ── */
+	.dep-panel,
+	.fin-panel {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.dep-product-card {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		padding: 14px;
+		border: 1px solid rgba(22, 11, 17, 0.08);
+		background-color: #fafaf9;
+		margin-bottom: 22px;
+	}
+
+	.dep-product-img {
+		width: 64px;
+		height: 64px;
+		object-fit: cover;
+		flex-shrink: 0;
+		display: block;
+	}
+
+	.dep-product-details {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		min-width: 0;
+	}
+
+	.dep-product-vendor {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.62rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #a1846d;
+		margin: 0;
+	}
+
+	.dep-product-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 0.9rem;
+		color: #160b11;
+		margin: 0;
+		line-height: 1.3;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 260px;
+	}
+
+	.dep-product-price {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: #160b11;
+		margin: 0;
+		margin-top: 2px;
+	}
+
+	.dep-info-block {
+		margin-bottom: 22px;
+	}
+
+	.dep-info-row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 12px;
+		margin-bottom: 14px;
+	}
+
+	.dep-info-item {
+		display: flex;
+		align-items: flex-start;
+		gap: 10px;
+		padding: 14px;
+		background-color: #f9f5f7;
+		border: 1px solid rgba(161, 132, 109, 0.15);
+	}
+
+	.dep-info-item svg {
+		color: #a1846d;
+		flex-shrink: 0;
+		margin-top: 1px;
+	}
+
+	.dep-info-item > div {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+	}
+
+	.dep-info-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.62rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: rgba(22, 11, 17, 0.4);
+	}
+
+	.dep-info-value {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: #160b11;
+	}
+
+	.dep-info-note {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8rem;
+		color: rgba(22, 11, 17, 0.55);
+		line-height: 1.6;
+		margin: 0;
+		padding: 12px 14px;
+		background-color: #faf8f5;
+		border-left: 3px solid rgba(161, 132, 109, 0.4);
+	}
+
+	/* Deposit breakdown */
+	.dep-breakdown {
+		background: #f9f5f2;
+		border: 1px solid rgba(161, 132, 109, 0.2);
+		padding: 16px 18px;
+		margin-bottom: 18px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.dep-breakdown-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 12px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8125rem;
+		color: rgba(22, 11, 17, 0.65);
+	}
+
+	.dep-breakdown-row--deposit {
+		color: #160b11;
+		font-size: 0.875rem;
+	}
+
+	.dep-breakdown-row--balance {
+		color: rgba(22, 11, 17, 0.55);
+		font-size: 0.8rem;
+	}
+
+	.dep-breakdown-label { line-height: 1.4; }
+
+	.dep-breakdown-val {
+		font-weight: 600;
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+
+	.dep-breakdown-val--accent {
+		color: #a1846d;
+		font-size: 1rem;
+	}
+
+	.dep-breakdown-rule {
+		height: 1px;
+		background: rgba(161, 132, 109, 0.2);
+		margin: 2px 0;
+	}
+
+	/* ── FINANCE PANEL ── */
+	.fin-calculator {
+		margin-bottom: 24px;
+	}
+
+	.fin-apr-badge {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 14px 22px;
+		background: linear-gradient(135deg, #a1846d, #8a6f59);
+		color: #ffffff;
+		margin-bottom: 20px;
+		gap: 2px;
+	}
+
+	.fin-apr-value {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 1.75rem;
+		font-weight: 400;
+		line-height: 1;
+		letter-spacing: -0.02em;
+	}
+
+	.fin-apr-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.62rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		opacity: 0.85;
+	}
+
+	.fin-term-group { margin-bottom: 20px; }
+
+	.fin-term-pills {
+		display: flex;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+
+	.fin-term-pill {
+		padding: 8px 16px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		background: none;
+		border: 1.5px solid rgba(22, 11, 17, 0.15);
+		color: rgba(22, 11, 17, 0.6);
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.fin-term-pill:hover { border-color: #a1846d; color: #a1846d; }
+
+	.fin-term-pill.active {
+		background-color: #a1846d;
+		border-color: #a1846d;
+		color: #ffffff;
+	}
+
+	.fin-result {
+		border: 1px solid rgba(22, 11, 17, 0.08);
+		overflow: hidden;
+		margin-bottom: 16px;
+	}
+
+	.fin-result-main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 20px;
+		background: linear-gradient(135deg, #faf8f5 0%, #f5f0ec 100%);
+		gap: 4px;
+	}
+
+	.fin-monthly-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: rgba(22, 11, 17, 0.4);
+	}
+
+	.fin-monthly-value {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 2rem;
+		font-weight: 400;
+		color: #160b11;
+		letter-spacing: -0.02em;
+		line-height: 1.1;
+	}
+
+	.fin-monthly-sub {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.75rem;
+		color: rgba(22, 11, 17, 0.45);
+	}
+
+	.fin-result-breakdown {
+		padding: 14px 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.fin-breakdown-row {
+		display: flex;
+		justify-content: space-between;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8125rem;
+		color: rgba(22, 11, 17, 0.6);
+	}
+
+	.fin-breakdown-row--total {
+		padding-top: 8px;
+		border-top: 1px solid rgba(22, 11, 17, 0.08);
+		color: #160b11;
+		font-weight: 600;
+	}
+
+	.fin-disclaimer {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		color: rgba(22, 11, 17, 0.4);
+		line-height: 1.55;
+		margin: 0;
+	}
+
+	.fin-options { margin-bottom: 24px; }
+
+	.fin-option-list {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.fin-option-item {
+		display: flex;
+		align-items: flex-start;
+		gap: 12px;
+		padding: 14px;
+		border: 1px solid rgba(22, 11, 17, 0.07);
+		background-color: #fafaf9;
+	}
+
+	.fin-option-icon {
+		width: 34px;
+		height: 34px;
+		background-color: rgba(161, 132, 109, 0.1);
+		color: #a1846d;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.fin-option-name {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: #160b11;
+		margin: 0 0 4px;
+	}
+
+	.fin-option-desc {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.78rem;
+		color: rgba(22, 11, 17, 0.55);
+		line-height: 1.5;
+		margin: 0;
+	}
+
+	.fin-actions {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	/* ── Responsive ── */
+	@media (max-width: 520px) {
+		.so-panel { width: 100vw; }
+
+		.so-header { padding: 18px 18px; }
+		.so-body { padding: 22px 18px 28px; }
+
+		.so-row-2 { grid-template-columns: 1fr; }
+
+		.dep-info-row { grid-template-columns: 1fr; }
+
+		.cart-trust { gap: 12px; }
+		.cart-trust-item { font-size: 0.68rem; }
+
+		.cart-also-links { flex-direction: column; }
+		.cart-also-link { justify-content: center; }
+
+		.fin-term-pills { gap: 6px; }
+		.fin-term-pill { padding: 8px 12px; font-size: 0.75rem; }
+	}
+
+	@media (max-width: 380px) {
+		.so-title { font-size: 0.9375rem; }
+		.fin-monthly-value { font-size: 1.65rem; }
+	}
+</style>

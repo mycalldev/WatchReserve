@@ -1,8 +1,10 @@
 <script>
 	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
 	import ProductViewCount from '$lib/components/ProductViewCount.svelte';
 	import MoreOf from '$lib/components/MoreOf.svelte';
 	import ProductEnquiryDrawer from '$lib/components/ProductEnquiryDrawer.svelte';
+	import ActionSlideOver from '$lib/components/ActionSlideOver.svelte';
 
 	let { data, form } = $props();
 	const { product, relatedProducts } = data;
@@ -13,6 +15,30 @@
 	let adding = $state(false);
 	let added = $state(false);
 	let thumbsRef = $state(null);
+
+	// ── Slide-over state ────────────────────────────────────────────────────────
+	/** @type {'cart' | 'part-exchange' | 'deposit' | 'finance' | null} */
+	let slideOverType = $state(null);
+	let slideOverOpen = $state(false);
+	let slideOverCheckoutUrl = $state(null);
+
+	function openDrawer(type) {
+		slideOverType = type;
+		slideOverOpen = true;
+	}
+
+	function closeDrawer() {
+		slideOverOpen = false;
+	}
+
+	// Allow the cart panel's "Also available" links to switch drawer type
+	onMount(() => {
+		function handleOpenDrawer(e) {
+			openDrawer(e.detail);
+		}
+		document.addEventListener('open-drawer', handleOpenDrawer);
+		return () => document.removeEventListener('open-drawer', handleOpenDrawer);
+	});
 
 	const selectedVariant = $derived(
 		product.variants.find((v) => v.id === selectedVariantId) ?? product.variants[0]
@@ -383,18 +409,20 @@
 			<form
 				method="POST"
 				action="?/addToCart"
-				use:enhance={() => {
-					adding = true;
-					added = false;
-					return async ({ result, update }) => {
-						await update({ reset: false });
-						adding = false;
-						if (result.type === 'success' && result.data?.success) {
-							added = true;
-							setTimeout(() => (added = false), 3000);
-						}
-					};
-				}}
+			use:enhance={() => {
+				adding = true;
+				added = false;
+				return async ({ result, update }) => {
+					await update({ reset: false });
+					adding = false;
+					if (result.type === 'success' && result.data?.success) {
+						added = true;
+						slideOverCheckoutUrl = result.data.checkoutUrl ?? null;
+						openDrawer('cart');
+						setTimeout(() => (added = false), 3000);
+					}
+				};
+			}}
 			>
 			<input type="hidden" name="variantId" value={selectedVariantId} />
 			<input type="hidden" name="quantity" value={quantity} />
@@ -417,35 +445,26 @@
 			<!-- Secondary action buttons -->
 			<div class="action-stack">
 				<div class="action-row-2">
-					<a href="/sell" class="btn-action-dark">
+					<button type="button" class="btn-action-dark" onclick={() => openDrawer('part-exchange')}>
 						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 							<path d="M3 7h18m0 0l-4-4m4 4l-4 4M21 17H3m0 0l4-4m-4 4l4 4"/>
 						</svg>
 						Part Exchange
-					</a>
-					<a href="/contact" class="btn-action-dark">
+					</button>
+					<button type="button" class="btn-action-dark" onclick={() => openDrawer('deposit')}>
 						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 							<rect x="1" y="4" width="22" height="16" rx="0" ry="0"/><line x1="1" y1="10" x2="23" y2="10"/>
 						</svg>
 						Deposit
-					</a>
+					</button>
 				</div>
-				<a href="/service#finance" class="btn-action-outline">
+				<button type="button" class="btn-action-outline" onclick={() => openDrawer('finance')}>
 					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/>
 					</svg>
 					Apply for Finance
-				</a>
+				</button>
 			</div>
-
-			{#if form?.success && form?.checkoutUrl}
-				<a href={form.checkoutUrl} class="checkout-link" target="_blank" rel="noopener">
-					Proceed to Checkout
-					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M7 17L17 7M7 7h10v10" />
-					</svg>
-				</a>
-			{/if}
 
 			{#if form?.success === false}
 				<p class="form-error" role="alert">{form.error}</p>
@@ -563,6 +582,16 @@
 
 <!-- ── RELATED PRODUCTS ── -->
 <MoreOf products={relatedProducts} vendor={product.vendor} />
+
+<!-- ── ACTION SLIDE-OVER ── -->
+<ActionSlideOver
+	open={slideOverOpen}
+	type={slideOverType ?? 'cart'}
+	product={product}
+	selectedVariant={selectedVariant}
+	checkoutUrl={slideOverCheckoutUrl}
+	onclose={closeDrawer}
+/>
 
 
 <style>
@@ -1037,42 +1066,31 @@
 		white-space: nowrap;
 	}
 
-	/* Dark filled — Part Exchange + Deposit */
-	.btn-action-dark {
-		background-color: #2a1c22;
-		color: #ffffff;
-		border: none;
-	}
-
-	.btn-action-dark:hover {
-		background-color: #422635;
-		transform: translateY(-1px);
-		box-shadow: 0 4px 16px rgba(42, 28, 34, 0.28);
-	}
-
-	.btn-action-dark:active { transform: translateY(0); }
-
-	.btn-action-dark svg { color: rgba(255, 255, 255, 0.55); transition: color 0.2s ease; }
-	.btn-action-dark:hover svg { color: rgba(255, 255, 255, 0.9); }
-
-	/* Gold outline — Apply for Finance */
+	/* Accent outline — Part Exchange, Deposit & Apply for Finance */
+	.btn-action-dark,
 	.btn-action-outline {
 		background-color: transparent;
-		color: #160b11;
-		border: 1.5px solid #c9a230;
+		color: #a1846d;
+		border: 1.5px solid #a1846d;
 	}
 
+	.btn-action-dark:hover,
 	.btn-action-outline:hover {
-		background-color: rgba(201, 162, 48, 0.06);
-		border-color: #b08e20;
+		background-color: rgba(161, 132, 109, 0.06);
+		border-color: #8a6f59;
+		color: #8a6f59;
 		transform: translateY(-1px);
-		box-shadow: 0 4px 16px rgba(201, 162, 48, 0.15);
+		box-shadow: 0 4px 16px rgba(161, 132, 109, 0.2);
 	}
 
+	.btn-action-dark:active,
 	.btn-action-outline:active { transform: translateY(0); }
 
-	.btn-action-outline svg { color: #c9a230; transition: color 0.2s ease; }
-	.btn-action-outline:hover svg { color: #b08e20; }
+	.btn-action-dark svg,
+	.btn-action-outline svg { color: #a1846d; transition: color 0.2s ease; }
+
+	.btn-action-dark:hover svg,
+	.btn-action-outline:hover svg { color: #8a6f59; }
 
 	.form-error {
 		font-family: 'Montserrat', sans-serif;

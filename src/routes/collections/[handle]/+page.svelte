@@ -2,13 +2,35 @@
 	let { data } = $props();
 	const collection = $derived(data.collection);
 
-	let sortOrder = $state('default');
+	let sortOrder    = $state('default');
+	let activeModel  = $state(null); // null = show all
 
+	// Extract unique model names from 'model:*' tags across all products
+	const modelOptions = $derived((() => {
+		const seen = new Set();
+		for (const p of collection.products) {
+			for (const tag of (p.tags ?? [])) {
+				if (tag.startsWith('model:')) {
+					seen.add(tag.slice(6).trim());
+				}
+			}
+		}
+		return [...seen].sort((a, b) => a.localeCompare(b));
+	})());
+
+	// Filter by selected model, then sort
 	const sortedProducts = $derived((() => {
-		const result = [...collection.products];
-		if (sortOrder === 'price-asc') return result.sort((a, b) => a.price - b.price);
+		let result = [...collection.products];
+
+		if (activeModel) {
+			result = result.filter((p) =>
+				(p.tags ?? []).some((t) => t === `model:${activeModel}`)
+			);
+		}
+
+		if (sortOrder === 'price-asc')  return result.sort((a, b) => a.price - b.price);
 		if (sortOrder === 'price-desc') return result.sort((a, b) => b.price - a.price);
-		if (sortOrder === 'name-asc') return result.sort((a, b) => a.title.localeCompare(b.title));
+		if (sortOrder === 'name-asc')   return result.sort((a, b) => a.title.localeCompare(b.title));
 		return result;
 	})());
 
@@ -54,7 +76,7 @@
 		{#if collection.description}
 			<p class="hero-description">{collection.description}</p>
 		{/if}
-		<p class="hero-count">{sortedProducts.length} timepiece{sortedProducts.length !== 1 ? 's' : ''}</p>
+		<p class="hero-count">{collection.products.length} timepiece{collection.products.length !== 1 ? 's' : ''}</p>
 	</div>
 </header>
 
@@ -66,6 +88,7 @@
 		<div class="collection-controls">
 			<span class="result-count">
 				{sortedProducts.length} timepiece{sortedProducts.length !== 1 ? 's' : ''}
+				{#if activeModel}<span class="result-count-filter">in {activeModel}</span>{/if}
 			</span>
 			<div class="control-group">
 				<label for="sort-order" class="control-label">Sort by</label>
@@ -78,11 +101,46 @@
 			</div>
 		</div>
 
+		<!-- Model filter pills (only rendered when model tags exist) -->
+		{#if modelOptions.length > 0}
+			<div class="model-filter" role="group" aria-label="Filter by model">
+				<span class="model-filter-label">Model</span>
+				<div class="model-pills" role="radiogroup">
+					<button
+						type="button"
+						class="model-pill"
+						class:model-pill--active={activeModel === null}
+						onclick={() => (activeModel = null)}
+						aria-pressed={activeModel === null}
+					>
+						All
+					</button>
+					{#each modelOptions as model}
+						<button
+							type="button"
+							class="model-pill"
+							class:model-pill--active={activeModel === model}
+							onclick={() => (activeModel = activeModel === model ? null : model)}
+							aria-pressed={activeModel === model}
+						>
+							{model}
+						</button>
+					{/each}
+				</div>
+			</div>
+		{/if}
+
 		<!-- Grid -->
 		{#if sortedProducts.length === 0}
 			<div class="empty-state">
-				<p class="empty-title">No timepieces found</p>
-				<p class="empty-sub">Check back soon — new pieces are added regularly.</p>
+				<p class="empty-title">No timepieces found{activeModel ? ` for ${activeModel}` : ''}</p>
+				{#if activeModel}
+					<button type="button" class="empty-clear" onclick={() => (activeModel = null)}>
+						Clear filter
+					</button>
+				{:else}
+					<p class="empty-sub">Check back soon — new pieces are added regularly.</p>
+				{/if}
 			</div>
 		{:else}
 			<div class="products-grid">
@@ -329,7 +387,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: #ffffff;
-		border-radius: 12px;
+		border-radius: 0;
 		overflow: hidden;
 		border: 1px solid rgba(22, 11, 17, 0.08);
 		box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05);
@@ -466,6 +524,76 @@
 
 	.product-card:hover .product-arrow { color: #a1846d; transform: translateX(3px); }
 
+	/* ── MODEL FILTER ── */
+	.model-filter {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		margin-bottom: 36px;
+		padding-bottom: 24px;
+		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+		flex-wrap: wrap;
+	}
+
+	.model-filter-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: rgba(22, 11, 17, 0.4);
+		flex-shrink: 0;
+	}
+
+	.model-pills {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.model-pill {
+		display: inline-flex;
+		align-items: center;
+		padding: 7px 16px;
+		background-color: transparent;
+		border: 1px solid rgba(22, 11, 17, 0.15);
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.78rem;
+		font-weight: 500;
+		letter-spacing: 0.04em;
+		color: rgba(22, 11, 17, 0.6);
+		cursor: pointer;
+		transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+		white-space: nowrap;
+	}
+
+	.model-pill:hover {
+		border-color: #a1846d;
+		color: #a1846d;
+		background-color: rgba(161, 132, 109, 0.04);
+	}
+
+	.model-pill--active {
+		background-color: #a1846d;
+		border-color: #a1846d;
+		color: #ffffff;
+	}
+
+	.model-pill--active:hover {
+		background-color: #8a6f59;
+		border-color: #8a6f59;
+		color: #ffffff;
+	}
+
+	/* Result count filter suffix */
+	.result-count-filter {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.78rem;
+		color: #a1846d;
+		font-weight: 500;
+		margin-left: 4px;
+	}
+
 	/* ── EMPTY ── */
 	.empty-state { text-align: center; padding: 100px 20px; }
 
@@ -482,6 +610,26 @@
 		font-size: 0.95rem;
 		color: #888;
 		margin: 0;
+	}
+
+	.empty-clear {
+		background: none;
+		border: 1px solid #a1846d;
+		color: #a1846d;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		padding: 10px 24px;
+		cursor: pointer;
+		transition: background-color 0.2s ease, color 0.2s ease;
+		margin-top: 8px;
+	}
+
+	.empty-clear:hover {
+		background-color: #a1846d;
+		color: #ffffff;
 	}
 
 	/* ── RESPONSIVE ── */
@@ -505,6 +653,24 @@
 		.collection-controls { flex-direction: column; align-items: flex-start; }
 		.hero-content { padding: 48px 20px 40px; }
 		.hero-description { display: none; }
+
+		.model-filter {
+			gap: 10px;
+			margin-bottom: 28px;
+			padding-bottom: 20px;
+		}
+
+		.model-pills {
+			flex-wrap: nowrap;
+			overflow-x: auto;
+			padding-bottom: 4px;
+			scrollbar-width: none;
+			-webkit-overflow-scrolling: touch;
+		}
+
+		.model-pills::-webkit-scrollbar { display: none; }
+
+		.model-pill { flex-shrink: 0; }
 	}
 
 	@media (max-width: 380px) {
