@@ -120,7 +120,7 @@
 	}
 
 	.form-label {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 500;
 		color: #160b11;
@@ -129,7 +129,7 @@
 
 	.form-input,
 	.form-textarea {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 1rem;
 		color: #160b11;
 		padding: 12px 16px;
@@ -161,7 +161,7 @@
 	}
 
 	.form-disclaimer {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		color: #666;
 		line-height: 1.5;
@@ -179,7 +179,7 @@
 	}
 
 	.form-message {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		padding: 12px 16px;
 		border-radius: 8px;

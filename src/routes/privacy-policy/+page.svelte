@@ -182,7 +182,7 @@
 	}
 
 	.privacy-intro {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		line-height: 1.7;
 		color: #160b11;
@@ -205,7 +205,7 @@
 	}
 
 	.privacy-section p {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.7;
 		color: #160b11;
@@ -221,7 +221,7 @@
 	}
 
 	.privacy-section li {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.7;
 		color: #160b11;
@@ -244,7 +244,7 @@
 
 	.contact-info p {
 		margin: 0 0 12px 0;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.6;
 		color: #160b11;
@@ -262,7 +262,7 @@
 	}
 
 	.last-updated {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		color: #666;
 		margin-top: 48px;

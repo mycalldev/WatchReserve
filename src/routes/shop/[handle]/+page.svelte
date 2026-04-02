@@ -157,6 +157,85 @@
 	const productReference = $derived(
 		productDetails.find((d) => d.key.toLowerCase() === 'reference')?.value ?? null
 	);
+
+	// ── PRODUCT SPECIFICATIONS TABS ──
+	const SPEC_TABS = [
+		{
+			id: 'watch',
+			label: 'Watch',
+			fields: [
+				{ key: '_vendor', label: 'Brand' },
+				{ key: '_model',  label: 'Model' },
+				{ key: 'reference', label: 'Reference #' },
+				{ key: 'year',      label: 'Year' },
+				{ key: 'condition', label: 'Condition' },
+				{ key: 'functions', label: 'Functions' },
+			]
+		},
+		{
+			id: 'calibre',
+			label: 'Calibre',
+			fields: [
+				{ key: 'movement',      label: 'Movement' },
+				{ key: 'calibre',       label: 'Calibre' },
+				{ key: 'power-reserve', label: 'Power Reserve' },
+				{ key: 'frequency',     label: 'Frequency' },
+				{ key: 'jewels',        label: 'Jewels' },
+			]
+		},
+		{
+			id: 'case',
+			label: 'Case',
+			fields: [
+				{ key: 'case-size',        label: 'Case Diameter' },
+				{ key: 'case-material',    label: 'Case Material' },
+				{ key: 'case-thickness',   label: 'Thickness' },
+				{ key: 'water-resistance', label: 'Water Resistance' },
+				{ key: 'bezel',            label: 'Bezel' },
+			]
+		},
+		{
+			id: 'bracelet',
+			label: 'Bracelet',
+			fields: [
+				{ key: 'bracelet-material', label: 'Bracelet Material' },
+				{ key: 'clasp',             label: 'Clasp Type' },
+				{ key: 'bracelet-width',    label: 'Lug Width' },
+				{ key: 'bracelet-color',    label: 'Colour' },
+			]
+		},
+	];
+
+	let activeSpecTab = $state('watch');
+
+	// Flatten all product tags into a key→value map; inject vendor & title under private keys
+	const allTagValues = $derived(
+		product.tags.reduce(
+			(acc, tag) => {
+				const idx = tag.indexOf(':');
+				if (idx !== -1) {
+					const k = tag.slice(0, idx).toLowerCase().trim();
+					const v = tag.slice(idx + 1).trim();
+					acc[k] = v;
+				}
+				return acc;
+			},
+			{ _vendor: product.vendor ?? '', _model: product.title ?? '' }
+		)
+	);
+
+	const currentTabFields = $derived(
+		(SPEC_TABS.find((t) => t.id === activeSpecTab)?.fields ?? [])
+			.map((f) => ({ ...f, value: allTagValues[f.key] ?? null }))
+			.filter((f) => f.value)
+	);
+
+	// Match an image by alt text equal to the active tab id, fall back to first image
+	const activeTabImage = $derived(
+		product.images.find((img) => img.altText?.toLowerCase().trim() === activeSpecTab)
+			?? product.images[0]
+			?? null
+	);
 </script>
 
 <svelte:head>
@@ -317,30 +396,22 @@
 					};
 				}}
 			>
-				<input type="hidden" name="variantId" value={selectedVariantId} />
-				<input type="hidden" name="quantity" value={quantity} />
+			<input type="hidden" name="variantId" value={selectedVariantId} />
+			<input type="hidden" name="quantity" value={quantity} />
 
-				<div class="purchase-row">
-					<div class="qty-control">
-						<button type="button" class="qty-btn" onclick={() => quantity > 1 && quantity--} aria-label="Decrease quantity" disabled={quantity <= 1}>−</button>
-						<span class="qty-value" aria-live="polite">{quantity}</span>
-						<button type="button" class="qty-btn" onclick={() => quantity++} aria-label="Increase quantity">+</button>
-					</div>
-
-					<button type="submit" class="add-btn" disabled={!isAvailable || adding}>
-						{#if adding}
-							<span class="spinner" aria-hidden="true"></span>
-							Adding…
-						{:else if added}
-							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<polyline points="20 6 9 17 4 12" />
-							</svg>
-							Added to Cart
-						{:else}
-							{isAvailable ? 'Add to Cart' : 'Unavailable'}
-						{/if}
-					</button>
-				</div>
+			<button type="submit" class="add-btn" disabled={!isAvailable || adding}>
+				{#if adding}
+					<span class="spinner" aria-hidden="true"></span>
+					Adding…
+				{:else if added}
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<polyline points="20 6 9 17 4 12" />
+					</svg>
+					Added to Cart
+				{:else}
+					{isAvailable ? 'Add to Cart' : 'Unavailable'}
+				{/if}
+			</button>
 			</form>
 
 			<!-- Secondary action buttons -->
@@ -431,57 +502,68 @@
 	</div>
 </main>
 
-<!-- ── METAFIELDS PANELS ── -->
-<MoreOf products={relatedProducts} vendor={product.vendor} />
+<!-- ── PRODUCT SPECIFICATIONS ── -->
+<section class="specs-section" aria-label="Product Specifications">
+	<div class="specs-container">
 
-{#if metafieldsByGroup.product.length > 0}
-	<section class="metafields-section">
-		<div class="metafields-container">
+		<header class="specs-header">
+			<h2 class="specs-heading">Product Specifications</h2>
+			<div class="specs-rule" aria-hidden="true"></div>
+		</header>
 
-			<!-- Product Specifications -->
-			{#if metafieldsByGroup.product.length > 0}
-				<div class="metafields-panel">
-					<div class="panel-header">
-						<div class="panel-icon" aria-hidden="true">
-							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-								<circle cx="12" cy="12" r="3" />
-								<path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14" />
-							</svg>
+		<!-- Tabs -->
+		<div class="specs-tabs" role="tablist" aria-label="Specification categories">
+			{#each SPEC_TABS as tab}
+				<button
+					role="tab"
+					aria-selected={activeSpecTab === tab.id}
+					aria-controls="specs-panel"
+					class="specs-tab"
+					class:active={activeSpecTab === tab.id}
+					onclick={() => activeSpecTab = tab.id}
+				>
+					{tab.label}
+				</button>
+			{/each}
+		</div>
+
+		<!-- Body -->
+		<div class="specs-body" id="specs-panel" role="tabpanel">
+
+			<!-- Spec fields -->
+			<dl class="specs-grid">
+				{#if currentTabFields.length > 0}
+					{#each currentTabFields as field}
+						<div class="spec-item">
+							<dt class="spec-label">{field.label}</dt>
+							<dd class="spec-value">{field.value}</dd>
 						</div>
-						<div>
-							<h2 class="panel-title">Specifications</h2>
-							<p class="panel-subtitle">Detailed product data from our records</p>
-						</div>
+					{/each}
+				{:else}
+					<p class="specs-empty">No {activeSpecTab} specifications available for this timepiece.</p>
+				{/if}
+			</dl>
+
+			<!-- Image -->
+			{#if activeTabImage}
+				<div class="specs-image-col">
+					<div class="specs-image-frame">
+						<img
+							src={activeTabImage.url}
+							alt={activeTabImage.altText ?? product.title}
+							class="specs-img"
+						/>
 					</div>
-
-					<dl class="mf-grid">
-						{#each metafieldsByGroup.product as mf}
-							{@const display = formatMetafieldValue(mf.value, mf.typeName)}
-							{#if display !== null}
-								<div class="mf-item">
-									<dt class="mf-label">
-										{mf.name}
-										{#if mf.description}
-											<span class="mf-hint" title={mf.description}>?</span>
-										{/if}
-									</dt>
-									<dd class="mf-value">
-										{#if isUrlType(mf.typeName)}
-											<a href={display} class="mf-link" target="_blank" rel="noopener">{display}</a>
-										{:else}
-											{display}
-										{/if}
-									</dd>
-								</div>
-							{/if}
-						{/each}
-					</dl>
 				</div>
 			{/if}
 
 		</div>
-	</section>
-{/if}
+	</div>
+</section>
+
+<!-- ── RELATED PRODUCTS ── -->
+<MoreOf products={relatedProducts} vendor={product.vendor} />
+
 
 <style>
 	/* ── BREADCRUMB ── */
@@ -500,7 +582,7 @@
 		display: flex;
 		align-items: center;
 		gap: 10px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8125rem;
 		color: #999;
 	}
@@ -632,7 +714,7 @@
 		right: 16px;
 		background-color: rgba(22, 11, 17, 0.55);
 		color: #ffffff;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 500;
 		letter-spacing: 0.04em;
@@ -693,7 +775,7 @@
 	}
 
 	.vendor {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.12em;
@@ -709,7 +791,7 @@
 		gap: 6px;
 		padding: 5px 12px;
 		border-radius: 100px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 400;
 		letter-spacing: 0.01em;
@@ -756,7 +838,7 @@
 	}
 
 	.compare-price {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 1.1rem;
 		color: #aaa;
 		text-decoration: line-through;
@@ -783,7 +865,7 @@
 	.meta-row:nth-child(even) { background-color: #fafaf9; }
 
 	.meta-key {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.06em;
@@ -792,7 +874,7 @@
 	}
 
 	.meta-value {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9rem;
 		color: #160b11;
 		font-weight: 400;
@@ -800,7 +882,7 @@
 
 	/* ── VARIANT PILLS ── */
 	.field-label {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.06em;
@@ -820,7 +902,7 @@
 		border-radius: 0;
 		border: 1px solid rgba(22, 11, 17, 0.2);
 		background: none;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 		cursor: pointer;
@@ -846,7 +928,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.85rem;
 		font-weight: 500;
 	}
@@ -865,59 +947,14 @@
 	.out-of-stock .availability-dot { background-color: #dc2626; }
 
 	/* ── PURCHASE ROW ── */
-	.purchase-row {
-		display: flex;
-		gap: 14px;
-		align-items: center;
-	}
-
-	.qty-control {
-		display: flex;
-		align-items: center;
-		border: 1px solid rgba(22, 11, 17, 0.18);
-		border-radius: 0;
-		overflow: hidden;
-		flex-shrink: 0;
-	}
-
-	.qty-btn {
-		width: 44px;
-		height: 52px;
-		background: none;
-		border: none;
-		font-size: 1.2rem;
-		color: #160b11;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: background-color 0.2s ease;
-	}
-
-	.qty-btn:hover:not(:disabled) { background-color: rgba(22, 11, 17, 0.05); }
-	.qty-btn:disabled { opacity: 0.3; cursor: default; }
-
-	.qty-value {
-		min-width: 36px;
-		text-align: center;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-		font-size: 0.9375rem;
-		font-weight: 500;
-		color: #160b11;
-		border-left: 1px solid rgba(22, 11, 17, 0.1);
-		border-right: 1px solid rgba(22, 11, 17, 0.1);
-		padding: 0 4px;
-		line-height: 52px;
-	}
-
 	.add-btn {
-		flex: 1;
+		width: 100%;
 		height: 52px;
 		background-color: #a1846d;
 		color: #ffffff;
 		border: none;
 		border-radius: 0;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -957,7 +994,7 @@
 		gap: 6px;
 		color: #a1846d;
 		text-decoration: none;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 500;
 		border-bottom: 1px solid rgba(161, 132, 109, 0.3);
@@ -988,7 +1025,7 @@
 		justify-content: center;
 		gap: 8px;
 		height: 52px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -1038,7 +1075,7 @@
 	.btn-action-outline:hover svg { color: #b08e20; }
 
 	.form-error {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		color: #dc2626;
 		margin: 0;
@@ -1064,7 +1101,7 @@
 	}
 
 	.description-body {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9375rem;
 		color: #555;
 		line-height: 1.75;
@@ -1089,7 +1126,7 @@
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8125rem;
 		font-weight: 500;
 		color: #555;
@@ -1105,7 +1142,7 @@
 	}
 
 	.tag {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.75rem;
 		color: #888;
 		background-color: rgba(22, 11, 17, 0.05);
@@ -1114,139 +1151,10 @@
 		border: 1px solid rgba(22, 11, 17, 0.08);
 	}
 
-	/* ── METAFIELDS SECTION ── */
-	.metafields-section {
-		background-color: #fafaf9;
-		border-top: 1px solid rgba(22, 11, 17, 0.07);
-		padding: 72px 40px;
-		overflow-x: hidden;
-		box-sizing: border-box;
-		width: 100%;
-	}
-
-	.metafields-container {
-		max-width: 1300px;
-		margin: 0 auto;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
-		gap: 40px;
-		align-items: start;
-	}
-
-	.metafields-panel {
-		background-color: #ffffff;
-		border: 1px solid rgba(22, 11, 17, 0.08);
-		border-radius: 20px;
-		overflow: hidden;
-		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-	}
-
-	.panel-header {
-		display: flex;
-		align-items: center;
-		gap: 16px;
-		padding: 28px 32px;
-		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
-		background: linear-gradient(135deg, #160b11 0%, #2a1420 100%);
-	}
-
-	.panel-icon {
-		width: 42px;
-		height: 42px;
-		background-color: rgba(161, 132, 109, 0.2);
-		border-radius: 10px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: #a1846d;
-		flex-shrink: 0;
-	}
-
-	.panel-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: 1.1875rem;
-		font-weight: 400;
-		color: #ffffff;
-		margin: 0 0 3px 0;
-		letter-spacing: -0.01em;
-	}
-
-	.panel-subtitle {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-		font-size: 0.8125rem;
-		color: rgba(255, 255, 255, 0.5);
-		margin: 0;
-	}
-
-	.mf-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		padding: 8px 0;
-		margin: 0;
-	}
-
-	.mf-item {
-		padding: 16px 32px;
-		border-bottom: 1px solid rgba(22, 11, 17, 0.05);
-		display: flex;
-		flex-direction: column;
-		gap: 5px;
-	}
-
-	.mf-item:nth-child(odd) { border-right: 1px solid rgba(22, 11, 17, 0.05); }
-	.mf-item:nth-last-child(-n+2) { border-bottom: none; }
-	.mf-item:hover { background-color: rgba(161, 132, 109, 0.03); }
-
-	.mf-label {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-		font-size: 0.72rem;
-		font-weight: 600;
-		letter-spacing: 0.09em;
-		text-transform: uppercase;
-		color: #a1846d;
-		display: flex;
-		align-items: center;
-		gap: 6px;
-	}
-
-	.mf-hint {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 15px;
-		height: 15px;
-		border-radius: 50%;
-		background-color: rgba(22, 11, 17, 0.08);
-		color: #999;
-		font-size: 0.65rem;
-		font-weight: 700;
-		cursor: help;
-		flex-shrink: 0;
-	}
-
-	.mf-value {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-		font-size: 0.9375rem;
-		color: #160b11;
-		font-weight: 400;
-		line-height: 1.5;
-		margin: 0;
-		word-break: break-word;
-	}
-
-	.mf-link {
-		color: #a1846d;
-		text-decoration: none;
-		border-bottom: 1px solid rgba(161, 132, 109, 0.3);
-		transition: color 0.2s ease, border-color 0.2s ease;
-	}
-
-	.mf-link:hover { color: #8a6f59; border-color: #8a6f59; }
 
 	/* ── RESPONSIVE ── */
 	@media (max-width: 1100px) {
 		.product-layout { gap: 56px; }
-		.metafields-container { grid-template-columns: 1fr; }
 	}
 
 	@media (max-width: 900px) {
@@ -1277,16 +1185,6 @@
 			justify-content: center;
 		}
 
-		.metafields-section { padding: 48px 20px; }
-	}
-
-	@media (max-width: 768px) {
-		.mf-grid { grid-template-columns: 1fr; }
-		.mf-item:nth-child(odd) { border-right: none; }
-		.mf-item:nth-last-child(-n+2) { border-bottom: 1px solid rgba(22, 11, 17, 0.05); }
-		.mf-item:last-child { border-bottom: none; }
-		.panel-header { padding: 20px; }
-		.mf-item { padding: 12px 20px; }
 	}
 
 	@media (max-width: 640px) {
@@ -1298,15 +1196,6 @@
 			grid-template-columns: 100px 1fr;
 			gap: 10px;
 		}
-
-		.purchase-row {
-			flex-direction: column;
-			align-items: stretch;
-		}
-
-		.qty-control { width: 100%; justify-content: space-between; }
-		.qty-btn { flex: 1; }
-		.qty-value { flex: 2; }
 
 		.add-btn {
 			width: 100%;
@@ -1334,10 +1223,196 @@
 	@media (max-width: 480px) {
 		.product-page { padding: 20px 14px 48px; }
 		.breadcrumb { padding: 10px 14px; }
-		.metafields-section { padding: 32px 14px; }
-		.panel-header { padding: 16px 14px; }
-		.mf-item { padding: 12px 14px; }
 		.main-image-wrap { border-radius: 14px; }
 		.thumb { width: 60px; height: 60px; }
+	}
+
+	/* ── PRODUCT SPECIFICATIONS ── */
+	.specs-section {
+		background-color: #faf8f5;
+		border-top: 1px solid rgba(22, 11, 17, 0.07);
+		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+		padding: 72px 40px 80px;
+	}
+
+	.specs-container {
+		max-width: 1300px;
+		margin: 0 auto;
+	}
+
+	.specs-header {
+		margin-bottom: 36px;
+	}
+
+	.specs-heading {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		color: #160b11;
+		margin: 0 0 14px 0;
+	}
+
+	.specs-rule {
+		width: 48px;
+		height: 2px;
+		background-color: #a1846d;
+	}
+
+	/* Tabs */
+	.specs-tabs {
+		display: flex;
+		gap: 0;
+		border-bottom: 1px solid rgba(22, 11, 17, 0.1);
+		margin-bottom: 48px;
+	}
+
+	.specs-tab {
+		background: none;
+		border: none;
+		border-bottom: 2px solid transparent;
+		margin-bottom: -1px;
+		padding: 10px 28px 12px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: rgba(22, 11, 17, 0.4);
+		cursor: pointer;
+		transition: color 0.2s ease, border-color 0.2s ease;
+	}
+
+	.specs-tab:hover {
+		color: #160b11;
+	}
+
+	.specs-tab.active {
+		color: #a1846d;
+		border-bottom-color: #a1846d;
+	}
+
+	/* Body — two-column layout */
+	.specs-body {
+		display: grid;
+		grid-template-columns: 1fr 420px;
+		gap: 80px;
+		align-items: start;
+	}
+
+	/* Spec fields grid */
+	.specs-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 32px 48px;
+		margin: 0;
+	}
+
+	.spec-item {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.spec-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.625rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: rgba(22, 11, 17, 0.4);
+	}
+
+	.spec-value {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.9375rem;
+		font-weight: 400;
+		color: #160b11;
+		margin: 0;
+		line-height: 1.5;
+	}
+
+	.specs-empty {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		color: rgba(22, 11, 17, 0.4);
+		font-style: italic;
+		margin: 0;
+		grid-column: 1 / -1;
+	}
+
+	/* Image column with decorative frame */
+	.specs-image-col {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.specs-image-frame {
+		position: relative;
+		width: 100%;
+		max-width: 380px;
+	}
+
+	.specs-image-frame::after {
+		content: '';
+		position: absolute;
+		bottom: -14px;
+		right: -14px;
+		width: 70%;
+		height: 65%;
+		border-right: 1.5px solid #a1846d;
+		border-bottom: 1.5px solid #a1846d;
+		pointer-events: none;
+	}
+
+	.specs-img {
+		display: block;
+		width: 100%;
+		height: auto;
+		object-fit: contain;
+	}
+
+	/* Responsive */
+	@media (max-width: 1024px) {
+		.specs-body {
+			grid-template-columns: 1fr 340px;
+			gap: 56px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.specs-section { padding: 56px 20px 64px; }
+
+		.specs-body {
+			grid-template-columns: 1fr;
+			gap: 48px;
+		}
+
+		.specs-image-col {
+			justify-content: center;
+		}
+
+		.specs-image-frame {
+			max-width: 320px;
+		}
+
+		.specs-tab {
+			padding: 10px 16px 12px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.specs-section { padding: 44px 16px 52px; }
+
+		.specs-grid {
+			grid-template-columns: 1fr 1fr;
+			gap: 24px 24px;
+		}
+
+		.specs-tab {
+			padding: 10px 12px 12px;
+			font-size: 0.6875rem;
+		}
 	}
 </style>

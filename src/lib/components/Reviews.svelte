@@ -128,7 +128,7 @@
 	}
 
 	.reviews-subtitle {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		color: #4a4a4a;
 		margin: 0;
@@ -178,7 +178,7 @@
 	}
 
 	.review-text {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		color: #160b11;
 		line-height: 1.7;
@@ -197,7 +197,7 @@
 	}
 
 	.review-name {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 600;
 		color: #160b11;
@@ -205,7 +205,7 @@
 	}
 
 	.review-date {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		color: #666;
 		letter-spacing: 0.01em;

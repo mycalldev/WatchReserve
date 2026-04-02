@@ -25,7 +25,7 @@
 		gap: 12px;
 		color: #4a4a4a;
 		text-decoration: none;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 1rem;
 		font-weight: 500;
 		transition: all 0.3s ease;

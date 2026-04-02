@@ -136,7 +136,7 @@
 	}
 
 	.about-hero-text {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		color: #160b11;
 		margin: 0;
@@ -268,7 +268,7 @@
 	}
 
 	.our-story-text {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		color: #ffffff;
 		margin: 0;

@@ -140,7 +140,7 @@
 	}
 
 	.contact-intro {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		line-height: 1.7;
 		color: #4a4a4a;
@@ -170,7 +170,7 @@
 
 	.contact-link,
 	.contact-text {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 1rem;
 		color: #160b11;
 		text-decoration: none;

@@ -75,7 +75,7 @@
 	}
 
 	.view-text {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8125rem;
 		color: #6b5c55;
 		line-height: 1.45;

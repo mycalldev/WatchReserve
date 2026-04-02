@@ -150,7 +150,7 @@
 	}
 
 	.breadcrumb a {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8125rem;
 		color: #888;
 		text-decoration: none;
@@ -160,7 +160,7 @@
 	.breadcrumb a:hover { color: #160b11; }
 
 	.breadcrumb span[aria-current] {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8125rem;
 		color: #160b11;
 		font-weight: 500;
@@ -215,7 +215,7 @@
 	}
 
 	.hero-eyebrow {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -235,7 +235,7 @@
 	}
 
 	.hero-description {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.95rem, 1.3vw, 1.0625rem);
 		color: rgba(255, 255, 255, 0.7);
 		margin: 0 0 28px 0;
@@ -245,7 +245,7 @@
 	}
 
 	.hero-count {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8125rem;
 		color: rgba(255, 255, 255, 0.45);
 		margin: 0;
@@ -276,7 +276,7 @@
 	}
 
 	.result-count {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		color: #999;
 	}
@@ -288,7 +288,7 @@
 	}
 
 	.control-label {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.78rem;
 		font-weight: 600;
 		letter-spacing: 0.08em;
@@ -302,7 +302,7 @@
 		border: 1px solid rgba(22, 11, 17, 0.2);
 		border-radius: 6px;
 		padding: 9px 36px 9px 14px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 		cursor: pointer;
@@ -387,7 +387,7 @@
 		gap: 6px;
 		padding: 5px 10px;
 		border-radius: 100px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 500;
 		color: #160b11;
@@ -417,7 +417,7 @@
 	.product-meta-row { display: flex; align-items: center; min-height: 18px; }
 
 	.product-vendor {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -427,7 +427,7 @@
 	}
 
 	.product-title {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.85rem, 1vw, 0.9375rem);
 		line-height: 1.45;
 		color: #3a2e33;
@@ -450,7 +450,7 @@
 	}
 
 	.product-price {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		font-weight: 600;
 		color: #160b11;
@@ -478,7 +478,7 @@
 	}
 
 	.empty-sub {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.95rem;
 		color: #888;
 		margin: 0;

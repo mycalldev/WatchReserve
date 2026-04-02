@@ -146,7 +146,7 @@
 	}
 
 	.sell-hero-text {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 1.5vw, 1.25rem);
 		color: #ffffff;
 		margin: 0 0 48px 0;
@@ -246,7 +246,7 @@
 	}
 
 	.steps-eyebrow {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -266,7 +266,7 @@
 	}
 
 	.steps-subtitle {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.95rem, 1.2vw, 1.0625rem);
 		color: #6b5c55;
 		margin: 0 auto;
@@ -324,7 +324,7 @@
 	}
 
 	.step-text {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.9rem, 1.1vw, 1rem);
 		color: #6b5c55;
 		line-height: 1.7;
@@ -421,7 +421,7 @@
 	}
 
 	.contact-eyebrow {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -441,7 +441,7 @@
 	}
 
 	.contact-text {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.9rem, 1.1vw, 1rem);
 		color: #6b5c55;
 		line-height: 1.7;

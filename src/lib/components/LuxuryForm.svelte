@@ -336,7 +336,7 @@
 	}
 
 	.lf-eyebrow {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.68rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -375,7 +375,7 @@
 
 	/* ── Label ── */
 	.lf-label {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -412,7 +412,7 @@
 	.lf-input {
 		width: 100%;
 		box-sizing: border-box;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 400;
 		color: #160b11;
@@ -451,7 +451,7 @@
 
 	/* Error hint */
 	.lf-hint-error {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.78rem;
 		color: #c94040;
 		margin: 0;
@@ -468,7 +468,7 @@
 	.lf-select {
 		width: 100%;
 		box-sizing: border-box;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 400;
 		color: #160b11;
@@ -598,7 +598,7 @@
 	.lf-radio-tile--active .lf-radio-icon { color: #422635; }
 
 	.lf-radio-label {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 500;
 		color: #3a2e33;
@@ -621,7 +621,7 @@
 	.lf-textarea {
 		width: 100%;
 		box-sizing: border-box;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 400;
 		color: #160b11;
@@ -647,7 +647,7 @@
 
 	/* ── Character counter ── */
 	.lf-counter {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.72rem;
 		color: #bbb;
 		font-variant-numeric: tabular-nums;
@@ -659,7 +659,7 @@
 
 	/* ── Privacy notice ── */
 	.lf-privacy {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
 		color: rgba(22, 11, 17, 0.45);
 		line-height: 1.6;
@@ -678,7 +678,7 @@
 
 	/* ── Error banner ── */
 	.lf-error-banner {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		color: #8b2635;
 		background-color: #fff5f5;
@@ -721,7 +721,7 @@
 	}
 
 	.lf-success-body {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(26, 74, 46, 0.8);
 		margin: 0;
@@ -740,7 +740,7 @@
 		color: #ffffff;
 		border: none;
 		border-radius: 0;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;

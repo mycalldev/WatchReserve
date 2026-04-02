@@ -64,33 +64,18 @@
 	const FEATURES = [
 		{
 			icon: 'M13 10V3L4 14h7v7l9-11h-7z',
-			title: 'Real-Time Pricing',
-			desc: 'Sub-second price updates sourced from verified dealer transactions and auction results globally.'
+			title: 'Instant Asset Valuation',
+			desc: 'Request a certified valuation for any reference in milliseconds — sourced from live dealer transactions and verified auction results.'
 		},
 		{
 			icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
-			title: 'Historical Trends',
-			desc: 'Up to 15 years of price history per reference. Track appreciation, depreciation, and market cycles.'
-		},
-		{
-			icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
-			title: 'Deep Reference Coverage',
-			desc: 'Over 40,000 references across 200+ brands. Filter by model, material, year, and condition.'
-		},
-		{
-			icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9',
-			title: 'Market Alerts',
-			desc: 'Webhook and email alerts when references breach your defined price thresholds.'
+			title: 'Portfolio Intelligence',
+			desc: 'Track the real-time value of entire watch collections. Ideal for wealth managers, insurers, and estate planning professionals.'
 		},
 		{
 			icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
-			title: 'Authenticated Data',
-			desc: 'Every data point is cross-referenced and verified. No scraped estimates — dealer-grade accuracy.'
-		},
-		{
-			icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
-			title: 'RESTful & GraphQL',
-			desc: 'Clean, well-documented endpoints. SDKs for JavaScript, Python, and Ruby. OpenAPI spec included.'
+			title: 'Certified Accuracy',
+			desc: 'Every valuation is cross-referenced against multiple verified sources. No scraped estimates — dealer-grade precision you can present to clients.'
 		}
 	];
 
@@ -106,28 +91,32 @@
 </script>
 
 <svelte:head>
-	<title>Watch Reserve API — Watch Reserve</title>
-	<meta name="description" content="Real-time luxury watch market data API. Track prices, trends, and valuations across 40,000+ references." />
+	<title>Asset Valuation API — Watch Reserve</title>
+	<meta name="description" content="Real-time asset valuation API for luxury timepieces. Certified, dealer-verified valuations across 40,000+ references for dealers, insurers, and wealth platforms." />
 </svelte:head>
 
 <main class="api-page">
 
 	<!-- ── HERO ── -->
 	<section class="hero">
-		<div class="hero-grid-bg" aria-hidden="true"></div>
+		<img
+			src="/assets/hero/API_Hero.jpg"
+			alt=""
+			class="hero-bg-img"
+			aria-hidden="true"
+			fetchpriority="high"
+		/>
+		<div class="hero-overlay" aria-hidden="true"></div>
 		<div class="hero-inner">
-			<div class="hero-badge">
-				<span class="pulse-dot" aria-hidden="true"></span>
-				Live Market Data
-			</div>
-			<h1 class="hero-title">Watch Reserve <em>Intelligence</em> API</h1>
+			<h1 class="hero-title">Real-Time <em>Asset Valuation</em><br>for Luxury Timepieces</h1>
 			<p class="hero-sub">
-				Real-time pricing, historical trends, and deep reference data for the global luxury watch market.
-				Built for dealers, collectors, and platforms.
+				Instant, certified valuations for pre-owned luxury watches — powered by live dealer data,
+				authenticated transactions, and 40,000+ reference coverage.
+				Built for dealers, insurers, and wealth platforms.
 			</p>
 			<div class="hero-actions">
-				<a href="#signup" class="btn-primary">Get API Access</a>
-				<a href="#data-feed" class="btn-ghost">View Live Data</a>
+				<a href="#signup" class="btn-primary">Request API Access</a>
+				<a href="#data-feed" class="btn-ghost">View Valuation Demo</a>
 			</div>
 		</div>
 	</section>
@@ -137,8 +126,8 @@
 		<div class="feed-container">
 			<div class="feed-header">
 				<div class="feed-title-group">
-					<h2 class="section-title">Live Market Feed</h2>
-					<p class="section-sub">Prices update in real time. Data shown is illustrative.</p>
+					<h2 class="section-title">Live Valuation Feed</h2>
+					<p class="section-sub">Real-time asset valuations across key references. Data shown is illustrative.</p>
 				</div>
 				<div class="feed-meta">
 					<span class="live-badge">
@@ -156,9 +145,9 @@
 							<th>Brand</th>
 							<th>Model</th>
 							<th>Reference</th>
-							<th class="right">Market Price</th>
-							<th class="right">24h Change</th>
-							<th class="right">Volume</th>
+			<th class="right">Valuation</th>
+					<th class="right">24h Movement</th>
+					<th class="right">Transactions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -180,7 +169,7 @@
 			</div>
 
 			<p class="feed-note">
-				* Prices are indicative market estimates for demonstration purposes only. Sign up for authenticated, dealer-verified data.
+				* Valuations are indicative estimates for demonstration purposes only. Subscribe for certified, dealer-verified asset valuations.
 			</p>
 		</div>
 	</section>
@@ -189,8 +178,8 @@
 	<section class="features-section">
 		<div class="features-container">
 			<div class="section-header">
-				<h2 class="section-title">Everything You Need</h2>
-				<p class="section-sub">A complete data infrastructure for the luxury watch market.</p>
+				<h2 class="section-title">Built for Serious Clients</h2>
+				<p class="section-sub">A complete valuation infrastructure for dealers, insurers, wealth managers, and platforms.</p>
 			</div>
 			<div class="features-grid">
 				{#each FEATURES as feat}
@@ -210,20 +199,31 @@
 
 	<!-- ── SIGNUP ── -->
 	<section class="signup-section" id="signup">
+		<img
+			src="/assets/hero/Join_API_Banner.jpg"
+			alt=""
+			class="signup-bg-img"
+			aria-hidden="true"
+		/>
+		<div class="signup-overlay" aria-hidden="true"></div>
+
 		<div class="signup-container">
 			<div class="signup-content">
-				<h2 class="signup-title">Get Early Access</h2>
+
+				<p class="signup-eyebrow">Asset Valuation API</p>
+				<h2 class="signup-title">Request API Access</h2>
 				<p class="signup-sub">
-					Join the waitlist and be the first to access the Watch Reserve Market API.
-					Early members receive 3 months of Professional tier at no cost.
+					Join the waitlist for the Watch Reserve Asset Valuation API.
+					Early subscribers receive 3 months of Professional tier access at no cost.
 				</p>
+
 				{#if signupSubmitted}
 					<div class="signup-success">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 							<path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
 							<polyline points="22 4 12 14.01 9 11.01" />
 						</svg>
-						You're on the list. We'll be in touch soon.
+						You're on the list. Our team will be in touch with your API credentials.
 					</div>
 				{:else}
 					<form class="signup-form" onsubmit={handleSignup}>
@@ -239,6 +239,7 @@
 					</form>
 					<p class="signup-note">No credit card required. Cancel anytime.</p>
 				{/if}
+
 			</div>
 		</div>
 	</section>
@@ -265,7 +266,7 @@
 	.section-title.light { color: #ffffff; }
 
 	.section-sub {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.95rem, 1.3vw, 1.1rem);
 		color: #666;
 		margin: 0;
@@ -294,7 +295,7 @@
 		border: none;
 		padding: 14px 32px;
 		border-radius: 0;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 500;
 		letter-spacing: 0.01em;
@@ -319,7 +320,7 @@
 		border: 1px solid rgba(255,255,255,0.4);
 		padding: 14px 32px;
 		border-radius: 0;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 400;
 		cursor: pointer;
@@ -366,18 +367,32 @@
 	/* ── HERO ── */
 	.hero {
 		position: relative;
-		background-color: #160b11;
-		padding: 100px 40px 90px;
 		overflow: hidden;
+		min-height: 72vh;
+		display: flex;
+		align-items: center;
+		padding: 120px 40px 100px;
 	}
 
-	.hero-grid-bg {
+	.hero-bg-img {
 		position: absolute;
 		inset: 0;
-		background-image:
-			linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-			linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-		background-size: 60px 60px;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center 40%;
+		display: block;
+	}
+
+	.hero-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			105deg,
+			rgba(22, 11, 17, 0.88) 0%,
+			rgba(22, 11, 17, 0.72) 55%,
+			rgba(22, 11, 17, 0.45) 100%
+		);
 		pointer-events: none;
 	}
 
@@ -387,23 +402,6 @@
 		max-width: 860px;
 		margin: 0 auto;
 		text-align: center;
-	}
-
-	.hero-badge {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-		background-color: rgba(74, 222, 128, 0.12);
-		border: 1px solid rgba(74, 222, 128, 0.25);
-		color: #4ade80;
-		padding: 6px 16px;
-		border-radius: 100px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-		font-size: 0.8125rem;
-		font-weight: 500;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		margin-bottom: 28px;
 	}
 
 	.hero-title {
@@ -422,7 +420,7 @@
 	}
 
 	.hero-sub {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 1.5vw, 1.2rem);
 		color: rgba(255,255,255,0.65);
 		margin: 0 auto 40px;
@@ -480,14 +478,14 @@
 		color: #16a34a;
 		padding: 4px 12px;
 		border-radius: 100px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
 	}
 
 	.feed-timestamp {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
 		color: #999;
 		font-variant-numeric: tabular-nums;
@@ -495,7 +493,7 @@
 
 	.table-wrapper {
 		overflow-x: auto;
-		border-radius: 12px;
+		border-radius: 0;
 		border: 1px solid rgba(22, 11, 17, 0.08);
 		box-shadow: 0 2px 12px rgba(0,0,0,0.04);
 	}
@@ -504,7 +502,7 @@
 		width: 100%;
 		border-collapse: collapse;
 		background-color: #ffffff;
-		border-radius: 12px;
+		border-radius: 0;
 		overflow: hidden;
 		min-width: 640px;
 	}
@@ -514,7 +512,7 @@
 	}
 
 	.feed-table th {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 600;
 		letter-spacing: 0.08em;
@@ -548,7 +546,7 @@
 	}
 
 	.feed-table td {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9rem;
 		color: #160b11;
 		padding: 16px 20px;
@@ -596,7 +594,7 @@
 	.volume-cell { color: #888 !important; }
 
 	.feed-note {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
 		color: #aaa;
 		margin: 20px 0 0 0;
@@ -655,7 +653,7 @@
 	}
 
 	.feature-desc {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9rem;
 		color: #666;
 		margin: 0;
@@ -663,15 +661,61 @@
 	}
 
 	/* ── SIGNUP ── */
+	/* ── SIGNUP BANNER ── */
 	.signup-section {
-		background-color: #422635;
-		padding: 90px 40px;
+		position: relative;
+		overflow: hidden;
+		min-height: 520px;
+		display: flex;
+		align-items: center;
+		padding: 100px 40px;
+	}
+
+	.signup-bg-img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: right center;
+		display: block;
+	}
+
+	.signup-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to right,
+			rgba(22, 11, 17, 0.97) 0%,
+			rgba(22, 11, 17, 0.94) 30%,
+			rgba(22, 11, 17, 0.75) 55%,
+			rgba(22, 11, 17, 0.2) 80%,
+			transparent 100%
+		);
+		pointer-events: none;
 	}
 
 	.signup-container {
-		max-width: 600px;
+		position: relative;
+		z-index: 1;
+		width: 100%;
+		max-width: 1400px;
 		margin: 0 auto;
-		text-align: center;
+	}
+
+	.signup-content {
+		max-width: 520px;
+		text-align: left;
+	}
+
+	.signup-eyebrow {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.6875rem;
+		font-weight: 700;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: #a1846d;
+		margin: 0 0 16px 0;
 	}
 
 	.signup-title {
@@ -679,35 +723,36 @@
 		font-size: clamp(2rem, 4vw, 3rem);
 		font-weight: 400;
 		color: #ffffff;
-		margin: 0 0 16px 0;
+		margin: 0 0 18px 0;
 		letter-spacing: -0.02em;
 		line-height: 1.2;
 	}
 
 	.signup-sub {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-		font-size: clamp(0.95rem, 1.3vw, 1.05rem);
-		color: rgba(255,255,255,0.7);
-		margin: 0 0 40px 0;
-		line-height: 1.7;
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.9rem, 1.2vw, 1rem);
+		color: rgba(255,255,255,0.65);
+		margin: 0 0 36px 0;
+		line-height: 1.75;
+		font-weight: 400;
 	}
 
 	.signup-form {
 		display: flex;
-		gap: 12px;
-		flex-wrap: wrap;
-		justify-content: center;
+		gap: 0;
+		flex-wrap: nowrap;
 	}
 
 	.signup-input {
 		flex: 1;
-		min-width: 240px;
-		padding: 14px 20px;
-		border-radius: 8px;
+		min-width: 0;
+		padding: 15px 20px;
+		border-radius: 0;
 		border: 1px solid rgba(255,255,255,0.2);
+		border-right: none;
 		background-color: rgba(255,255,255,0.08);
 		color: #ffffff;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9375rem;
 		outline: none;
 		transition: border-color 0.2s ease;
@@ -721,10 +766,11 @@
 
 	.signup-btn {
 		flex-shrink: 0;
+		white-space: nowrap;
 	}
 
 	.signup-note {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8125rem;
 		color: rgba(255,255,255,0.4);
 		margin: 16px 0 0 0;
@@ -739,7 +785,7 @@
 		color: #86efac;
 		padding: 16px 28px;
 		border-radius: 10px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 1rem;
 	}
 
@@ -752,13 +798,28 @@
 
 	@media (max-width: 768px) {
 		.hero {
-			padding: 72px 24px 64px;
+			padding: 80px 24px 72px;
+			min-height: 60vh;
 		}
 
 		.feed-section,
-		.features-section,
-		.signup-section {
+		.features-section {
 			padding: 64px 24px;
+		}
+
+		/* On mobile: uniform dark overlay, content is full-width over the watch */
+		.signup-section {
+			padding: 72px 24px;
+			min-height: auto;
+			align-items: flex-start;
+		}
+
+		.signup-overlay {
+			background: rgba(22, 11, 17, 0.82);
+		}
+
+		.signup-content {
+			max-width: 100%;
 		}
 
 		.features-grid {
@@ -781,7 +842,8 @@
 
 	@media (max-width: 480px) {
 		.hero {
-			padding: 56px 20px 48px;
+			padding: 64px 20px 56px;
+			min-height: 50vh;
 		}
 
 		.hero-actions {
@@ -803,9 +865,18 @@
 			flex-direction: column;
 		}
 
-		.signup-input,
+		.signup-input {
+			width: 100%;
+			border-right: 1px solid rgba(255,255,255,0.2);
+			border-bottom: none;
+		}
+
 		.signup-btn {
 			width: 100%;
+		}
+
+		.signup-section {
+			padding: 56px 20px;
 		}
 	}
 </style>

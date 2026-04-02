@@ -199,7 +199,7 @@
 	}
 
 	.shop-subtitle {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.9rem, 1.5vw, 1.05rem);
 		color: rgba(255, 255, 255, 0.6);
 		margin: 0;
@@ -234,7 +234,7 @@
 		background: none;
 		border: none;
 		border-bottom: 2px solid transparent;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 500;
 		color: #888;
@@ -280,7 +280,7 @@
 	}
 
 	.product-count {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9rem;
 		color: #888;
 		letter-spacing: 0.02em;
@@ -300,7 +300,7 @@
 	}
 
 	.control-label {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 500;
 		letter-spacing: 0.08em;
@@ -314,7 +314,7 @@
 		border: 1px solid rgba(22, 11, 17, 0.2);
 		border-radius: 6px;
 		padding: 9px 36px 9px 14px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 		cursor: pointer;
@@ -409,7 +409,7 @@
 		gap: 6px;
 		padding: 5px 10px;
 		border-radius: 100px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 500;
 		letter-spacing: 0.02em;
@@ -453,7 +453,7 @@
 	}
 
 	.product-vendor {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -463,7 +463,7 @@
 	}
 
 	.product-title {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.85rem, 1vw, 0.9375rem);
 		line-height: 1.45;
 		color: #3a2e33;
@@ -488,7 +488,7 @@
 	}
 
 	.product-price {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		font-weight: 600;
 		color: #160b11;
@@ -524,7 +524,7 @@
 	}
 
 	.empty-subtitle {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 0.95rem;
 		color: #888;
 		margin: 0;

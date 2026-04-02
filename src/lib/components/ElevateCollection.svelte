@@ -84,7 +84,7 @@
 	}
 
 	.elevate-subheadline {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 2vw, 1.25rem);
 		color: #ffffff;
 		margin: 0 auto 48px;

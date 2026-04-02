@@ -33,7 +33,7 @@
 
 	.announcement-text {
 		margin: 0;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: 13px;
 		font-weight: 500;
 		color: #2c1810;
@@ -77,6 +77,7 @@
 		max-width: 100%;
 		width: 100%;
 		box-sizing: border-box;
+		font-family: 'Montserrat', sans-serif;
 	}
 
 	:global(*, *::before, *::after) {

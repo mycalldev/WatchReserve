@@ -81,7 +81,7 @@
 	}
 
 	.feature-title {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.875rem, 1.2vw, 1rem);
 		font-weight: 700;
 		color: #160b11;
@@ -92,7 +92,7 @@
 	}
 
 	.feature-description {
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
 		color: #160b11;
 		line-height: 1.7;
