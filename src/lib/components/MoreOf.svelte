@@ -13,10 +13,10 @@
 		return 4;
 	});
 
-	const maxIndex = $derived(Math.max(0, products.length - 4));
+	const maxIndex = $derived(Math.max(0, products.length - visibleCount()));
 
 	const canGoPrev = $derived(currentIndex > 0);
-	const canGoNext = $derived(currentIndex < products.length - 1);
+	const canGoNext = $derived(currentIndex < maxIndex);
 
 	function next() {
 		if (canGoNext) currentIndex = Math.min(currentIndex + 1, products.length - 1);
@@ -35,6 +35,9 @@
 		}).format(amount);
 	}
 
+	// Normalise vendor name — Shopify default store name falls back to "Watch Reserve"
+	const displayVendor = $derived(vendor === 'My Store' ? 'Watch Reserve' : vendor);
+
 	// Build the vendor shop URL — links to shop filtered by vendor tag
 	const vendorShopUrl = $derived(
 		vendor ? `/shop?vendor=${encodeURIComponent(vendor)}` : '/shop'
@@ -42,14 +45,14 @@
 </script>
 
 {#if products.length > 0}
-<section class="moreof-section" aria-label="More from {vendor}">
+<section class="moreof-section" aria-label="More from {displayVendor}">
 	<div class="moreof-container">
 
 		<!-- Header -->
 		<div class="moreof-header">
 			<div class="moreof-title-group">
 				<p class="moreof-eyebrow">You May Also Like</p>
-				<h2 class="moreof-title">More from <em>{vendor}</em></h2>
+				<h2 class="moreof-title">More from <em>{displayVendor}</em></h2>
 			</div>
 			<div class="moreof-controls" aria-label="Carousel controls">
 				<button
@@ -126,7 +129,9 @@
 							{/if}
 							<p class="mo-title">{product.title}</p>
 							<div class="mo-footer">
-								<span class="mo-price">{formatPrice(product.price, product.currencyCode)}</span>
+								{#if statusSlug !== 'sold'}
+									<span class="mo-price">{formatPrice(product.price, product.currencyCode)}</span>
+								{/if}
 								<span class="mo-arrow" aria-hidden="true">→</span>
 							</div>
 						</div>
@@ -154,7 +159,7 @@
 		<!-- Footer link -->
 		<div class="moreof-footer">
 			<a href={vendorShopUrl} class="view-all-link">
-				View all {vendor} timepieces
+				View all {displayVendor} timepieces
 				<span class="view-all-arrow" aria-hidden="true">→</span>
 			</a>
 		</div>
@@ -225,7 +230,7 @@
 		width: 46px;
 		height: 46px;
 		border-radius: 0;
-		background-color: #160b11;
+		background-color: #a1846d;
 		color: #ffffff;
 		border: none;
 		display: flex;
@@ -237,9 +242,9 @@
 	}
 
 	.ctrl-btn:hover:not(:disabled) {
-		background-color: #422635;
+		background-color: #8a6f59;
 		transform: translateY(-2px);
-		box-shadow: 0 4px 14px rgba(66, 38, 53, 0.3);
+		box-shadow: 0 4px 14px rgba(161, 132, 109, 0.35);
 	}
 
 	.ctrl-btn:active:not(:disabled) {
@@ -335,7 +340,6 @@
 		background-color: rgba(255, 255, 255, 0.9);
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
-		border: 1px solid rgba(22, 11, 17, 0.1);
 		z-index: 2;
 		pointer-events: none;
 	}

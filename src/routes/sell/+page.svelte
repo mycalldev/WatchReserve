@@ -1,5 +1,4 @@
 <script>
-	import Button from '$lib/components/Button.svelte';
 	import { fly, fade } from 'svelte/transition';
 	import { cubicOut, cubicInOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
@@ -149,9 +148,6 @@
 			<p class="sell-hero-text">
 				Receive a fast, competitive offer from a team trusted by collectors across the UK and beyond with a personalised service tailored to you.
 			</p>
-			<div class="sell-hero-action">
-				<Button className="sell-cta-btn">Speak to Our Team</Button>
-			</div>
 		</div>
 	</div>
 </section>
@@ -712,22 +708,6 @@
 		opacity: 0.95;
 	}
 
-	.sell-hero-action {
-		display: flex;
-		align-items: center;
-		gap: 24px;
-		flex-wrap: wrap;
-	}
-
-	:global(.sell-cta-btn) {
-		background-color: #a1846d;
-		color: #ffffff;
-	}
-
-	:global(.sell-cta-btn:hover) {
-		background-color: #8a6f59;
-	}
-
 	@media (max-width: 1024px) {
 		.sell-hero-container {
 			padding: 80px 0;
@@ -759,12 +739,6 @@
 
 		.sell-hero-text {
 			margin: 0 0 40px 0;
-		}
-
-		.sell-hero-action {
-			flex-direction: column;
-			align-items: flex-start;
-			width: 100%;
 		}
 	}
 

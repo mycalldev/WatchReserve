@@ -30,7 +30,6 @@
 			<li><a href="/shop">SHOP</a></li>
 			<li><a href="/sell">SELL</a></li>
 			<li><a href="/source">SOURCE</a></li>
-			<li><a href="/service">SERVICES</a></li>
 			<li><a href="/blogs">BLOGS & GUIDES</a></li>
 			<li><a href="/api">API</a></li>
 		</ul>
@@ -102,7 +101,6 @@
 			<li><a href="/shop" onclick={closeMenu}>SHOP</a></li>
 			<li><a href="/sell" onclick={closeMenu}>SELL</a></li>
 			<li><a href="/source" onclick={closeMenu}>SOURCE</a></li>
-			<li><a href="/service" onclick={closeMenu}>SERVICES</a></li>
 			<li><a href="/blogs" onclick={closeMenu}>BLOGS & GUIDES</a></li>
 			<li><a href="/api" onclick={closeMenu}>API</a></li>
 				<li class="contact-li"><a href="/contact" onclick={closeMenu} class="mobile-contact-link">CONTACT</a></li>
@@ -194,7 +192,6 @@
 		border: none;
 		cursor: pointer;
 		padding: 8px;
-		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
 		width: 32px;

@@ -271,15 +271,14 @@
 		align-items: center;
 		gap: 6px;
 		padding: 5px 10px;
-		border-radius: 100px;
+		border-radius: 0;
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 500;
-		color: #160b11;
+		color: #6b5c55;
 		background-color: rgba(255,255,255,0.88);
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
-		border: 1px solid rgba(22,11,17,0.1);
 		z-index: 2;
 		pointer-events: none;
 	}

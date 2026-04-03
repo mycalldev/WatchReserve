@@ -581,7 +581,7 @@
 
 	.eq-input:focus {
 		border-color: rgba(22,11,17,0.18);
-		border-bottom-color: #422635;
+		border-bottom-color: #a1846d;
 		background-color: #fefcfb;
 	}
 
@@ -627,7 +627,7 @@
 
 	.eq-select:focus {
 		border-color: rgba(22,11,17,0.18);
-		border-bottom-color: #422635;
+		border-bottom-color: #a1846d;
 	}
 
 	.eq-select-arrow {
@@ -643,7 +643,7 @@
 
 	.eq-select-wrap:focus-within .eq-select-arrow {
 		transform: translateY(-50%) rotate(180deg);
-		color: #422635;
+		color: #a1846d;
 	}
 
 	/* ── Fieldset ── */
@@ -679,9 +679,9 @@
 	.eq-radio-tile:hover { border-color: #a1846d; background-color: #fefcfb; }
 
 	.eq-radio-tile--active {
-		border-color: #422635;
-		background-color: #f9f5f7;
-		box-shadow: inset 3px 0 0 #422635;
+		border-color: #a1846d;
+		background-color: #fdf9f6;
+		box-shadow: inset 3px 0 0 #a1846d;
 	}
 
 	.eq-radio-native {
@@ -702,8 +702,8 @@
 	}
 
 	.eq-radio-tile--active .eq-radio-box {
-		border-color: #422635;
-		background-color: #422635;
+		border-color: #a1846d;
+		background-color: #a1846d;
 	}
 
 	.eq-radio-tile--active .eq-radio-box::after {
@@ -718,7 +718,7 @@
 	}
 
 	.eq-radio-tile svg { color: #a1846d; flex-shrink: 0; transition: color 0.2s ease; }
-	.eq-radio-tile--active svg { color: #422635; }
+	.eq-radio-tile--active svg { color: #a1846d; }
 
 	.eq-radio-label {
 		font-family: 'Montserrat', sans-serif;
@@ -751,7 +751,7 @@
 
 	.eq-textarea:focus {
 		border-color: rgba(22,11,17,0.18);
-		border-bottom-color: #422635;
+		border-bottom-color: #a1846d;
 		background-color: #fefcfb;
 	}
 
@@ -785,7 +785,7 @@
 		transition: color 0.2s ease, border-color 0.2s ease;
 	}
 
-	.eq-privacy-link:hover { color: #422635; border-color: #422635; }
+	.eq-privacy-link:hover { color: #8a6f59; border-color: #8a6f59; }
 
 	/* ── Error ── */
 	.eq-error-msg {
@@ -808,7 +808,7 @@
 		gap: 10px;
 		width: 100%;
 		padding: 14px 28px;
-		background-color: #422635;
+		background-color: #a1846d;
 		color: #ffffff;
 		border: none;
 		border-radius: 0;
@@ -822,9 +822,9 @@
 	}
 
 	.eq-submit:hover:not(:disabled) {
-		background-color: #2e1924;
+		background-color: #8a6f59;
 		transform: translateY(-2px);
-		box-shadow: 0 6px 20px rgba(66, 38, 53, 0.28);
+		box-shadow: 0 6px 20px rgba(161, 132, 109, 0.32);
 		gap: 14px;
 	}
 

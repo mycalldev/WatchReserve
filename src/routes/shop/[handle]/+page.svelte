@@ -340,27 +340,18 @@
 				{#if product.vendor}
 					<p class="vendor">{product.vendor}</p>
 				{/if}
-				{#if productStatus()}
-					<div class="status-badge status-{statusSlug()}" aria-label="Status: {productStatus()}">
-						<span class="status-dot" aria-hidden="true"></span>
-						{productStatus()}
-					</div>
-				{:else}
-					<div class="status-badge status-available" aria-label="Status: Available">
-						<span class="status-dot" aria-hidden="true"></span>
-						Available
-					</div>
-				{/if}
 			</div>
 
 			<h1 class="title">{product.title}</h1>
 
-			<div class="price-row">
-				<span class="price">{formatPrice(selectedVariant?.price ?? product.minPrice, selectedVariant?.currencyCode ?? product.currencyCode)}</span>
-				{#if selectedVariant?.compareAtPrice && selectedVariant.compareAtPrice > selectedVariant.price}
-					<span class="compare-price">{formatPrice(selectedVariant.compareAtPrice, selectedVariant.currencyCode)}</span>
-				{/if}
-			</div>
+			{#if productStatus()?.toLowerCase() !== 'sold'}
+				<div class="price-row">
+					<span class="price">{formatPrice(selectedVariant?.price ?? product.minPrice, selectedVariant?.currencyCode ?? product.currencyCode)}</span>
+					{#if selectedVariant?.compareAtPrice && selectedVariant.compareAtPrice > selectedVariant.price}
+						<span class="compare-price">{formatPrice(selectedVariant.compareAtPrice, selectedVariant.currencyCode)}</span>
+					{/if}
+				</div>
+			{/if}
 
 			<!-- Product meta details from tags -->
 			{#if productDetails.length > 0}
@@ -395,11 +386,18 @@
 				</div>
 			{/if}
 
-			<!-- Availability -->
-			<div class="availability" class:in-stock={isAvailable} class:out-of-stock={!isAvailable}>
-				<span class="availability-dot" aria-hidden="true"></span>
-				{isAvailable ? 'Available' : 'Currently Unavailable'}
-			</div>
+			<!-- Status -->
+			{#if productStatus()}
+				<div class="status-badge status-{statusSlug()}" aria-label="Status: {productStatus()}">
+					<span class="status-dot" aria-hidden="true"></span>
+					{productStatus()}
+				</div>
+			{:else}
+				<div class="status-badge status-available" aria-label="Status: Available">
+					<span class="status-dot" aria-hidden="true"></span>
+					Available
+				</div>
+			{/if}
 
 			<!-- View count -->
 			<ProductViewCount count={viewedCount()} />
@@ -508,14 +506,6 @@
 				reference={productReference}
 			/>
 
-			<!-- Tags -->
-			{#if product.tags.length > 0}
-				<div class="tags">
-					{#each product.tags as tag}
-						<span class="tag">{tag}</span>
-					{/each}
-				</div>
-			{/if}
 		</div>
 	</div>
 </main>
@@ -818,14 +808,13 @@
 		align-items: center;
 		gap: 6px;
 		padding: 5px 12px;
-		border-radius: 100px;
+		border-radius: 0;
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 400;
 		letter-spacing: 0.01em;
-		color: #160b11;
+		color: #6b5c55;
 		background-color: #f5f2f0;
-		border: 1px solid rgba(22, 11, 17, 0.1);
 		flex-shrink: 0;
 	}
 
@@ -950,29 +939,6 @@
 		cursor: not-allowed;
 		text-decoration: line-through;
 	}
-
-	/* ── AVAILABILITY ── */
-	.availability {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.85rem;
-		font-weight: 500;
-	}
-
-	.availability.in-stock { color: #16a34a; }
-	.availability.out-of-stock { color: #dc2626; }
-
-	.availability-dot {
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		flex-shrink: 0;
-	}
-
-	.in-stock .availability-dot { background-color: #16a34a; }
-	.out-of-stock .availability-dot { background-color: #dc2626; }
 
 	/* ── PURCHASE ROW ── */
 	.add-btn {
@@ -1151,22 +1117,6 @@
 
 	.trust-item svg { color: #a1846d; flex-shrink: 0; }
 
-	/* ── TAGS ── */
-	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-	}
-
-	.tag {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.75rem;
-		color: #888;
-		background-color: rgba(22, 11, 17, 0.05);
-		padding: 4px 12px;
-		border-radius: 100px;
-		border: 1px solid rgba(22, 11, 17, 0.08);
-	}
 
 
 	/* ── RESPONSIVE ── */

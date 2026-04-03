@@ -429,9 +429,9 @@
 
 	.lf-input:focus {
 		border-color: rgba(22,11,17,0.2);
-		border-bottom-color: #422635;
+		border-bottom-color: #a1846d;
 		background-color: #fefcfb;
-		box-shadow: 0 2px 0 0 rgba(66, 38, 53, 0.08);
+		box-shadow: 0 2px 0 0 rgba(161, 132, 109, 0.12);
 	}
 
 	/* Field states */
@@ -485,7 +485,7 @@
 
 	.lf-select:focus {
 		border-color: rgba(22,11,17,0.2);
-		border-bottom-color: #422635;
+		border-bottom-color: #a1846d;
 		background-color: #fefcfb;
 	}
 
@@ -507,7 +507,7 @@
 
 	.lf-select-wrap:focus-within .lf-select-arrow {
 		transform: translateY(-50%) rotate(180deg);
-		color: #422635;
+		color: #a1846d;
 	}
 
 	/* ── Fieldset reset ── */
@@ -548,9 +548,9 @@
 	}
 
 	.lf-radio-tile--active {
-		border-color: #422635;
-		background-color: #f9f5f7;
-		box-shadow: inset 3px 0 0 #422635;
+		border-color: #a1846d;
+		background-color: #fdf9f6;
+		box-shadow: inset 3px 0 0 #a1846d;
 	}
 
 	/* Hide native radio */
@@ -573,8 +573,8 @@
 	}
 
 	.lf-radio-tile--active .lf-radio-indicator {
-		border-color: #422635;
-		background-color: #422635;
+		border-color: #a1846d;
+		background-color: #a1846d;
 	}
 
 	.lf-radio-tile--active .lf-radio-indicator::after {
@@ -595,7 +595,7 @@
 		transition: color 0.2s ease;
 	}
 
-	.lf-radio-tile--active .lf-radio-icon { color: #422635; }
+	.lf-radio-tile--active .lf-radio-icon { color: #a1846d; }
 
 	.lf-radio-label {
 		font-family: 'Montserrat', sans-serif;
@@ -641,7 +641,7 @@
 
 	.lf-textarea:focus {
 		border-color: rgba(22,11,17,0.2);
-		border-bottom-color: #422635;
+		border-bottom-color: #a1846d;
 		background-color: #fefcfb;
 	}
 
@@ -674,7 +674,7 @@
 		transition: color 0.2s ease, border-color 0.2s ease;
 	}
 
-	.lf-privacy-link:hover { color: #422635; border-color: #422635; }
+	.lf-privacy-link:hover { color: #8a6f59; border-color: #8a6f59; }
 
 	/* ── Error banner ── */
 	.lf-error-banner {
@@ -736,7 +736,7 @@
 		gap: 10px;
 		width: 100%;
 		padding: 16px 32px;
-		background-color: #422635;
+		background-color: #a1846d;
 		color: #ffffff;
 		border: none;
 		border-radius: 0;
@@ -751,9 +751,9 @@
 	}
 
 	.lf-submit:hover:not(:disabled) {
-		background-color: #2e1924;
+		background-color: #8a6f59;
 		transform: translateY(-2px);
-		box-shadow: 0 6px 24px rgba(66, 38, 53, 0.28);
+		box-shadow: 0 6px 24px rgba(161, 132, 109, 0.32);
 		gap: 14px;
 	}
 

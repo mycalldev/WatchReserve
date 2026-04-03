@@ -185,13 +185,6 @@
 					</button>
 				</form>
 			{/if}
-
-			<!-- Feature pills -->
-			<div class="feature-pills">
-				<span class="pill">Live Pricing</span>
-				<span class="pill">40,000+ References</span>
-				<span class="pill">REST &amp; GraphQL</span>
-			</div>
 		</div>
 	</div>
 {/if}
@@ -217,7 +210,7 @@
 		transform: translate(-50%, -46%) scale(0.97);
 		z-index: 1101;
 		width: min(94vw, 500px);
-		border-radius: 20px;
+		border-radius: 0;
 		overflow: hidden;
 		opacity: 0;
 		box-shadow:
@@ -227,6 +220,9 @@
 		transition:
 			opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1),
 			transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+		will-change: transform, opacity;
+		backface-visibility: hidden;
+		-webkit-font-smoothing: antialiased;
 	}
 
 	.modal.visible {
@@ -302,7 +298,7 @@
 		border: 1px solid rgba(161, 132, 109, 0.3);
 		color: #c9a882;
 		padding: 5px 13px;
-		border-radius: 100px;
+		border-radius: 0;
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 700;
@@ -386,7 +382,7 @@
 		width: 100%;
 		padding: 13px 16px;
 		border: 1.5px solid #e8e3e1;
-		border-radius: 10px;
+		border-radius: 0;
 		background-color: #fdfcfc;
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9375rem;
@@ -495,31 +491,9 @@
 		line-height: 1.55;
 	}
 
-	/* ── FEATURE PILLS ── */
-	.feature-pills {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 7px;
-		justify-content: center;
-		border-top: 1px solid #f0ebe8;
-		padding-top: 20px;
-	}
-
-	.pill {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.72rem;
-		font-weight: 500;
-		color: #a1846d;
-		background-color: rgba(161, 132, 109, 0.08);
-		border: 1px solid rgba(161, 132, 109, 0.18);
-		padding: 5px 13px;
-		border-radius: 100px;
-		letter-spacing: 0.02em;
-	}
-
 	/* ── RESPONSIVE ── */
 	@media (max-width: 480px) {
-		.modal { width: min(96vw, 500px); border-radius: 18px; }
+		.modal { width: min(96vw, 500px); border-radius: 0; }
 		.modal-header { padding: 28px 24px 26px; }
 		.modal-body { padding: 26px 24px 30px; }
 	}
