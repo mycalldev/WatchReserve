@@ -52,7 +52,7 @@ async function curlFetch(reference) {
 		url,
 	];
 
-	const { stdout } = await execFileAsync('curl', args, { maxBuffer: 10 * 1024 * 1024 });
+	const { stdout } = await execFileAsync('/usr/bin/curl', args, { maxBuffer: 10 * 1024 * 1024 });
 
 	// Split body from status code appended at end
 	const statusMatch = stdout.match(/\n__STATUS__(\d+)$/);
@@ -162,7 +162,7 @@ export async function GET({ url }) {
 			high:     sorted[sorted.length - 1],
 			median:   median(prices),
 			average:  Math.round(prices.reduce((a, b) => a + b, 0) / prices.length),
-			listings: listings.slice(0, 8),
+			listings,
 			cached:   false,
 			source:   'Chrono24',
 			fetchedAt: new Date().toISOString()
@@ -172,11 +172,28 @@ export async function GET({ url }) {
 		return json(result);
 
 	} catch (err) {
-		return json({
-			error: err.message === 'CF_CHALLENGE'
-				? 'Bot protection triggered — try again shortly.'
-				: 'Unable to fetch prices right now. Please try again.',
-			detail: err.message
-		}, { status: 502 });
+		console.error('[watch-price] error:', err.message, err.stderr ?? '');
+
+		let error = 'Unable to fetch prices right now. Please try again.';
+		let detail = err.message;
+
+		if (err.message === 'CF_CHALLENGE') {
+			error = 'Bot protection triggered — try again shortly.';
+			detail = 'Chrono24 returned a Cloudflare challenge page. Wait 30–60 seconds and try again.';
+		} else if (err.code === 'ENOENT') {
+			error = 'Server configuration error.';
+			detail = 'curl not found on this server. Contact support.';
+		} else if (err.message.includes('TIMEDOUT') || err.message.includes('max-time')) {
+			error = 'Request timed out.';
+			detail = 'Chrono24 took too long to respond. Try again in a moment.';
+		} else if (err.message.startsWith('HTTP ')) {
+			const code = err.message.replace('HTTP ', '');
+			error = `Chrono24 returned an error (${code}).`;
+			detail = code === '403' || code === '429'
+				? 'Too many requests — wait a minute and try again.'
+				: `Unexpected HTTP ${code} from Chrono24. Try again shortly.`;
+		}
+
+		return json({ error, detail }, { status: 502 });
 	}
 }

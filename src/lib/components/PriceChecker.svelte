@@ -1,8 +1,13 @@
 <script>
 	let reference = $state('');
+	let selectedYear = $state('');
 	let loading = $state(false);
 	let result = $state(null);
 	let error = $state('');
+	let errorDetail = $state('');
+
+	const currentYear = new Date().getFullYear();
+	const years = Array.from({ length: currentYear - 1969 }, (_, i) => currentYear - i);
 
 	function formatPrice(p) {
 		if (!p) return '—';
@@ -12,12 +17,50 @@
 		}).format(p);
 	}
 
+	function calcStats(listings) {
+		if (!listings.length) return null;
+		const prices = listings.map(l => l.price);
+		const sorted = [...prices].sort((a, b) => a - b);
+		const m = Math.floor(sorted.length / 2);
+		const med = sorted.length % 2 ? sorted[m] : Math.round((sorted[m - 1] + sorted[m]) / 2);
+		return {
+			count: prices.length,
+			low: sorted[0],
+			high: sorted[sorted.length - 1],
+			median: med,
+			average: Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
+		};
+	}
+
+	// Filtered listings and recalculated stats based on selected year
+	let filtered = $derived.by(() => {
+		if (!result) return null;
+		const yr = selectedYear ? parseInt(selectedYear) : null;
+		const list = yr ? result.listings.filter(l => l.year === yr) : result.listings;
+		const stats = yr ? calcStats(list) : {
+			count: result.count,
+			low: result.low,
+			high: result.high,
+			median: result.median,
+			average: result.average
+		};
+		return { listings: list.slice(0, 8), stats };
+	});
+
+	// Only show years that actually appear in the listings
+	let availableYears = $derived.by(() => {
+		if (!result) return [];
+		return [...new Set(result.listings.map(l => l.year).filter(Boolean))].sort((a, b) => b - a);
+	});
+
 	async function checkPrice() {
 		const ref = reference.trim();
 		if (!ref) return;
 		loading = true;
 		result = null;
 		error = '';
+		errorDetail = '';
+		selectedYear = '';
 
 		try {
 			const res = await fetch(`/api/watch-price?reference=${encodeURIComponent(ref)}`);
@@ -25,11 +68,13 @@
 
 			if (!res.ok || data.error) {
 				error = data.error ?? 'Something went wrong. Please try again.';
+				errorDetail = data.detail ?? '';
 			} else {
 				result = data;
 			}
 		} catch {
 			error = 'Network error — please try again.';
+			errorDetail = 'Could not reach the server. Check your connection or try again shortly.';
 		} finally {
 			loading = false;
 		}
@@ -79,50 +124,76 @@
 	</div>
 
 	{#if error}
-		<div class="pc-error" role="alert">{error}</div>
+		<div class="pc-error" role="alert">
+			<span class="pc-error-msg">{error}</span>
+			{#if errorDetail}
+				<span class="pc-error-detail">{errorDetail}</span>
+			{/if}
+		</div>
 	{/if}
 
-	{#if result}
+	{#if result && filtered}
 		<div class="pc-result">
-			<!-- Summary row -->
-			<div class="pc-summary">
-				<div class="pc-stat">
-					<span class="pc-stat-label">Median Price</span>
-					<span class="pc-stat-value pc-stat-value--main">{formatPrice(result.median)}</span>
-				</div>
-				<div class="pc-stat">
-					<span class="pc-stat-label">Range</span>
-					<span class="pc-stat-value">{formatPrice(result.low)} – {formatPrice(result.high)}</span>
-				</div>
-				<div class="pc-stat">
-					<span class="pc-stat-label">Listings Found</span>
-					<span class="pc-stat-value">{result.count}</span>
-				</div>
-			</div>
 
-			<!-- Individual listings -->
-			{#if result.listings?.length}
-				<div class="pc-listings">
-					<p class="pc-listings-label">Recent Listings</p>
-					{#each result.listings as listing}
-						<div class="pc-listing-row">
-							<span class="pc-listing-title">{listing.title || result.reference}</span>
-							<div class="pc-listing-right">
-								{#if listing.year}
-									<span class="pc-listing-year">{listing.year}</span>
-								{/if}
-								<span class="pc-listing-price">{formatPrice(listing.price)}</span>
-							</div>
-						</div>
-					{/each}
+			<!-- Year filter -->
+			{#if availableYears.length > 0}
+				<div class="pc-filter-row">
+					<label class="pc-filter-label" for="pc-year">Filter by Year</label>
+					<div class="pc-select-wrap">
+						<select id="pc-year" class="pc-select" bind:value={selectedYear}>
+							<option value="">All Years ({result.count} listings)</option>
+							{#each availableYears as yr}
+								<option value={String(yr)}>{yr}</option>
+							{/each}
+						</select>
+						<svg class="pc-select-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M6 9l6 6 6-6"/>
+						</svg>
+					</div>
+					{#if selectedYear && filtered.stats?.count === 0}
+						<span class="pc-filter-none">No listings found for {selectedYear}</span>
+					{/if}
 				</div>
 			{/if}
 
-			<p class="pc-source">
-				Data sourced from {result.source} ·
-				{result.cached ? 'Cached result' : 'Live'} ·
-				{new Date(result.fetchedAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
-			</p>
+			<!-- Summary row -->
+			{#if filtered.stats && filtered.stats.count > 0}
+				<div class="pc-summary">
+					<div class="pc-stat">
+						<span class="pc-stat-label">Median Price</span>
+						<span class="pc-stat-value pc-stat-value--main">{formatPrice(filtered.stats.median)}</span>
+					</div>
+					<div class="pc-stat">
+						<span class="pc-stat-label">Range</span>
+						<span class="pc-stat-value">{formatPrice(filtered.stats.low)} – {formatPrice(filtered.stats.high)}</span>
+					</div>
+					<div class="pc-stat">
+						<span class="pc-stat-label">Listings Found</span>
+						<span class="pc-stat-value">{filtered.stats.count}{selectedYear ? '' : '+'}</span>
+					</div>
+				</div>
+
+				<!-- Individual listings -->
+				{#if filtered.listings.length}
+					<div class="pc-listings">
+						<p class="pc-listings-label">
+							{selectedYear ? `${selectedYear} Listings` : 'Recent Listings'}
+						</p>
+						{#each filtered.listings as listing}
+							<div class="pc-listing-row">
+								<span class="pc-listing-title">{listing.title || result.reference}</span>
+								<div class="pc-listing-right">
+									{#if listing.year}
+										<span class="pc-listing-year">{listing.year}</span>
+									{/if}
+									<span class="pc-listing-price">{formatPrice(listing.price)}</span>
+								</div>
+							</div>
+						{/each}
+					</div>
+				{/if}
+			{/if}
+
 		</div>
 	{/if}
 </div>
@@ -238,6 +309,18 @@
 		border-left: 3px solid #c94040;
 		padding: 12px 16px;
 		margin-bottom: 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.pc-error-msg { font-weight: 600; }
+
+	.pc-error-detail {
+		font-size: 0.78rem;
+		color: #a03040;
+		font-family: 'Montserrat', sans-serif;
+		font-weight: 400;
 	}
 
 	/* ── Result ── */
@@ -252,6 +335,66 @@
 	}
 
 	@keyframes pc-fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+	/* ── Year filter ── */
+	.pc-filter-row {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-wrap: wrap;
+	}
+
+	.pc-filter-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: #a1846d;
+		white-space: nowrap;
+	}
+
+	.pc-select-wrap {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+	}
+
+	.pc-select {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		color: #160b11;
+		background-color: #ffffff;
+		border: 1px solid #d8d0c8;
+		border-bottom: 2px solid #d8d0c8;
+		padding: 8px 36px 8px 12px;
+		outline: none;
+		appearance: none;
+		-webkit-appearance: none;
+		cursor: pointer;
+		transition: border-color 0.2s ease;
+		min-width: 180px;
+	}
+
+	.pc-select:focus {
+		border-color: rgba(22,11,17,0.2);
+		border-bottom-color: #a1846d;
+	}
+
+	.pc-select-arrow {
+		position: absolute;
+		right: 10px;
+		pointer-events: none;
+		color: #a1846d;
+	}
+
+	.pc-filter-none {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.78rem;
+		color: #9a8880;
+		font-style: italic;
+	}
 
 	.pc-summary {
 		display: grid;
@@ -344,20 +487,13 @@
 		color: #160b11;
 	}
 
-	/* ── Footer ── */
-	.pc-source {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.7rem;
-		color: #b0a09a;
-		margin: 0;
-		letter-spacing: 0.02em;
-	}
-
 	/* ── Responsive ── */
 	@media (max-width: 640px) {
 		.pc-input-row { flex-direction: column; }
 		.pc-btn { width: 100%; justify-content: center; }
 		.pc-summary { grid-template-columns: 1fr 1fr; }
 		.pc-summary .pc-stat:last-child { grid-column: span 2; }
+		.pc-filter-row { flex-direction: column; align-items: flex-start; }
+		.pc-select { min-width: 100%; }
 	}
 </style>
