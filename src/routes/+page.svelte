@@ -451,7 +451,7 @@
 		color: #ffffff;
 		margin: 0 0 48px 0;
 		line-height: 1.7;
-		font-weight: 300;
+		font-weight: 400;
 		letter-spacing: 0.01em;
 		text-align: left;
 		opacity: 0.95;

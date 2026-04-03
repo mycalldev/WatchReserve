@@ -2,6 +2,7 @@
 	import { fly, fade } from 'svelte/transition';
 	import { cubicOut, cubicInOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
+	import PriceChecker from '$lib/components/PriceChecker.svelte';
 
 	// ── Valuation modal state ────────────────────────────────────────────────────
 	let modalOpen  = $state(false);
@@ -172,6 +173,20 @@
 			</svg>
 			Fully confidential
 		</p>
+	</div>
+</section>
+
+<!-- ── PRICE CHECKER ── -->
+<section class="price-checker-section">
+	<div class="price-checker-container">
+		<div class="price-checker-info">
+			<p class="price-checker-eyebrow">Live Market Data</p>
+			<h2 class="price-checker-heading">Check Your Watch's Market Value</h2>
+			<p class="price-checker-text">
+				Enter your reference number to instantly see what comparable pieces are selling for right now across the secondary market.
+			</p>
+		</div>
+		<PriceChecker />
 	</div>
 </section>
 
@@ -1843,6 +1858,68 @@
 		.vm-brand-input { font-size: 1.5rem; }
 		.vm-brand-crumb-name { font-size: 1.35rem; }
 		.vm-form-row { grid-template-columns: 1fr; }
+	}
+
+	/* ── PRICE CHECKER SECTION ── */
+	.price-checker-section {
+		width: 100%;
+		background-color: #ffffff;
+		padding: 100px 40px;
+		box-sizing: border-box;
+		border-top: 1px solid rgba(161, 132, 109, 0.15);
+	}
+
+	.price-checker-container {
+		max-width: 1100px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 80px;
+		align-items: start;
+	}
+
+	.price-checker-info {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.price-checker-eyebrow {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: #a1846d;
+		margin: 0;
+	}
+
+	.price-checker-heading {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.75rem, 3vw, 2.5rem);
+		font-weight: 400;
+		color: #160b11;
+		margin: 0;
+		line-height: 1.25;
+		letter-spacing: -0.02em;
+	}
+
+	.price-checker-text {
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.9rem, 1.1vw, 1rem);
+		color: #6b5c55;
+		line-height: 1.7;
+		font-weight: 300;
+		margin: 0;
+	}
+
+	@media (max-width: 900px) {
+		.price-checker-section { padding: 80px 30px; }
+		.price-checker-container { grid-template-columns: 1fr; gap: 48px; }
+	}
+
+	@media (max-width: 480px) {
+		.price-checker-section { padding: 60px 20px; }
 	}
 </style>
 
