@@ -270,7 +270,7 @@
 		display: flex;
 		flex-direction: column;
 		background-color: #ffffff;
-		border-radius: 14px;
+		border-radius: 0;
 		overflow: hidden;
 		border: 1px solid rgba(22, 11, 17, 0.08);
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.05);

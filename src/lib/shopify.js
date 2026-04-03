@@ -1,8 +1,10 @@
+import { env } from '$env/dynamic/private';
+
 const SHOPIFY_API_VERSION = '2024-10';
 
-const SHOPIFY_STORE_DOMAIN    = process.env.SHOPIFY_STORE_DOMAIN;
-const SHOPIFY_STOREFRONT_TOKEN = process.env.SHOPIFY_STOREFRONT_TOKEN;
-const SHOPIFY_ADMIN_TOKEN     = process.env.SHOPIFY_ADMIN_TOKEN;
+const SHOPIFY_STORE_DOMAIN     = env.SHOPIFY_STORE_DOMAIN;
+const SHOPIFY_STOREFRONT_TOKEN = env.SHOPIFY_STOREFRONT_TOKEN;
+const SHOPIFY_ADMIN_TOKEN      = env.SHOPIFY_ADMIN_TOKEN;
 
 // ── Storefront API (public) ──────────────────────────────────────────────────
 

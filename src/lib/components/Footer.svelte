@@ -42,6 +42,21 @@
 				<p class="footer-description">
 					Watch Reserve is a boutique based in Canary Wharf, specialising in the sale and sourcing of pre-owned luxury timepieces. We offer a discreet, five-star service for collectors across the UK.
 				</p>
+				<div class="footer-badges">
+					<a
+						href="https://www.chrono24.co.uk"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="footer-badge-link"
+						aria-label="Chrono24 Trusted Seller"
+					>
+						<img
+							src="/assets/trusted_seller_icon.png"
+							alt="Chrono24 Trusted Seller"
+							class="footer-badge-img"
+						/>
+					</a>
+				</div>
 			</div>
 
 			<!-- Explore column -->
@@ -504,6 +519,41 @@
 		.footer-info-inner { padding: 24px 16px; }
 		.footer-container { padding: 44px 16px 36px; }
 		.footer-bottom-inner { padding: 14px 16px; }
+	}
+
+	/* ── TRUST BADGES ── */
+	.footer-badges {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		flex-wrap: wrap;
+		margin-top: 28px;
+	}
+
+	.footer-badge-link {
+		display: inline-block;
+		flex-shrink: 0;
+		opacity: 0.9;
+		transition: opacity 0.2s ease, transform 0.2s ease;
+	}
+
+	.footer-badge-link:hover {
+		opacity: 1;
+		transform: translateY(-2px);
+	}
+
+	.footer-badge-img {
+		height: 80px;
+		width: auto;
+		display: block;
+	}
+
+	@media (max-width: 768px) {
+		.footer-badge-img { height: 68px; }
+	}
+
+	@media (max-width: 480px) {
+		.footer-badge-img { height: 60px; }
 	}
 </style>
 

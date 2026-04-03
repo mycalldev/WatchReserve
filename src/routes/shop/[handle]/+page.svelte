@@ -190,69 +190,68 @@
 			id: 'watch',
 			label: 'Watch',
 			fields: [
-				{ key: '_vendor', label: 'Brand' },
-				{ key: '_model',  label: 'Model' },
-				{ key: 'reference', label: 'Reference #' },
-				{ key: 'year',      label: 'Year' },
-				{ key: 'condition', label: 'Condition' },
-				{ key: 'functions', label: 'Functions' },
+				{ key: 'reference', label: 'Reference'  },
+				{ key: 'brand',     label: 'Brand'      },
+				{ key: 'model',     label: 'Model'      },
+				{ key: 'year',      label: 'Year'       },
+				{ key: 'condition', label: 'Condition'  },
+				{ key: 'functions', label: 'Functions'  },
+				{ key: 'box',       label: 'Box'        },
+				{ key: 'papers',    label: 'Papers'     },
 			]
 		},
 		{
 			id: 'calibre',
 			label: 'Calibre',
 			fields: [
-				{ key: 'movement',      label: 'Movement' },
-				{ key: 'calibre',       label: 'Calibre' },
-				{ key: 'power-reserve', label: 'Power Reserve' },
-				{ key: 'frequency',     label: 'Frequency' },
-				{ key: 'jewels',        label: 'Jewels' },
+				{ key: 'movement_calibre', label: 'Movement Calibre' },
+				{ key: 'power_reserve',    label: 'Power Reserve'    },
 			]
 		},
 		{
 			id: 'case',
 			label: 'Case',
 			fields: [
-				{ key: 'case-size',        label: 'Case Diameter' },
-				{ key: 'case-material',    label: 'Case Material' },
-				{ key: 'case-thickness',   label: 'Thickness' },
-				{ key: 'water-resistance', label: 'Water Resistance' },
-				{ key: 'bezel',            label: 'Bezel' },
+				{ key: 'dial',             label: 'Dial'             },
+				{ key: 'diameter',         label: 'Diameter'         },
+				{ key: 'case_material',    label: 'Material'         },
+				{ key: 'water_resistance', label: 'Water Resistance' },
 			]
 		},
 		{
 			id: 'bracelet',
 			label: 'Bracelet',
 			fields: [
-				{ key: 'bracelet-material', label: 'Bracelet Material' },
-				{ key: 'clasp',             label: 'Clasp Type' },
-				{ key: 'bracelet-width',    label: 'Lug Width' },
-				{ key: 'bracelet-color',    label: 'Colour' },
+				{ key: 'clasp_material',   label: 'Clasp Material'  },
+				{ key: 'clasp_type',       label: 'Clasp Type'      },
+				{ key: 'colour',           label: 'Colour'          },
+				{ key: 'bracelet_material', label: 'Material'       },
 			]
 		},
 	];
 
 	let activeSpecTab = $state('watch');
 
-	// Flatten all product tags into a key→value map; inject vendor & title under private keys
-	const allTagValues = $derived(
-		product.tags.reduce(
-			(acc, tag) => {
-				const idx = tag.indexOf(':');
-				if (idx !== -1) {
-					const k = tag.slice(0, idx).toLowerCase().trim();
-					const v = tag.slice(idx + 1).trim();
-					acc[k] = v;
+	// Build a lookup map from metafield key → value.
+	// Brand and Model fall back to Shopify vendor/title if metafields aren't set.
+	const metafieldMap = $derived(
+		product.metafields.reduce(
+			(acc, mf) => {
+				if (mf?.key && mf.value != null && mf.value !== '') {
+					acc[mf.key] = mf.value;
 				}
 				return acc;
 			},
-			{ _vendor: product.vendor ?? '', _model: product.title ?? '' }
+			{
+				brand: product.vendor ?? '',
+				model: product.title ?? ''
+			}
 		)
 	);
 
 	const currentTabFields = $derived(
 		(SPEC_TABS.find((t) => t.id === activeSpecTab)?.fields ?? [])
-			.map((f) => ({ ...f, value: allTagValues[f.key] ?? null }))
+			.map((f) => ({ ...f, value: metafieldMap[f.key] ?? null }))
 			.filter((f) => f.value)
 	);
 
@@ -678,7 +677,7 @@
 		width: 100%;
 		aspect-ratio: 1;
 		background: linear-gradient(135deg, #f8f6f5 0%, #f0ece9 100%);
-		border-radius: 20px;
+		border-radius: 0;
 		overflow: hidden;
 		border: 1px solid rgba(22, 11, 17, 0.07);
 	}
@@ -767,7 +766,7 @@
 		flex-shrink: 0;
 		width: 72px;
 		height: 72px;
-		border-radius: 10px;
+		border-radius: 0;
 		overflow: hidden;
 		border: 2px solid transparent;
 		cursor: pointer;
@@ -1241,7 +1240,7 @@
 	@media (max-width: 480px) {
 		.product-page { padding: 20px 14px 48px; }
 		.breadcrumb { padding: 10px 14px; }
-		.main-image-wrap { border-radius: 14px; }
+		.main-image-wrap { border-radius: 0; }
 		.thumb { width: 60px; height: 60px; }
 	}
 

@@ -31,7 +31,6 @@
 			<li><a href="/sell">SELL</a></li>
 			<li><a href="/source">SOURCE</a></li>
 			<li><a href="/service">SERVICES</a></li>
-			<li><a href="/about">ABOUT</a></li>
 			<li><a href="/blogs">BLOGS & GUIDES</a></li>
 			<li><a href="/api">API</a></li>
 		</ul>
@@ -104,7 +103,6 @@
 			<li><a href="/sell" onclick={closeMenu}>SELL</a></li>
 			<li><a href="/source" onclick={closeMenu}>SOURCE</a></li>
 			<li><a href="/service" onclick={closeMenu}>SERVICES</a></li>
-			<li><a href="/about" onclick={closeMenu}>ABOUT</a></li>
 			<li><a href="/blogs" onclick={closeMenu}>BLOGS & GUIDES</a></li>
 			<li><a href="/api" onclick={closeMenu}>API</a></li>
 				<li class="contact-li"><a href="/contact" onclick={closeMenu} class="mobile-contact-link">CONTACT</a></li>

@@ -74,14 +74,80 @@
 	</div>
 </section>
 
-<div class="homepage-badges-placeholder">
-	<div class="placeholder-banner">Trust Pilot Banner</div>
-	<div class="placeholder-banner">Finance</div>
-	<div class="placeholder-banner">Secure Delivery</div>
+<!-- ── TRUSTPILOT BAR ── -->
+<div class="tp-bar">
+	<div class="tp-bar-inner">
+		<div class="tp-main">
+			<img src="/assets/trustpilot.png" alt="Trustpilot" class="tp-logo" />
+			<div class="tp-divider" aria-hidden="true"></div>
+			<div class="tp-rating">
+				<div class="tp-stars" aria-label="4.8 out of 5 stars">
+					<!-- 4 full stars -->
+					{#each [1,2,3,4] as _}
+						<span class="tp-star tp-star--full" aria-hidden="true">
+							<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+						</span>
+					{/each}
+					<!-- 80% filled star via SVG linearGradient -->
+					<span class="tp-star" aria-hidden="true">
+						<svg viewBox="0 0 24 24" width="20" height="20">
+							<defs>
+								<linearGradient id="tp-partial-fill">
+									<stop offset="80%" stop-color="#00b67a"/>
+									<stop offset="80%" stop-color="#e0e0e0"/>
+								</linearGradient>
+							</defs>
+							<path fill="url(#tp-partial-fill)" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+						</svg>
+					</span>
+				</div>
+				<p class="tp-score"><strong>4.8</strong> out of 5</p>
+			</div>
+			<div class="tp-divider" aria-hidden="true"></div>
+			<p class="tp-label"><strong>Excellent</strong> — Rated by our customers</p>
+		</div>
+	</div>
 </div>
 
 
 <NewArrivals products={data.newArrivals} />
+
+<!-- ── TRUST BANNER ── -->
+<div class="trust-bar">
+	<div class="trust-bar-inner">
+		<div class="trust-item">
+			<span class="trust-icon" aria-hidden="true">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+					<rect x="1" y="3" width="22" height="18" rx="2" ry="2"/>
+				</svg>
+			</span>
+			<span class="trust-text">Insured Next Day Delivery</span>
+		</div>
+
+		<div class="trust-sep" aria-hidden="true"></div>
+
+		<div class="trust-item">
+			<span class="trust-icon" aria-hidden="true">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M3 7h18m0 0l-4-4m4 4l-4 4M21 17H3m0 0l4-4m-4 4l4 4"/>
+				</svg>
+			</span>
+			<span class="trust-text">Part Exchange Available</span>
+		</div>
+
+		<div class="trust-sep" aria-hidden="true"></div>
+
+		<div class="trust-item">
+			<span class="trust-icon" aria-hidden="true">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+					<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+				</svg>
+			</span>
+			<span class="trust-text">Finance Available</span>
+		</div>
+	</div>
+</div>
 
 <section class="brands-section">
 	<div class="brands-container">
@@ -199,27 +265,13 @@
 			Live Market Data
 		</div>
 		<h2 class="api-heading">
-			Market Intelligence,<br /><em>At Your Fingertips</em>
+			Real-Time<br /><em>Asset Valuation</em>
 		</h2>
 		<p class="api-body">
 			The Watch Reserve Intelligence API delivers real-time pricing, 15 years of historical trends,
-			and deep reference data across 40,000+ references — built for dealers, collectors, and
+			and deep reference data across 40,000+ references — for collectors and
 			platforms who demand accuracy.
 		</p>
-		<div class="api-features">
-			<div class="api-feature">
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-				Sub-second price updates from verified transactions
-			</div>
-			<div class="api-feature">
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-				Dealer-grade authenticated data — no estimates
-			</div>
-			<div class="api-feature">
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-				RESTful & GraphQL endpoints, full OpenAPI spec
-			</div>
-		</div>
 		<a href="/api" class="api-cta">
 			Explore the API
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -231,7 +283,7 @@
 	<div class="sell-source-container">
 		<div class="sell-source-image-wrapper">
 			<img
-				src="/assets/lifestyle/AP_wrist_jean1.avif"
+				src="/assets/lifestyle/Mulit_Watch2.avif"
 				alt="Luxury watch on wrist"
 				class="sell-source-image"
 			/>
@@ -253,8 +305,8 @@
 					Request a Watch
 					<span class="arrow">→</span>
 				</a>
-				<a href="/contact" class="sell-source-link">
-					Contact Us
+				<a href="/sell#part-exchange" class="sell-source-link">
+					Part Exchange
 					<span class="arrow">→</span>
 				</a>
 			</div>
@@ -327,32 +379,6 @@
 	</div>
 </section>
 
-<section class="luxury-section">
-	<div class="luxury-container">
-		<div class="luxury-image-wrapper">
-			<img
-				src="/assets/gifs/giffycanvas (12).gif"
-				alt="Luxury watch"
-				class="luxury-image"
-			/>
-		</div>
-		<div class="luxury-content">
-			<h2 class="luxury-headline">
-				Luxury is <em>Personal</em>
-			</h2>
-			<p class="luxury-text">
-				At Watch Reserve, we believe the experience should reflect the calibre of the watch. Whether you're building a collection or investing in your first timepiece, our service is personal, thoughtful, and rooted in genuine expertise.
-			</p>
-			<p class="luxury-text">
-				We stock and source rare watches from the world's most iconic brands and we back every transaction with guidance you can trust.
-			</p>
-			<p class="luxury-text">
-				This isn't just a purchase. It's your next signature piece, handled with care by people who understand its value.
-			</p>
-			<button class="about-btn">About Us</button>
-		</div>
-	</div>
-</section>
 
 <Reviews />
 
@@ -491,222 +517,160 @@
 		}
 	}
 
-	.homepage-badges-placeholder {
+	/* ── TRUSTPILOT BAR ── */
+	.tp-bar {
+		width: 100%;
+		background: #ffffff;
+		border-top: 1px solid rgba(22, 11, 17, 0.07);
+		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+		padding: 18px 40px;
+		box-sizing: border-box;
+	}
+
+	.tp-bar-inner {
+		max-width: 1240px;
+		margin: 0 auto;
 		display: flex;
 		justify-content: center;
-		gap: 2rem;
-		margin: 2rem 0;
 	}
-	.placeholder-banner {
-		background: #f3f3f3;
-		color: #333;
-		border-radius: 8px;
-		padding: 1.25rem 2rem;
-		font-size: 1.1rem;
+
+	.tp-main {
+		display: flex;
+		align-items: center;
+		gap: 28px;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.tp-logo {
+		height: 28px;
+		width: auto;
+		display: block;
+		flex-shrink: 0;
+	}
+
+	.tp-divider {
+		width: 1px;
+		height: 28px;
+		background: rgba(22, 11, 17, 0.1);
+		flex-shrink: 0;
+	}
+
+	.tp-rating {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.tp-stars {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+	}
+
+	.tp-star--full {
+		color: #00b67a;
+	}
+
+
+	.tp-score {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		color: #160b11;
+		margin: 0;
+		white-space: nowrap;
+	}
+
+	.tp-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		color: rgba(22, 11, 17, 0.6);
+		margin: 0;
+		white-space: nowrap;
+	}
+
+	.tp-label strong {
+		color: #160b11;
 		font-weight: 600;
-		box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-		text-align: center;
-		min-width: 160px;
 	}
 
-	.luxury-section {
-		width: 100%;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		min-height: 600px;
-		box-sizing: border-box;
-		overflow-x: hidden;
+	@media (max-width: 640px) {
+		.tp-bar { padding: 16px 20px; }
+		.tp-divider { display: none; }
+		.tp-main { gap: 14px; }
+		.tp-label { display: none; }
+		.tp-logo { height: 22px; }
 	}
 
-	.luxury-container {
-		display: flex;
+	/* ── TRUST BANNER ── */
+	.trust-bar {
 		width: 100%;
-		margin: 0;
-		padding: 0;
+		background: #ffffff;
+		border-top: 1px solid rgba(22, 11, 17, 0.07);
+		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+		padding: 18px 40px;
 		box-sizing: border-box;
 	}
 
-	.luxury-image-wrapper {
-		width: 40%;
-		background-color: #e5e5e5;
+	.trust-bar-inner {
+		max-width: 1240px;
+		margin: 0 auto;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 60px 40px;
-		position: relative;
-		box-sizing: border-box;
+		gap: 0;
 	}
 
-	.luxury-image {
-		width: 100%;
-		max-width: 500px;
-		height: auto;
-		object-fit: contain;
-		border-radius: 12px;
-		display: block;
-	}
-
-	.luxury-content {
-		width: 60%;
-		background-color: #e5e5e5;
-		padding: 80px 60px;
+	.trust-item {
 		display: flex;
-		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+		padding: 0 40px;
+		flex: 1;
 		justify-content: center;
-		box-sizing: border-box;
 	}
 
-	.luxury-headline {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: clamp(2rem, 4vw, 3.5rem);
-		font-weight: 400;
-		color: #160b11;
-		margin: 0 0 32px 0;
-		line-height: 1.2;
-		letter-spacing: -0.02em;
+	.trust-icon {
+		color: #a1846d;
+		display: flex;
+		align-items: center;
+		flex-shrink: 0;
 	}
 
-	.luxury-headline em {
-		font-style: italic;
-		font-weight: 400;
-	}
-
-	.luxury-text {
+	.trust-text {
 		font-family: 'Montserrat', sans-serif;
-		font-size: clamp(0.95rem, 1.2vw, 1.125rem);
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
 		color: #160b11;
-		margin: 0 0 24px 0;
-		line-height: 1.7;
-		font-weight: 300;
-		letter-spacing: 0.01em;
+		white-space: nowrap;
 	}
 
-	.luxury-text:last-of-type {
-		margin-bottom: 40px;
+	.trust-text sup {
+		font-size: 0.6em;
+		vertical-align: super;
 	}
 
-	.about-btn {
-		background-color: #a1846d;
-		color: #ffffff;
-		border: none;
-		padding: 14px 32px;
-		border-radius: 0;
-		font-family: 'Montserrat', sans-serif;
-		font-size: 1rem;
-		font-weight: 500;
-		cursor: pointer;
-		transition: all 0.3s ease;
-		letter-spacing: 0.01em;
-		align-self: flex-start;
-	}
-
-	.about-btn:hover {
-		background-color: #8a6f59;
-		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-	}
-
-	.about-btn:active {
-		transform: translateY(0);
-	}
-
-	@media (max-width: 1024px) {
-		.luxury-image-wrapper {
-			padding: 50px 30px;
-		}
-
-		.luxury-content {
-			padding: 60px 40px;
-		}
+	.trust-sep {
+		width: 1px;
+		height: 28px;
+		background: rgba(22, 11, 17, 0.1);
+		flex-shrink: 0;
 	}
 
 	@media (max-width: 768px) {
-		.luxury-section {
-			flex-direction: column;
-			min-height: auto;
-		}
-
-		.luxury-container {
-			flex-direction: column;
-		}
-
-		.luxury-image-wrapper {
-			width: 100%;
-			padding: 40px 20px;
-			order: 1;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			box-sizing: border-box;
-		}
-
-		.luxury-image {
-			width: auto;
-			max-width: 100%;
-			height: auto;
-			margin: 0 auto;
-			object-fit: contain;
-			display: block;
-		}
-
-		.luxury-content {
-			width: 100%;
-			padding: 50px 30px;
-			order: 2;
-			box-sizing: border-box;
-			text-align: start;
-			align-items: flex-start;
-		}
-
-		.luxury-headline {
-			margin: 0 0 24px 0;
-			text-align: start;
-		}
-
-		.luxury-text {
-			margin: 0 0 20px 0;
-			text-align: start;
-		}
-
-		.luxury-text:last-of-type {
-			margin-bottom: 32px;
-		}
-
-		.about-btn {
-			width: 100%;
-			max-width: 300px;
-			align-self: center;
-		}
+		.trust-bar { padding: 16px 20px; }
+		.trust-item { padding: 0 20px; }
+		.trust-text { font-size: 0.72rem; letter-spacing: 0.04em; }
 	}
 
-	@media (max-width: 480px) {
-		.luxury-image-wrapper {
-			padding: 30px 15px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			box-sizing: border-box;
-		}
-
-		.luxury-image {
-			width: auto;
-			max-width: 100%;
-			height: auto;
-			object-fit: contain;
-			display: block;
-			margin: 0 auto;
-		}
-
-		.luxury-content {
-			padding: 40px 20px;
-			box-sizing: border-box;
-		}
-
-		.luxury-text {
-			font-size: 0.95rem;
-		}
+	@media (max-width: 540px) {
+		.trust-bar-inner { flex-direction: column; gap: 14px; }
+		.trust-sep { display: none; }
+		.trust-item { padding: 0; width: 100%; justify-content: center; }
 	}
+
 
 	/* ── ABOUT WATCH RESERVE ── */
 	.about-wr-section {
@@ -882,33 +846,46 @@
 	.sell-source-links {
 		display: flex;
 		flex-direction: column;
-		gap: 24px;
+		border-top: 1px solid rgba(255, 255, 255, 0.15);
 	}
 
 	.sell-source-link {
-		display: inline-flex;
+		display: flex;
 		align-items: center;
-		gap: 12px;
+		justify-content: space-between;
 		color: #ffffff;
 		text-decoration: none;
 		font-family: 'Montserrat', sans-serif;
-		font-size: clamp(1rem, 1.2vw, 1.125rem);
-		font-weight: 400;
-		letter-spacing: 0.01em;
-		transition: all 0.3s ease;
+		font-size: clamp(0.875rem, 1.1vw, 1rem);
+		font-weight: 500;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		padding: 20px 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+		transition: padding-left 0.3s ease, color 0.3s ease;
 	}
 
 	.sell-source-link:hover {
-		opacity: 0.8;
-		gap: 16px;
+		padding-left: 8px;
+		color: #a1846d;
 	}
 
 	.sell-source-link .arrow {
-		font-size: 1.2em;
-		transition: transform 0.3s ease;
+		width: 32px;
+		height: 32px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		border-radius: 50%;
+		flex-shrink: 0;
+		font-size: 0.9em;
+		transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 	}
 
 	.sell-source-link:hover .arrow {
+		background-color: #a1846d;
+		border-color: #a1846d;
 		transform: translateX(4px);
 	}
 
@@ -949,7 +926,7 @@
 		}
 
 		.sell-source-links {
-			gap: 20px;
+			gap: 0;
 		}
 	}
 
@@ -1183,13 +1160,13 @@
 	.api-section {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		min-height: 680px;
+		min-height: 0;
 		background-color: #ffffff;
 	}
 
 	/* ── Widget column ── */
 	.api-widget-col {
-		padding: 64px 48px;
+		padding: 72px 48px;
 		box-sizing: border-box;
 		background-color: #ffffff;
 		display: flex;
@@ -1200,7 +1177,7 @@
 	.api-widget {
 		width: 100%;
 		background-color: #ffffff;
-		border-radius: 16px;
+		border-radius: 0;
 		overflow: hidden;
 		border: 1px solid rgba(22, 11, 17, 0.1);
 		box-shadow:
@@ -1208,12 +1185,11 @@
 			0 16px 48px rgba(22, 11, 17, 0.08);
 	}
 
-	/* Widget header bar — kept dark as a branded terminal chrome */
 	.widget-header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		background-color: #422635;
+		background-color: #a1846d;
 		padding: 14px 20px;
 		gap: 12px;
 	}
@@ -1313,7 +1289,7 @@
 	}
 
 	.widget-row:hover {
-		background-color: rgba(66, 38, 53, 0.03);
+		background-color: rgba(161, 132, 109, 0.05);
 	}
 
 	.widget-row--flash {
@@ -1321,7 +1297,7 @@
 	}
 
 	@keyframes widgetFlash {
-		0%   { background-color: rgba(201, 162, 48, 0.12); }
+		0%   { background-color: rgba(161, 132, 109, 0.14); }
 		100% { background-color: transparent; }
 	}
 
@@ -1339,7 +1315,7 @@
 		font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
 		font-size: 0.75rem;
 		color: #8a7570;
-		background-color: rgba(66, 38, 53, 0.06);
+		background-color: rgba(161, 132, 109, 0.08);
 		padding: 2px 7px;
 		border-radius: 4px;
 		width: fit-content;
@@ -1395,13 +1371,12 @@
 
 	/* ── Content column ── */
 	.api-content-col {
-		padding: 80px 64px 80px 64px;
+		padding: 72px 64px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		box-sizing: border-box;
-		background-color: #faf8f5;
-		border-left: 1px solid rgba(22, 11, 17, 0.08);
+		background-color: #ffffff;
 	}
 
 	/* Live badge — adapted for light background */
@@ -1502,7 +1477,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 10px;
-		background-color: #422635;
+		background-color: #a1846d;
 		color: #ffffff;
 		text-decoration: none;
 		padding: 14px 32px;
@@ -1516,9 +1491,9 @@
 	}
 
 	.api-cta:hover {
-		background-color: #2e1924;
+		background-color: #8a6f59;
 		transform: translateY(-2px);
-		box-shadow: 0 6px 24px rgba(66, 38, 53, 0.3);
+		box-shadow: 0 6px 24px rgba(161, 132, 109, 0.3);
 		gap: 14px;
 	}
 

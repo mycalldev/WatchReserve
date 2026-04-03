@@ -59,7 +59,7 @@
 		</div>
 
 		<div class="reviews-grid">
-			{#each reviews as review}
+			{#each reviews.slice(0, 3) as review}
 				<div class="review-card">
 					<div class="review-rating">
 						{#each renderStars(review.rating) as filled}
