@@ -2,6 +2,18 @@
 	let { data } = $props();
 	const collection = $derived(data.collection);
 
+	const localHeroImages = {
+		'audemars-piguet': '/assets/hero/AP_Category_Banner.jpg',
+		'patek-philippe':  '/assets/hero/PP_Category_Banner.jpg',
+		'patek-phillipe':  '/assets/hero/PP_Category_Banner.jpg'
+	};
+
+	const heroImage = $derived(
+		localHeroImages[collection.handle]
+			? { url: localHeroImages[collection.handle], altText: collection.title }
+			: collection.image
+	);
+
 	let sortOrder    = $state('default');
 	let activeModel  = $state(null); // null = show all
 
@@ -64,9 +76,9 @@
 </nav>
 
 <!-- Hero -->
-<header class="collection-hero" class:has-image={!!collection.image}>
-	{#if collection.image}
-		<img src={collection.image.url} alt={collection.image.altText} class="hero-bg" aria-hidden="true" />
+<header class="collection-hero" class:has-image={!!heroImage}>
+	{#if heroImage}
+		<img src={heroImage.url} alt={heroImage.altText} class="hero-bg" aria-hidden="true" fetchpriority="high" />
 		<div class="hero-overlay" aria-hidden="true"></div>
 	{/if}
 

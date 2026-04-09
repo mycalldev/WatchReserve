@@ -77,10 +77,10 @@
 			<div class="footer-col">
 				<h3 class="footer-col-label">Collections</h3>
 				<nav class="footer-nav">
-					<a href="/shop/rolex">Rolex</a>
-					<a href="/shop/audemars-piguet">Audemars Piguet</a>
-					<a href="/shop/patek-philippe">Patek Philippe</a>
-					<a href="/shop/curated-editions">Curated Editions</a>
+					<a href="/collections/rolex">Rolex</a>
+					<a href="/collections/audemars-piguet">Audemars Piguet</a>
+					<a href="/collections/patek-philippe">Patek Philippe</a>
+					<a href="/collections/curated-editions">Curated Editions</a>
 				</nav>
 
 				<h3 class="footer-col-label footer-col-label--spaced">Legal</h3>
@@ -228,7 +228,7 @@
 	───────────────────────────────────────── */
 	.footer {
 		background-color: #160b11;
-		color: #e5e5e5;
+		color: #ffffff;
 		width: 100%;
 		padding: 0;
 		margin: 0;
@@ -246,7 +246,7 @@
 		grid-template-columns: 1.6fr 1fr 1fr 1.5fr;
 		gap: 64px;
 		padding-bottom: 64px;
-		border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	}
 
 	.footer-col {
@@ -258,7 +258,7 @@
 		font-family: 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.375rem, 2vw, 1.875rem);
 		font-weight: 400;
-		color: #e5e5e5;
+		color: #ffffff;
 		margin: 0 0 20px 0;
 		line-height: 1.3;
 		letter-spacing: -0.01em;
@@ -267,7 +267,7 @@
 	.footer-description {
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9rem;
-		color: rgba(229, 229, 229, 0.6);
+		color: rgba(255, 255, 255, 0.72);
 		line-height: 1.8;
 		font-weight: 400;
 		letter-spacing: 0.01em;
@@ -296,7 +296,7 @@
 	}
 
 	.footer-nav a {
-		color: rgba(229, 229, 229, 0.7);
+		color: #ffffff;
 		text-decoration: none;
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9rem;
@@ -348,7 +348,7 @@
 		font-family: 'Georgia', 'Times New Roman', serif;
 		font-size: 1.25rem;
 		font-weight: 400;
-		color: #e5e5e5;
+		color: #ffffff;
 		margin: 0 0 14px 0;
 		line-height: 1.35;
 		letter-spacing: -0.01em;
@@ -357,7 +357,7 @@
 	.api-body {
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
-		color: rgba(229, 229, 229, 0.55);
+		color: rgba(255, 255, 255, 0.72);
 		line-height: 1.75;
 		font-weight: 400;
 		margin: 0 0 28px 0;
@@ -392,7 +392,7 @@
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8125rem;
 		font-weight: 500;
-		color: rgba(161, 132, 109, 0.65);
+		color: #ffffff;
 		text-decoration: none;
 		letter-spacing: 0.01em;
 		transition: color 0.2s ease;

@@ -672,6 +672,60 @@ export async function getBlogs(first = 10) {
 	}));
 }
 
+// ── Single Article (Storefront) ──────────────────────────────────────────────
+
+const ARTICLE_QUERY = `
+  query GetArticle($blogHandle: String!, $articleHandle: String!) {
+    blog(handle: $blogHandle) {
+      id
+      handle
+      title
+      articleByHandle(handle: $articleHandle) {
+        id
+        title
+        handle
+        contentHtml
+        excerpt
+        publishedAt
+        tags
+        image {
+          url
+          altText
+          width
+          height
+        }
+        author {
+          name
+        }
+        blog {
+          handle
+          title
+        }
+      }
+    }
+  }
+`;
+
+export async function getArticle(blogHandle, articleHandle) {
+	const data = await shopifyFetch(ARTICLE_QUERY, { blogHandle, articleHandle });
+	const blog = data?.blog;
+	const a = blog?.articleByHandle;
+	if (!a) return null;
+	return {
+		id: a.id,
+		title: a.title,
+		handle: a.handle,
+		contentHtml: a.contentHtml ?? '',
+		excerpt: a.excerpt ?? '',
+		publishedAt: a.publishedAt,
+		tags: a.tags ?? [],
+		image: a.image ? { url: a.image.url, alt: a.image.altText ?? a.title, width: a.image.width, height: a.image.height } : null,
+		author: a.author?.name ?? null,
+		blogHandle: blog.handle,
+		blogTitle: blog.title
+	};
+}
+
 // ── Cart mutations (Storefront) ───────────────────────────────────────────────
 
 const CREATE_CART_MUTATION = `

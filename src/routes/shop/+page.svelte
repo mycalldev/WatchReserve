@@ -1,4 +1,6 @@
 <script>
+	import WishlistButton from '$lib/components/WishlistButton.svelte';
+
 	let { data } = $props();
 
 	const products = data.products;
@@ -141,6 +143,7 @@
 				{#each filteredProducts() as product (product.id)}
 					{@const status = product.status?.trim() ?? null}
 					{@const statusSlug = status ? status.toLowerCase().replace(/\s+/g, '-') : 'available'}
+					<div class="product-card-wrap">
 					<a href="/shop/{product.handle}" class="product-card">
 						<div class="product-image-wrapper">
 							{#if product.image}
@@ -180,6 +183,8 @@
 							</div>
 						</div>
 					</a>
+					<WishlistButton {product} />
+					</div>
 				{/each}
 			</div>
 		{/if}
@@ -379,8 +384,14 @@
 		gap: 24px;
 	}
 
+	/* ── CARD WRAPPER ── */
+	.product-card-wrap {
+		position: relative;
+	}
+
 	/* ── CARD ── */
 	.product-card {
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		background-color: #ffffff;

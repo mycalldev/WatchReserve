@@ -151,7 +151,7 @@
 
 <section class="brands-section">
 	<div class="brands-container">
-		<div class="brand-card">
+		<a href="/collections/rolex" class="brand-card">
 			<div class="brand-image-wrapper">
 				<img
 					src="/assets/lifestyle/Rolex_Explore_All.avif"
@@ -163,9 +163,9 @@
 				<h3 class="brand-name">Rolex</h3>
 				<p class="brand-description">The world's most iconic watches</p>
 			</div>
-		</div>
+		</a>
 
-		<div class="brand-card">
+		<a href="/collections/patek-philippe" class="brand-card">
 			<div class="brand-image-wrapper">
 				<img
 					src="/assets/lifestyle/PP_Explore_All.avif"
@@ -177,9 +177,9 @@
 				<h3 class="brand-name">Patek Philippe</h3>
 				<p class="brand-description">Timeless elegance, investment quality</p>
 			</div>
-		</div>
+		</a>
 
-		<div class="brand-card">
+		<a href="/collections/audemars-piguet" class="brand-card">
 			<div class="brand-image-wrapper">
 				<img
 					src="/assets/lifestyle/AP_Explore_All.avif"
@@ -191,9 +191,9 @@
 				<h3 class="brand-name">Audemars Piguet</h3>
 				<p class="brand-description">Bold design for modern collectors</p>
 			</div>
-		</div>
+		</a>
 
-		<div class="brand-card">
+		<a href="/collections/curated-editions" class="brand-card">
 			<div class="brand-image-wrapper">
 				<img
 					src="/assets/lifestyle/Curated_Editions_Explore_All.avif"
@@ -205,7 +205,7 @@
 				<h3 class="brand-name">Curated Editions</h3>
 				<p class="brand-description">Cartier, Richard Mille, and more</p>
 			</div>
-		</div>
+		</a>
 	</div>
 </section>
 
@@ -966,6 +966,8 @@
 		overflow: hidden;
 		cursor: pointer;
 		min-height: 500px;
+		text-decoration: none;
+		color: inherit;
 	}
 
 	.brand-image-wrapper {

@@ -1,14 +1,13 @@
 <script>
 	let { data } = $props();
-	const { blogs, articles } = data;
+	const { articles, blogs } = data;
 
-	// Active blog filter — null means "All"
-	let activeFilter = $state(null);
+	let selectedBlog = $state('all');
 
 	const filtered = $derived(
-		activeFilter
-			? articles.filter((a) => a.blogHandle === activeFilter)
-			: articles
+		selectedBlog === 'all'
+			? articles
+			: articles.filter((a) => a.blogHandle === selectedBlog)
 	);
 
 	function formatDate(iso) {
@@ -18,570 +17,172 @@
 			year: 'numeric'
 		});
 	}
-
-	// Pick the featured article (first overall, or first in filtered view)
-	const featured = $derived(filtered[0] ?? null);
-	const rest     = $derived(filtered.slice(1));
 </script>
 
 <svelte:head>
 	<title>Blogs &amp; Guides — Watch Reserve</title>
-	<meta name="description" content="Expert guides, market insights and stories from Watch Reserve — London's destination for pre-owned luxury timepieces." />
+	<meta name="description" content="Expert guides, market insights and watch buying advice from Watch Reserve." />
 </svelte:head>
 
-<!-- ── HERO ── -->
-<section class="jn-hero" aria-label="Blogs and Guides">
-	<div class="jn-hero-content">
-		<p class="jn-hero-eyebrow">Watch Reserve</p>
-		<h1 class="jn-hero-heading">Blogs &amp; Guides</h1>
-		<p class="jn-hero-sub">
-			Market insights, collector guides and stories from the world of luxury horology.
-		</p>
+<div class="page-header">
+	<div class="page-header-content">
+		<p class="page-eyebrow">Knowledge &amp; Insight</p>
+		<h1 class="page-title">Blogs &amp; Guides</h1>
+		<p class="page-subtitle">Expert advice, market insights and collector knowledge</p>
 	</div>
-</section>
+</div>
 
-<!-- ── FILTER TABS ── -->
-{#if blogs.length > 1}
-	<div class="jn-filters-wrap">
-		<div class="jn-filters" role="tablist" aria-label="Filter by category">
-			<button
-				class="jn-filter-pill"
-				class:jn-filter-pill--active={activeFilter === null}
-				role="tab"
-				aria-selected={activeFilter === null}
-				onclick={() => (activeFilter = null)}
-			>
-				All
-			</button>
-			{#each blogs as blog}
-				<button
-					class="jn-filter-pill"
-					class:jn-filter-pill--active={activeFilter === blog.handle}
-					role="tab"
-					aria-selected={activeFilter === blog.handle}
-					onclick={() => (activeFilter = blog.handle)}
-				>
-					{blog.title}
-				</button>
-			{/each}
-		</div>
-	</div>
-{/if}
+<main class="blogs-page">
+	<div class="blogs-container">
 
-<!-- ── CONTENT ── -->
-<div class="jn-content">
-
-	{#if filtered.length === 0}
-		<!-- Empty / coming soon state -->
-		<div class="jn-empty">
-			<div class="jn-empty-icon" aria-hidden="true">
-				<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-				</svg>
+		{#if blogs.length > 1}
+			<div class="filter-bar">
+				<button class="filter-pill" class:active={selectedBlog === 'all'} onclick={() => (selectedBlog = 'all')}>All</button>
+				{#each blogs as blog}
+					<button class="filter-pill" class:active={selectedBlog === blog.handle} onclick={() => (selectedBlog = blog.handle)}>{blog.title}</button>
+				{/each}
 			</div>
-			<h2 class="jn-empty-title">Articles coming soon</h2>
-			<p class="jn-empty-text">
-				We're busy crafting expert guides and market insights. Check back shortly — there's plenty on the way.
-			</p>
-		</div>
-
-	{:else}
-		<!-- Featured article -->
-		{#if featured}
-			<a href="/blogs/{featured.blogHandle}/{featured.handle}" class="jn-featured">
-				<div class="jn-featured-img-wrap">
-					{#if featured.image}
-						<img
-							src={featured.image.url}
-							alt={featured.image.alt}
-							class="jn-featured-img"
-							loading="lazy"
-						/>
-					{:else}
-						<div class="jn-featured-img jn-img-placeholder" aria-hidden="true"></div>
-					{/if}
-					<span class="jn-featured-badge">Featured</span>
-				</div>
-				<div class="jn-featured-body">
-					<div class="jn-meta">
-						<span class="jn-meta-blog">{featured.blogTitle}</span>
-						{#if featured.publishedAt}
-							<span class="jn-meta-sep" aria-hidden="true">·</span>
-							<time class="jn-meta-date" datetime={featured.publishedAt}>{formatDate(featured.publishedAt)}</time>
-						{/if}
-						{#if featured.author}
-							<span class="jn-meta-sep" aria-hidden="true">·</span>
-							<span class="jn-meta-author">{featured.author}</span>
-						{/if}
-					</div>
-					<h2 class="jn-featured-title">{featured.title}</h2>
-					{#if featured.excerpt}
-						<p class="jn-featured-excerpt">{featured.excerpt}</p>
-					{/if}
-					{#if featured.tags?.length}
-						<div class="jn-tags" aria-label="Tags">
-							{#each featured.tags.slice(0, 3) as tag}
-								<span class="jn-tag">{tag}</span>
-							{/each}
-						</div>
-					{/if}
-					<span class="jn-read-more">
-						Read article
-						<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-							<path d="M5 12h14M12 5l7 7-7 7"/>
-						</svg>
-					</span>
-				</div>
-			</a>
 		{/if}
 
-		<!-- Article grid -->
-		{#if rest.length > 0}
-			<div class="jn-grid-head">
-				<h2 class="jn-grid-title">
-					{activeFilter ? blogs.find(b => b.handle === activeFilter)?.title ?? 'Articles' : 'Latest Articles'}
-				</h2>
-				<span class="jn-grid-count">{filtered.length} article{filtered.length !== 1 ? 's' : ''}</span>
+		{#if filtered.length === 0}
+			<div class="empty-state">
+				<p class="empty-title">No articles yet</p>
+				<p class="empty-sub">Check back soon — new guides are on the way.</p>
 			</div>
-
-			<div class="jn-grid">
-				{#each rest as article}
-					<a href="/blogs/{article.blogHandle}/{article.handle}" class="jn-card">
-						<div class="jn-card-img-wrap">
+		{:else}
+			<p class="article-count">{filtered.length} article{filtered.length !== 1 ? 's' : ''}</p>
+			<div class="articles-grid">
+				{#each filtered as article (article.id)}
+					<a href="/blogs/{article.blogHandle}/{article.handle}" class="article-card">
+						<div class="card-img-wrap">
 							{#if article.image}
-								<img
-									src={article.image.url}
-									alt={article.image.alt}
-									class="jn-card-img"
-									loading="lazy"
-								/>
+								<img src={article.image.url} alt={article.image.alt} class="card-img" loading="lazy" />
 							{:else}
-								<div class="jn-card-img jn-img-placeholder" aria-hidden="true"></div>
-							{/if}
-						</div>
-						<div class="jn-card-body">
-							<div class="jn-meta jn-meta--sm">
-								<span class="jn-meta-blog">{article.blogTitle}</span>
-								{#if article.publishedAt}
-									<span class="jn-meta-sep" aria-hidden="true">·</span>
-									<time class="jn-meta-date" datetime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
-								{/if}
-							</div>
-							<h3 class="jn-card-title">{article.title}</h3>
-							{#if article.excerpt}
-								<p class="jn-card-excerpt">{article.excerpt}</p>
-							{/if}
-							{#if article.tags?.length}
-								<div class="jn-tags" aria-label="Tags">
-									{#each article.tags.slice(0, 2) as tag}
-										<span class="jn-tag">{tag}</span>
-									{/each}
+								<div class="card-img-placeholder" aria-hidden="true">
+									<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#a1846d" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
+									</svg>
 								</div>
 							{/if}
+						</div>
+						<div class="card-body">
+							<div class="card-meta">
+								<time datetime={article.publishedAt} class="card-date">{formatDate(article.publishedAt)}</time>
+							</div>
+							<h2 class="card-title">{article.title}</h2>
+							{#if article.excerpt}<p class="card-excerpt">{article.excerpt}</p>{/if}
+							<span class="read-more">Read Article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg></span>
 						</div>
 					</a>
 				{/each}
 			</div>
 		{/if}
-	{/if}
 
-</div>
+	</div>
+</main>
 
 <style>
-	/* ── HERO ── */
-	.jn-hero {
-		width: 100%;
-		background-color: #160b11;
-		display: flex;
-		align-items: center;
-		padding: 52px 60px;
-		box-sizing: border-box;
+	.page-header {
+		background: linear-gradient(160deg, #1e0e19 0%, #160b11 60%, #1a0d16 100%);
+		border-bottom: 1px solid rgba(161, 132, 109, 0.2);
+		padding: 80px 40px 72px;
+		text-align: center;
+		position: relative;
+		overflow: hidden;
 	}
-
-	.jn-hero-content {
-		max-width: 1240px;
-		margin: 0 auto;
-		width: 100%;
+	.page-header::before {
+		content: '';
+		position: absolute;
+		top: -80px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 600px;
+		height: 320px;
+		background: radial-gradient(ellipse, rgba(161, 132, 109, 0.07) 0%, transparent 70%);
+		pointer-events: none;
 	}
-
-	.jn-hero-eyebrow {
+	.page-header-content { position: relative; z-index: 1; }
+	.page-eyebrow {
 		font-family: 'Montserrat', sans-serif;
-		font-size: 0.7rem;
+		font-size: 0.72rem;
 		font-weight: 700;
-		letter-spacing: 0.18em;
+		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: #a1846d;
-		margin: 0 0 12px 0;
+		margin: 0 0 14px 0;
 	}
-
-	.jn-hero-heading {
+	.page-title {
 		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+		font-size: clamp(2.5rem, 5vw, 3.75rem);
 		font-weight: 400;
 		color: #ffffff;
-		margin: 0 0 12px 0;
-		line-height: 1.15;
+		margin: 0 0 16px 0;
 		letter-spacing: -0.02em;
+		line-height: 1.12;
 	}
-
-	.jn-hero-sub {
+	.page-subtitle {
 		font-family: 'Montserrat', sans-serif;
-		font-size: clamp(0.85rem, 1.1vw, 0.9375rem);
-		color: rgba(255, 255, 255, 0.55);
+		font-size: 0.9375rem;
+		color: rgba(255, 255, 255, 0.45);
 		margin: 0;
-		line-height: 1.65;
-		font-weight: 300;
-		max-width: 480px;
+		letter-spacing: 0.02em;
 	}
-
-	/* ── FILTER TABS ── */
-	.jn-filters-wrap {
-		background: #ffffff;
-		border-bottom: 1px solid rgba(22, 11, 17, 0.08);
-		padding: 0 60px;
-	}
-
-	.jn-filters {
+	.blogs-page { background-color: #ffffff; min-height: 50vh; }
+	.blogs-container { max-width: 1400px; margin: 0 auto; padding: 56px 40px 100px; }
+	.filter-bar {
 		display: flex;
-		gap: 0;
+		gap: 6px;
+		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+		margin-bottom: 40px;
 		overflow-x: auto;
 		scrollbar-width: none;
-		-ms-overflow-style: none;
 	}
-
-	.jn-filters::-webkit-scrollbar { display: none; }
-
-	.jn-filter-pill {
+	.filter-bar::-webkit-scrollbar { display: none; }
+	.filter-pill {
 		flex-shrink: 0;
-		padding: 18px 22px;
+		padding: 12px 22px;
 		background: none;
 		border: none;
 		border-bottom: 2px solid transparent;
 		font-family: 'Montserrat', sans-serif;
-		font-size: 0.72rem;
-		font-weight: 600;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: rgba(22, 11, 17, 0.45);
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: #888;
 		cursor: pointer;
-		transition: color 0.18s ease, border-color 0.18s ease;
+		white-space: nowrap;
+		transition: color 0.2s ease, border-color 0.2s ease;
 		margin-bottom: -1px;
 	}
-
-	.jn-filter-pill:hover { color: #160b11; }
-
-	.jn-filter-pill--active {
-		color: #a1846d;
-		border-bottom-color: #a1846d;
-	}
-
-	/* ── CONTENT WRAPPER ── */
-	.jn-content {
-		max-width: 1240px;
-		margin: 0 auto;
-		padding: 72px 60px 100px;
-	}
-
-	/* ── EMPTY STATE ── */
-	.jn-empty {
+	.filter-pill:hover { color: #160b11; }
+	.filter-pill.active { color: #160b11; font-weight: 600; border-bottom-color: #a1846d; }
+	.article-count { font-family: 'Montserrat', sans-serif; font-size: 0.875rem; color: #999; margin: 0 0 32px 0; }
+	.articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+	.article-card {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		text-align: center;
-		padding: 80px 20px;
-		gap: 16px;
-	}
-
-	.jn-empty-icon {
-		width: 72px;
-		height: 72px;
-		border-radius: 50%;
-		background: rgba(161, 132, 109, 0.08);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: #a1846d;
-		margin-bottom: 8px;
-	}
-
-	.jn-empty-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: 1.6rem;
-		font-weight: 400;
-		color: #160b11;
-		margin: 0;
-	}
-
-	.jn-empty-text {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.9375rem;
-		color: rgba(22, 11, 17, 0.5);
-		margin: 0;
-		max-width: 440px;
-		line-height: 1.7;
-		font-weight: 300;
-	}
-
-	/* ── FEATURED ARTICLE ── */
-	.jn-featured {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 0;
 		text-decoration: none;
+		color: inherit;
 		border: 1px solid rgba(22, 11, 17, 0.08);
-		overflow: hidden;
-		margin-bottom: 72px;
-		transition: box-shadow 0.25s ease, transform 0.25s ease;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.05);
+		transition: transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.32s ease;
 	}
-
-	.jn-featured:hover {
-		box-shadow: 0 12px 40px rgba(22, 11, 17, 0.1);
-		transform: translateY(-3px);
-	}
-
-	.jn-featured-img-wrap {
-		position: relative;
-		overflow: hidden;
-		min-height: 380px;
-	}
-
-	.jn-featured-img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		display: block;
-		transition: transform 0.5s ease;
-	}
-
-	.jn-featured:hover .jn-featured-img {
-		transform: scale(1.04);
-	}
-
-	.jn-featured-badge {
-		position: absolute;
-		top: 18px;
-		left: 18px;
-		background: #a1846d;
-		color: #ffffff;
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.62rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		padding: 5px 12px;
-	}
-
-	.jn-featured-body {
-		padding: 48px 52px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		gap: 16px;
-		background: #ffffff;
-	}
-
-	.jn-featured-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: clamp(1.4rem, 2.2vw, 2rem);
-		font-weight: 400;
-		color: #160b11;
-		margin: 0;
-		line-height: 1.25;
-		letter-spacing: -0.02em;
-	}
-
-	.jn-featured-excerpt {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.9375rem;
-		color: rgba(22, 11, 17, 0.6);
-		margin: 0;
-		line-height: 1.7;
-		font-weight: 300;
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-
-	/* ── SHARED META ── */
-	.jn-meta {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 6px;
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.72rem;
-		font-weight: 600;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.jn-meta--sm { font-size: 0.65rem; }
-
-	.jn-meta-blog { color: #a1846d; }
-	.jn-meta-sep { color: rgba(22, 11, 17, 0.25); }
-	.jn-meta-date,
-	.jn-meta-author { color: rgba(22, 11, 17, 0.4); }
-
-	/* ── TAGS ── */
-	.jn-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-	}
-
-	.jn-tag {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.65rem;
-		font-weight: 600;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: rgba(22, 11, 17, 0.5);
-		background: rgba(22, 11, 17, 0.05);
-		padding: 4px 10px;
-	}
-
-	/* ── READ MORE ── */
-	.jn-read-more {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.72rem;
-		font-weight: 700;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: #a1846d;
-		margin-top: 4px;
-		transition: gap 0.2s ease, color 0.2s ease;
-	}
-
-	.jn-featured:hover .jn-read-more { gap: 12px; color: #8a6f59; }
-
-	/* ── GRID HEADER ── */
-	.jn-grid-head {
-		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 16px;
-		margin-bottom: 32px;
-		padding-bottom: 18px;
-		border-bottom: 1px solid rgba(22, 11, 17, 0.08);
-	}
-
-	.jn-grid-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: clamp(1.3rem, 2vw, 1.6rem);
-		font-weight: 400;
-		color: #160b11;
-		margin: 0;
-		letter-spacing: -0.01em;
-	}
-
-	.jn-grid-count {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.75rem;
-		color: rgba(22, 11, 17, 0.35);
-		font-weight: 500;
-		white-space: nowrap;
-	}
-
-	/* ── ARTICLE GRID ── */
-	.jn-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 36px 28px;
-	}
-
-	.jn-card {
-		display: flex;
-		flex-direction: column;
-		text-decoration: none;
-		border: 1px solid rgba(22, 11, 17, 0.07);
-		overflow: hidden;
-		transition: box-shadow 0.22s ease, transform 0.22s ease;
-	}
-
-	.jn-card:hover {
-		box-shadow: 0 8px 28px rgba(22, 11, 17, 0.09);
-		transform: translateY(-3px);
-	}
-
-	.jn-card-img-wrap {
-		aspect-ratio: 16 / 10;
-		overflow: hidden;
-	}
-
-	.jn-card-img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		display: block;
-		transition: transform 0.45s ease;
-	}
-
-	.jn-card:hover .jn-card-img { transform: scale(1.05); }
-
-	.jn-img-placeholder {
-		width: 100%;
-		height: 100%;
-		background: linear-gradient(135deg, #f0ede8, #e8e2db);
-	}
-
-	.jn-card-body {
-		padding: 22px 24px 26px;
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-		flex: 1;
-	}
-
-	.jn-card-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: clamp(1rem, 1.3vw, 1.15rem);
-		font-weight: 400;
-		color: #160b11;
-		margin: 0;
-		line-height: 1.35;
-		letter-spacing: -0.01em;
-	}
-
-	.jn-card-excerpt {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.8125rem;
-		color: rgba(22, 11, 17, 0.55);
-		margin: 0;
-		line-height: 1.65;
-		font-weight: 300;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-
-	/* ── RESPONSIVE ── */
-	@media (max-width: 1024px) {
-		.jn-hero { padding: 44px 40px; }
-		.jn-filters-wrap { padding: 0 40px; }
-		.jn-content { padding: 60px 40px 88px; }
-		.jn-grid { grid-template-columns: repeat(2, 1fr); }
-	}
-
-	@media (max-width: 768px) {
-		.jn-hero { padding: 36px 28px; }
-		.jn-filters-wrap { padding: 0 28px; }
-		.jn-content { padding: 48px 28px 72px; }
-		.jn-featured { grid-template-columns: 1fr; }
-		.jn-featured-img-wrap { min-height: 260px; }
-		.jn-featured-body { padding: 32px 28px; }
-		.jn-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 20px; }
-	}
-
-	@media (max-width: 540px) {
-		.jn-hero { padding: 28px 20px; }
-		.jn-filters-wrap { padding: 0 20px; }
-		.jn-content { padding: 40px 20px 64px; }
-		.jn-grid { grid-template-columns: 1fr; }
-		.jn-featured-body { padding: 24px 20px; }
-	}
+	.article-card:hover { transform: translateY(-5px); box-shadow: 0 4px 14px rgba(0,0,0,0.07), 0 16px 40px rgba(0,0,0,0.09); border-color: rgba(161, 132, 109, 0.25); }
+	.card-img-wrap { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(135deg, #f8f6f4 0%, #f0ece8 100%); flex-shrink: 0; }
+	.card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+	.article-card:hover .card-img { transform: scale(1.05); }
+	.card-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+	.card-body { padding: 24px 24px 28px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+	.card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+	.card-date { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; color: #999; letter-spacing: 0.02em; }
+	.card-title { font-family: 'Georgia', 'Times New Roman', serif; font-size: clamp(1.1rem, 1.4vw, 1.3rem); font-weight: 400; color: #160b11; margin: 0; line-height: 1.4; letter-spacing: -0.01em; transition: color 0.2s ease; }
+	.article-card:hover .card-title { color: #a1846d; }
+	.card-excerpt { font-family: 'Montserrat', sans-serif; font-size: 0.875rem; color: #666; line-height: 1.65; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+	.read-more { display: inline-flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(22, 11, 17, 0.07); font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #a1846d; transition: gap 0.2s ease; }
+	.article-card:hover .read-more { gap: 11px; }
+	.empty-state { text-align: center; padding: 80px 20px; }
+	.empty-title { font-family: 'Georgia', 'Times New Roman', serif; font-size: 1.5rem; font-weight: 400; color: #160b11; margin: 0 0 12px 0; }
+	.empty-sub { font-family: 'Montserrat', sans-serif; font-size: 0.9375rem; color: #888; margin: 0; }
+	@media (max-width: 1100px) { .articles-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
+	@media (max-width: 768px) { .blogs-container { padding: 40px 24px 72px; } .articles-grid { gap: 20px; } }
+	@media (max-width: 640px) { .page-header { padding: 60px 24px 52px; } .blogs-container { padding: 32px 16px 64px; } .articles-grid { grid-template-columns: 1fr; gap: 20px; } .card-body { padding: 20px 18px 22px; } }
 </style>

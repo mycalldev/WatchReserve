@@ -1,4 +1,6 @@
 <script>
+	import WishlistButton from '$lib/components/WishlistButton.svelte';
+
 	let { products = [] } = $props();
 
 	let currentIndex = $state(0);
@@ -62,6 +64,7 @@
 				{#each products as product (product.id)}
 					{@const status = product.status?.trim() ?? null}
 					{@const statusSlug = status ? status.toLowerCase().replace(/\s+/g, '-') : 'available'}
+					<div class="product-card-wrap">
 					<a href="/shop/{product.handle}" class="product-card">
 						<div class="product-image-wrapper">
 							{#if product.image}
@@ -98,6 +101,8 @@
 							</div>
 						</div>
 					</a>
+					<WishlistButton {product} />
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -209,11 +214,17 @@
 		transform: translateX(calc(var(--index) * -1 * (25% + 6px)));
 	}
 
+	/* ── CARD WRAPPER ── */
+	.product-card-wrap {
+		flex: 0 0 calc(25% - 18px);
+		position: relative;
+	}
+
 	/* ── CARD ── */
 	.product-card {
-		flex: 0 0 calc(25% - 18px);
 		display: flex;
 		flex-direction: column;
+		height: 100%;
 		background-color: #ffffff;
 		border-radius: 0;
 		overflow: hidden;
@@ -385,7 +396,7 @@
 		.carousel-track {
 			transform: translateX(calc(var(--index) * -1 * (33.333% + 8px)));
 		}
-		.product-card { flex: 0 0 calc(33.333% - 16px); }
+		.product-card-wrap { flex: 0 0 calc(33.333% - 16px); }
 	}
 
 	@media (max-width: 900px) {
@@ -398,7 +409,7 @@
 		.carousel-track {
 			transform: translateX(calc(var(--index) * -1 * (50% + 10px)));
 		}
-		.product-card { flex: 0 0 calc(50% - 12px); }
+		.product-card-wrap { flex: 0 0 calc(50% - 12px); }
 	}
 
 	@media (max-width: 480px) {
@@ -408,6 +419,6 @@
 			gap: 16px;
 			transform: translateX(calc(var(--index) * -1 * (100% + 16px)));
 		}
-		.product-card { flex: 0 0 100%; }
+		.product-card-wrap { flex: 0 0 100%; }
 	}
 </style>

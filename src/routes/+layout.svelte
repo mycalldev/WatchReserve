@@ -2,6 +2,7 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import CookieConsent from '$lib/components/CookieConsent.svelte';
 
 	let { children } = $props();
 </script>
@@ -22,6 +23,8 @@
 {@render children()}
 
 <Footer />
+
+<CookieConsent />
 
 <style>
 	.announcement-banner {

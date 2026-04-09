@@ -1,5 +1,6 @@
 <script>
 	import Search from '$lib/components/Search.svelte';
+	import { wishlist } from '$lib/stores/wishlist.svelte.js';
 
 	let cartCount = $state(0);
 	let isMenuOpen = $state(false);
@@ -36,6 +37,25 @@
 
 		<div class="navbar-right">
 			<Search />
+			<a href="/wishlist" class="wishlist-link" aria-label="Wishlist{wishlist.count > 0 ? ` (${wishlist.count} saved)` : ''}">
+				<svg
+					class="wishlist-icon"
+					width="22"
+					height="22"
+					viewBox="0 0 24 24"
+					fill={wishlist.count > 0 ? 'currentColor' : 'none'}
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					aria-hidden="true"
+				>
+					<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+				</svg>
+				{#if wishlist.count > 0}
+					<span class="wishlist-badge">{wishlist.count}</span>
+				{/if}
+			</a>
 			<a href="/cart" class="cart-link" aria-label="Shopping cart">
 				<svg
 					class="cart-icon"
@@ -103,6 +123,7 @@
 			<li><a href="/source" onclick={closeMenu}>SOURCE</a></li>
 			<li><a href="/blogs" onclick={closeMenu}>BLOGS & GUIDES</a></li>
 			<li><a href="/api" onclick={closeMenu}>API</a></li>
+				<li><a href="/wishlist" onclick={closeMenu}>WISHLIST{wishlist.count > 0 ? ` (${wishlist.count})` : ''}</a></li>
 				<li class="contact-li"><a href="/contact" onclick={closeMenu} class="mobile-contact-link">CONTACT</a></li>
 			</ul>
 		</div>
@@ -368,6 +389,43 @@
 		padding-right: 24px;
 		transform: translateY(-1px);
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	}
+
+	.wishlist-link {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #ffffff;
+		text-decoration: none;
+		transition: opacity 0.3s ease, color 0.2s ease;
+	}
+
+	.wishlist-link:hover {
+		opacity: 0.7;
+	}
+
+	.wishlist-icon {
+		width: 22px;
+		height: 22px;
+		color: #ffffff;
+	}
+
+	.wishlist-badge {
+		position: absolute;
+		top: -8px;
+		right: -8px;
+		background-color: #a1846d;
+		color: #ffffff;
+		border-radius: 50%;
+		width: 18px;
+		height: 18px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 11px;
+		font-weight: 600;
+		font-family: 'Montserrat', sans-serif;
 	}
 
 	.cart-link {

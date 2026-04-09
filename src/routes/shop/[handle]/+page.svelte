@@ -1,6 +1,7 @@
 <script>
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
+	import { wishlist } from '$lib/stores/wishlist.svelte.js';
 	import ProductViewCount from '$lib/components/ProductViewCount.svelte';
 	import MoreOf from '$lib/components/MoreOf.svelte';
 	import ProductEnquiryDrawer from '$lib/components/ProductEnquiryDrawer.svelte';
@@ -261,6 +262,21 @@
 			?? product.images[0]
 			?? null
 	);
+
+	// Build a normalised product object for the wishlist store
+	const wishlistProduct = $derived({
+		id: product.id,
+		handle: product.handle,
+		title: product.title,
+		vendor: product.vendor ?? null,
+		price: selectedVariant?.price ?? product.minPrice ?? 0,
+		currencyCode: selectedVariant?.currencyCode ?? product.currencyCode ?? 'GBP',
+		image: product.images[0]?.url ?? null,
+		imageAlt: product.images[0]?.altText ?? null,
+		status: productStatus()
+	});
+
+	const isSaved = $derived(wishlist.isInWishlist(product.id));
 </script>
 
 <svelte:head>
@@ -462,6 +478,30 @@
 					Apply for Finance
 				</button>
 			</div>
+
+			<!-- Wishlist -->
+			<button
+				class="btn-wishlist"
+				class:saved={isSaved}
+				onclick={() => wishlist.toggle(wishlistProduct)}
+				type="button"
+				aria-label={isSaved ? 'Remove from wishlist' : 'Save to wishlist'}
+			>
+				<svg
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill={isSaved ? 'currentColor' : 'none'}
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					aria-hidden="true"
+				>
+					<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+				</svg>
+				{isSaved ? 'Saved to Wishlist' : 'Save to Wishlist'}
+			</button>
 
 			{#if form?.success === false}
 				<p class="form-error" role="alert">{form.error}</p>
@@ -1056,6 +1096,50 @@
 
 	.btn-action-dark:hover svg,
 	.btn-action-outline:hover svg { color: #8a6f59; }
+
+	/* ── WISHLIST BUTTON ── */
+	.btn-wishlist {
+		width: 100%;
+		height: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 9px;
+		background-color: transparent;
+		color: rgba(22, 11, 17, 0.5);
+		border: 1.5px solid rgba(22, 11, 17, 0.15);
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		cursor: pointer;
+		transition:
+			color 0.2s ease,
+			border-color 0.2s ease,
+			background-color 0.2s ease,
+			transform 0.2s ease;
+		margin-top: 2px;
+	}
+
+	.btn-wishlist:hover {
+		color: #a1846d;
+		border-color: rgba(161, 132, 109, 0.5);
+		background-color: rgba(161, 132, 109, 0.04);
+		transform: translateY(-1px);
+	}
+
+	.btn-wishlist.saved {
+		color: #a1846d;
+		border-color: rgba(161, 132, 109, 0.45);
+		background-color: rgba(161, 132, 109, 0.05);
+	}
+
+	.btn-wishlist.saved:hover {
+		color: #c94040;
+		border-color: rgba(201, 64, 64, 0.4);
+		background-color: rgba(201, 64, 64, 0.04);
+	}
 
 	.form-error {
 		font-family: 'Montserrat', sans-serif;
