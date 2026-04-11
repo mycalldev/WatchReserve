@@ -578,7 +578,6 @@
 		flex-direction: column;
 		background-color: #ffffff;
 		border: 1px solid rgba(22, 11, 17, 0.08);
-		border-radius: 10px;
 		overflow: hidden;
 		text-decoration: none;
 		color: inherit;

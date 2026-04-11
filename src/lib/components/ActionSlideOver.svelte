@@ -302,21 +302,12 @@
 
 					<!-- Actions -->
 					<div class="cart-actions">
-						{#if checkoutUrl}
-							<a href={checkoutUrl} class="so-btn so-btn--primary" target="_blank" rel="noopener">
-								Proceed to Checkout
-								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-									<path d="M7 17L17 7M7 7h10v10" />
-								</svg>
-							</a>
-						{:else}
-							<a href="/cart" class="so-btn so-btn--primary">
-								View Cart & Checkout
-								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-									<path d="M5 12h14M12 5l7 7-7 7"/>
-								</svg>
-							</a>
-						{/if}
+						<a href="/checkout" class="so-btn so-btn--primary">
+							Proceed to Checkout
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M5 12h14M12 5l7 7-7 7"/>
+							</svg>
+						</a>
 						<button class="so-btn so-btn--ghost" onclick={onclose} type="button">
 							Continue Shopping
 						</button>

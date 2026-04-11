@@ -138,15 +138,8 @@
 		<section class="privacy-section">
 			<h2 class="section-title">Contact</h2>
 			<p>
-				If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us:
+				If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us at <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a>.
 			</p>
-			<div class="contact-info">
-				<p><strong>Watch Reserve</strong></p>
-				<p>25 Cabot Square, Canary Wharf</p>
-				<p>London, E14 4QA</p>
-				<p>Email: <a href="mailto:info@thewatchreserve.co.uk">info@watchreserve.co.uk</a></p>
-				<p>Phone: <a href="tel:07850250984">LandLine Required HERE*****</a></p>
-			</div>
 		</section>
 
 		<p class="last-updated">Last Updated: {new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</p>

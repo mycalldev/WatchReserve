@@ -3,6 +3,7 @@
 	const collection = $derived(data.collection);
 
 	const localHeroImages = {
+		'rolex':           '/assets/hero/rose_daytona.jpg',
 		'audemars-piguet': '/assets/hero/AP_Category_Banner.jpg',
 		'patek-philippe':  '/assets/hero/PP_Category_Banner.jpg',
 		'patek-phillipe':  '/assets/hero/PP_Category_Banner.jpg'
@@ -88,7 +89,6 @@
 		{#if collection.description}
 			<p class="hero-description">{collection.description}</p>
 		{/if}
-		<p class="hero-count">{collection.products.length} timepiece{collection.products.length !== 1 ? 's' : ''}</p>
 	</div>
 </header>
 
@@ -314,13 +314,6 @@
 		line-height: 1.7;
 		max-width: 600px;
 		font-weight: 300;
-	}
-
-	.hero-count {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.8125rem;
-		color: rgba(255, 255, 255, 0.45);
-		margin: 0;
 	}
 
 	/* ── MAIN ── */

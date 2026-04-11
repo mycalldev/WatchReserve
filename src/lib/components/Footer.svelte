@@ -11,7 +11,7 @@
 			<div class="info-col">
 				<span class="info-label">Talk to Us</span>
 				<a href="tel:02081501987" class="info-primary">0208 150 1987</a>
-				<a href="mailto:info@thewatchreserve.co.uk" class="info-secondary">info@thewatchreserve.co.uk</a>
+				<a href="mailto:info@watchreserve.co.uk" class="info-secondary">info@watchreserve.co.uk</a>
 			</div>
 
 			<div class="info-divider" aria-hidden="true"></div>
@@ -69,6 +69,7 @@
 					<a href="/about">About Us</a>
 					<a href="/blogs">Blogs &amp; Guides</a>
 					<a href="/part-exchange">Part Exchange</a>
+					<a href="/faqs">FAQs</a>
 					<a href="/contact">Contact Us</a>
 				</nav>
 			</div>

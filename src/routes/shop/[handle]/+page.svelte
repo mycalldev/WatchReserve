@@ -16,6 +16,7 @@
 	let adding = $state(false);
 	let added = $state(false);
 	let thumbsRef = $state(null);
+	let trustpilotEl = $state(null);
 
 	// ── Slide-over state ────────────────────────────────────────────────────────
 	/** @type {'cart' | 'part-exchange' | 'deposit' | 'finance' | null} */
@@ -38,7 +39,31 @@
 			openDrawer(e.detail);
 		}
 		document.addEventListener('open-drawer', handleOpenDrawer);
-		return () => document.removeEventListener('open-drawer', handleOpenDrawer);
+
+		// Initialize the Trustpilot widget once the bootstrap script is available.
+		// The script is loaded globally by +layout.svelte; poll briefly in case
+		// this page mounts before the async script finishes downloading.
+		let trustpilotInterval;
+		let trustpilotTimeout;
+		function initTrustpilot() {
+			if (typeof window !== 'undefined' && window.Trustpilot && trustpilotEl) {
+				window.Trustpilot.loadFromElement(trustpilotEl, true);
+				return true;
+			}
+			return false;
+		}
+		if (!initTrustpilot()) {
+			trustpilotInterval = setInterval(() => {
+				if (initTrustpilot()) clearInterval(trustpilotInterval);
+			}, 100);
+			trustpilotTimeout = setTimeout(() => clearInterval(trustpilotInterval), 5000);
+		}
+
+		return () => {
+			document.removeEventListener('open-drawer', handleOpenDrawer);
+			if (trustpilotInterval) clearInterval(trustpilotInterval);
+			if (trustpilotTimeout) clearTimeout(trustpilotTimeout);
+		};
 	});
 
 	const selectedVariant = $derived(
@@ -104,6 +129,18 @@
 	const statusSlug = $derived(() =>
 		productStatus() ? productStatus().toLowerCase().replace(/\s+/g, '-') : null
 	);
+
+	const isBlockedByStatus = $derived(() => {
+		const slug = statusSlug();
+		return slug === 'sold' || slug === 'reserved';
+	});
+
+	const statusCtaLabel = $derived(() => {
+		const slug = statusSlug();
+		if (slug === 'sold') return 'Sold';
+		if (slug === 'reserved') return 'Reserved';
+		return null;
+	});
 
 	// Extract view count from metafields (custom.viewed), fallback to null
 	const viewedCount = $derived(() => {
@@ -191,14 +228,12 @@
 			id: 'watch',
 			label: 'Watch',
 			fields: [
-				{ key: 'reference', label: 'Reference'  },
-				{ key: 'brand',     label: 'Brand'      },
-				{ key: 'model',     label: 'Model'      },
-				{ key: 'year',      label: 'Year'       },
-				{ key: 'condition', label: 'Condition'  },
-				{ key: 'functions', label: 'Functions'  },
-				{ key: 'box',       label: 'Box'        },
-				{ key: 'papers',    label: 'Papers'     },
+				{ key: 'reference', label: 'Reference' },
+				{ key: 'brand',     label: 'Brand'     },
+				{ key: 'model',     label: 'Model'     },
+				{ key: 'year',      label: 'Year'      },
+				{ key: 'condition', label: 'Condition' },
+				{ key: 'functions', label: 'Functions' },
 			]
 		},
 		{
@@ -213,7 +248,7 @@
 			id: 'case',
 			label: 'Case',
 			fields: [
-				{ key: 'dial',             label: 'Dial'             },
+				{ key: 'dial',             label: 'Dial Colour'      },
 				{ key: 'diameter',         label: 'Diameter'         },
 				{ key: 'case_material',    label: 'Material'         },
 				{ key: 'water_resistance', label: 'Water Resistance' },
@@ -440,7 +475,7 @@
 			<input type="hidden" name="variantId" value={selectedVariantId} />
 			<input type="hidden" name="quantity" value={quantity} />
 
-			<button type="submit" class="add-btn" disabled={!isAvailable || adding}>
+			<button type="submit" class="add-btn" disabled={!isAvailable || isBlockedByStatus() || adding}>
 				{#if adding}
 					<span class="spinner" aria-hidden="true"></span>
 					Adding…
@@ -449,6 +484,8 @@
 						<polyline points="20 6 9 17 4 12" />
 					</svg>
 					Added to Cart
+				{:else if statusCtaLabel()}
+					{statusCtaLabel()}
 				{:else}
 					{isAvailable ? 'Add to Cart' : 'Unavailable'}
 				{/if}
@@ -458,25 +495,58 @@
 			<!-- Secondary action buttons -->
 			<div class="action-stack">
 				<div class="action-row-2">
-					<button type="button" class="btn-action-dark" onclick={() => openDrawer('part-exchange')}>
+					<button
+						type="button"
+						class="btn-action-dark"
+						onclick={() => openDrawer('part-exchange')}
+						disabled={isBlockedByStatus()}
+					>
 						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 							<path d="M3 7h18m0 0l-4-4m4 4l-4 4M21 17H3m0 0l4-4m-4 4l4 4"/>
 						</svg>
 						Part Exchange
 					</button>
-					<button type="button" class="btn-action-dark" onclick={() => openDrawer('deposit')}>
+					<button
+						type="button"
+						class="btn-action-dark"
+						onclick={() => openDrawer('deposit')}
+						disabled={isBlockedByStatus()}
+					>
 						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 							<rect x="1" y="4" width="22" height="16" rx="0" ry="0"/><line x1="1" y1="10" x2="23" y2="10"/>
 						</svg>
 						Deposit
 					</button>
 				</div>
-				<button type="button" class="btn-action-outline" onclick={() => openDrawer('finance')}>
+				<button
+					type="button"
+					class="btn-action-outline"
+					onclick={() => openDrawer('finance')}
+					disabled={isBlockedByStatus()}
+				>
 					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/>
 					</svg>
 					Apply for Finance
 				</button>
+			</div>
+
+			<!-- Trustpilot social proof -->
+			<div class="product-trustpilot">
+				<!-- TrustBox widget - Micro Star -->
+				<div
+					bind:this={trustpilotEl}
+					class="trustpilot-widget"
+					data-locale="en-GB"
+					data-template-id="5419b732fbfb950b10de65e5"
+					data-businessunit-id="688cd47d354b1ad541993312"
+					data-style-height="24px"
+					data-style-width="100%"
+					data-token="70e88cb7-59fa-4a6b-8a51-aa184e23812c"
+				>
+					<a href="https://uk.trustpilot.com/review/thewatchreserve.co.uk" target="_blank" rel="noopener">Trustpilot</a>
+				</div>
+				<!-- End TrustBox widget -->
 			</div>
 
 			<!-- Wishlist -->
@@ -777,7 +847,6 @@
 		font-weight: 500;
 		letter-spacing: 0.04em;
 		padding: 4px 10px;
-		border-radius: 100px;
 		backdrop-filter: blur(4px);
 	}
 
@@ -1079,8 +1148,8 @@
 		border: 1.5px solid #a1846d;
 	}
 
-	.btn-action-dark:hover,
-	.btn-action-outline:hover {
+	.btn-action-dark:hover:not(:disabled),
+	.btn-action-outline:hover:not(:disabled) {
 		background-color: rgba(161, 132, 109, 0.06);
 		border-color: #8a6f59;
 		color: #8a6f59;
@@ -1088,14 +1157,37 @@
 		box-shadow: 0 4px 16px rgba(161, 132, 109, 0.2);
 	}
 
-	.btn-action-dark:active,
-	.btn-action-outline:active { transform: translateY(0); }
+	.btn-action-dark:active:not(:disabled),
+	.btn-action-outline:active:not(:disabled) { transform: translateY(0); }
 
 	.btn-action-dark svg,
 	.btn-action-outline svg { color: #a1846d; transition: color 0.2s ease; }
 
-	.btn-action-dark:hover svg,
-	.btn-action-outline:hover svg { color: #8a6f59; }
+	.btn-action-dark:hover:not(:disabled) svg,
+	.btn-action-outline:hover:not(:disabled) svg { color: #8a6f59; }
+
+	.btn-action-dark:disabled,
+	.btn-action-outline:disabled {
+		opacity: 0.45;
+		cursor: not-allowed;
+		border-color: #c9c1b8;
+		color: #c9c1b8;
+	}
+
+	.btn-action-dark:disabled svg,
+	.btn-action-outline:disabled svg { color: #c9c1b8; }
+
+	/* ── TRUSTPILOT SOCIAL PROOF ── */
+	.product-trustpilot {
+		width: 100%;
+		margin: 4px 0 8px;
+		display: flex;
+		justify-content: center;
+	}
+
+	.product-trustpilot :global(.trustpilot-widget) {
+		width: 100%;
+	}
 
 	/* ── WISHLIST BUTTON ── */
 	.btn-wishlist {

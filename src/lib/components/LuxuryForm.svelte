@@ -62,7 +62,17 @@
 		submitSuccess = false;
 
 		try {
-			await new Promise((r) => setTimeout(r, 1100));
+			const res = await fetch('/api/contact', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(formData)
+			});
+
+			const data = await res.json().catch(() => ({}));
+			if (!res.ok || !data.success) {
+				throw new Error(data.error ?? 'Request failed');
+			}
+
 			submitSuccess = true;
 			formData = { fullName: '', email: '', phone: '', interest: '', preferredContact: 'email', message: '' };
 			touched = {};

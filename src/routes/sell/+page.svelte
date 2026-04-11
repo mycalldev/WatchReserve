@@ -2,7 +2,6 @@
 	import { fly, fade } from 'svelte/transition';
 	import { cubicOut, cubicInOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
-	import PriceChecker from '$lib/components/PriceChecker.svelte';
 
 	// ── Valuation modal state ────────────────────────────────────────────────────
 	let modalOpen  = $state(false);
@@ -19,6 +18,12 @@
 
 	let brandRef   = $state(null);
 	let modelRef   = $state(null);
+
+	// Per-step measured heights — used to animate the modal body between steps.
+	let h1 = $state(0);
+	let h2 = $state(0);
+	let h3 = $state(0);
+	const stepHeight = $derived(step === 1 ? h1 : step === 2 ? h2 : h3);
 
 	const POPULAR_BRANDS = [
 		'Rolex', 'Patek Philippe', 'Audemars Piguet', 'Omega',
@@ -156,7 +161,7 @@
 <!-- ── REAL-TIME VALUATION CTA ── -->
 <section class="valuation-cta">
 	<div class="valuation-cta-inner">
-		<p class="valuation-eyebrow">Real-Time Valuation</p>
+		<p class="valuation-eyebrow">Sell With Confidence</p>
 		<h2 class="valuation-heading">Discover what your watch<br class="br-desk" /> is worth today</h2>
 		<p class="valuation-sub">
 			Enter your watch brand and model for an instant market valuation powered by live pricing data.
@@ -173,20 +178,6 @@
 			</svg>
 			Fully confidential
 		</p>
-	</div>
-</section>
-
-<!-- ── PRICE CHECKER ── -->
-<section class="price-checker-section">
-	<div class="price-checker-container">
-		<div class="price-checker-info">
-			<p class="price-checker-eyebrow">Live Market Data</p>
-			<h2 class="price-checker-heading">Check Your Watch's Market Value</h2>
-			<p class="price-checker-text">
-				Enter your reference number to instantly see what comparable pieces are selling for right now across the secondary market.
-			</p>
-		</div>
-		<PriceChecker />
 	</div>
 </section>
 
@@ -223,9 +214,16 @@
 			<div class="vm-progress-bar" style="width: {step === 1 ? 33 : step === 2 ? 66 : 100}%"></div>
 		</div>
 
+		<!-- ── STEPS (animated height + sequenced slide/fade) ── -->
+		<div class="vm-body-stack" style:height={stepHeight ? `${stepHeight}px` : 'auto'}>
 		<!-- ── STEP 1: BRAND ── -->
 		{#if step === 1}
-			<div class="vm-body" transition:fly={{ x: -24, duration: 280, easing: cubicOut }}>
+			<div
+				class="vm-body"
+				bind:clientHeight={h1}
+				in:fly={{ x: 28, duration: 460, delay: 340, easing: cubicOut }}
+				out:fly={{ x: -28, duration: 320, easing: cubicInOut }}
+			>
 				<p class="vm-step-label">Step 1 of 3</p>
 				<h3 class="vm-step-heading">What brand is your watch?</h3>
 
@@ -269,7 +267,12 @@
 
 		<!-- ── STEP 2: MODEL ── -->
 		{:else if step === 2}
-			<div class="vm-body" transition:fly={{ x: 24, duration: 280, easing: cubicOut }}>
+			<div
+				class="vm-body"
+				bind:clientHeight={h2}
+				in:fly={{ x: 28, duration: 460, delay: 340, easing: cubicOut }}
+				out:fly={{ x: -28, duration: 320, easing: cubicInOut }}
+			>
 				<p class="vm-step-label">Step 2 of 3</p>
 
 				<!-- Brand crumb -->
@@ -341,7 +344,12 @@
 
 		<!-- ── STEP 3: CONTACT DETAILS ── -->
 		{:else if step === 3}
-			<div class="vm-body" transition:fly={{ x: 24, duration: 280, easing: cubicOut }}>
+			<div
+				class="vm-body"
+				bind:clientHeight={h3}
+				in:fly={{ x: 28, duration: 460, delay: 340, easing: cubicOut }}
+				out:fly={{ x: -28, duration: 320, easing: cubicInOut }}
+			>
 				{#if submitted}
 					<div class="vm-success">
 						<div class="vm-success-icon" aria-hidden="true">
@@ -419,6 +427,7 @@
 				{/if}
 			</div>
 		{/if}
+		</div>
 	</div>
 {/if}
 
@@ -1393,6 +1402,20 @@
 	}
 
 	/* Body */
+	.vm-body-stack {
+		position: relative;
+		display: grid;
+		grid-template-columns: 1fr;
+		align-items: start;
+		overflow-x: hidden;
+		transition: height 520ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.vm-body-stack > .vm-body {
+		grid-area: 1 / 1;
+		min-width: 0;
+	}
+
 	.vm-body {
 		padding: 32px 28px 36px;
 		overflow-y: auto;
@@ -1860,66 +1883,5 @@
 		.vm-form-row { grid-template-columns: 1fr; }
 	}
 
-	/* ── PRICE CHECKER SECTION ── */
-	.price-checker-section {
-		width: 100%;
-		background-color: #ffffff;
-		padding: 100px 40px;
-		box-sizing: border-box;
-		border-top: 1px solid rgba(161, 132, 109, 0.15);
-	}
-
-	.price-checker-container {
-		max-width: 1100px;
-		margin: 0 auto;
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 80px;
-		align-items: start;
-	}
-
-	.price-checker-info {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-	}
-
-	.price-checker-eyebrow {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.75rem;
-		font-weight: 700;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: #a1846d;
-		margin: 0;
-	}
-
-	.price-checker-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: clamp(1.75rem, 3vw, 2.5rem);
-		font-weight: 400;
-		color: #160b11;
-		margin: 0;
-		line-height: 1.25;
-		letter-spacing: -0.02em;
-	}
-
-	.price-checker-text {
-		font-family: 'Montserrat', sans-serif;
-		font-size: clamp(0.9rem, 1.1vw, 1rem);
-		color: #6b5c55;
-		line-height: 1.7;
-		font-weight: 300;
-		margin: 0;
-	}
-
-	@media (max-width: 900px) {
-		.price-checker-section { padding: 80px 30px; }
-		.price-checker-container { grid-template-columns: 1fr; gap: 48px; }
-	}
-
-	@media (max-width: 480px) {
-		.price-checker-section { padding: 60px 20px; }
-	}
 </style>
 

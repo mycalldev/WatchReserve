@@ -1,10 +1,35 @@
 <script>
+	import { onMount } from 'svelte';
 	import favicon from '$lib/assets/favicon.svg';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
 
 	let { children } = $props();
+
+	let trustpilotEl = $state(null);
+
+	onMount(() => {
+		const SRC = 'https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js';
+
+		function initWidget() {
+			if (typeof window !== 'undefined' && window.Trustpilot && trustpilotEl) {
+				window.Trustpilot.loadFromElement(trustpilotEl, true);
+			}
+		}
+
+		const existing = document.querySelector('script[src*="tp.widget.bootstrap.min.js"]');
+		if (existing) {
+			initWidget();
+			return;
+		}
+
+		const script = document.createElement('script');
+		script.src = SRC;
+		script.async = true;
+		script.onload = initWidget;
+		document.head.appendChild(script);
+	});
 </script>
 
 <svelte:head>
@@ -12,10 +37,20 @@
 </svelte:head>
 
 <div class="announcement-banner">
-	<p class="announcement-text">
-		We Offer Part Exchange &nbsp;|&nbsp;
-		<a href="/sell" class="announcement-link">Request a FREE Valuation Today →</a>
-	</p>
+	<!-- TrustBox widget - Micro Star -->
+	<div
+		bind:this={trustpilotEl}
+		class="trustpilot-widget"
+		data-locale="en-GB"
+		data-template-id="5419b732fbfb950b10de65e5"
+		data-businessunit-id="688cd47d354b1ad541993312"
+		data-style-height="24px"
+		data-style-width="100%"
+		data-token="70e88cb7-59fa-4a6b-8a51-aa184e23812c"
+	>
+		<a href="https://uk.trustpilot.com/review/thewatchreserve.co.uk" target="_blank" rel="noopener">Trustpilot</a>
+	</div>
+	<!-- End TrustBox widget -->
 </div>
 
 <Navbar />
@@ -30,40 +65,15 @@
 	.announcement-banner {
 		width: 100%;
 		background-color: #f5f0eb;
-		padding: 8px 20px;
-		text-align: center;
+		padding: 10px 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
 	}
 
-	.announcement-text {
-		margin: 0;
-		font-family: 'Montserrat', sans-serif;
-		font-size: 13px;
-		font-weight: 500;
-		color: #2c1810;
-		letter-spacing: 0.03em;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.announcement-link {
-		color: #6f130a;
-		text-decoration: none;
-		font-weight: 600;
-		border-bottom: 1px solid transparent;
-		transition: border-color 0.2s ease, opacity 0.2s ease;
-	}
-
-	.announcement-link:hover {
-		border-bottom-color: #6f130a;
-		opacity: 0.8;
-	}
-
-	@media (max-width: 480px) {
-		.announcement-text {
-			font-size: 11px;
-			white-space: normal;
-		}
+	.announcement-banner :global(.trustpilot-widget) {
+		max-width: 100%;
 	}
 
 	:global(html) {

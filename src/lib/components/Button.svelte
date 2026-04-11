@@ -1,13 +1,20 @@
 <script>
-	let { children, onClick, className = '', ...rest } = $props();
+	let { children, onClick, href, className = '', ...rest } = $props();
 </script>
 
-<button class="button" class:className onclick={onClick} {...rest}>
-	{@render children()}
-</button>
+{#if href}
+	<a {href} class="button" class:className {...rest}>
+		{@render children()}
+	</a>
+{:else}
+	<button class="button" class:className onclick={onClick} {...rest}>
+		{@render children()}
+	</button>
+{/if}
 
 <style>
 	.button {
+		display: inline-block;
 		background-color: #ffffff;
 		color: #160B11;
 		border: none;
@@ -17,6 +24,7 @@
 		font-size: 1rem;
 		font-weight: 700;
 		cursor: pointer;
+		text-decoration: none;
 		transition: all 0.3s ease;
 		letter-spacing: 0.01em;
 	}

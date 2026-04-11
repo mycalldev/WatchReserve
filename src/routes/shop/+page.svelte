@@ -102,6 +102,9 @@
 					{brand.label}
 				</a>
 			{/each}
+			<a href="/curated-editions" class="brand-pill brand-pill-link">
+				Curated Editions
+			</a>
 		</div>
 	</div>
 

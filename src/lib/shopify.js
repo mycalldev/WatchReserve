@@ -549,6 +549,94 @@ export async function getNewArrivals(limit = 12) {
 	return results;
 }
 
+// ── Products by tag (Storefront) ─────────────────────────────────────────────
+
+const PRODUCTS_BY_TAG_QUERY = `
+  query GetProductsByTag($query: String!, $first: Int!, $after: String) {
+    products(first: $first, after: $after, query: $query) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          title
+          handle
+          vendor
+          productType
+          tags
+          featuredImage {
+            url
+            altText
+          }
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          collections(first: 10) {
+            edges {
+              node { title handle }
+            }
+          }
+          metafields(identifiers: [{namespace: "custom", key: "status"}]) {
+            namespace
+            key
+            value
+          }
+        }
+      }
+    }
+  }
+`;
+
+export async function getProductsByTag(tag) {
+	const allProducts = [];
+	let hasNextPage = true;
+	let cursor = null;
+
+	while (hasNextPage) {
+		const data = await shopifyFetch(PRODUCTS_BY_TAG_QUERY, {
+			query: `tag:"${tag}"`,
+			first: 250,
+			after: cursor
+		});
+
+		const { edges, pageInfo } = data.products;
+
+		for (const { node } of edges) {
+			const statusMeta = (node.metafields ?? []).find(
+				(m) => m && m.namespace === 'custom' && m.key === 'status'
+			);
+			const collections = (node.collections?.edges ?? []).map(({ node: c }) => ({
+				title: c.title,
+				handle: c.handle
+			}));
+			allProducts.push({
+				id: node.id,
+				title: node.title,
+				handle: node.handle,
+				vendor: node.vendor,
+				productType: node.productType,
+				tags: node.tags,
+				collections,
+				image: node.featuredImage?.url ?? null,
+				imageAlt: node.featuredImage?.altText ?? node.title,
+				price: parseFloat(node.priceRange.minVariantPrice.amount),
+				currencyCode: node.priceRange.minVariantPrice.currencyCode,
+				status: statusMeta?.value ?? null
+			});
+		}
+
+		hasNextPage = pageInfo.hasNextPage;
+		cursor = pageInfo.endCursor;
+	}
+
+	return allProducts;
+}
+
 // ── Products by vendor (Storefront) ──────────────────────────────────────────
 
 const PRODUCTS_BY_VENDOR_QUERY = `
@@ -772,6 +860,99 @@ export async function createCart(variantId, quantity = 1) {
 export async function addToCart(cartId, variantId, quantity = 1) {
 	const data = await shopifyFetch(ADD_TO_CART_MUTATION, { cartId, variantId, quantity });
 	const { cart, userErrors } = data.cartLinesAdd;
+	if (userErrors?.length) throw new Error(userErrors.map((e) => e.message).join(', '));
+	return cart;
+}
+
+const GET_CART_QUERY = `
+  query GetCart($cartId: ID!) {
+    cart(id: $cartId) {
+      id
+      checkoutUrl
+      totalQuantity
+      cost {
+        subtotalAmount { amount currencyCode }
+        totalAmount { amount currencyCode }
+        totalTaxAmount { amount currencyCode }
+      }
+      lines(first: 50) {
+        edges {
+          node {
+            id
+            quantity
+            merchandise {
+              ... on ProductVariant {
+                id
+                title
+                price { amount currencyCode }
+                image { url altText width height }
+                product { title handle vendor }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export async function getCart(cartId) {
+	if (!cartId) return null;
+	const data = await shopifyFetch(GET_CART_QUERY, { cartId });
+	const c = data?.cart;
+	if (!c) return null;
+	return {
+		id: c.id,
+		checkoutUrl: c.checkoutUrl,
+		totalQuantity: c.totalQuantity ?? 0,
+		subtotal: c.cost?.subtotalAmount ?? null,
+		total: c.cost?.totalAmount ?? null,
+		tax: c.cost?.totalTaxAmount ?? null,
+		lines: (c.lines?.edges ?? []).map(({ node }) => ({
+			id: node.id,
+			quantity: node.quantity,
+			variantId: node.merchandise?.id,
+			variantTitle: node.merchandise?.title,
+			price: node.merchandise?.price ?? null,
+			image: node.merchandise?.image ?? null,
+			productTitle: node.merchandise?.product?.title ?? '',
+			productHandle: node.merchandise?.product?.handle ?? '',
+			vendor: node.merchandise?.product?.vendor ?? ''
+		}))
+	};
+}
+
+const UPDATE_CART_LINES_MUTATION = `
+  mutation UpdateCartLines($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+    cartLinesUpdate(cartId: $cartId, lines: $lines) {
+      cart { id totalQuantity }
+      userErrors { field message }
+    }
+  }
+`;
+
+const REMOVE_CART_LINES_MUTATION = `
+  mutation RemoveCartLines($cartId: ID!, $lineIds: [ID!]!) {
+    cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+      cart { id totalQuantity }
+      userErrors { field message }
+    }
+  }
+`;
+
+export async function updateCartLine(cartId, lineId, quantity) {
+	const data = await shopifyFetch(UPDATE_CART_LINES_MUTATION, {
+		cartId,
+		lines: [{ id: lineId, quantity }]
+	});
+	const { cart, userErrors } = data.cartLinesUpdate;
+	if (userErrors?.length) throw new Error(userErrors.map((e) => e.message).join(', '));
+	return cart;
+}
+
+export async function removeCartLine(cartId, lineId) {
+	const data = await shopifyFetch(REMOVE_CART_LINES_MUTATION, { cartId, lineIds: [lineId] });
+	const { cart, userErrors } = data.cartLinesRemove;
 	if (userErrors?.length) throw new Error(userErrors.map((e) => e.message).join(', '));
 	return cart;
 }

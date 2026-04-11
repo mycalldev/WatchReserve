@@ -3,8 +3,29 @@ import { error } from '@sveltejs/kit';
 
 // Metafields that are always fetched regardless of Admin API definitions
 const REQUIRED_IDENTIFIERS = [
+	// System
 	{ namespace: 'custom', key: 'status' },
-	{ namespace: 'custom', key: 'viewed' }
+	{ namespace: 'custom', key: 'viewed' },
+	// Watch tab
+	{ namespace: 'custom', key: 'reference' },
+	{ namespace: 'custom', key: 'brand' },
+	{ namespace: 'custom', key: 'model' },
+	{ namespace: 'custom', key: 'year' },
+	{ namespace: 'custom', key: 'condition' },
+	{ namespace: 'custom', key: 'functions' },
+	// Calibre tab
+	{ namespace: 'custom', key: 'movement_calibre' },
+	{ namespace: 'custom', key: 'power_reserve' },
+	// Case tab
+	{ namespace: 'custom', key: 'dial' },
+	{ namespace: 'custom', key: 'diameter' },
+	{ namespace: 'custom', key: 'case_material' },
+	{ namespace: 'custom', key: 'water_resistance' },
+	// Bracelet tab
+	{ namespace: 'custom', key: 'clasp_material' },
+	{ namespace: 'custom', key: 'clasp_type' },
+	{ namespace: 'custom', key: 'colour' },
+	{ namespace: 'custom', key: 'bracelet_material' },
 ];
 
 export async function load({ params }) {

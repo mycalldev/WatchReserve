@@ -1,397 +1,580 @@
 <script>
-	import Button from '$lib/components/Button.svelte';
-	import Features from '$lib/components/Features.svelte';
+	// Self-contained About page. No component imports required.
 </script>
 
-<section class="about-hero-section">
-	<div class="about-hero-container">
-		<div class="about-hero-content">
-			<h1 class="about-hero-heading">
-				Built on <em>Trust.</em>
-			</h1>
-			<h2 class="about-hero-subheading">Driven by Expertise</h2>
-			<p class="about-hero-text">
-				Watch Reserve is a leading London-based watch dealer specialising in rare pre-owned timepieces,
-				personalised support, and a seamless, white-glove experience.
+<!-- ── 1. HERO ───────────────────────────────────────────────────────── -->
+<section class="au-hero">
+	<div class="au-hero-overlay" aria-hidden="true"></div>
+	<div class="au-hero-content">
+		<p class="au-eyebrow">About Watch Reserve</p>
+		<h1 class="au-hero-title">Built on Trust.<br />Powered by Technology.</h1>
+		<p class="au-hero-sub">
+			A London-based dealer of rare pre-owned timepieces, with a tech-first approach to authenticity, provenance, and trust.
+		</p>
+	</div>
+</section>
+
+<!-- ── 2. MISSION / INTRO ────────────────────────────────────────────── -->
+<section class="au-intro">
+	<div class="au-intro-inner">
+		<div class="au-intro-text">
+			<p class="au-section-eyebrow">Our Mission</p>
+			<h2 class="au-section-title">A new standard for pre-owned luxury</h2>
+			<p>
+				Watch Reserve was born from a single belief: that buying a pre-owned timepiece should feel as exceptional, and as certain, as the watch itself.
+			</p>
+			<p>
+				What began as a quiet pursuit among collectors has become a trusted destination for clients across the UK and around the world, from first-time buyers to seasoned collectors building considered references.
+			</p>
+			<p>
+				We don't just sell watches. We guide, advise, and stand behind every piece we source, with the technology and documentation to back it up.
 			</p>
 		</div>
-		<div class="about-hero-image-wrapper">
+		<div class="au-intro-image">
 			<img
-				src="/assets/about/About_us_hero.avif"
-				alt="Luxury watch on wrist"
-				class="about-hero-image"
+				src="/assets/hero/backandfront.jpg"
+				alt="Close-up of a luxury watch, front and caseback"
+				loading="lazy"
 			/>
 		</div>
 	</div>
 </section>
 
-<Features />
-
-<section class="our-story-section">
-	<div class="our-story-container">
-		<div class="our-story-content">
-			<h2 class="our-story-heading">Our Story</h2>
-			<p class="our-story-text">
-				Watch Reserve was born from a single belief: that acquiring a luxury timepiece should be as exceptional
-				as the watch itself.
+<!-- ── 3. TECH-FIRST ─────────────────────────────────────────────────── -->
+<section class="au-tech">
+	<div class="au-tech-inner">
+		<div class="au-tech-image">
+			<img
+				src="/assets/hero/Patek-Warranty.jpg"
+				alt="Patek Philippe warranty card and original documentation"
+				loading="lazy"
+			/>
+		</div>
+		<div class="au-tech-text">
+			<p class="au-section-eyebrow">Tech First</p>
+			<h2 class="au-section-title">Authenticity you can verify</h2>
+			<p>
+				Watch Reserve is a <strong>tech-first company</strong>. In a market where trust has historically rested on a handshake, we believe the next generation of collectors deserve verifiable, data-backed assurance on every piece.
 			</p>
-			<p class="our-story-text">
-				What began as a personal pursuit has evolved into a trusted destination for collectors across the UK and
-				around the world. Whether sourcing elusive icons or helping build considered collections, our service is
-				rooted in deep market expertise and genuine care.
+			<p>
+				We are actively investing in the technical innovations that can be leveraged to authenticate timepieces and trace their validity: digital fingerprinting, archive-grade photography, serial cross-referencing, and provenance records that follow a watch through every owner.
 			</p>
-			<p class="our-story-text">
-				We don't just sell watches — we guide, advise, and support clients who value craftsmanship, precision,
-				and time well invested.
+			<p>
+				The result is a buying experience where craftsmanship meets certainty.
 			</p>
 		</div>
-		<div class="our-story-images">
-			<div class="our-story-image-large">
-				<img
-					src="/assets/lifestyle/AP_Explore_All.avif"
-					alt="Audemars Piguet watch"
-					class="story-image"
-				/>
-			</div>
-			<div class="our-story-image-small-top">
-				<img src="/assets/lifestyle/PP_Dice.avif" alt="Patek Philippe watch" class="story-image" />
-			</div>
-			<div class="our-story-image-small-bottom">
-				<img src="/assets/lifestyle/Rolex_wrist2.avif" alt="Rolex watch on wrist" class="story-image" />
-			</div>
+	</div>
+</section>
+
+<!-- ── 4. PILLARS ────────────────────────────────────────────────────── -->
+<section class="au-pillars">
+	<div class="au-pillars-inner">
+		<p class="au-section-eyebrow au-center">What We're Building</p>
+		<h2 class="au-section-title au-center">Technology in every timepiece</h2>
+
+		<div class="au-pillars-grid">
+			<article class="au-pillar">
+				<div class="au-pillar-num">01</div>
+				<h3 class="au-pillar-title">Digital Authentication</h3>
+				<p class="au-pillar-text">
+					Every watch we offer goes through a multi-point verification process covering movement inspection and serial cross-reference against manufacturer archives. The result is a digital record that travels with the piece.
+				</p>
+			</article>
+
+			<article class="au-pillar">
+				<div class="au-pillar-num">02</div>
+				<h3 class="au-pillar-title">Provenance Tracing</h3>
+				<p class="au-pillar-text">
+					We build a full ownership and service history for each reference, so you know exactly where it has been, who has touched it, and how it has been maintained across its lifetime.
+				</p>
+			</article>
+
+			<article class="au-pillar">
+				<div class="au-pillar-num">03</div>
+				<h3 class="au-pillar-title">Digital Records</h3>
+				<p class="au-pillar-text">
+					Warranty cards, receipts, service papers, and high-resolution archive photography are all preserved and linked to the piece. When you buy from us, the full story comes with it.
+				</p>
+			</article>
+		</div>
+	</div>
+</section>
+
+<!-- ── 5. ARCHIVE / PAPERWORK ────────────────────────────────────────── -->
+<section class="au-archive">
+	<div class="au-archive-inner">
+		<div class="au-archive-text">
+			<p class="au-section-eyebrow">The Archive</p>
+			<h2 class="au-section-title">Documentation matters</h2>
+			<p>
+				Original boxes, booklets, warranty cards, and service records aren't a nice-to-have. They're a critical part of a genuine pre-owned timepiece, and a meaningful driver of long-term value.
+			</p>
+			<p>
+				Watch Reserve preserves these alongside every piece, digitised and indexed, so collectors can verify what they're buying and trace its history at a glance.
+			</p>
+		</div>
+
+		<div class="au-archive-grid">
+			<img
+				src="/assets/hero/Submariner-book.jpg"
+				alt="Rolex Submariner with its original booklet"
+				loading="lazy"
+			/>
+			<img
+				src="/assets/hero/GMT-Master%20II%20Book.jpg"
+				alt="Rolex GMT-Master II with its original booklet"
+				loading="lazy"
+			/>
+			<img
+				src="/assets/hero/Rolex_cards.jpg"
+				alt="Rolex warranty cards laid out on leather"
+				loading="lazy"
+			/>
+		</div>
+	</div>
+</section>
+
+<!-- ── 7. CTA ────────────────────────────────────────────────────────── -->
+<section class="au-cta">
+	<div class="au-cta-inner">
+		<h2 class="au-cta-title">Your next timepiece is waiting.</h2>
+		<p class="au-cta-sub">
+			Browse the collection or speak with our team about sourcing a specific reference.
+		</p>
+		<div class="au-cta-buttons">
+			<a class="au-btn au-btn--primary" href="/shop">
+				Explore the Collection
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<path d="M5 12h14M12 5l7 7-7 7" />
+				</svg>
+			</a>
+			<a class="au-btn au-btn--secondary" href="/contact">Contact Us</a>
 		</div>
 	</div>
 </section>
 
 <style>
-	.about-hero-section {
+	/* ── SHARED PRIMITIVES ───────────────────────────────────────────── */
+	.au-eyebrow,
+	.au-section-eyebrow {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: #a1846d;
+		margin: 0 0 18px 0;
+	}
+
+	.au-section-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(2rem, 3.6vw, 2.75rem);
+		font-weight: 400;
+		color: #160b11;
+		margin: 0 0 28px 0;
+		line-height: 1.2;
+		letter-spacing: -0.015em;
+	}
+
+	.au-center {
+		text-align: center;
+	}
+
+	/* ── 1. HERO ─────────────────────────────────────────────────────── */
+	.au-hero {
 		position: relative;
 		width: 100%;
-		min-height: 80vh;
+		min-height: 78vh;
 		display: flex;
 		align-items: center;
-		background-image: url('/assets/frames/about_us_frame.avif');
+		justify-content: center;
+		background-image: url('/assets/hero/Pepsi-Cards.jpg');
 		background-size: cover;
 		background-position: center;
 		background-repeat: no-repeat;
 		overflow: hidden;
-		margin: 0;
-		padding: 0;
 	}
 
-	.about-hero-container {
+	.au-hero-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			180deg,
+			rgba(22, 11, 17, 0.55) 0%,
+			rgba(22, 11, 17, 0.72) 100%
+		);
+		z-index: 1;
+	}
+
+	.au-hero-content {
 		position: relative;
 		z-index: 2;
-		width: 100%;
-		max-width: 100%;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 0;
-		align-items: stretch;
-		box-sizing: border-box;
-		min-height: 80vh;
-	}
-
-	.about-hero-content {
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-		z-index: 3;
-		margin: 0;
-		padding: 0;
-		justify-content: center;
-		align-items: center;
+		max-width: 820px;
+		padding: 120px 40px;
 		text-align: center;
-		height: 100%;
+		color: #ffffff;
 	}
 
-	.about-hero-heading {
+	.au-hero-content .au-eyebrow {
+		color: #c9a97d;
+	}
+
+	.au-hero-title {
 		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: clamp(2.5rem, 5vw, 4.5rem);
-		font-weight: 700;
-		color: #160b11;
-		margin: 0;
-		line-height: 1.15;
-		letter-spacing: -0.02em;
-		text-align: center;
-	}
-
-	.about-hero-heading em {
-		font-style: italic;
-		font-weight: 700;
-	}
-
-	.about-hero-subheading {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: clamp(1.5rem, 3vw, 2.5rem);
+		font-size: clamp(2.5rem, 6vw, 4.75rem);
 		font-weight: 400;
-		font-style: italic;
-		color: #160b11;
-		margin: 0;
-		line-height: 1.2;
-		letter-spacing: -0.01em;
-		text-align: center;
+		color: #ffffff;
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+		margin: 0 0 28px 0;
 	}
 
-	.about-hero-text {
+	.au-hero-sub {
 		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
-		color: #160b11;
-		margin: 0;
 		line-height: 1.7;
+		color: rgba(255, 255, 255, 0.82);
 		font-weight: 300;
-		letter-spacing: 0.01em;
-		text-align: center;
-		max-width: 600px;
+		max-width: 620px;
+		margin: 0 auto;
 	}
 
-	.about-hero-image-wrapper {
+	/* ── 2. MISSION / INTRO ──────────────────────────────────────────── */
+	.au-intro {
 		width: 100%;
-		height: 100%;
-		position: relative;
-		margin: 0;
-		padding: 0;
-		z-index: 3;
-		overflow: hidden;
+		background-color: #ffffff;
+		padding: 120px 40px;
 	}
 
-	.about-hero-image {
+	.au-intro-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 80px;
+		align-items: center;
+	}
+
+	.au-intro-text p {
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
+		line-height: 1.8;
+		color: #3a2a31;
+		font-weight: 300;
+		margin: 0 0 18px 0;
+	}
+
+	.au-intro-text p:last-child {
+		margin-bottom: 0;
+	}
+
+	.au-intro-image {
+		position: relative;
+		aspect-ratio: 4 / 5;
+		overflow: hidden;
+		border: 1px solid rgba(161, 132, 109, 0.2);
+	}
+
+	.au-intro-image img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 		display: block;
-		margin: 0;
-		padding: 0;
-		border-radius: 0;
 	}
 
-	@media (max-width: 1024px) {
-		.about-hero-container {
-			padding: 0;
-			gap: 0;
-		}
-	}
-
-	@media (max-width: 768px) {
-		.about-hero-section {
-			min-height: 70vh;
-		}
-
-		.about-hero-container {
-			grid-template-columns: 1fr;
-			padding: 0;
-			gap: 0;
-		}
-
-		.about-hero-content {
-			order: 1;
-			text-align: center;
-			align-items: center;
-			padding: 40px 30px;
-		}
-
-		.about-hero-heading,
-		.about-hero-subheading,
-		.about-hero-text {
-			text-align: center;
-		}
-
-		.about-hero-text {
-			max-width: 100%;
-		}
-
-		.about-hero-image-wrapper {
-			order: 2;
-		}
-	}
-
-	@media (max-width: 480px) {
-		.about-hero-section {
-			min-height: 60vh;
-		}
-
-		.about-hero-container {
-			padding: 0;
-			gap: 0;
-		}
-
-		.about-hero-heading {
-			font-size: clamp(2rem, 6vw, 3.5rem);
-		}
-
-		.about-hero-subheading {
-			font-size: clamp(1.25rem, 4vw, 2rem);
-		}
-
-		.about-hero-content {
-			padding: 30px 20px;
-		}
-	}
-
-	.our-story-section {
-		position: relative;
+	/* ── 3. TECH-FIRST ───────────────────────────────────────────────── */
+	.au-tech {
 		width: 100%;
-		background-image: url('/assets/about/About_us_grid.avif');
-		background-size: cover;
-		background-position: center;
-		background-repeat: no-repeat;
-		padding: 100px 40px;
-		box-sizing: border-box;
+		background-color: #faf8f6;
+		padding: 120px 40px;
+		border-top: 1px solid rgba(161, 132, 109, 0.15);
+		border-bottom: 1px solid rgba(161, 132, 109, 0.15);
 	}
 
-	.our-story-container {
-		max-width: 1400px;
+	.au-tech-inner {
+		max-width: 1200px;
 		margin: 0 auto;
-		display: flex;
-		flex-direction: column;
-		gap: 60px;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 80px;
+		align-items: center;
 	}
 
-	.our-story-content {
-		display: flex;
-		flex-direction: column;
-		gap: 24px;
-		max-width: 900px;
+	.au-tech-image {
+		aspect-ratio: 4 / 5;
+		overflow: hidden;
+		border: 1px solid rgba(161, 132, 109, 0.25);
 	}
 
-	.our-story-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: clamp(2.5rem, 5vw, 4rem);
-		font-weight: 400;
-		color: #ffffff;
-		margin: 0;
-		line-height: 1.2;
-		letter-spacing: -0.02em;
-		text-align: left;
+	.au-tech-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
 	}
 
-	.our-story-text {
+	.au-tech-text p {
 		font-family: 'Montserrat', sans-serif;
-		font-size: clamp(1rem, 1.2vw, 1.125rem);
-		color: #ffffff;
-		margin: 0;
-		line-height: 1.7;
+		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
+		line-height: 1.8;
+		color: #3a2a31;
 		font-weight: 300;
-		letter-spacing: 0.01em;
-		text-align: left;
+		margin: 0 0 18px 0;
 	}
 
-	.our-story-images {
+	.au-tech-text p:last-child {
+		margin-bottom: 0;
+	}
+
+	.au-tech-text strong {
+		color: #160b11;
+		font-weight: 600;
+	}
+
+	/* ── 4. PILLARS ──────────────────────────────────────────────────── */
+	.au-pillars {
+		width: 100%;
+		background-color: #ffffff;
+		padding: 120px 40px;
+	}
+
+	.au-pillars-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.au-pillars-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 40px;
+		margin-top: 56px;
+	}
+
+	.au-pillar {
+		padding: 40px 32px;
+		background-color: #faf8f6;
+		border: 1px solid rgba(161, 132, 109, 0.18);
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		transition: border-color 0.25s ease, transform 0.25s ease;
+	}
+
+	.au-pillar:hover {
+		border-color: rgba(161, 132, 109, 0.45);
+		transform: translateY(-2px);
+	}
+
+	.au-pillar-num {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 1rem;
+		color: #a1846d;
+		letter-spacing: 0.1em;
+	}
+
+	.au-pillar-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 1.375rem;
+		font-weight: 400;
+		color: #160b11;
+		margin: 0;
+		line-height: 1.3;
+	}
+
+	.au-pillar-text {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.9375rem;
+		line-height: 1.75;
+		color: #6b5c55;
+		font-weight: 300;
+		margin: 0;
+	}
+
+	/* ── 5. ARCHIVE ──────────────────────────────────────────────────── */
+	.au-archive {
+		width: 100%;
+		background-color: #faf8f6;
+		padding: 120px 40px;
+		border-top: 1px solid rgba(161, 132, 109, 0.15);
+	}
+
+	.au-archive-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr 1.2fr;
+		gap: 80px;
+		align-items: center;
+	}
+
+	.au-archive-text p {
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
+		line-height: 1.8;
+		color: #3a2a31;
+		font-weight: 300;
+		margin: 0 0 18px 0;
+	}
+
+	.au-archive-text p:last-child {
+		margin-bottom: 0;
+	}
+
+	.au-archive-grid {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: 1fr 1fr;
-		gap: 0;
-		width: 100%;
-		height: 600px;
+		gap: 16px;
 	}
 
-	.our-story-image-large {
-		grid-column: 1;
-		grid-row: 1 / 3;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
-
-	.our-story-image-small-top {
-		grid-column: 2;
-		grid-row: 1;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
-
-	.our-story-image-small-bottom {
-		grid-column: 2;
-		grid-row: 2;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
-
-	.story-image {
+	.au-archive-grid img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 		display: block;
+		border: 1px solid rgba(161, 132, 109, 0.2);
 	}
 
-	@media (max-width: 1024px) {
-		.our-story-section {
-			padding: 80px 30px;
-		}
-
-		.our-story-container {
-			gap: 50px;
-		}
-
-		.our-story-images {
-			height: 500px;
-		}
+	.au-archive-grid img:first-child {
+		grid-row: 1 / span 2;
+		aspect-ratio: auto;
 	}
 
-	@media (max-width: 768px) {
-		.our-story-section {
-			padding: 60px 20px;
-		}
+	/* ── 7. CTA ──────────────────────────────────────────────────────── */
+	.au-cta {
+		width: 100%;
+		background-color: #160b11;
+		padding: 120px 40px;
+		color: #ffffff;
+		text-align: center;
+	}
 
-		.our-story-container {
-			gap: 40px;
-		}
+	.au-cta-inner {
+		max-width: 720px;
+		margin: 0 auto;
+	}
 
-		.our-story-content {
-			max-width: 100%;
-		}
+	.au-cta-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.875rem, 3.5vw, 2.625rem);
+		font-weight: 400;
+		color: #ffffff;
+		margin: 0 0 20px 0;
+		line-height: 1.25;
+		letter-spacing: -0.015em;
+	}
 
-		.our-story-heading,
-		.our-story-text {
-			text-align: center;
-		}
+	.au-cta-sub {
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
+		color: rgba(255, 255, 255, 0.72);
+		line-height: 1.7;
+		font-weight: 300;
+		margin: 0 0 40px 0;
+	}
 
-		.our-story-images {
+	.au-cta-buttons {
+		display: flex;
+		gap: 16px;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	.au-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.78rem;
+		font-weight: 600;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		padding: 16px 32px;
+		text-decoration: none;
+		transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+	}
+
+	.au-btn--primary {
+		background-color: #a1846d;
+		color: #ffffff;
+		border: 1px solid #a1846d;
+	}
+
+	.au-btn--primary:hover {
+		background-color: #8d7159;
+		border-color: #8d7159;
+	}
+
+	.au-btn--secondary {
+		background-color: transparent;
+		color: #ffffff;
+		border: 1px solid rgba(255, 255, 255, 0.45);
+	}
+
+	.au-btn--secondary:hover {
+		border-color: #ffffff;
+		background-color: rgba(255, 255, 255, 0.06);
+	}
+
+	/* ── RESPONSIVE ──────────────────────────────────────────────────── */
+	@media (max-width: 960px) {
+		.au-intro-inner,
+		.au-tech-inner,
+		.au-archive-inner {
 			grid-template-columns: 1fr;
+			gap: 56px;
+		}
+
+		.au-tech-inner .au-tech-image {
+			order: -1;
+		}
+
+		.au-pillars-grid {
+			grid-template-columns: 1fr;
+			gap: 20px;
+		}
+
+		.au-archive-grid {
+			grid-template-columns: 1fr 1fr;
 			grid-template-rows: auto;
-			height: auto;
 		}
 
-		.our-story-image-large {
-			grid-column: 1;
-			grid-row: 1;
-			height: 400px;
-		}
-
-		.our-story-image-small-top {
-			grid-column: 1;
-			grid-row: 2;
-			height: 300px;
-		}
-
-		.our-story-image-small-bottom {
-			grid-column: 1;
-			grid-row: 3;
-			height: 300px;
+		.au-archive-grid img:first-child {
+			grid-row: auto;
+			grid-column: 1 / span 2;
+			aspect-ratio: 16 / 10;
 		}
 	}
 
-	@media (max-width: 480px) {
-		.our-story-section {
-			padding: 50px 15px;
+	@media (max-width: 640px) {
+		.au-hero {
+			min-height: 68vh;
 		}
 
-		.our-story-container {
-			gap: 30px;
+		.au-hero-content {
+			padding: 90px 24px;
 		}
 
-		.our-story-image-large {
-			height: 300px;
+		.au-intro,
+		.au-tech,
+		.au-pillars,
+		.au-archive,
+		.au-cta {
+			padding: 80px 20px;
 		}
 
-		.our-story-image-small-top,
-		.our-story-image-small-bottom {
-			height: 250px;
+		.au-archive-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.au-archive-grid img:first-child {
+			grid-column: auto;
+			aspect-ratio: 16 / 10;
+		}
+
+		.au-btn {
+			padding: 14px 26px;
+			font-size: 0.72rem;
 		}
 	}
 </style>
-

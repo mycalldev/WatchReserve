@@ -33,6 +33,7 @@
 			<li><a href="/source">SOURCE</a></li>
 			<li><a href="/blogs">BLOGS & GUIDES</a></li>
 			<li><a href="/api">API</a></li>
+			<li><a href="/contact">CONTACT</a></li>
 		</ul>
 
 		<div class="navbar-right">

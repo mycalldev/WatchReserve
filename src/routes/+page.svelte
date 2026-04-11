@@ -68,7 +68,7 @@
 				Explore investment-grade timepieces - sourced, authenticated, and delivered by a team who knows your time is valuable.
 			</p>
 			<div class="hero-actions">
-				<Button>Browse All Watches</Button>
+				<Button href="/shop">Browse All Watches</Button>
 			</div>
 		</div>
 	</div>
@@ -376,6 +376,40 @@
 			</ul>
 		</div>
 
+	</div>
+</section>
+
+
+<!-- ── YOUTUBE SOCIAL PROOF ─────────────────────────────────────────── -->
+<section class="yt-proof-section">
+	<div class="yt-proof-inner">
+		<div class="yt-proof-image-wrap">
+			<img
+				src="/assets/youtube-social.png"
+				alt="Watch Reserve on YouTube"
+				class="yt-proof-image"
+				loading="lazy"
+			/>
+		</div>
+		<div class="yt-proof-content">
+			<p class="yt-proof-eyebrow">On YouTube</p>
+			<h2 class="yt-proof-heading">Behind the collection</h2>
+			<p class="yt-proof-text">
+				Follow Watch Reserve on YouTube for an inside look at the collection. From condition walkthroughs and on-the-wrist reviews to the stories behind each reference, we share the detail that makes every piece worth owning.
+			</p>
+			<a
+				href="#"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="yt-proof-cta"
+				aria-label="Visit the Watch Reserve YouTube channel"
+			>
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+				</svg>
+				Visit Our Channel
+			</a>
+		</div>
 	</div>
 </section>
 
@@ -778,6 +812,117 @@
 
 	@media (max-width: 480px) {
 		.about-wr-section { padding: 40px 20px; }
+	}
+
+	/* ── YouTube social proof ─────────────────────────────── */
+	.yt-proof-section {
+		width: 100%;
+		background-color: #faf8f6;
+		padding: 100px 40px;
+		border-top: 1px solid rgba(161, 132, 109, 0.15);
+		border-bottom: 1px solid rgba(161, 132, 109, 0.15);
+		box-sizing: border-box;
+	}
+
+	.yt-proof-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1.2fr 1fr;
+		gap: 72px;
+		align-items: center;
+	}
+
+	.yt-proof-image-wrap {
+		position: relative;
+		width: 100%;
+		background-color: #ffffff;
+		border: 1px solid rgba(22, 11, 17, 0.08);
+		box-shadow: 0 18px 48px rgba(22, 11, 17, 0.1), 0 4px 16px rgba(22, 11, 17, 0.06);
+		overflow: hidden;
+	}
+
+	.yt-proof-image {
+		display: block;
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+
+	.yt-proof-content {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.yt-proof-eyebrow {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: #a1846d;
+		margin: 0;
+	}
+
+	.yt-proof-heading {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.875rem, 3.2vw, 2.5rem);
+		font-weight: 400;
+		color: #160b11;
+		margin: 0;
+		line-height: 1.2;
+		letter-spacing: -0.015em;
+	}
+
+	.yt-proof-text {
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.95rem, 1.05vw, 1.0625rem);
+		line-height: 1.75;
+		color: #3a2a31;
+		font-weight: 300;
+		margin: 0;
+	}
+
+	.yt-proof-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		margin-top: 12px;
+		padding: 14px 26px;
+		background-color: #160b11;
+		color: #ffffff;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.78rem;
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		text-decoration: none;
+		border: 1px solid #160b11;
+		align-self: flex-start;
+		transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+	}
+
+	.yt-proof-cta:hover {
+		background-color: #c9252c;
+		border-color: #c9252c;
+	}
+
+	.yt-proof-cta svg {
+		flex-shrink: 0;
+	}
+
+	@media (max-width: 960px) {
+		.yt-proof-section { padding: 80px 32px; }
+		.yt-proof-inner {
+			grid-template-columns: 1fr;
+			gap: 48px;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.yt-proof-section { padding: 64px 20px; }
+		.yt-proof-inner { gap: 36px; }
 	}
 
 	.sell-source-section {
