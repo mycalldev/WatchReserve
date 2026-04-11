@@ -94,17 +94,18 @@
 					<span class="cart-badge">0</span>
 				{/if}
 			</a>
-			<button
-				class="burger-menu mobile-only"
-				onclick={toggleMenu}
-				aria-label="Toggle menu"
-				aria-expanded={isMenuOpen}
-			>
-				<span class="burger-line" class:open={isMenuOpen}></span>
-				<span class="burger-line" class:open={isMenuOpen}></span>
-				<span class="burger-line" class:open={isMenuOpen}></span>
-			</button>
 		</div>
+
+		<button
+			class="burger-menu mobile-only"
+			onclick={toggleMenu}
+			aria-label="Toggle menu"
+			aria-expanded={isMenuOpen}
+		>
+			<span class="burger-line" class:open={isMenuOpen}></span>
+			<span class="burger-line" class:open={isMenuOpen}></span>
+			<span class="burger-line" class:open={isMenuOpen}></span>
+		</button>
 	</div>
 
 	<!-- Mobile Menu -->
@@ -526,16 +527,49 @@
 			z-index: 1001;
 		}
 
+		/* Two-row mobile layout */
+		.navbar-container {
+			flex-wrap: wrap;
+			padding: 0;
+			gap: 0;
+			align-items: stretch;
+		}
+
+		/* Row 1: utility strip — icons fill the full width, right-aligned */
+		.navbar-right {
+			order: 1;
+			width: 100%;
+			justify-content: flex-end;
+			padding: 8px 20px;
+			gap: 20px;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+			background-color: rgba(255, 255, 255, 0.03);
+		}
+
+		/* Row 2: logo (left) + burger (right) */
+		.logo-link {
+			order: 2;
+			flex: 1;
+			padding: 12px 20px;
+			align-self: center;
+		}
+
+		.burger-menu {
+			order: 3;
+			padding: 12px 20px 12px 0;
+			align-self: center;
+		}
+
 		.nav-links {
 			display: none;
 		}
 
-		.navbar-container {
-			justify-content: space-between;
-		}
-
 		.mobile-only {
 			display: flex;
+		}
+
+		.logo {
+			height: 30px;
 		}
 
 		.mobile-menu-content {

@@ -25,6 +25,8 @@
 </svelte:head>
 
 <div class="page-header">
+	<img src="/assets/hero/blog_hero.jpg" alt="" class="page-header-bg" aria-hidden="true" fetchpriority="high" />
+	<div class="page-header-overlay" aria-hidden="true"></div>
 	<div class="page-header-content">
 		<p class="page-eyebrow">Knowledge &amp; Insight</p>
 		<h1 class="page-title">Blogs &amp; Guides</h1>
@@ -83,25 +85,33 @@
 
 <style>
 	.page-header {
-		background: linear-gradient(160deg, #1e0e19 0%, #160b11 60%, #1a0d16 100%);
+		position: relative;
 		border-bottom: 1px solid rgba(161, 132, 109, 0.2);
 		padding: 80px 40px 72px;
 		text-align: center;
-		position: relative;
 		overflow: hidden;
 	}
-	.page-header::before {
-		content: '';
+	.page-header-bg {
 		position: absolute;
-		top: -80px;
-		left: 50%;
-		transform: translateX(-50%);
-		width: 600px;
-		height: 320px;
-		background: radial-gradient(ellipse, rgba(161, 132, 109, 0.07) 0%, transparent 70%);
-		pointer-events: none;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+		display: block;
+		z-index: 0;
 	}
-	.page-header-content { position: relative; z-index: 1; }
+	.page-header-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			180deg,
+			rgba(22, 11, 17, 0.72) 0%,
+			rgba(22, 11, 17, 0.82) 100%
+		);
+		z-index: 1;
+	}
+	.page-header-content { position: relative; z-index: 2; }
 	.page-eyebrow {
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.72rem;

@@ -1,12 +1,27 @@
 <script>
 	let firstName = $state('');
 	let email = $state('');
-	let collection = $state('');
 	let submitted = $state(false);
+	let submitting = $state(false);
 
-	function handleSubmit(e) {
+	async function handleSubmit(e) {
 		e.preventDefault();
-		if (email.trim()) {
+		if (!email.trim()) return;
+		submitting = true;
+
+		try {
+			const res = await fetch('/api/waitlist', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ firstName, email })
+			});
+
+			const data = await res.json().catch(() => ({}));
+			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed');
+		} catch (err) {
+			console.error('[waitlist] fetch error:', err);
+		} finally {
+			submitting = false;
 			submitted = true;
 		}
 	}
@@ -101,9 +116,13 @@
 								aria-label="Email address"
 							/>
 						</div>
-						<button type="submit" class="wi-banner-btn">
-							Join the Waitlist
-							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+						<button type="submit" class="wi-banner-btn" disabled={submitting}>
+							{#if submitting}
+								Sending…
+							{:else}
+								Join the Waitlist
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+							{/if}
 						</button>
 						<p class="wi-banner-note">Early members receive exclusive access and founding member benefits.</p>
 					</form>

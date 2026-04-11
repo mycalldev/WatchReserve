@@ -93,23 +93,23 @@
 				</nav>
 			</div>
 
-			<!-- Intelligence API column -->
+			<!-- Intelligence column -->
 			<div class="footer-col footer-col--api">
 				<div class="api-eyebrow">
 					<span class="api-dot" aria-hidden="true"></span>
-					Intelligence API
+					Coming Soon
 				</div>
-				<h3 class="api-heading">Intelligence API Asset Valuation</h3>
+				<h3 class="api-heading">Intelligence Built for Serious Collectors</h3>
 				<p class="api-body">
-					Real-time pricing, availability data for luxury timepieces direct from our In House Intelligence API.
+					Watch Reserve Intelligence goes beyond price data. Rarity scores, provenance trails, portfolio tracking, and real-time valuations, exclusively for members.
 				</p>
-				<a href="/api" class="api-subscribe-btn">
-					Subscribe to API
+				<a href="/api#waitlist" class="api-subscribe-btn">
+					Join the Waitlist
 					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<path d="M5 12h14M12 5l7 7-7 7"/>
 					</svg>
 				</a>
-				<a href="/api" class="api-learn-link">Learn more about the API →</a>
+				<a href="/api" class="api-learn-link">Learn more about Watch Reserve Intelligence →</a>
 			</div>
 
 		</div>
