@@ -2,8 +2,8 @@
 	import { slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
 
-	/** @type {{ title: string, vendor: string, reference: string | null }} */
-	let { title = '', vendor = '', reference = null } = $props();
+	/** @type {{ title: string, vendor: string, reference: string | null, price: string | null, currencyCode: string, status: string | null }} */
+	let { title = '', vendor = '', reference = null, price = null, currencyCode = 'GBP', status = null } = $props();
 
 	// ── Drawer state ───────────────────────────────────────────────────────────
 	let open = $state(false);
@@ -67,7 +67,23 @@
 		submitSuccess = false;
 
 		try {
-			await new Promise((r) => setTimeout(r, 1100));
+			const res = await fetch('/api/product-enquiry', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					...formData,
+					productTitle:     title,
+					productVendor:    vendor,
+					productReference: reference,
+					productStatus:    status,
+					productPrice:     price,
+					productCurrency:  currencyCode
+				})
+			});
+
+			const data = await res.json().catch(() => ({}));
+			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed');
+
 			submitSuccess = true;
 			formData = {
 				fullName: '', email: '', phone: '',

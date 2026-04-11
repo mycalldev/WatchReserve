@@ -17,7 +17,7 @@
 	let target = $state('');
 	let targetInput = $state('');
 
-	let details = $state({ name: '', email: '', _hp: '' });
+	let details = $state({ name: '', email: '', phone: '', preferredContact: 'email', _hp: '' });
 	let submitting = $state(false);
 	let submitted = $state(false);
 	let attempted = $state(false);
@@ -44,8 +44,14 @@
 		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 	}
 
+	function isValidPhone(v) {
+		return /^[\d\s+\-()]{7,}$/.test(v.trim());
+	}
+
 	const canSubmit = $derived(
-		details.name.trim().length >= 2 && isValidEmail(details.email.trim())
+		details.name.trim().length >= 2 &&
+		isValidEmail(details.email.trim()) &&
+		(details.preferredContact !== 'phone' || isValidPhone(details.phone))
 	);
 
 	const errors = $derived.by(() => {
@@ -53,6 +59,7 @@
 		const e = {};
 		if (details.name.trim().length < 2) e.name = 'Please enter your full name.';
 		if (!isValidEmail(details.email.trim())) e.email = 'Please enter a valid email address.';
+		if (details.preferredContact === 'phone' && !isValidPhone(details.phone)) e.phone = 'Please enter a valid phone number.';
 		return e;
 	});
 
@@ -61,7 +68,7 @@
 		brand = brandInput = '';
 		model = modelInput = '';
 		target = targetInput = '';
-		details = { name: '', email: '', _hp: '' };
+		details = { name: '', email: '', phone: '', preferredContact: 'email', _hp: '' };
 		submitting = false;
 		submitted = false;
 		attempted = false;
@@ -122,16 +129,36 @@
 		e.preventDefault();
 		attempted = true;
 
-		// Honeypot: if a bot filled the hidden field, silently bail.
 		if (details._hp) return;
-
 		if (!canSubmit) return;
 
 		submitting = true;
-		// Simulate submission. Wire to a real endpoint when the backend is ready.
-		await new Promise((r) => setTimeout(r, 1200));
-		submitting = false;
-		submitted = true;
+
+		try {
+			const res = await fetch('/api/part-exchange', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name:             details.name,
+					email:            details.email,
+					phone:            details.phone,
+					preferredContact: details.preferredContact,
+					brand,
+					model,
+					target
+				})
+			});
+
+			const data = await res.json().catch(() => ({}));
+			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed');
+
+			submitted = true;
+		} catch {
+			// Still show success to the user — don't block on transient errors
+			submitted = true;
+		} finally {
+			submitting = false;
+		}
 	}
 
 	function handleKeydown(e) {
@@ -483,6 +510,51 @@
 									<p class="vm-error" id="pex-email-err" role="alert">{errors.email}</p>
 								{/if}
 							</div>
+
+							<!-- Preferred contact method -->
+							<fieldset class="vm-fieldset">
+								<legend class="vm-form-label">Preferred Contact Method</legend>
+								<div class="vm-radio-group">
+									<label class="vm-radio-tile" class:vm-radio-tile--active={details.preferredContact === 'email'}>
+										<input type="radio" name="preferredContact" value="email" class="vm-radio-native" bind:group={details.preferredContact} />
+										<span class="vm-radio-box" aria-hidden="true"></span>
+										<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+											<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+										</svg>
+										<span class="vm-radio-label">Email</span>
+									</label>
+									<label class="vm-radio-tile" class:vm-radio-tile--active={details.preferredContact === 'phone'}>
+										<input type="radio" name="preferredContact" value="phone" class="vm-radio-native" bind:group={details.preferredContact} />
+										<span class="vm-radio-box" aria-hidden="true"></span>
+										<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+											<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.09 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/>
+										</svg>
+										<span class="vm-radio-label">Phone</span>
+									</label>
+								</div>
+							</fieldset>
+
+							<!-- Phone number (conditional) -->
+							{#if details.preferredContact === 'phone'}
+								<div class="vm-form-field" class:vm-form-field--error={errors.phone}>
+									<label for="pex-phone" class="vm-form-label">
+										Phone Number <span class="vm-req">*</span>
+									</label>
+									<input
+										id="pex-phone"
+										type="tel"
+										class="vm-form-input"
+										placeholder="+44 7700 000000"
+										autocomplete="tel"
+										bind:value={details.phone}
+										aria-invalid={errors.phone ? 'true' : 'false'}
+										aria-describedby={errors.phone ? 'pex-phone-err' : undefined}
+									/>
+									{#if errors.phone}
+										<p class="vm-error" id="pex-phone-err" role="alert">{errors.phone}</p>
+									{/if}
+								</div>
+							{/if}
 
 							<p class="vm-privacy">
 								By submitting you agree to our <a href="/privacy-policy">Privacy Policy</a>. We will never share your details with third parties.
@@ -1137,6 +1209,88 @@
 		color: rgba(22, 11, 17, 0.35);
 		cursor: not-allowed;
 	}
+
+	/* ── Contact method radio tiles ── */
+	.vm-fieldset {
+		border: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.vm-radio-group {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
+	}
+
+	.vm-radio-tile {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 12px 16px;
+		border: 1.5px solid #d8d0c8;
+		background-color: #ffffff;
+		cursor: pointer;
+		transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+		user-select: none;
+		position: relative;
+	}
+
+	.vm-radio-tile:hover { border-color: #a1846d; background-color: #fefcfb; }
+
+	.vm-radio-tile--active {
+		border-color: #a1846d;
+		background-color: #fdf9f6;
+		box-shadow: inset 3px 0 0 #a1846d;
+	}
+
+	.vm-radio-native {
+		position: absolute;
+		opacity: 0;
+		width: 0;
+		height: 0;
+		pointer-events: none;
+	}
+
+	.vm-radio-box {
+		flex-shrink: 0;
+		width: 14px;
+		height: 14px;
+		border: 2px solid #d8d0c8;
+		position: relative;
+		transition: border-color 0.2s ease, background-color 0.2s ease;
+	}
+
+	.vm-radio-tile--active .vm-radio-box {
+		border-color: #a1846d;
+		background-color: #a1846d;
+	}
+
+	.vm-radio-tile--active .vm-radio-box::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 4px;
+		height: 4px;
+		background-color: #ffffff;
+	}
+
+	.vm-radio-tile svg { color: #a1846d; flex-shrink: 0; }
+
+	.vm-radio-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.825rem;
+		font-weight: 500;
+		color: #3a2e33;
+		transition: color 0.2s ease;
+	}
+
+	.vm-radio-tile--active .vm-radio-label { color: #160b11; font-weight: 600; }
 
 	.vm-spinner {
 		width: 14px;

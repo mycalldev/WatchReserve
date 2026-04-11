@@ -1,64 +1,52 @@
 <script>
-	import { onMount, onDestroy } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
 	import LinkButton from '$lib/components/LinkButton.svelte';
 	import NewArrivals from '$lib/components/NewArrivals.svelte';
 	import Reviews from '$lib/components/Reviews.svelte';
 	import ApiTrialModal from '$lib/components/ApiTrialModal.svelte';
+	import { onMount, onDestroy } from 'svelte';
 
 	let { data } = $props();
 
-	// ── API Feed widget ──────────────────────────────────────────────────────────
-	const ROLEX_BASE = [
-		{ id: 1, model: 'Submariner Date',  ref: '126610LN',    base: 12800 },
-		{ id: 2, model: 'Daytona',          ref: '116500LN',    base: 28500 },
-		{ id: 3, model: 'GMT-Master II',    ref: '126710BLNR',  base: 16200 },
-		{ id: 4, model: 'Datejust 41',      ref: '126334',      base: 9400  },
-		{ id: 5, model: 'Sky-Dweller',      ref: '326935',      base: 22000 }
+	const heroSlides = [
+		'/assets/hero/rose_daytona.jpg',
+		'/assets/hero/patek_slider.jpg',
+		'/assets/hero/API_Hero.jpg'
 	];
 
-	function tickPrice(base) {
-		const delta = base * 0.009 * (Math.random() * 2 - 1);
-		return Math.round(base + delta);
-	}
-
-	function buildFeedRow(item) {
-		const price = tickPrice(item.base);
-		const change = parseFloat(((price - item.base) / item.base * 100).toFixed(2));
-		return { ...item, price, change, flash: true };
-	}
-
-	let apiFeed = $state(ROLEX_BASE.map(buildFeedRow));
-	let apiTime  = $state(new Date());
-	let apiTimer;
-
-	function formatFeedPrice(n) {
-		return new Intl.NumberFormat('en-GB', {
-			style: 'currency', currency: 'GBP',
-			minimumFractionDigits: 0, maximumFractionDigits: 0
-		}).format(n);
-	}
-
-	function formatFeedTime(d) {
-		return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-	}
+	let activeSlide = $state(0);
+	let sliderInterval;
 
 	onMount(() => {
-		apiTimer = setInterval(() => {
-			const idx = Math.floor(Math.random() * apiFeed.length);
-			apiFeed = apiFeed.map((row, i) =>
-				i === idx ? buildFeedRow(ROLEX_BASE[i]) : { ...row, flash: false }
-			);
-			apiTime = new Date();
-		}, 2000);
+		sliderInterval = setInterval(() => {
+			activeSlide = (activeSlide + 1) % heroSlides.length;
+		}, 3000);
 	});
 
-	onDestroy(() => clearInterval(apiTimer));
+	onDestroy(() => {
+		clearInterval(sliderInterval);
+	});
 </script>
 
 <ApiTrialModal />
 
 <section class="hero-section">
+	<!-- Slider images -->
+	{#each heroSlides as src, i}
+		<img
+			{src}
+			alt=""
+			aria-hidden="true"
+			class="hero-slide-img"
+			class:hero-slide-img--active={i === activeSlide}
+			fetchpriority={i === 0 ? 'high' : 'low'}
+			loading={i === 0 ? 'eager' : 'lazy'}
+		/>
+	{/each}
+
+	<!-- Overlay -->
+	<div class="hero-overlay" aria-hidden="true"></div>
+
 	<div class="hero-container">
 		<div class="hero-content">
 			<h1 class="hero-headline">
@@ -71,6 +59,18 @@
 				<Button href="/shop">Browse All Watches</Button>
 			</div>
 		</div>
+	</div>
+
+	<!-- Slide indicators -->
+	<div class="hero-dots" aria-hidden="true">
+		{#each heroSlides as _, i}
+			<button
+				class="hero-dot"
+				class:hero-dot--active={i === activeSlide}
+				onclick={() => { activeSlide = i; clearInterval(sliderInterval); sliderInterval = setInterval(() => { activeSlide = (activeSlide + 1) % heroSlides.length; }, 3000); }}
+				tabindex="-1"
+			></button>
+		{/each}
 	</div>
 </section>
 
@@ -214,47 +214,67 @@
 	<div class="api-widget-col">
 		<div class="api-widget">
 
-			<!-- Widget header -->
-			<div class="widget-header">
-				<div class="widget-header-left">
-					<span class="widget-brand-dot" aria-hidden="true"></span>
-					<span class="widget-title">ROLEX MARKET FEED</span>
-				</div>
-				<div class="widget-header-right">
-					<span class="widget-live">
-						<span class="api-pulse-dot" aria-hidden="true"></span>
-						LIVE
+			<div class="widget-coming-badge">
+				<span class="widget-brand-dot" aria-hidden="true"></span>
+				Coming Soon
+			</div>
+
+			<h3 class="widget-coming-title">Watch Reserve Intelligence</h3>
+			<p class="widget-coming-sub">
+				A new kind of data layer — built exclusively for collectors who want to know more than just the price.
+			</p>
+
+			<ul class="widget-preview-list" aria-label="Upcoming data features">
+				<li class="widget-preview-item">
+					<span class="widget-preview-icon" aria-hidden="true">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
 					</span>
-					<span class="widget-time" aria-live="polite" aria-label="Last updated">{formatFeedTime(apiTime)}</span>
-				</div>
-			</div>
+					<span class="widget-preview-label">Real-Time Market Valuations</span>
+					<span class="widget-preview-lock" aria-hidden="true">
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+					</span>
+				</li>
+				<li class="widget-preview-item">
+					<span class="widget-preview-icon" aria-hidden="true">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+					</span>
+					<span class="widget-preview-label">Price History & Trend Analysis</span>
+					<span class="widget-preview-lock" aria-hidden="true">
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+					</span>
+				</li>
+				<li class="widget-preview-item">
+					<span class="widget-preview-icon" aria-hidden="true">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+					</span>
+					<span class="widget-preview-label">Rarity & Collector Demand Scores</span>
+					<span class="widget-preview-lock" aria-hidden="true">
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+					</span>
+				</li>
+				<li class="widget-preview-item">
+					<span class="widget-preview-icon" aria-hidden="true">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+					</span>
+					<span class="widget-preview-label">Provenance & Authentication Data</span>
+					<span class="widget-preview-lock" aria-hidden="true">
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+					</span>
+				</li>
+				<li class="widget-preview-item">
+					<span class="widget-preview-icon" aria-hidden="true">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+					</span>
+					<span class="widget-preview-label">Collection Portfolio Tracking</span>
+					<span class="widget-preview-lock" aria-hidden="true">
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+					</span>
+				</li>
+			</ul>
 
-			<!-- Column headers -->
-			<div class="widget-col-headers">
-				<span>Model</span>
-				<span>Reference</span>
-				<span class="align-right">Market Price</span>
-				<span class="align-right">24h</span>
-			</div>
-
-			<!-- Live rows -->
-			<div class="widget-rows" role="list" aria-label="Rolex live prices">
-				{#each apiFeed as row (row.id)}
-					<div class="widget-row" class:widget-row--flash={row.flash} role="listitem">
-						<span class="widget-model">{row.model}</span>
-						<code class="widget-ref">{row.ref}</code>
-						<span class="widget-price">{formatFeedPrice(row.price)}</span>
-						<span class="widget-change" class:positive={row.change >= 0} class:negative={row.change < 0}>
-							{row.change >= 0 ? '▲' : '▼'} {Math.abs(row.change)}%
-						</span>
-					</div>
-				{/each}
-			</div>
-
-			<!-- Widget footer -->
 			<div class="widget-footer">
-				<span class="widget-footer-label">Powered by Watch Reserve API</span>
-				<span class="widget-footer-note">Indicative prices — demo data</span>
+				<span class="widget-footer-label">Watch Reserve Intelligence API</span>
+				<span class="widget-footer-note">Members only · Joining soon</span>
 			</div>
 
 		</div>
@@ -262,18 +282,16 @@
 	<div class="api-content-col">
 		<div class="api-live-badge">
 			<span class="api-pulse-dot" aria-hidden="true"></span>
-			Live Market Data
+			Coming Soon
 		</div>
 		<h2 class="api-heading">
-			Real-Time<br /><em>Asset Valuation</em>
+			Built for<br /><em>Collectors</em>
 		</h2>
 		<p class="api-body">
-			The Watch Reserve Intelligence API delivers real-time pricing, 15 years of historical trends,
-			and deep reference data across 40,000+ references — for collectors and
-			platforms who demand accuracy.
+			The Watch Reserve Intelligence platform is coming. We're building something beyond pricing data — a complete collector intelligence layer covering rarity, provenance, market trends, and portfolio value, exclusively for members.
 		</p>
 		<a href="/api" class="api-cta">
-			Explore the API
+			Join the Waiting List
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 		</a>
 	</div>
@@ -305,7 +323,7 @@
 					Request a Watch
 					<span class="arrow">→</span>
 				</a>
-				<a href="/sell#part-exchange" class="sell-source-link">
+				<a href="/part-exchange" class="sell-source-link">
 					Part Exchange
 					<span class="arrow">→</span>
 				</a>
@@ -318,7 +336,12 @@
 <section class="about-wr-section">
 	<div class="about-wr-inner">
 
-		<!-- Left: heading + copy + CTA -->
+		<!-- Left: image -->
+		<div class="about-wr-image">
+			<img src="/assets/hero/Pepsi-Cards.jpg" alt="Rolex Pepsi GMT-Master II" loading="lazy" />
+		</div>
+
+		<!-- Centre: heading + copy + CTA -->
 		<div class="about-wr-left">
 			<h2 class="about-wr-heading">About Watch Reserve</h2>
 			<p class="about-wr-body">
@@ -423,22 +446,31 @@
 		min-height: 80vh;
 		display: flex;
 		align-items: center;
-		background-image: url('/assets/home/hero_section.avif');
-		background-size: cover;
-		background-position: center;
-		background-repeat: no-repeat;
 		overflow: hidden;
 		margin: 0;
 		padding: 0;
 	}
 
-	.hero-section::before {
-		content: '';
+	.hero-slide-img {
 		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+		display: block;
+		opacity: 0;
+		transition: opacity 1s ease;
+		z-index: 0;
+	}
+
+	.hero-slide-img--active {
+		opacity: 1;
+	}
+
+	.hero-overlay {
+		position: absolute;
+		inset: 0;
 		background: linear-gradient(
 			to right,
 			rgba(0, 0, 0, 0.7) 0%,
@@ -448,10 +480,37 @@
 		z-index: 1;
 	}
 
+	.hero-dots {
+		position: absolute;
+		bottom: 28px;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		gap: 10px;
+		z-index: 3;
+	}
+
+	.hero-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background-color: rgba(255, 255, 255, 0.4);
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		transition: background-color 0.3s ease, transform 0.3s ease;
+	}
+
+	.hero-dot--active {
+		background-color: #ffffff;
+		transform: scale(1.25);
+	}
+
 	.hero-container {
 		position: relative;
 		z-index: 2;
 		width: 100%;
+		pointer-events: none;
 		max-width: 1400px;
 		margin: 0 auto;
 		padding: 100px 0;
@@ -496,6 +555,7 @@
 		align-items: center;
 		gap: 24px;
 		flex-wrap: wrap;
+		pointer-events: all;
 	}
 
 	@media (max-width: 1024px) {
@@ -719,13 +779,28 @@
 		max-width: 1240px;
 		margin: 0 auto;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 80px;
+		grid-template-columns: 1fr 1.2fr 1fr;
+		gap: 64px;
 		align-items: center;
 	}
 
+	.about-wr-image {
+		aspect-ratio: 4 / 5;
+		overflow: hidden;
+		border: 1px solid rgba(161, 132, 109, 0.2);
+	}
+
+	.about-wr-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
 	.about-wr-right {
-		padding-left: 80px;
+		padding-left: 0;
+		border-left: 1px solid rgba(22, 11, 17, 0.08);
+		padding-left: 40px;
 	}
 
 	.about-wr-heading {
@@ -800,14 +875,15 @@
 
 	@media (max-width: 1024px) {
 		.about-wr-section { padding: 52px 40px; }
-		.about-wr-inner { gap: 48px; }
-		.about-wr-right { padding-left: 48px; }
+		.about-wr-inner { grid-template-columns: 1fr 1fr; gap: 40px; }
+		.about-wr-image { display: none; }
+		.about-wr-right { padding-left: 32px; }
 	}
 
 	@media (max-width: 768px) {
 		.about-wr-section { padding: 48px 28px; }
 		.about-wr-inner { grid-template-columns: 1fr; gap: 40px; }
-		.about-wr-right { padding-left: 0; padding-top: 40px; }
+		.about-wr-right { padding-left: 0; border-left: none; padding-top: 0; border-top: 1px solid rgba(22, 11, 17, 0.08); padding-top: 40px; }
 	}
 
 	@media (max-width: 480px) {
@@ -1303,7 +1379,6 @@
 	}
 
 	/* ── API SECTION ── */
-	/* ── API SECTION — Light theme ── */
 	.api-section {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
@@ -1324,181 +1399,110 @@
 	.api-widget {
 		width: 100%;
 		background-color: #ffffff;
-		border-radius: 0;
 		overflow: hidden;
 		border: 1px solid rgba(22, 11, 17, 0.1);
 		box-shadow:
 			0 4px 16px rgba(22, 11, 17, 0.06),
 			0 16px 48px rgba(22, 11, 17, 0.08);
+		display: flex;
+		flex-direction: column;
+		padding: 36px 32px 28px;
+		gap: 0;
 	}
 
-	.widget-header {
-		display: flex;
+	.widget-coming-badge {
+		display: inline-flex;
 		align-items: center;
-		justify-content: space-between;
-		background-color: #a1846d;
-		padding: 14px 20px;
-		gap: 12px;
-	}
-
-	.widget-header-left {
-		display: flex;
-		align-items: center;
-		gap: 10px;
+		gap: 8px;
+		background-color: rgba(161, 132, 109, 0.1);
+		border: 1px solid rgba(161, 132, 109, 0.3);
+		color: #a1846d;
+		padding: 5px 14px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		width: fit-content;
+		margin-bottom: 22px;
 	}
 
 	.widget-brand-dot {
-		width: 8px;
-		height: 8px;
+		width: 7px;
+		height: 7px;
 		border-radius: 50%;
-		background-color: #c9a230;
+		background-color: #a1846d;
 		flex-shrink: 0;
+		animation: apiPulse 2s ease-in-out infinite;
 	}
 
-	.widget-title {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.7rem;
-		font-weight: 700;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: rgba(255, 255, 255, 0.75);
-	}
-
-	.widget-header-right {
-		display: flex;
-		align-items: center;
-		gap: 14px;
-	}
-
-	.widget-live {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		background-color: rgba(74, 222, 128, 0.15);
-		border: 1px solid rgba(74, 222, 128, 0.3);
-		color: #4ade80;
-		padding: 3px 10px;
-		border-radius: 100px;
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.65rem;
-		font-weight: 700;
-		letter-spacing: 0.12em;
-	}
-
-	.widget-time {
-		font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-		font-size: 0.72rem;
-		color: rgba(255, 255, 255, 0.4);
-		font-variant-numeric: tabular-nums;
-	}
-
-	/* Column headers */
-	.widget-col-headers {
-		display: grid;
-		grid-template-columns: 1fr 100px 100px 64px;
-		padding: 10px 20px;
-		background-color: #faf8f5;
-		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
-		gap: 8px;
-	}
-
-	.widget-col-headers span {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.65rem;
-		font-weight: 700;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: #b0a09a;
-	}
-
-	.widget-col-headers .align-right {
-		text-align: right;
-	}
-
-	/* Data rows */
-	.widget-rows {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.widget-row {
-		display: grid;
-		grid-template-columns: 1fr 100px 100px 64px;
-		padding: 13px 20px;
-		border-bottom: 1px solid rgba(22, 11, 17, 0.05);
-		gap: 8px;
-		align-items: center;
-		transition: background-color 0.2s ease;
-	}
-
-	.widget-row:last-child {
-		border-bottom: none;
-	}
-
-	.widget-row:hover {
-		background-color: rgba(161, 132, 109, 0.05);
-	}
-
-	.widget-row--flash {
-		animation: widgetFlash 0.7s ease-out;
-	}
-
-	@keyframes widgetFlash {
-		0%   { background-color: rgba(161, 132, 109, 0.14); }
-		100% { background-color: transparent; }
-	}
-
-	.widget-model {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.875rem;
-		font-weight: 500;
+	.widget-coming-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.25rem, 2vw, 1.625rem);
+		font-weight: 400;
 		color: #160b11;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.widget-ref {
-		font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-		font-size: 0.75rem;
-		color: #8a7570;
-		background-color: rgba(161, 132, 109, 0.08);
-		padding: 2px 7px;
-		border-radius: 4px;
-		width: fit-content;
-	}
-
-	.widget-price {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.875rem;
-		font-weight: 600;
-		color: #160b11;
-		text-align: right;
-		font-variant-numeric: tabular-nums;
+		margin: 0 0 12px 0;
+		line-height: 1.3;
 		letter-spacing: -0.01em;
 	}
 
-	.widget-change {
+	.widget-coming-sub {
 		font-family: 'Montserrat', sans-serif;
-		font-size: 0.75rem;
-		font-weight: 600;
-		text-align: right;
-		font-variant-numeric: tabular-nums;
+		font-size: 0.875rem;
+		color: #6b5c55;
+		line-height: 1.7;
+		font-weight: 300;
+		margin: 0 0 28px 0;
 	}
 
-	.widget-change.positive { color: #16a34a; }
-	.widget-change.negative { color: #dc2626; }
+	.widget-preview-list {
+		list-style: none;
+		margin: 0 0 0 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		border-top: 1px solid rgba(22, 11, 17, 0.07);
+	}
+
+	.widget-preview-item {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 13px 0;
+		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+	}
+
+	.widget-preview-icon {
+		color: #a1846d;
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+	}
+
+	.widget-preview-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.85rem;
+		font-weight: 400;
+		color: #160b11;
+		flex: 1;
+	}
+
+	.widget-preview-lock {
+		color: rgba(22, 11, 17, 0.2);
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+	}
 
 	/* Widget footer */
 	.widget-footer {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 10px 20px;
-		background-color: #faf8f5;
-		border-top: 1px solid rgba(22, 11, 17, 0.07);
+		padding: 14px 0 0;
 		gap: 8px;
 		flex-wrap: wrap;
+		margin-top: 4px;
 	}
 
 	.widget-footer-label {
@@ -1526,16 +1530,14 @@
 		background-color: #ffffff;
 	}
 
-	/* Live badge — adapted for light background */
 	.api-live-badge {
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-		background-color: #f0fdf4;
-		border: 1px solid #bbf7d0;
-		color: #16a34a;
+		background-color: rgba(161, 132, 109, 0.08);
+		border: 1px solid rgba(161, 132, 109, 0.25);
+		color: #a1846d;
 		padding: 6px 14px;
-		border-radius: 100px;
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 600;
@@ -1549,7 +1551,7 @@
 		width: 7px;
 		height: 7px;
 		border-radius: 50%;
-		background-color: #22c55e;
+		background-color: #a1846d;
 		flex-shrink: 0;
 		position: relative;
 	}
@@ -1559,7 +1561,7 @@
 		position: absolute;
 		inset: -3px;
 		border-radius: 50%;
-		background-color: #22c55e;
+		background-color: #a1846d;
 		opacity: 0.35;
 		animation: apiPulse 1.8s ease-in-out infinite;
 	}
@@ -1569,7 +1571,6 @@
 		50%       { transform: scale(2); opacity: 0; }
 	}
 
-	/* Heading */
 	.api-heading {
 		font-family: 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 3.5vw, 3.25rem);
@@ -1585,7 +1586,6 @@
 		color: #a1846d;
 	}
 
-	/* Body */
 	.api-body {
 		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
@@ -1595,31 +1595,6 @@
 		margin: 0 0 40px 0;
 	}
 
-	/* Feature list */
-	.api-features {
-		display: flex;
-		flex-direction: column;
-		gap: 14px;
-		margin-bottom: 44px;
-	}
-
-	.api-feature {
-		display: flex;
-		align-items: center;
-		gap: 12px;
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.9rem;
-		color: rgba(22, 11, 17, 0.7);
-		font-weight: 400;
-		line-height: 1.5;
-	}
-
-	.api-feature svg {
-		color: #a1846d;
-		flex-shrink: 0;
-	}
-
-	/* CTA */
 	.api-cta {
 		display: inline-flex;
 		align-items: center;
@@ -1628,7 +1603,6 @@
 		color: #ffffff;
 		text-decoration: none;
 		padding: 14px 32px;
-		border-radius: 0;
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 500;
@@ -1645,21 +1619,9 @@
 	}
 
 	/* ── Responsive ── */
-	@media (max-width: 1200px) {
-		.widget-col-headers,
-		.widget-row {
-			grid-template-columns: 1fr 90px 90px 58px;
-		}
-	}
-
 	@media (max-width: 1100px) {
-		.api-widget-col {
-			padding: 48px 36px;
-		}
-
-		.api-content-col {
-			padding: 64px 48px 64px 48px;
-		}
+		.api-widget-col { padding: 48px 36px; }
+		.api-content-col { padding: 64px 48px; }
 	}
 
 	@media (max-width: 900px) {
@@ -1667,34 +1629,15 @@
 			grid-template-columns: 1fr;
 			min-height: auto;
 		}
-
-		.api-widget-col {
-			padding: 56px 40px 0;
-		}
-
+		.api-widget-col { padding: 56px 40px 0; }
 		.api-content-col {
 			padding: 56px 40px 64px;
-			border-left: none;
 			border-top: 1px solid rgba(22, 11, 17, 0.08);
 		}
 	}
 
 	@media (max-width: 640px) {
-		.api-widget-col {
-			padding: 40px 24px 0;
-		}
-
-		.api-content-col {
-			padding: 44px 24px 56px;
-		}
-
-		.widget-col-headers,
-		.widget-row {
-			grid-template-columns: 1fr 80px 58px;
-		}
-
-		.widget-ref {
-			display: none;
-		}
+		.api-widget-col { padding: 40px 24px 0; }
+		.api-content-col { padding: 44px 24px 56px; }
 	}
 </style>

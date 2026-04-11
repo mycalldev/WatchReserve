@@ -614,6 +614,9 @@
 				title={product.title}
 				vendor={product.vendor ?? ''}
 				reference={productReference}
+				price={selectedVariant?.price ?? product.minPrice ?? null}
+				currencyCode={selectedVariant?.currencyCode ?? product.currencyCode ?? 'GBP'}
+				status={productStatus()}
 			/>
 
 		</div>

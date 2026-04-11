@@ -85,7 +85,7 @@
 		<p class="enquiry-eyebrow">Get In Touch</p>
 		<h2 class="enquiry-heading">Have a Question?</h2>
 		<p class="enquiry-sub">Our team of experts is on hand to help with any enquiries.</p>
-		<LuxuryForm />
+		<LuxuryForm source="Blog" />
 	</div>
 </section>
 

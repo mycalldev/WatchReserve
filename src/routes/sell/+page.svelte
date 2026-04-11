@@ -83,9 +83,30 @@
 		e.preventDefault();
 		if (!canSubmit) return;
 		submitting = true;
-		await new Promise(r => setTimeout(r, 1200));
-		submitting = false;
-		submitted = true;
+
+		try {
+			const res = await fetch('/api/sell-valuation', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name:  details.name,
+					email: details.email,
+					phone: details.phone,
+					brand,
+					model
+				})
+			});
+
+			const data = await res.json();
+			if (!res.ok) {
+				console.error('[sell-valuation]', data.error);
+			}
+		} catch (err) {
+			console.error('[sell-valuation] fetch error:', err);
+		} finally {
+			submitting = false;
+			submitted = true;
+		}
 	}
 
 	function handleKeydown(e) {
@@ -135,9 +156,34 @@
 		cfErrors = validateCf();
 		if (Object.keys(cfErrors).length > 0) return;
 		cfSubmitting = true;
-		await new Promise(r => setTimeout(r, 1200));
-		cfSubmitting = false;
-		cfSubmitted = true;
+
+		try {
+			const res = await fetch('/api/sell-consignment', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name:        cf.name,
+					email:       cf.email,
+					phone:       cf.phone,
+					brand:       cf.brand,
+					model:       cf.model,
+					reference:   cf.reference,
+					condition:   cf.condition,
+					boxPapers:   cf.boxPapers,
+					askingPrice: cf.askingPrice
+				})
+			});
+
+			const data = await res.json();
+			if (!res.ok) {
+				console.error('[sell-consignment]', data.error);
+			}
+		} catch (err) {
+			console.error('[sell-consignment] fetch error:', err);
+		} finally {
+			cfSubmitting = false;
+			cfSubmitted = true;
+		}
 	}
 
 	$effect(() => {

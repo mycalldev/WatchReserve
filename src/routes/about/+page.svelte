@@ -7,7 +7,7 @@
 	<div class="au-hero-overlay" aria-hidden="true"></div>
 	<div class="au-hero-content">
 		<p class="au-eyebrow">About Watch Reserve</p>
-		<h1 class="au-hero-title">Built on Trust.<br />Powered by Technology.</h1>
+		<h1 class="au-hero-title">Who We Are</h1>
 		<p class="au-hero-sub">
 			A London-based dealer of rare pre-owned timepieces, with a tech-first approach to authenticity, provenance, and trust.
 		</p>
@@ -45,8 +45,8 @@
 	<div class="au-tech-inner">
 		<div class="au-tech-image">
 			<img
-				src="/assets/hero/Patek-Warranty.jpg"
-				alt="Patek Philippe warranty card and original documentation"
+				src="/assets/hero/platinum_rolex.jpg"
+				alt="Platinum Rolex timepiece"
 				loading="lazy"
 			/>
 		</div>
@@ -66,39 +66,6 @@
 	</div>
 </section>
 
-<!-- ── 4. PILLARS ────────────────────────────────────────────────────── -->
-<section class="au-pillars">
-	<div class="au-pillars-inner">
-		<p class="au-section-eyebrow au-center">What We're Building</p>
-		<h2 class="au-section-title au-center">Technology in every timepiece</h2>
-
-		<div class="au-pillars-grid">
-			<article class="au-pillar">
-				<div class="au-pillar-num">01</div>
-				<h3 class="au-pillar-title">Digital Authentication</h3>
-				<p class="au-pillar-text">
-					Every watch we offer goes through a multi-point verification process covering movement inspection and serial cross-reference against manufacturer archives. The result is a digital record that travels with the piece.
-				</p>
-			</article>
-
-			<article class="au-pillar">
-				<div class="au-pillar-num">02</div>
-				<h3 class="au-pillar-title">Provenance Tracing</h3>
-				<p class="au-pillar-text">
-					We build a full ownership and service history for each reference, so you know exactly where it has been, who has touched it, and how it has been maintained across its lifetime.
-				</p>
-			</article>
-
-			<article class="au-pillar">
-				<div class="au-pillar-num">03</div>
-				<h3 class="au-pillar-title">Digital Records</h3>
-				<p class="au-pillar-text">
-					Warranty cards, receipts, service papers, and high-resolution archive photography are all preserved and linked to the piece. When you buy from us, the full story comes with it.
-				</p>
-			</article>
-		</div>
-	</div>
-</section>
 
 <!-- ── 5. ARCHIVE / PAPERWORK ────────────────────────────────────────── -->
 <section class="au-archive">
@@ -331,64 +298,6 @@
 		font-weight: 600;
 	}
 
-	/* ── 4. PILLARS ──────────────────────────────────────────────────── */
-	.au-pillars {
-		width: 100%;
-		background-color: #ffffff;
-		padding: 120px 40px;
-	}
-
-	.au-pillars-inner {
-		max-width: 1200px;
-		margin: 0 auto;
-	}
-
-	.au-pillars-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 40px;
-		margin-top: 56px;
-	}
-
-	.au-pillar {
-		padding: 40px 32px;
-		background-color: #faf8f6;
-		border: 1px solid rgba(161, 132, 109, 0.18);
-		display: flex;
-		flex-direction: column;
-		gap: 14px;
-		transition: border-color 0.25s ease, transform 0.25s ease;
-	}
-
-	.au-pillar:hover {
-		border-color: rgba(161, 132, 109, 0.45);
-		transform: translateY(-2px);
-	}
-
-	.au-pillar-num {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: 1rem;
-		color: #a1846d;
-		letter-spacing: 0.1em;
-	}
-
-	.au-pillar-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: 1.375rem;
-		font-weight: 400;
-		color: #160b11;
-		margin: 0;
-		line-height: 1.3;
-	}
-
-	.au-pillar-text {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.9375rem;
-		line-height: 1.75;
-		color: #6b5c55;
-		font-weight: 300;
-		margin: 0;
-	}
 
 	/* ── 5. ARCHIVE ──────────────────────────────────────────────────── */
 	.au-archive {
@@ -529,12 +438,7 @@
 			order: -1;
 		}
 
-		.au-pillars-grid {
-			grid-template-columns: 1fr;
-			gap: 20px;
-		}
-
-		.au-archive-grid {
+.au-archive-grid {
 			grid-template-columns: 1fr 1fr;
 			grid-template-rows: auto;
 		}
@@ -557,7 +461,6 @@
 
 		.au-intro,
 		.au-tech,
-		.au-pillars,
 		.au-archive,
 		.au-cta {
 			padding: 80px 20px;

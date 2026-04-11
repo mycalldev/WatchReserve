@@ -54,6 +54,7 @@ export async function POST({ request }) {
 	const interest = clean(body.interest);
 	const preferredContact = clean(body.preferredContact) || 'email';
 	const message = clean(body.message);
+	const source = clean(body.source) || 'Contact Page';
 
 	// Server-side validation (client is validated too, this is defence in depth)
 	if (fullName.length < 2) {
@@ -87,7 +88,12 @@ export async function POST({ request }) {
 				</td>
 			</tr>
 			<tr>
-				<td style="padding:24px 32px;">
+				<td style="padding:16px 32px 8px;">
+					<p style="margin:0;display:inline-block;padding:5px 12px;background:#faf0e6;border:1px solid #a1846d;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#a1846d;font-weight:700;">${escapeHtml(source)}</p>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding:16px 32px;">
 					<h3 style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:#a1846d;font-weight:700;">Contact Details</h3>
 					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size:14px;line-height:1.75;">
 						<tr>
@@ -130,6 +136,7 @@ export async function POST({ request }) {
 
 	const text = [
 		'New Contact Enquiry — Watch Reserve',
+		`Source: ${source}`,
 		'',
 		`Full Name: ${fullName}`,
 		`Email: ${email}`,

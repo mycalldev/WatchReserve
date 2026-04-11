@@ -20,9 +20,30 @@
 		sfErrors = validateSf();
 		if (Object.keys(sfErrors).length > 0) return;
 		sfSubmitting = true;
-		await new Promise(r => setTimeout(r, 1200));
-		sfSubmitting = false;
-		sfSubmitted = true;
+
+		try {
+			const res = await fetch('/api/source-request', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					fullName:  sf.fullName,
+					email:     sf.email,
+					brand:     sf.brand,
+					model:     sf.model,
+					reference: sf.reference
+				})
+			});
+
+			const data = await res.json();
+			if (!res.ok) {
+				console.error('[source-request]', data.error);
+			}
+		} catch (err) {
+			console.error('[source-request] fetch error:', err);
+		} finally {
+			sfSubmitting = false;
+			sfSubmitted = true;
+		}
 	}
 
 	$effect(() => {

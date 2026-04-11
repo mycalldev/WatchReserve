@@ -1,12 +1,33 @@
 <script>
 	import WishlistButton from '$lib/components/WishlistButton.svelte';
+	import { onMount } from 'svelte';
 
 	let { products = [] } = $props();
 
 	let currentIndex = $state(0);
+	let windowWidth = $state(1400);
 
-	const canGoNext = $derived(currentIndex < products.length - 1);
+	onMount(() => {
+		windowWidth = window.innerWidth;
+		function onResize() { windowWidth = window.innerWidth; }
+		window.addEventListener('resize', onResize);
+		return () => window.removeEventListener('resize', onResize);
+	});
+
+	const visibleCount = $derived(
+		windowWidth <= 480 ? 1 :
+		windowWidth <= 768 ? 2 :
+		windowWidth <= 1200 ? 3 : 4
+	);
+
+	const maxIndex = $derived(Math.max(0, products.length - visibleCount));
+
+	const canGoNext = $derived(currentIndex < maxIndex);
 	const canGoPrev = $derived(currentIndex > 0);
+
+	$effect(() => {
+		if (currentIndex > maxIndex) currentIndex = maxIndex;
+	});
 
 	function nextSlide() {
 		if (canGoNext) currentIndex += 1;
