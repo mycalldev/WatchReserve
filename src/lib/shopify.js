@@ -4,7 +4,8 @@ const SHOPIFY_API_VERSION = '2024-10';
 
 const SHOPIFY_STORE_DOMAIN     = env.SHOPIFY_STORE_DOMAIN;
 const SHOPIFY_STOREFRONT_TOKEN = env.SHOPIFY_STOREFRONT_TOKEN;
-const SHOPIFY_ADMIN_TOKEN      = env.SHOPIFY_ADMIN_TOKEN;
+const SHOPIFY_CLIENT_ID        = env.SHOPIFY_CLIENT_ID;
+const SHOPIFY_CLIENT_SECRET    = env.SHOPIFY_CLIENT_SECRET;
 
 // ── Storefront API (public) ──────────────────────────────────────────────────
 
@@ -35,14 +36,48 @@ async function shopifyFetch(query, variables = {}) {
 
 // ── Admin API (private) ──────────────────────────────────────────────────────
 
+// Module-level token cache — persists across requests within the same server process.
+let _adminToken = null;
+let _adminTokenExpiry = 0;
+
+async function getAdminToken() {
+	// Refresh 60 s before expiry to avoid using a token that expires mid-request.
+	if (_adminToken && Date.now() < _adminTokenExpiry - 60_000) {
+		return _adminToken;
+	}
+
+	const res = await fetch(`https://${SHOPIFY_STORE_DOMAIN}/admin/oauth/access_token`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			client_id:     SHOPIFY_CLIENT_ID,
+			client_secret: SHOPIFY_CLIENT_SECRET,
+			grant_type:    'client_credentials'
+		})
+	});
+
+	if (!res.ok) {
+		const body = await res.text();
+		console.error('[shopify] token exchange failed:', res.status, body);
+		throw new Error(`Shopify Admin token error: ${res.status} ${res.statusText}`);
+	}
+
+	const payload = await res.json();
+	_adminToken        = payload.access_token;
+	_adminTokenExpiry  = Date.now() + (payload.expires_in ?? 86400) * 1000;
+
+	return _adminToken;
+}
+
 async function shopifyAdminFetch(query, variables = {}) {
+	const token    = await getAdminToken();
 	const endpoint = `https://${SHOPIFY_STORE_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`;
 
 	const response = await fetch(endpoint, {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json',
-			'X-Shopify-Access-Token': SHOPIFY_ADMIN_TOKEN
+			'Content-Type':          'application/json',
+			'X-Shopify-Access-Token': token
 		},
 		body: JSON.stringify({ query, variables })
 	});
@@ -955,4 +990,52 @@ export async function removeCartLine(cartId, lineId) {
 	const { cart, userErrors } = data.cartLinesRemove;
 	if (userErrors?.length) throw new Error(userErrors.map((e) => e.message).join(', '));
 	return cart;
+}
+
+// ── Order fulfillment (Admin API) ────────────────────────────────────────────
+
+const CREATE_DRAFT_ORDER_MUTATION = `
+  mutation DraftOrderCreate($input: DraftOrderInput!) {
+    draftOrderCreate(input: $input) {
+      draftOrder { id }
+      userErrors { field message }
+    }
+  }
+`;
+
+const COMPLETE_DRAFT_ORDER_MUTATION = `
+  mutation DraftOrderComplete($id: ID!) {
+    draftOrderComplete(id: $id, paymentPending: false) {
+      draftOrder {
+        id
+        order { id name }
+      }
+      userErrors { field message }
+    }
+  }
+`;
+
+export async function createShopifyOrder({ lineItems, email, shippingAddress, billingAddress, note }) {
+	const createData = await shopifyAdminFetch(CREATE_DRAFT_ORDER_MUTATION, {
+		input: {
+			lineItems,
+			email,
+			shippingAddress,
+			billingAddress: billingAddress ?? shippingAddress,
+			note,
+			tags: ['stripe-payment']
+		}
+	});
+
+	const { draftOrder, userErrors } = createData.draftOrderCreate;
+	if (userErrors?.length) throw new Error(userErrors.map((e) => e.message).join(', '));
+
+	const completeData = await shopifyAdminFetch(COMPLETE_DRAFT_ORDER_MUTATION, {
+		id: draftOrder.id
+	});
+
+	const { draftOrder: completed, userErrors: completeErrors } = completeData.draftOrderComplete;
+	if (completeErrors?.length) throw new Error(completeErrors.map((e) => e.message).join(', '));
+
+	return completed.order;
 }

@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { onMount } from 'svelte';
 	import { wishlist } from '$lib/stores/wishlist.svelte.js';
+	import { cart } from '$lib/stores/cart.svelte.js';
 	import ProductViewCount from '$lib/components/ProductViewCount.svelte';
 	import MoreOf from '$lib/components/MoreOf.svelte';
 	import ProductEnquiryDrawer from '$lib/components/ProductEnquiryDrawer.svelte';
@@ -17,9 +18,10 @@
 	let added = $state(false);
 	let thumbsRef = $state(null);
 	let trustpilotEl = $state(null);
+	let locallyReserved = $state(false);
 
 	// ── Slide-over state ────────────────────────────────────────────────────────
-	/** @type {'cart' | 'part-exchange' | 'deposit' | 'finance' | null} */
+	/** @type {'cart' | 'part-exchange' | 'deposit' | null} */
 	let slideOverType = $state(null);
 	let slideOverOpen = $state(false);
 	let slideOverCheckoutUrl = $state(null);
@@ -35,6 +37,11 @@
 
 	// Allow the cart panel's "Also available" links to switch drawer type
 	onMount(() => {
+		try {
+			const reserved = JSON.parse(localStorage.getItem('wr_reserved') ?? '{}');
+			if (reserved[product.id]) locallyReserved = true;
+		} catch {}
+
 		function handleOpenDrawer(e) {
 			openDrawer(e.detail);
 		}
@@ -126,9 +133,12 @@
 		return m?.value?.trim() ?? null;
 	});
 
-	const statusSlug = $derived(() =>
-		productStatus() ? productStatus().toLowerCase().replace(/\s+/g, '-') : null
-	);
+	const statusSlug = $derived(() => {
+		if (locallyReserved) return 'reserved';
+		return productStatus() ? productStatus().toLowerCase().replace(/\s+/g, '-') : null;
+	});
+
+	const effectiveStatusLabel = $derived(() => locallyReserved ? 'Reserved' : productStatus());
 
 	const isBlockedByStatus = $derived(() => {
 		const slug = statusSlug();
@@ -438,10 +448,10 @@
 			{/if}
 
 			<!-- Status -->
-			{#if productStatus()}
-				<div class="status-badge status-{statusSlug()}" aria-label="Status: {productStatus()}">
+			{#if effectiveStatusLabel()}
+				<div class="status-badge status-{statusSlug()}" aria-label="Status: {effectiveStatusLabel()}">
 					<span class="status-dot" aria-hidden="true"></span>
-					{productStatus()}
+					{effectiveStatusLabel()}
 				</div>
 			{:else}
 				<div class="status-badge status-available" aria-label="Status: Available">
@@ -466,6 +476,7 @@
 					if (result.type === 'success' && result.data?.success) {
 						added = true;
 						slideOverCheckoutUrl = result.data.checkoutUrl ?? null;
+						if (result.data.totalQuantity != null) cart.set(result.data.totalQuantity);
 						openDrawer('cart');
 						setTimeout(() => (added = false), 3000);
 					}
@@ -518,17 +529,6 @@
 						Deposit
 					</button>
 				</div>
-				<button
-					type="button"
-					class="btn-action-outline"
-					onclick={() => openDrawer('finance')}
-					disabled={isBlockedByStatus()}
-				>
-					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/>
-					</svg>
-					Apply for Finance
-				</button>
 			</div>
 
 			<!-- Trustpilot social proof -->
@@ -693,6 +693,7 @@
 	selectedVariant={selectedVariant}
 	checkoutUrl={slideOverCheckoutUrl}
 	onclose={closeDrawer}
+	ondepositsuccess={() => (locallyReserved = true)}
 />
 
 

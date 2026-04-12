@@ -1,20 +1,23 @@
 <script>
 	import { fly, fade } from 'svelte/transition';
 	import { cubicOut, cubicInOut } from 'svelte/easing';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
+	import { loadStripe } from '@stripe/stripe-js';
+	import { PUBLIC_STRIPE_PUBLISHABLE_KEY } from '$env/static/public';
 
 	/**
-	 * @typedef {'cart' | 'part-exchange' | 'deposit' | 'finance'} DrawerType
+	 * @typedef {'cart' | 'part-exchange' | 'deposit'} DrawerType
 	 */
 
-	/** @type {{ open: boolean, type: DrawerType, product: any, selectedVariant: any, checkoutUrl: string | null, onclose: () => void }} */
+	/** @type {{ open: boolean, type: DrawerType, product: any, selectedVariant: any, checkoutUrl: string | null, onclose: () => void, ondepositsuccess?: () => void }} */
 	let {
 		open = false,
 		type = 'cart',
 		product = null,
 		selectedVariant = null,
 		checkoutUrl = null,
-		onclose
+		onclose,
+		ondepositsuccess
 	} = $props();
 
 	// ── Lock body scroll when open ─────────────────────────────────────────────
@@ -87,11 +90,6 @@
 			subtitle: 'Secure your watch with a deposit',
 			icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>`
 		},
-		finance: {
-			title: 'Apply for Finance',
-			subtitle: 'Spread the cost over time',
-			icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg>`
-		}
 	};
 
 	// ── PART EXCHANGE FORM ─────────────────────────────────────────────────────
@@ -145,10 +143,18 @@
 	}
 
 	// ── DEPOSIT FORM ───────────────────────────────────────────────────────────
+	let depStep = $state(1); // 1=details, 2=payment, 3=success
 	let depForm = $state({ fullName: '', email: '', phone: '', notes: '' });
 	let depTouched = $state({});
-	let depSubmitting = $state(false);
-	let depSuccess = $state(false);
+
+	// Deposit Stripe state
+	let depStripe = $state(null);
+	let depElements = $state(null);
+	let depPaymentElement = null;
+	let depClientSecret = $state('');
+	let depStripeLoading = $state(false);
+	let depPaymentMessage = $state('');
+	let depConfirming = $state(false);
 
 	const depValid = $derived({
 		fullName: depForm.fullName.trim().length >= 2,
@@ -158,50 +164,147 @@
 
 	const depCanSubmit = $derived(depValid.fullName && depValid.email && depValid.phone);
 
-	async function submitDeposit(e) {
+	function submitDeposit(e) {
 		e.preventDefault();
 		depTouched = { fullName: true, email: true, phone: true };
 		if (!depCanSubmit) return;
-		depSubmitting = true;
-		await new Promise(r => setTimeout(r, 1200));
-		depSubmitting = false;
-		depSuccess = true;
+		depStep = 2;
+	}
+
+	async function initDepositStripe() {
+		if (depClientSecret || depStripeLoading) return;
+		depStripeLoading = true;
+		depPaymentMessage = '';
+
+		const price = depositRawPrice;
+		const currency = selectedVariant?.currencyCode ?? product?.currencyCode ?? 'GBP';
+
+		try {
+			const [stripeInstance, res] = await Promise.all([
+				loadStripe(PUBLIC_STRIPE_PUBLISHABLE_KEY),
+				fetch('/api/create-deposit-intent', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						productPrice:  price,
+						currencyCode:  currency,
+						productId:     product?.id     ?? '',
+						productTitle:  product?.title  ?? '',
+						productVendor: product?.vendor ?? '',
+						customerName:  depForm.fullName,
+						customerEmail: depForm.email,
+						customerPhone: depForm.phone
+					})
+				})
+			]);
+
+			if (!stripeInstance) throw new Error('Could not load Stripe.');
+			if (!res.ok) {
+				const body = await res.json().catch(() => ({}));
+				throw new Error(body?.message || 'Could not initialise payment.');
+			}
+
+			const payload = await res.json();
+			depStripe = stripeInstance;
+			depClientSecret = payload.clientSecret;
+
+			depElements = depStripe.elements({
+				clientSecret: depClientSecret,
+				appearance: {
+					theme: 'stripe',
+					variables: {
+						colorPrimary: '#160b11',
+						colorText: '#160b11',
+						colorBackground: '#ffffff',
+						colorDanger: '#b04040',
+						fontFamily: 'Montserrat, system-ui, sans-serif',
+						borderRadius: '0px',
+						spacingUnit: '4px',
+						fontSizeBase: '15px'
+					},
+					rules: {
+						'.Input': { border: '1px solid #e1dbd2', padding: '14px 16px', boxShadow: 'none' },
+						'.Input:focus': { border: '1px solid #a1846d', boxShadow: 'none' },
+						'.Label': { fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1.4px', color: '#6a5f58', fontWeight: '500' }
+					}
+				}
+			});
+
+			depPaymentElement = depElements.create('payment', { layout: 'tabs', terms: { card: 'never' } });
+			await tick();
+			depPaymentElement.mount('#dep-stripe-payment-element');
+		} catch (err) {
+			depPaymentMessage = err?.message || 'Failed to load payment form.';
+		} finally {
+			depStripeLoading = false;
+		}
+	}
+
+	async function confirmDeposit() {
+		if (!depStripe || !depElements || depConfirming) return;
+		depConfirming = true;
+		depPaymentMessage = '';
+
+		try {
+			const { error: stripeError } = await depStripe.confirmPayment({
+				elements: depElements,
+				confirmParams: {
+					return_url: typeof window !== 'undefined' ? window.location.href : '',
+					receipt_email: depForm.email
+				},
+				redirect: 'if_required'
+			});
+
+			if (stripeError) {
+				depPaymentMessage = stripeError.message || 'Payment failed. Please try again.';
+			} else {
+				depStep = 3;
+				if (product?.id) {
+					try {
+						const reserved = JSON.parse(localStorage.getItem('wr_reserved') ?? '{}');
+						reserved[product.id] = new Date().toISOString();
+						localStorage.setItem('wr_reserved', JSON.stringify(reserved));
+					} catch {}
+				}
+				ondepositsuccess?.();
+			}
+		} catch (err) {
+			depPaymentMessage = err?.message || 'An unexpected error occurred.';
+		} finally {
+			depConfirming = false;
+		}
 	}
 
 	function resetDep() {
 		depForm = { fullName: '', email: '', phone: '', notes: '' };
 		depTouched = {};
-		depSuccess = false;
+		depStep = 1;
+		depClientSecret = '';
+		depPaymentMessage = '';
+		depStripe = null;
+		depElements = null;
+		depPaymentElement = null;
 	}
 
-	// ── FINANCE CALCULATOR ─────────────────────────────────────────────────────
-	const REPRESENTATIVE_APR = 9.9;
-	const financeTerms = [12, 24, 36, 48, 60];
-
-	let financeTerm = $state(36);
-
-	const rawPrice = $derived(
-		Number(selectedVariant?.price ?? product?.minPrice ?? 0)
-	);
-
-	const monthlyPayment = $derived(() => {
-		if (!rawPrice || rawPrice <= 0) return null;
-		const principal = rawPrice;
-		const annualRate = REPRESENTATIVE_APR / 100;
-		const monthlyRate = annualRate / 12;
-		const n = financeTerm;
-		if (monthlyRate === 0) return principal / n;
-		const payment = principal * (monthlyRate * Math.pow(1 + monthlyRate, n)) / (Math.pow(1 + monthlyRate, n) - 1);
-		return payment;
+	// Init Stripe when reaching payment step
+	$effect(() => {
+		if (type === 'deposit' && open && depStep === 2 && !depClientSecret && !depStripeLoading) {
+			initDepositStripe();
+		}
 	});
 
-	const totalRepayable = $derived(
-		monthlyPayment() ? monthlyPayment() * financeTerm : null
-	);
+	// Reset Stripe state when drawer closes
+	$effect(() => {
+		if (!open) {
+			depClientSecret = '';
+			depStripe = null;
+			depElements = null;
+			depPaymentElement = null;
+			depPaymentMessage = '';
+			if (depStep !== 1) depStep = 1;
+		}
+	});
 
-	const totalInterest = $derived(
-		totalRepayable && rawPrice ? totalRepayable - rawPrice : null
-	);
 </script>
 
 {#if open}
@@ -322,12 +425,6 @@
 									<path d="M3 7h18m0 0l-4-4m4 4l-4 4M21 17H3m0 0l4-4m-4 4l4 4"/>
 								</svg>
 								Part Exchange
-							</button>
-							<button class="cart-also-link" type="button" onclick={() => { onclose?.(); setTimeout(() => document.dispatchEvent(new CustomEvent('open-drawer', { detail: 'finance' })), 50); }}>
-								<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-									<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/>
-								</svg>
-								Finance Options
 							</button>
 						</div>
 					</div>
@@ -469,20 +566,9 @@
 			<!-- ── DEPOSIT / RESERVE PANEL ── -->
 			{:else if type === 'deposit'}
 				<div class="dep-panel">
-					{#if depSuccess}
-						<div class="so-success-state">
-							<div class="so-success-icon" aria-hidden="true">
-								<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-									<polyline points="20 6 9 17 4 12"/>
-								</svg>
-							</div>
-							<h3 class="so-success-title">Reservation Request Received</h3>
-							<p class="so-success-body">A Watch Reserve specialist will contact you within 2 hours to confirm your deposit and secure this timepiece for you.</p>
-							<button class="so-btn so-btn--outline so-btn--sm" onclick={resetDep} type="button">
-								Submit Another
-							</button>
-						</div>
-					{:else}
+
+					<!-- Step 1: Contact details -->
+					{#if depStep === 1}
 						<!-- Product being reserved -->
 						<div class="dep-product-card">
 							{#if productImage}
@@ -495,55 +581,54 @@
 							</div>
 						</div>
 
-					<!-- Deposit info -->
-					<div class="dep-info-block">
-						<!-- 10% breakdown -->
-						<div class="dep-breakdown">
-							<div class="dep-breakdown-row">
-								<span class="dep-breakdown-label">Watch Price</span>
-								<span class="dep-breakdown-val">{productPrice}</span>
+						<!-- Deposit breakdown -->
+						<div class="dep-info-block">
+							<div class="dep-breakdown">
+								<div class="dep-breakdown-row">
+									<span class="dep-breakdown-label">Watch Price</span>
+									<span class="dep-breakdown-val">{productPrice}</span>
+								</div>
+								<div class="dep-breakdown-row dep-breakdown-row--deposit">
+									<span class="dep-breakdown-label">
+										<strong>10% Deposit Required</strong>
+									</span>
+									<span class="dep-breakdown-val dep-breakdown-val--accent">
+										{#if depositAmount}{depositAmount}{:else}10% of price{/if}
+									</span>
+								</div>
+								<div class="dep-breakdown-rule" aria-hidden="true"></div>
+								<div class="dep-breakdown-row dep-breakdown-row--balance">
+									<span class="dep-breakdown-label">Balance on Collection / Delivery</span>
+									<span class="dep-breakdown-val">
+										{#if balanceAmount}{balanceAmount}{:else}90% of price{/if}
+									</span>
+								</div>
 							</div>
-							<div class="dep-breakdown-row dep-breakdown-row--deposit">
-								<span class="dep-breakdown-label">
-									<strong>10% Deposit Required</strong>
-								</span>
-								<span class="dep-breakdown-val dep-breakdown-val--accent">
-									{#if depositAmount}{depositAmount}{:else}10% of price{/if}
-								</span>
-							</div>
-							<div class="dep-breakdown-rule" aria-hidden="true"></div>
-							<div class="dep-breakdown-row dep-breakdown-row--balance">
-								<span class="dep-breakdown-label">Balance on Collection / Delivery</span>
-								<span class="dep-breakdown-val">
-									{#if balanceAmount}{balanceAmount}{:else}90% of price{/if}
-								</span>
-							</div>
-						</div>
 
-						<div class="dep-info-row">
-							<div class="dep-info-item">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-									<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-								</svg>
-								<div>
-									<span class="dep-info-label">Watch Reserved For</span>
-									<span class="dep-info-value">7 Days</span>
+							<div class="dep-info-row">
+								<div class="dep-info-item">
+									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+										<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+									</svg>
+									<div>
+										<span class="dep-info-label">Watch Reserved For</span>
+										<span class="dep-info-value">7 Days</span>
+									</div>
+								</div>
+								<div class="dep-info-item">
+									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+										<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+									</svg>
+									<div>
+										<span class="dep-info-label">Deposit Due Now</span>
+										<span class="dep-info-value">{#if depositAmount}{depositAmount}{:else}10% of price{/if}</span>
+									</div>
 								</div>
 							</div>
-							<div class="dep-info-item">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-									<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
-								</svg>
-								<div>
-									<span class="dep-info-label">Deposit Due</span>
-									<span class="dep-info-value">{#if depositAmount}{depositAmount}{:else}10% of price{/if}</span>
-								</div>
-							</div>
+							<p class="dep-info-note">
+								A 10% holding deposit secures this timepiece exclusively for you for 7 days. The remaining balance is payable upon collection or delivery.
+							</p>
 						</div>
-						<p class="dep-info-note">
-							A 10% holding deposit secures this timepiece exclusively for you for 7 days. The remaining balance is payable upon collection or delivery.
-						</p>
-					</div>
 
 						<div class="so-section-head">
 							<span class="so-section-eyebrow">Your Details</span>
@@ -582,24 +667,113 @@
 								<textarea id="dep-notes" class="so-textarea" rows="3" placeholder="Any questions or preferred contact times…" bind:value={depForm.notes}></textarea>
 							</div>
 
-						<p class="so-privacy">
-								By submitting you agree to our <a href="/privacy-policy" class="so-privacy-link">Privacy Policy</a>.
+							<p class="so-privacy">
+								By submitting you agree to our <a href="/privacy-policy" class="so-privacy-link">Privacy Policy</a> and <a href="/deposit-policy" class="so-privacy-link">Deposit Policy</a>.
 							</p>
 
-							<button type="submit" class="so-btn so-btn--primary" disabled={depSubmitting}>
-								{#if depSubmitting}
+							<button type="submit" class="so-btn so-btn--primary">
+								Continue to Payment
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M5 12h14M12 5l7 7-7 7"/>
+								</svg>
+							</button>
+
+						</form>
+					{/if}
+
+					<!-- Step 2: Payment — kept in DOM for Stripe element lifecycle -->
+					<div hidden={depStep !== 2}>
+						<!-- Mini product summary -->
+						<div class="dep-payment-header">
+							<div class="dep-payment-summary-row">
+								<span class="dep-payment-summary-label">Deposit for</span>
+								<span class="dep-payment-summary-item">{productVendor} {productTitle}</span>
+							</div>
+							<div class="dep-payment-amount-row">
+								<span class="dep-payment-amount-label">Amount due today</span>
+								<span class="dep-payment-amount-val">{#if depositAmount}{depositAmount}{:else}10% of price{/if}</span>
+							</div>
+							<p class="dep-payment-balance-note">
+								Balance of {#if balanceAmount}{balanceAmount}{:else}90%{/if} payable upon collection or delivery.
+							</p>
+						</div>
+
+						<div class="so-section-head">
+							<span class="so-section-eyebrow">Payment</span>
+							<div class="so-section-rule"></div>
+						</div>
+
+						<!-- Stripe loading state -->
+						{#if depStripeLoading}
+							<div class="dep-stripe-loading">
+								<span class="so-spinner" aria-hidden="true"></span>
+								<span>Loading secure payment form…</span>
+							</div>
+						{/if}
+
+						<!-- Stripe Payment Element -->
+						<div id="dep-stripe-payment-element" class="dep-stripe-element"></div>
+
+						{#if depPaymentMessage}
+							<p class="dep-payment-error">{depPaymentMessage}</p>
+						{/if}
+
+						<div class="dep-payment-actions">
+							<button
+								class="so-btn so-btn--primary"
+								onclick={confirmDeposit}
+								disabled={depConfirming || depStripeLoading}
+								type="button"
+							>
+								{#if depConfirming}
 									<span class="so-spinner" aria-hidden="true"></span>
 									Processing…
 								{:else}
-									Reserve This Watch
+									Pay {#if depositAmount}{depositAmount}{:else}Deposit{/if}
 									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 										<path d="M5 12h14M12 5l7 7-7 7"/>
 									</svg>
 								{/if}
 							</button>
+							<button
+								class="so-btn so-btn--ghost"
+								onclick={() => (depStep = 1)}
+								disabled={depConfirming}
+								type="button"
+							>
+								Back
+							</button>
+						</div>
 
-						</form>
+						<div class="dep-secure-note">
+							<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+							</svg>
+							Payments are encrypted and processed securely via Stripe.
+						</div>
+					</div>
+
+					<!-- Step 3: Success -->
+					{#if depStep === 3}
+						<div class="so-success-state">
+							<div class="so-success-icon" aria-hidden="true">
+								<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+									<polyline points="20 6 9 17 4 12"/>
+								</svg>
+							</div>
+							<h3 class="so-success-title">Deposit Received</h3>
+							<p class="so-success-body">
+								Your {#if depositAmount}{depositAmount}{:else}deposit{/if} deposit has been processed. This timepiece is now reserved in your name for 7 days. A confirmation has been sent to {depForm.email}.
+							</p>
+							<p class="so-success-body" style="margin-top: 8px; font-size: 13px;">
+								A Watch Reserve specialist will be in touch to arrange collection or delivery and collect the balance of {#if balanceAmount}{balanceAmount}{:else}the remaining amount{/if}.
+							</p>
+							<button class="so-btn so-btn--outline so-btn--sm" onclick={onclose} type="button">
+								Close
+							</button>
+						</div>
 					{/if}
+
 				</div>
 
 			<!-- ── FINANCE PANEL ── -->
@@ -1692,5 +1866,113 @@
 	@media (max-width: 380px) {
 		.so-title { font-size: 0.9375rem; }
 		.fin-monthly-value { font-size: 1.65rem; }
+	}
+
+	/* Deposit payment step */
+	.dep-payment-header {
+		background: #f9f5f2;
+		border: 1px solid rgba(161, 132, 109, 0.2);
+		padding: 16px 18px;
+		margin-bottom: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.dep-payment-summary-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 12px;
+	}
+
+	.dep-payment-summary-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 11px;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: rgba(22, 11, 17, 0.5);
+		white-space: nowrap;
+	}
+
+	.dep-payment-summary-item {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 12px;
+		font-weight: 600;
+		color: #160b11;
+		text-align: right;
+	}
+
+	.dep-payment-amount-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 12px;
+		padding-top: 8px;
+		border-top: 1px solid rgba(161, 132, 109, 0.2);
+	}
+
+	.dep-payment-amount-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 12px;
+		font-weight: 600;
+		color: #160b11;
+	}
+
+	.dep-payment-amount-val {
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 20px;
+		font-weight: 400;
+		color: #a1846d;
+	}
+
+	.dep-payment-balance-note {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 11px;
+		color: rgba(22, 11, 17, 0.5);
+		margin: 0;
+		line-height: 1.5;
+	}
+
+	.dep-stripe-loading {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 16px 0;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 13px;
+		color: rgba(22, 11, 17, 0.5);
+	}
+
+	.dep-stripe-element {
+		min-height: 40px;
+		margin-bottom: 16px;
+	}
+
+	.dep-payment-error {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 13px;
+		color: #b04040;
+		margin: 0 0 14px;
+		padding: 10px 14px;
+		background: #fdf2f2;
+		border-left: 3px solid #b04040;
+	}
+
+	.dep-payment-actions {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		margin-bottom: 16px;
+	}
+
+	.dep-secure-note {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 11px;
+		color: rgba(22, 11, 17, 0.45);
+		margin-bottom: 8px;
 	}
 </style>

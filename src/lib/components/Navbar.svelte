@@ -1,8 +1,7 @@
 <script>
 	import Search from '$lib/components/Search.svelte';
 	import { wishlist } from '$lib/stores/wishlist.svelte.js';
-
-	let cartCount = $state(0);
+	import { cart } from '$lib/stores/cart.svelte.js';
 	let isMenuOpen = $state(false);
 
 	function toggleMenu() {
@@ -57,7 +56,7 @@
 					<span class="wishlist-badge">{wishlist.count}</span>
 				{/if}
 			</a>
-			<a href="/cart" class="cart-link" aria-label="Shopping cart">
+			<a href="/checkout" class="cart-link" aria-label="Cart{cart.count > 0 ? ` (${cart.count} item${cart.count === 1 ? '' : 's'})` : ''}">
 				<svg
 					class="cart-icon"
 					width="24"
@@ -88,10 +87,8 @@
 						stroke-linejoin="round"
 					/>
 				</svg>
-				{#if cartCount > 0}
-					<span class="cart-badge">{cartCount}</span>
-				{:else}
-					<span class="cart-badge">0</span>
+				{#if cart.count > 0}
+					<span class="cart-badge">{cart.count}</span>
 				{/if}
 			</a>
 		</div>

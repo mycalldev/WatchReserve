@@ -1,7 +1,9 @@
 <script>
 	import { onMount, tick } from 'svelte';
+	import { enhance } from '$app/forms';
 	import { loadStripe } from '@stripe/stripe-js';
 	import { PUBLIC_STRIPE_PUBLISHABLE_KEY } from '$env/static/public';
+	import { cart as cartStore } from '$lib/stores/cart.svelte.js';
 
 	let { data } = $props();
 
@@ -35,6 +37,15 @@
 		postcode: '',
 		country: 'United Kingdom',
 		phone: ''
+	});
+
+	let billingSameAsShipping = $state(true);
+	let billing = $state({
+		address1: '',
+		address2: '',
+		city: '',
+		postcode: '',
+		country: 'United Kingdom'
 	});
 
 	let errors = $state({});
@@ -106,7 +117,7 @@
 				}
 			});
 
-			paymentElementInstance = elements.create('payment', { layout: 'tabs' });
+			paymentElementInstance = elements.create('payment', { layout: 'tabs', terms: { card: 'never' } });
 
 			await tick();
 			paymentElementInstance.mount('#stripe-payment-element');
@@ -199,6 +210,13 @@
 		if (!shipping.city.trim()) e.city = 'Please enter your city.';
 		if (!shipping.postcode.trim()) e.postcode = 'Please enter your postcode.';
 		if (!shipping.country.trim()) e.country = 'Please select a country.';
+		if (!shipping.phone.trim()) e.phone = 'Please enter your phone number.';
+		if (!billingSameAsShipping) {
+			if (!billing.address1.trim()) e.billingAddress1 = 'Please enter your billing address.';
+			if (!billing.city.trim()) e.billingCity = 'Please enter your billing city.';
+			if (!billing.postcode.trim()) e.billingPostcode = 'Please enter your billing postcode.';
+			if (!billing.country.trim()) e.billingCountry = 'Please select a billing country.';
+		}
 		errors = e;
 		return Object.keys(e).length === 0;
 	}
@@ -236,7 +254,9 @@
 		placing = true;
 		paymentMessage = '';
 
-		const countryCode = COUNTRY_CODES[shipping.country] || 'GB';
+		const shippingCountryCode = COUNTRY_CODES[shipping.country] || 'GB';
+		const effectiveBilling = billingSameAsShipping ? shipping : billing;
+		const billingCountryCode = COUNTRY_CODES[effectiveBilling.country] || 'GB';
 		const fullName = `${contact.firstName} ${contact.lastName}`.trim();
 
 		const { error: confirmError, paymentIntent } = await stripe.confirmPayment({
@@ -246,13 +266,27 @@
 				receipt_email: contact.email.trim() || undefined,
 				shipping: {
 					name: fullName || undefined,
-					phone: shipping.phone?.trim() || undefined,
+					phone: shipping.phone.trim() || undefined,
 					address: {
 						line1: shipping.address1.trim(),
 						line2: shipping.address2?.trim() || undefined,
 						city: shipping.city.trim(),
 						postal_code: shipping.postcode.trim(),
-						country: countryCode
+						country: shippingCountryCode
+					}
+				},
+				payment_method_data: {
+					billing_details: {
+						name: fullName || undefined,
+						email: contact.email.trim() || undefined,
+						phone: shipping.phone.trim() || undefined,
+						address: {
+							line1: effectiveBilling.address1.trim(),
+							line2: effectiveBilling.address2?.trim() || undefined,
+							city: effectiveBilling.city.trim(),
+							postal_code: effectiveBilling.postcode.trim(),
+							country: billingCountryCode
+						}
 					}
 				}
 			},
@@ -481,9 +515,86 @@
 								</select>
 							</label>
 							<label class="field">
-								<span class="field-label">Phone <em>(optional)</em></span>
-								<input type="tel" bind:value={shipping.phone} autocomplete="tel" />
+								<span class="field-label">Phone Number</span>
+								<input
+									type="tel"
+									bind:value={shipping.phone}
+									autocomplete="tel"
+									class:error={errors.phone}
+								/>
+								{#if errors.phone}<span class="field-error">{errors.phone}</span>{/if}
 							</label>
+						</div>
+
+						<div class="billing-section">
+							<h3 class="billing-title">Billing address</h3>
+							<label class="checkbox-label">
+								<input
+									type="checkbox"
+									bind:checked={billingSameAsShipping}
+									class="checkbox-input"
+								/>
+								<span class="checkbox-text">Same as shipping address</span>
+							</label>
+
+							{#if !billingSameAsShipping}
+								<div class="billing-fields">
+									<label class="field">
+										<span class="field-label">Address Line 1</span>
+										<input
+											type="text"
+											bind:value={billing.address1}
+											autocomplete="billing address-line1"
+											class:error={errors.billingAddress1}
+										/>
+										{#if errors.billingAddress1}<span class="field-error">{errors.billingAddress1}</span>{/if}
+									</label>
+
+									<label class="field">
+										<span class="field-label">Address Line 2 <em>(optional)</em></span>
+										<input type="text" bind:value={billing.address2} autocomplete="billing address-line2" />
+									</label>
+
+									<div class="field-row">
+										<label class="field">
+											<span class="field-label">City</span>
+											<input
+												type="text"
+												bind:value={billing.city}
+												autocomplete="billing address-level2"
+												class:error={errors.billingCity}
+											/>
+											{#if errors.billingCity}<span class="field-error">{errors.billingCity}</span>{/if}
+										</label>
+										<label class="field">
+											<span class="field-label">Postcode</span>
+											<input
+												type="text"
+												bind:value={billing.postcode}
+												autocomplete="billing postal-code"
+												class:error={errors.billingPostcode}
+											/>
+											{#if errors.billingPostcode}<span class="field-error">{errors.billingPostcode}</span>{/if}
+										</label>
+									</div>
+
+									<label class="field">
+										<span class="field-label">Country</span>
+										<select bind:value={billing.country} class:error={errors.billingCountry}>
+											<option>United Kingdom</option>
+											<option>Ireland</option>
+											<option>France</option>
+											<option>Germany</option>
+											<option>Italy</option>
+											<option>Spain</option>
+											<option>Switzerland</option>
+											<option>United States</option>
+											<option>United Arab Emirates</option>
+										</select>
+										{#if errors.billingCountry}<span class="field-error">{errors.billingCountry}</span>{/if}
+									</label>
+								</div>
+							{/if}
 						</div>
 
 						<div class="step-actions">
@@ -574,10 +685,28 @@
 								{#if shipping.address2}
 									<p class="review-line">{shipping.address2}</p>
 								{/if}
-								<p class="review-line muted">
-									{shipping.city}, {shipping.postcode}
-								</p>
+								<p class="review-line muted">{shipping.city}, {shipping.postcode}</p>
 								<p class="review-line muted">{shipping.country}</p>
+								{#if shipping.phone}
+									<p class="review-line muted">{shipping.phone}</p>
+								{/if}
+							</div>
+
+							<div class="review-card">
+								<div class="review-card-head">
+									<span class="review-card-label">Billing</span>
+									<button type="button" class="review-edit" onclick={() => goToStep(2)}>Edit</button>
+								</div>
+								{#if billingSameAsShipping}
+									<p class="review-line muted">Same as shipping address</p>
+								{:else}
+									<p class="review-line">{billing.address1}</p>
+									{#if billing.address2}
+										<p class="review-line">{billing.address2}</p>
+									{/if}
+									<p class="review-line muted">{billing.city}, {billing.postcode}</p>
+									<p class="review-line muted">{billing.country}</p>
+								{/if}
 							</div>
 
 							<div class="review-card">
@@ -626,7 +755,6 @@
 								{#if line.image?.url}
 									<div class="summary-image">
 										<img src={line.image.url} alt={line.image.altText || line.productTitle} />
-										<span class="summary-qty">{line.quantity}</span>
 									</div>
 								{/if}
 								<div class="summary-detail">
@@ -636,8 +764,23 @@
 										<p class="summary-variant">{line.variantTitle}</p>
 									{/if}
 								</div>
-								<div class="summary-price">
-									{formatMoney(Number(line.price?.amount || 0) * line.quantity, line.price?.currencyCode)}
+								<div class="summary-line-end">
+									<span class="summary-price">
+										{formatMoney(Number(line.price?.amount || 0) * line.quantity, line.price?.currencyCode)}
+									</span>
+									<form method="POST" action="?/remove" use:enhance={() => async ({ result, update }) => {
+										if (result.type === 'success') {
+											cartStore.set(Math.max(0, cartStore.count - 1));
+										}
+										await update();
+									}}>
+										<input type="hidden" name="lineId" value={line.id} />
+										<button type="submit" class="summary-remove" aria-label="Remove {line.productTitle}">
+											<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+												<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+											</svg>
+										</button>
+									</form>
 								</div>
 							</li>
 						{/each}
@@ -861,6 +1004,46 @@
 		color: #b04040;
 	}
 
+	.billing-section {
+		margin-top: 36px;
+		padding-top: 28px;
+		border-top: 1px solid #ece7df;
+	}
+
+	.billing-title {
+		font-size: 0.75rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: #6a5f58;
+		font-weight: 600;
+		margin-bottom: 16px;
+	}
+
+	.checkbox-label {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		cursor: pointer;
+		margin-bottom: 0;
+	}
+
+	.checkbox-input {
+		width: 16px;
+		height: 16px;
+		accent-color: #a1846d;
+		cursor: pointer;
+		flex-shrink: 0;
+	}
+
+	.checkbox-text {
+		font-size: 0.875rem;
+		color: #160b11;
+	}
+
+	.billing-fields {
+		margin-top: 24px;
+	}
+
 	.step-actions {
 		display: flex;
 		gap: 16px;
@@ -1061,7 +1244,7 @@
 		width: 72px;
 		height: 72px;
 		background: #faf7f2;
-		overflow: hidden;
+		overflow: visible;
 	}
 
 	.summary-image img {
@@ -1070,22 +1253,7 @@
 		object-fit: cover;
 	}
 
-	.summary-qty {
-		position: absolute;
-		top: -8px;
-		right: -8px;
-		background: #160b11;
-		color: #ffffff;
-		width: 22px;
-		height: 22px;
-		border-radius: 50%;
-		font-size: 0.72rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.summary-vendor {
+.summary-vendor {
 		margin: 0 0 2px;
 		font-size: 0.68rem;
 		letter-spacing: 0.12em;
@@ -1107,9 +1275,32 @@
 		color: #6a5f58;
 	}
 
+	.summary-line-end {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 8px;
+	}
+
 	.summary-price {
 		font-size: 0.9rem;
 		font-weight: 500;
+		color: #160b11;
+	}
+
+	.summary-remove {
+		background: none;
+		border: none;
+		padding: 2px;
+		cursor: pointer;
+		color: #a89f97;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		line-height: 1;
+	}
+
+	.summary-remove:hover {
 		color: #160b11;
 	}
 
