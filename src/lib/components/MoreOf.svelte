@@ -354,7 +354,7 @@
 	.status-available .mo-dot    { background-color: #22a05a; }
 	.status-sold .mo-dot         { background-color: #c94040; }
 	.status-new-arrival .mo-dot  { background-color: #c9a230; }
-	.status-reserved .mo-dot     { background-color: #422635; }
+	.status-reserved .mo-dot     { background-color: #2563eb; }
 
 	/* ── Card body ───────────────────────────────────── */
 	.mo-body {

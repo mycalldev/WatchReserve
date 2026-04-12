@@ -491,7 +491,7 @@
 	.status-available .status-dot    { background-color: #22a05a; }
 	.status-sold .status-dot         { background-color: #c94040; }
 	.status-new-arrival .status-dot  { background-color: #c9a230; }
-	.status-reserved .status-dot     { background-color: #422635; }
+	.status-reserved .status-dot     { background-color: #2563eb; }
 
 	/* ── DETAILS ── */
 	.product-details {

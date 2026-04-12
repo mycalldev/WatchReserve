@@ -54,7 +54,7 @@
 		padding: 11px 16px;
 		background-color: #faf8f6;
 		border: 1px solid rgba(22, 11, 17, 0.08);
-		border-radius: 10px;
+		border-radius: 0;
 		width: 100%;
 		box-sizing: border-box;
 	}
