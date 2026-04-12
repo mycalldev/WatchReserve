@@ -6,7 +6,8 @@
 		'rolex':           '/assets/hero/rose_daytona.jpg',
 		'audemars-piguet': '/assets/hero/AP_Category_Banner.jpg',
 		'patek-philippe':  '/assets/hero/PP_Category_Banner.jpg',
-		'patek-phillipe':  '/assets/hero/PP_Category_Banner.jpg'
+		'patek-phillipe':  '/assets/hero/PP_Category_Banner.jpg',
+		'new-arrivals':    '/assets/hero/submariner_hero.jpg'
 	};
 
 	const heroImage = $derived(

@@ -1,9 +1,11 @@
 <script>
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import Button from '$lib/components/Button.svelte';
 
-	let { status, error } = $props();
+	const status = $derived($page.status);
+	const error = $derived($page.error);
 
 	let countdown = $state(5);
 	let intervalId;

@@ -400,7 +400,10 @@ const PRODUCTS_QUERY = `
               }
             }
           }
-          metafields(identifiers: [{namespace: "custom", key: "status"}]) {
+          metafields(identifiers: [
+            {namespace: "custom", key: "status"},
+            {namespace: "custom", key: "sort_order"}
+          ]) {
             namespace
             key
             value
@@ -422,9 +425,9 @@ export async function getProducts() {
 		const { edges, pageInfo } = data.products;
 
 		for (const { node } of edges) {
-			const statusMeta = (node.metafields ?? []).find(
-				(m) => m && m.namespace === 'custom' && m.key === 'status'
-			);
+			const metafields = node.metafields ?? [];
+			const statusMeta = metafields.find((m) => m && m.namespace === 'custom' && m.key === 'status');
+			const sortMeta = metafields.find((m) => m && m.namespace === 'custom' && m.key === 'sort_order');
 			// Store { title, handle } pairs so the UI can build correct collection URLs
 			const collections = (node.collections?.edges ?? []).map(({ node: c }) => ({
 				title: c.title,
@@ -442,13 +445,20 @@ export async function getProducts() {
 				imageAlt: node.featuredImage?.altText ?? node.title,
 				price: parseFloat(node.priceRange.minVariantPrice.amount),
 				currencyCode: node.priceRange.minVariantPrice.currencyCode,
-				status: statusMeta?.value ?? null
+				status: statusMeta?.value ?? null,
+				sortOrder: sortMeta?.value != null ? parseInt(sortMeta.value, 10) : null
 			});
 		}
 
 		hasNextPage = pageInfo.hasNextPage;
 		cursor = pageInfo.endCursor;
 	}
+
+	allProducts.sort((a, b) => {
+		const aOrder = a.sortOrder ?? Infinity;
+		const bOrder = b.sortOrder ?? Infinity;
+		return aOrder - bOrder;
+	});
 
 	return allProducts;
 }
@@ -545,7 +555,10 @@ const NEW_ARRIVALS_QUERY = `
           priceRange {
             minVariantPrice { amount currencyCode }
           }
-          metafields(identifiers: [{namespace: "custom", key: "status"}]) {
+          metafields(identifiers: [
+            {namespace: "custom", key: "status"},
+            {namespace: "custom", key: "sort_order"}
+          ]) {
             namespace key value
           }
         }
@@ -561,9 +574,9 @@ export async function getNewArrivals(limit = 12) {
 
 	const results = [];
 	for (const { node } of edges) {
-		const statusMeta = (node.metafields ?? []).find(
-			(m) => m && m.namespace === 'custom' && m.key === 'status'
-		);
+		const metafields = node.metafields ?? [];
+		const statusMeta = metafields.find((m) => m && m.namespace === 'custom' && m.key === 'status');
+		const sortMeta = metafields.find((m) => m && m.namespace === 'custom' && m.key === 'sort_order');
 		const status = statusMeta?.value?.trim() ?? null;
 		if (status?.toLowerCase() === 'new arrival') {
 			results.push({
@@ -575,13 +588,19 @@ export async function getNewArrivals(limit = 12) {
 				imageAlt: node.featuredImage?.altText ?? node.title,
 				price: parseFloat(node.priceRange.minVariantPrice.amount),
 				currencyCode: node.priceRange.minVariantPrice.currencyCode,
-				status
+				status,
+				sortOrder: sortMeta?.value != null ? parseInt(sortMeta.value, 10) : null
 			});
-			if (results.length >= limit) break;
 		}
 	}
 
-	return results;
+	results.sort((a, b) => {
+		const aOrder = a.sortOrder ?? Infinity;
+		const bOrder = b.sortOrder ?? Infinity;
+		return aOrder - bOrder;
+	});
+
+	return results.slice(0, limit);
 }
 
 // ── Products by tag (Storefront) ─────────────────────────────────────────────
