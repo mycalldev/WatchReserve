@@ -440,6 +440,7 @@
 							<span class="field-label">Email Address</span>
 							<input
 								type="email"
+								placeholder="email@example.com"
 								bind:value={contact.email}
 								autocomplete="email"
 								class:error={errors.email}

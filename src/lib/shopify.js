@@ -751,6 +751,53 @@ export async function getProductsByVendor(vendor, excludeHandle, limit = 8) {
 		.slice(0, limit);
 }
 
+// ── Recent products fallback (Storefront) ────────────────────────────────────
+
+const RECENT_PRODUCTS_QUERY = `
+  query GetRecentProducts($first: Int!) {
+    products(first: $first, sortKey: CREATED_AT, reverse: true) {
+      edges {
+        node {
+          id
+          title
+          handle
+          vendor
+          featuredImage { url altText }
+          priceRange {
+            minVariantPrice { amount currencyCode }
+          }
+          metafields(identifiers: [{namespace: "custom", key: "status"}]) {
+            namespace key value
+          }
+        }
+      }
+    }
+  }
+`;
+
+export async function getRecentProducts(excludeHandle, limit = 8) {
+	const data = await shopifyFetch(RECENT_PRODUCTS_QUERY, { first: limit + 1 });
+	return (data.products?.edges ?? [])
+		.map(({ node }) => {
+			const statusMeta = (node.metafields ?? []).find(
+				(m) => m && m.namespace === 'custom' && m.key === 'status'
+			);
+			return {
+				id: node.id,
+				title: node.title,
+				handle: node.handle,
+				vendor: node.vendor,
+				image: node.featuredImage?.url ?? null,
+				imageAlt: node.featuredImage?.altText ?? node.title,
+				price: parseFloat(node.priceRange.minVariantPrice.amount),
+				currencyCode: node.priceRange.minVariantPrice.currencyCode,
+				status: statusMeta?.value ?? null
+			};
+		})
+		.filter((p) => p.handle !== excludeHandle)
+		.slice(0, limit);
+}
+
 // ── Blogs & Articles (Storefront) ────────────────────────────────────────────
 
 const BLOGS_QUERY = `

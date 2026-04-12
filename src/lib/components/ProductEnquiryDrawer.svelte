@@ -205,7 +205,7 @@
 									name="email"
 									type="email"
 									class="eq-input"
-									placeholder="you@example.com"
+									placeholder="email@example.com"
 									autocomplete="email"
 									bind:value={formData.email}
 									onblur={() => markTouched('email')}

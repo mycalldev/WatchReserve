@@ -59,15 +59,32 @@
 		window.removeEventListener('touchstart', show);
 	}
 
+	let submitError = $state('');
+
 	async function handleSubmit(e) {
 		e.preventDefault();
 		if (!name.trim() || !email.trim()) return;
 		submitting = true;
-		// Replace with your real API / email service call
-		await new Promise((r) => setTimeout(r, 900));
-		submitting = false;
-		submitted = true;
-		setTimeout(() => dismiss(), 3200);
+		submitError = '';
+
+		try {
+			const res = await fetch('/api/waitlist', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ firstName: name.trim(), email: email.trim() })
+			});
+			const data = await res.json();
+			if (!res.ok) {
+				submitError = data?.error || 'Something went wrong. Please try again.';
+			} else {
+				submitted = true;
+				setTimeout(() => dismiss(), 3200);
+			}
+		} catch {
+			submitError = 'Something went wrong. Please try again.';
+		} finally {
+			submitting = false;
+		}
 	}
 
 	onMount(() => {
@@ -120,15 +137,15 @@
 		<div class="modal-header">
 			<div class="modal-badge">
 				<span class="badge-dot" aria-hidden="true"></span>
-				Limited Access
+				Coming Soon
 			</div>
 
 			<h2 class="modal-title" id="modal-title">
-				7-Day Free Trial of the<br /><em>Watch Reserve API</em>
+				Join the Waiting List for<br /><em>Watch Reserve Intelligence</em>
 			</h2>
 
 			<p class="modal-sub">
-				Real-time luxury watch market data. Access live pricing, historical trends, and 40,000+ references — free for 7 days.
+				Real-time luxury watch market data, live pricing, and historical trends. Be the first to access when we launch.
 			</p>
 		</div>
 
@@ -142,20 +159,20 @@
 						</svg>
 					</div>
 					<p class="success-title">You're on the list!</p>
-					<p class="success-msg">We'll send your API credentials within 24 hours.</p>
+					<p class="success-msg">We'll be in touch when Watch Reserve Intelligence launches.</p>
 				</div>
 			{:else}
 				<form class="modal-form" onsubmit={handleSubmit} novalidate>
 					<div class="field">
-						<label for="modal-name" class="field-label">Full Name</label>
+						<label for="modal-name" class="field-label">First Name</label>
 						<input
 							id="modal-name"
 							type="text"
 							class="field-input"
-							placeholder="Jane Smith"
+							placeholder="Full Name"
 							bind:value={name}
 							required
-							autocomplete="name"
+							autocomplete="given-name"
 						/>
 					</div>
 
@@ -165,19 +182,23 @@
 							id="modal-email"
 							type="email"
 							class="field-input"
-							placeholder="jane@example.com"
+							placeholder="email@example.com"
 							bind:value={email}
 							required
 							autocomplete="email"
 						/>
 					</div>
 
+					{#if submitError}
+						<p class="submit-error">{submitError}</p>
+					{/if}
+
 					<button type="submit" class="submit-btn" disabled={submitting || !name.trim() || !email.trim()}>
 						{#if submitting}
 							<span class="spinner" aria-hidden="true"></span>
-							Activating…
+							Joining…
 						{:else}
-							Start Free Trial
+							Join the Waiting List
 							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 								<path d="M5 12h14M12 5l7 7-7 7" />
 							</svg>
@@ -437,6 +458,13 @@
 		opacity: 0.4;
 		cursor: not-allowed;
 		box-shadow: none;
+	}
+
+	.submit-error {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8125rem;
+		color: #c94040;
+		margin: 0;
 	}
 
 	.spinner {

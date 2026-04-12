@@ -158,7 +158,7 @@
 
 						<div class="sf-field" class:sf-field--error={sfAttempted && sfErrors.email}>
 							<label for="sf-email" class="sf-label">Email Address <span class="sf-req" aria-hidden="true">*</span></label>
-							<input id="sf-email" type="email" class="sf-input" placeholder="you@example.com" autocomplete="email" bind:value={sf.email} />
+							<input id="sf-email" type="email" class="sf-input" placeholder="email@example.com" autocomplete="email" bind:value={sf.email} />
 							{#if sfAttempted && sfErrors.email}<p class="sf-hint-err">{sfErrors.email}</p>{/if}
 						</div>
 					</div>

@@ -500,7 +500,7 @@
 									id="pex-email"
 									type="email"
 									class="vm-form-input"
-									placeholder="you@example.com"
+									placeholder="email@example.com"
 									autocomplete="email"
 									bind:value={details.email}
 									aria-invalid={errors.email ? 'true' : 'false'}

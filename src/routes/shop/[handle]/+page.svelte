@@ -326,7 +326,7 @@
 
 <svelte:head>
 	<title>{product.title} — Watch Reserve</title>
-	<meta name="description" content="{product.vendor} {product.title}. {product.description?.slice(0, 150)}" />
+	<meta name="description" content="{product.vendor && product.vendor !== 'My Store' ? product.vendor + ' ' : ''}{product.title}. {product.description?.slice(0, 150)}" />
 </svelte:head>
 
 <!-- Breadcrumb -->
@@ -335,7 +335,7 @@
 		<a href="/">Home</a>
 		<span class="sep" aria-hidden="true">/</span>
 		<a href="/shop">Shop</a>
-		{#if product.vendor}
+		{#if product.vendor && product.vendor !== 'My Store'}
 			<span class="sep" aria-hidden="true">/</span>
 			<a href={vendorUrl} class="breadcrumb-vendor">{product.vendor}</a>
 		{/if}
@@ -398,7 +398,7 @@
 		<!-- ── PRODUCT DETAILS ── -->
 		<div class="details">
 			<div class="details-top-row">
-				{#if product.vendor}
+				{#if product.vendor && product.vendor !== 'My Store'}
 					<p class="vendor">{product.vendor}</p>
 				{/if}
 			</div>

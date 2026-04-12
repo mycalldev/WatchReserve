@@ -1,4 +1,4 @@
-import { getProduct, getMetafieldDefinitions, getProductsByVendor, createCart, addToCart } from '$lib/shopify.js';
+import { getProduct, getMetafieldDefinitions, getProductsByVendor, getRecentProducts, createCart, addToCart } from '$lib/shopify.js';
 import { error } from '@sveltejs/kit';
 
 // Metafields that are always fetched regardless of Admin API definitions
@@ -74,10 +74,21 @@ export async function load({ params }) {
 		category: enrichedMetafields.filter((mf) => mf.ownerType === 'PRODUCT_TAXONOMY_NODE')
 	};
 
-	// Fetch related products from the same vendor, excluding the current product
-	const relatedProducts = product.vendor
+	// Fetch related products from the same vendor, excluding the current product.
+	// Fall back to recent products across all vendors if fewer than 4 vendor matches.
+	let relatedProducts = product.vendor
 		? await getProductsByVendor(product.vendor, params.handle, 8).catch(() => [])
 		: [];
+
+	if (relatedProducts.length < 4) {
+		const recent = await getRecentProducts(params.handle, 8).catch(() => []);
+		// Merge: vendor matches first, then fill with recent (deduped by id)
+		const existing = new Set(relatedProducts.map((p) => p.id));
+		relatedProducts = [
+			...relatedProducts,
+			...recent.filter((p) => !existing.has(p.id))
+		].slice(0, 8);
+	}
 
 	return {
 		product: { ...product, metafields: enrichedMetafields },

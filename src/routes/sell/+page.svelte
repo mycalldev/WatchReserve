@@ -446,7 +446,7 @@
 						<div class="vm-form-row">
 							<div class="vm-form-field">
 								<label for="vm-email" class="vm-form-label">Email <span class="vm-req">*</span></label>
-								<input id="vm-email" type="email" class="vm-form-input" placeholder="you@example.com" autocomplete="email" bind:value={details.email} />
+								<input id="vm-email" type="email" class="vm-form-input" placeholder="email@example.com" autocomplete="email" bind:value={details.email} />
 							</div>
 							<div class="vm-form-field">
 								<label for="vm-phone" class="vm-form-label">Phone <span class="vm-req">*</span></label>
@@ -552,7 +552,7 @@
 									type="email"
 									class="cf-input"
 									bind:value={cf.email}
-									placeholder="you@example.com"
+									placeholder="email@example.com"
 									autocomplete="email"
 									aria-required="true"
 									aria-describedby={cfErrors.email ? 'cf-email-err' : undefined}

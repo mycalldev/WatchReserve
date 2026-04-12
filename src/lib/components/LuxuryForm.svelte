@@ -151,7 +151,7 @@
 						name="email"
 						type="email"
 						class="lf-input"
-						placeholder="you@example.com"
+						placeholder="email@example.com"
 						autocomplete="email"
 						required
 						bind:value={formData.email}

@@ -102,6 +102,9 @@
 					{brand.label}
 				</a>
 			{/each}
+			<a href="/collections/new-arrivals" class="brand-pill brand-pill-link">
+				New Arrivals
+			</a>
 			<a href="/curated-editions" class="brand-pill brand-pill-link">
 				Curated Editions
 			</a>
@@ -173,7 +176,7 @@
 
 						<div class="product-details">
 							<div class="product-meta-row">
-								{#if product.vendor}
+								{#if product.vendor && product.vendor !== 'My Store'}
 									<p class="product-vendor">{product.vendor}</p>
 								{/if}
 							</div>
@@ -359,10 +362,10 @@
 	}
 
 	.control-select {
+		border-radius: 0;
 		appearance: none;
 		background-color: #ffffff;
 		border: 1px solid rgba(22, 11, 17, 0.2);
-		border-radius: 6px;
 		padding: 9px 36px 9px 14px;
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;

@@ -525,7 +525,7 @@
 							<div class="so-row-2">
 								<div class="so-field" class:so-field--error={pxTouched.email && !pxValid.email}>
 									<label for="px-email" class="so-label">Email <span class="so-req">*</span></label>
-									<input id="px-email" class="so-input" type="email" placeholder="you@example.com" autocomplete="email" bind:value={pxForm.email} onblur={() => (pxTouched.email = true)} />
+									<input id="px-email" class="so-input" type="email" placeholder="email@example.com" autocomplete="email" bind:value={pxForm.email} onblur={() => (pxTouched.email = true)} />
 									{#if pxTouched.email && !pxValid.email}
 										<p class="so-hint-err">Please enter a valid email.</p>
 									{/if}
@@ -648,7 +648,7 @@
 							<div class="so-row-2">
 								<div class="so-field" class:so-field--error={depTouched.email && !depValid.email}>
 									<label for="dep-email" class="so-label">Email <span class="so-req">*</span></label>
-									<input id="dep-email" class="so-input" type="email" placeholder="you@example.com" autocomplete="email" bind:value={depForm.email} onblur={() => (depTouched.email = true)} />
+									<input id="dep-email" class="so-input" type="email" placeholder="email@example.com" autocomplete="email" bind:value={depForm.email} onblur={() => (depTouched.email = true)} />
 									{#if depTouched.email && !depValid.email}
 										<p class="so-hint-err">Please enter a valid email.</p>
 									{/if}

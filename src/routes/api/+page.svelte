@@ -109,7 +109,7 @@
 							<input
 								type="email"
 								class="wi-banner-input"
-								placeholder="Email address"
+								placeholder="email@example.com"
 								bind:value={email}
 								required
 								autocomplete="email"

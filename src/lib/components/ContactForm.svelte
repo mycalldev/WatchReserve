@@ -66,7 +66,7 @@
 			class="form-input"
 			required
 			bind:value={formData.email}
-			placeholder="your.email@example.com"
+			placeholder="email@example.com"
 		/>
 	</div>
 
