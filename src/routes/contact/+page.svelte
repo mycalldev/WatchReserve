@@ -2,6 +2,25 @@
 	import LuxuryForm from '$lib/components/LuxuryForm.svelte';
 </script>
 
+<svelte:head>
+	<title>Contact — Watch Reserve</title>
+	<meta name="description" content="Contact the Watch Reserve team. Enquire about a timepiece, book a private viewing, or speak to a specialist." />
+</svelte:head>
+
+<div class="contact-hero">
+	<img
+		src="/assets/hero/Sky-Dweller-Blue.jpg"
+		alt="Rolex Sky-Dweller in blue"
+		class="contact-hero-img"
+		fetchpriority="high"
+	/>
+	<div class="contact-hero-overlay" aria-hidden="true"></div>
+	<div class="contact-hero-content">
+		<h1 class="contact-hero-title">Contact Us</h1>
+		<p class="contact-hero-sub">Speak to the Watch Reserve team</p>
+	</div>
+</div>
+
 <section class="contact-page">
 	<div class="contact-container">
 		<div class="contact-info">
@@ -101,11 +120,65 @@
 </section>
 
 <style>
+	/* ── Hero ── */
+	.contact-hero {
+		position: relative;
+		width: 100%;
+		height: 420px;
+		overflow: hidden;
+	}
+
+	.contact-hero-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center 30%;
+		display: block;
+	}
+
+	.contact-hero-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to bottom, rgba(22, 11, 17, 0.35) 0%, rgba(22, 11, 17, 0.55) 100%);
+	}
+
+	.contact-hero-content {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		gap: 12px;
+		padding: 0 24px;
+	}
+
+	.contact-hero-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(2.5rem, 6vw, 4.5rem);
+		font-weight: 400;
+		color: #ffffff;
+		margin: 0;
+		letter-spacing: -0.03em;
+		line-height: 1.1;
+	}
+
+	.contact-hero-sub {
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.875rem, 1.5vw, 1rem);
+		font-weight: 400;
+		color: rgba(255, 255, 255, 0.75);
+		margin: 0;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	/* ── Page ── */
 	.contact-page {
 		width: 100%;
 		background-color: #ffffff;
-		padding: 100px 40px;
-		min-height: calc(100vh - 200px);
+		padding: 80px 40px;
 		box-sizing: border-box;
 	}
 
@@ -186,19 +259,23 @@
 	}
 
 	@media (max-width: 968px) {
+		.contact-hero { height: 320px; }
+
 		.contact-container {
 			grid-template-columns: 1fr;
 			gap: 60px;
 		}
 
 		.contact-page {
-			padding: 80px 30px;
+			padding: 60px 30px;
 		}
 	}
 
 	@media (max-width: 768px) {
+		.contact-hero { height: 260px; }
+
 		.contact-page {
-			padding: 60px 20px;
+			padding: 50px 20px;
 		}
 
 		.contact-container {
