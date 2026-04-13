@@ -789,7 +789,7 @@
 		inset: 0;
 		background-color: rgba(22, 11, 17, 0.55);
 		backdrop-filter: blur(3px);
-		z-index: 900;
+		z-index: 1002;
 		cursor: pointer;
 	}
 
@@ -801,7 +801,7 @@
 		bottom: 0;
 		width: min(480px, 100vw);
 		background-color: #ffffff;
-		z-index: 901;
+		z-index: 1003;
 		display: flex;
 		flex-direction: column;
 		box-shadow: -8px 0 48px rgba(22, 11, 17, 0.18);
