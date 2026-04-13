@@ -141,36 +141,6 @@
 					Every transaction, every listing, every service record that passes through Watch Reserve becomes part of a living dataset.
 				</p>
 			</div>
-			<div class="wi-data-grid">
-				<div class="wi-data-item">
-					<span class="wi-data-icon" aria-hidden="true">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-					</span>
-					<h3 class="wi-data-label">Real-Time Valuations</h3>
-					<p class="wi-data-desc">Live market prices from active sales and dealer inventory, not outdated auction averages.</p>
-				</div>
-				<div class="wi-data-item">
-					<span class="wi-data-icon" aria-hidden="true">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-					</span>
-					<h3 class="wi-data-label">Rarity & Desirability Scores</h3>
-					<p class="wi-data-desc">Proprietary scores across production numbers, dial variants, and collector demand signals.</p>
-				</div>
-				<div class="wi-data-item">
-					<span class="wi-data-icon" aria-hidden="true">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-					</span>
-					<h3 class="wi-data-label">Provenance & Service History</h3>
-					<p class="wi-data-desc">Ownership records, service intervals, and parts originality — verified and structured.</p>
-				</div>
-				<div class="wi-data-item">
-					<span class="wi-data-icon" aria-hidden="true">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-					</span>
-					<h3 class="wi-data-label">Portfolio Performance</h3>
-					<p class="wi-data-desc">Track acquisition cost against live market value and benchmark against comparable references.</p>
-				</div>
-			</div>
 		</div>
 	</section>
 
