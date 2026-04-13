@@ -103,6 +103,8 @@
 
 <!-- ── 7. CTA ────────────────────────────────────────────────────────── -->
 <section class="au-cta">
+	<img src="/assets/hero/GMTMasterII_hero.jpg" alt="" class="au-cta-bg" aria-hidden="true" loading="lazy" />
+	<div class="au-cta-overlay" aria-hidden="true"></div>
 	<div class="au-cta-inner">
 		<h2 class="au-cta-title">Your next timepiece is waiting.</h2>
 		<p class="au-cta-sub">
@@ -351,14 +353,35 @@
 
 	/* ── 7. CTA ──────────────────────────────────────────────────────── */
 	.au-cta {
+		position: relative;
 		width: 100%;
 		background-color: #160b11;
 		padding: 120px 40px;
 		color: #ffffff;
 		text-align: center;
+		overflow: hidden;
+	}
+
+	.au-cta-bg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+		z-index: 0;
+	}
+
+	.au-cta-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to bottom, rgba(10, 4, 8, 0.7) 0%, rgba(10, 4, 8, 0.75) 100%);
+		z-index: 1;
 	}
 
 	.au-cta-inner {
+		position: relative;
+		z-index: 2;
 		max-width: 720px;
 		margin: 0 auto;
 	}
