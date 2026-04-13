@@ -51,7 +51,7 @@
 		<!-- Header -->
 		<div class="moreof-header">
 			<div class="moreof-title-group">
-				<p class="moreof-eyebrow">You May Also Like</p>
+				<p class="moreof-eyebrow">You May Like</p>
 				<h2 class="moreof-title">More from <em>{displayVendor}</em></h2>
 			</div>
 			<div class="moreof-controls" aria-label="Carousel controls">
