@@ -627,35 +627,37 @@
 <section class="specs-section" aria-label="Product Specifications">
 	<div class="specs-container">
 
-		<header class="specs-header">
-			<h2 class="specs-heading">Product Specifications</h2>
-			<div class="specs-rule" aria-hidden="true"></div>
-		</header>
+		<div class="specs-top">
+			<div class="specs-top-text">
+				<p class="specs-eyebrow">Technical Detail</p>
+				<h2 class="specs-heading">Product <em>Specifications</em></h2>
+			</div>
 
-		<!-- Tabs -->
-		<div class="specs-tabs" role="tablist" aria-label="Specification categories">
-			{#each SPEC_TABS as tab}
-				<button
-					role="tab"
-					aria-selected={activeSpecTab === tab.id}
-					aria-controls="specs-panel"
-					class="specs-tab"
-					class:active={activeSpecTab === tab.id}
-					onclick={() => activeSpecTab = tab.id}
-				>
-					{tab.label}
-				</button>
-			{/each}
+			<!-- Tabs -->
+			<div class="specs-tabs" role="tablist" aria-label="Specification categories">
+				{#each SPEC_TABS as tab}
+					<button
+						role="tab"
+						aria-selected={activeSpecTab === tab.id}
+						aria-controls="specs-panel"
+						class="specs-tab"
+						class:active={activeSpecTab === tab.id}
+						onclick={() => activeSpecTab = tab.id}
+					>
+						{tab.label}
+					</button>
+				{/each}
+			</div>
 		</div>
 
 		<!-- Body -->
 		<div class="specs-body" id="specs-panel" role="tabpanel">
 
 			<!-- Spec fields -->
-			<dl class="specs-grid">
+			<dl class="specs-list">
 				{#if currentTabFields.length > 0}
 					{#each currentTabFields as field}
-						<div class="spec-item">
+						<div class="spec-row">
 							<dt class="spec-label">{field.label}</dt>
 							<dd class="spec-value">{field.value}</dd>
 						</div>
@@ -668,13 +670,11 @@
 			<!-- Image -->
 			{#if activeTabImage}
 				<div class="specs-image-col">
-					<div class="specs-image-frame">
-						<img
-							src={activeTabImage.url}
-							alt={activeTabImage.altText ?? product.title}
-							class="specs-img"
-						/>
-					</div>
+					<img
+						src={activeTabImage.url}
+						alt={activeTabImage.altText ?? product.title}
+						class="specs-img"
+					/>
 				</div>
 			{/if}
 
@@ -1379,7 +1379,7 @@
 		background-color: #faf8f5;
 		border-top: 1px solid rgba(22, 11, 17, 0.07);
 		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
-		padding: 72px 40px 80px;
+		padding: 80px 40px 88px;
 	}
 
 	.specs-container {
@@ -1387,88 +1387,115 @@
 		margin: 0 auto;
 	}
 
-	.specs-header {
-		margin-bottom: 36px;
+	.specs-top {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 40px;
+		padding-bottom: 48px;
+		border-bottom: 1px solid rgba(22, 11, 17, 0.08);
+		margin-bottom: 56px;
+	}
+
+	.specs-top-text {
+		flex-shrink: 0;
+	}
+
+	.specs-eyebrow {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: #a1846d;
+		margin: 0 0 12px 0;
+		display: block;
 	}
 
 	.specs-heading {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.75rem;
-		font-weight: 700;
-		letter-spacing: 0.22em;
-		text-transform: uppercase;
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+		font-weight: 400;
 		color: #160b11;
-		margin: 0 0 14px 0;
+		margin: 0;
+		line-height: 1.2;
+		letter-spacing: -0.02em;
 	}
 
-	.specs-rule {
-		width: 48px;
-		height: 2px;
-		background-color: #a1846d;
+	.specs-heading em {
+		font-style: italic;
+		color: #a1846d;
 	}
 
 	/* Tabs */
 	.specs-tabs {
 		display: flex;
-		gap: 0;
-		border-bottom: 1px solid rgba(22, 11, 17, 0.1);
-		margin-bottom: 48px;
+		gap: 8px;
+		flex-wrap: wrap;
+		justify-content: flex-end;
 	}
 
 	.specs-tab {
-		background: none;
-		border: none;
-		border-bottom: 2px solid transparent;
-		margin-bottom: -1px;
-		padding: 10px 28px 12px;
+		background: transparent;
+		border: 1px solid rgba(22, 11, 17, 0.18);
+		padding: 10px 24px;
 		font-family: 'Montserrat', sans-serif;
-		font-size: 0.75rem;
+		font-size: 0.72rem;
 		font-weight: 600;
-		letter-spacing: 0.14em;
+		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: rgba(22, 11, 17, 0.4);
 		cursor: pointer;
-		transition: color 0.2s ease, border-color 0.2s ease;
+		transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 	}
 
 	.specs-tab:hover {
-		color: #160b11;
+		border-color: #a1846d;
+		color: #a1846d;
 	}
 
 	.specs-tab.active {
-		color: #a1846d;
-		border-bottom-color: #a1846d;
+		background-color: #a1846d;
+		border-color: #a1846d;
+		color: #ffffff;
 	}
 
-	/* Body — two-column layout */
+	/* Body */
 	.specs-body {
 		display: grid;
-		grid-template-columns: 1fr 420px;
-		gap: 80px;
+		grid-template-columns: 1fr 320px;
+		gap: 72px;
 		align-items: start;
 	}
 
-	/* Spec fields grid */
-	.specs-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 32px 48px;
+	/* Spec rows */
+	.specs-list {
 		margin: 0;
-	}
-
-	.spec-item {
 		display: flex;
 		flex-direction: column;
-		gap: 6px;
+	}
+
+	.spec-row {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 24px;
+		padding: 18px 0;
+		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+	}
+
+	.spec-row:first-child {
+		border-top: 1px solid rgba(22, 11, 17, 0.07);
 	}
 
 	.spec-label {
 		font-family: 'Montserrat', sans-serif;
-		font-size: 0.625rem;
-		font-weight: 700;
-		letter-spacing: 0.18em;
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: rgba(22, 11, 17, 0.4);
+		flex-shrink: 0;
 	}
 
 	.spec-value {
@@ -1478,39 +1505,22 @@
 		color: #160b11;
 		margin: 0;
 		line-height: 1.5;
+		text-align: right;
 	}
 
 	.specs-empty {
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
-		color: rgba(22, 11, 17, 0.4);
+		color: rgba(22, 11, 17, 0.35);
 		font-style: italic;
 		margin: 0;
-		grid-column: 1 / -1;
+		padding: 20px 0;
 	}
 
-	/* Image column with decorative frame */
+	/* Image column */
 	.specs-image-col {
-		display: flex;
-		justify-content: flex-end;
-	}
-
-	.specs-image-frame {
-		position: relative;
-		width: 100%;
-		max-width: 380px;
-	}
-
-	.specs-image-frame::after {
-		content: '';
-		position: absolute;
-		bottom: -14px;
-		right: -14px;
-		width: 70%;
-		height: 65%;
-		border-right: 1.5px solid #a1846d;
-		border-bottom: 1.5px solid #a1846d;
-		pointer-events: none;
+		position: sticky;
+		top: 100px;
 	}
 
 	.specs-img {
@@ -1518,48 +1528,36 @@
 		width: 100%;
 		height: auto;
 		object-fit: contain;
+		border: 1px solid rgba(22, 11, 17, 0.08);
 	}
 
 	/* Responsive */
 	@media (max-width: 1024px) {
 		.specs-body {
-			grid-template-columns: 1fr 340px;
-			gap: 56px;
+			grid-template-columns: 1fr 260px;
+			gap: 48px;
 		}
 	}
 
 	@media (max-width: 768px) {
 		.specs-section { padding: 56px 20px 64px; }
 
+		.specs-top {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 28px;
+		}
+
+		.specs-tabs { justify-content: flex-start; }
+
 		.specs-body {
 			grid-template-columns: 1fr;
-			gap: 48px;
-		}
-
-		.specs-image-col {
-			justify-content: center;
-		}
-
-		.specs-image-frame {
-			max-width: 320px;
-		}
-
-		.specs-tab {
-			padding: 10px 16px 12px;
+			gap: 40px;
 		}
 	}
 
 	@media (max-width: 480px) {
 		.specs-section { padding: 44px 16px 52px; }
-
-		.specs-grid {
-			grid-template-columns: 1fr 1fr;
-			gap: 24px 24px;
-		}
-
-		.specs-tab {
-			padding: 10px 12px 12px;
-			font-size: 0.6875rem;
-		}
+		.specs-tab { padding: 9px 16px; font-size: 0.68rem; }
 	}
 </style>
