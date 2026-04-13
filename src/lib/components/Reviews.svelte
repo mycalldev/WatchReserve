@@ -90,6 +90,13 @@
 				</div>
 			{/each}
 		</div>
+
+		<div class="reviews-cta-wrap">
+			<a href="/reviews" class="reviews-cta">
+				Read All Reviews
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+			</a>
+		</div>
 	</div>
 </section>
 
@@ -221,6 +228,34 @@
 		font-size: 0.875rem;
 		color: rgba(255, 255, 255, 0.4);
 		letter-spacing: 0.01em;
+	}
+
+	.reviews-cta-wrap {
+		display: flex;
+		justify-content: center;
+		margin-top: 48px;
+	}
+
+	.reviews-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		padding: 15px 36px;
+		border: 1px solid rgba(255, 255, 255, 0.35);
+		color: #ffffff;
+		text-decoration: none;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		transition: background-color 0.25s ease, border-color 0.25s ease, gap 0.25s ease;
+	}
+
+	.reviews-cta:hover {
+		background-color: #a1846d;
+		border-color: #a1846d;
+		gap: 14px;
 	}
 
 	@media (max-width: 1024px) {

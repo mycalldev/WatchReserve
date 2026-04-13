@@ -105,6 +105,7 @@
 					<a href="/about">About Us</a>
 					<a href="/blogs">Blogs &amp; Guides</a>
 					<a href="/part-exchange">Part Exchange</a>
+					<a href="/reviews">Client Reviews</a>
 					<a href="/faqs">FAQs</a>
 					<a href="/contact">Contact Us</a>
 				</nav>
