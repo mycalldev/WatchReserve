@@ -6,11 +6,7 @@ const resend = new Resend(RESEND_API_KEY);
 
 const TO = 'info@watchreserve.co.uk';
 
-// Resend requires the FROM address to be on a verified domain. Until the
-// watchreserve.co.uk domain is verified in the Resend dashboard, the sandbox
-// sender below works for testing. Once verified, swap to e.g.
-// 'Watch Reserve <contact@watchreserve.co.uk>'.
-const FROM = 'Watch Reserve <onboarding@resend.dev>';
+const FROM = 'Watch Reserve <info@watchreserve.co.uk>';
 
 function clean(v) {
 	return String(v ?? '').trim();
