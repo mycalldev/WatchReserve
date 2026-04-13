@@ -288,7 +288,7 @@
 			Built for<br /><em>Collectors</em>
 		</h2>
 		<p class="api-body">
-			The Watch Reserve Intelligence platform is coming. We're building something beyond pricing data — a complete collector intelligence layer covering rarity, provenance, market trends, and portfolio value, exclusively for members.
+			The Watch Reserve Intelligence platform is coming. We're building something beyond pricing data: a complete collector intelligence layer covering rarity, provenance, market trends, and portfolio value, exclusively for members.
 		</p>
 		<a href="/api" class="api-cta">
 			Join the Waiting List
@@ -432,6 +432,42 @@
 				</svg>
 				Visit Our Channel
 			</a>
+		</div>
+	</div>
+</section>
+
+
+<!-- ── INSTAGRAM SOCIAL PROOF ─────────────────────────────────────────── -->
+<section class="ig-proof-section">
+	<div class="ig-proof-inner">
+		<div class="ig-proof-content">
+			<p class="ig-proof-eyebrow">On Instagram</p>
+			<h2 class="ig-proof-heading">Follow the collection</h2>
+			<p class="ig-proof-text">
+				Stay up to date with new arrivals, behind-the-scenes moments, and the stories behind the pieces. Follow Watch Reserve on Instagram for a closer look at what makes each timepiece worth owning.
+			</p>
+			<a
+				href="https://instagram.com/thewatchreserve"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="ig-proof-cta"
+				aria-label="Follow Watch Reserve on Instagram"
+			>
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<rect x="2" y="2" width="20" height="20" rx="5"/>
+					<circle cx="12" cy="12" r="4"/>
+					<circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+				</svg>
+				Follow on Instagram
+			</a>
+		</div>
+		<div class="ig-proof-image-wrap">
+			<img
+				src="/assets/instagram-social.png"
+				alt="Watch Reserve on Instagram"
+				class="ig-proof-image"
+				loading="lazy"
+			/>
 		</div>
 	</div>
 </section>
@@ -999,6 +1035,113 @@
 	@media (max-width: 600px) {
 		.yt-proof-section { padding: 64px 20px; }
 		.yt-proof-inner { gap: 36px; }
+	}
+
+	/* ── Instagram social proof ─────────────────────────────── */
+	.ig-proof-section {
+		width: 100%;
+		background-color: #ffffff;
+		padding: 100px 40px;
+		border-bottom: 1px solid rgba(161, 132, 109, 0.15);
+		box-sizing: border-box;
+	}
+
+	.ig-proof-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: 1fr 1.2fr;
+		gap: 72px;
+		align-items: center;
+	}
+
+	.ig-proof-image-wrap {
+		position: relative;
+		width: 100%;
+		background-color: #faf8f6;
+		border: 1px solid rgba(22, 11, 17, 0.08);
+		box-shadow: 0 18px 48px rgba(22, 11, 17, 0.1), 0 4px 16px rgba(22, 11, 17, 0.06);
+		overflow: hidden;
+	}
+
+	.ig-proof-image {
+		display: block;
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+
+	.ig-proof-content {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.ig-proof-eyebrow {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: #a1846d;
+		margin: 0;
+	}
+
+	.ig-proof-heading {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.875rem, 3.2vw, 2.5rem);
+		font-weight: 400;
+		color: #160b11;
+		margin: 0;
+		line-height: 1.2;
+		letter-spacing: -0.015em;
+	}
+
+	.ig-proof-text {
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.95rem, 1.05vw, 1.0625rem);
+		line-height: 1.75;
+		color: #3a2a31;
+		font-weight: 300;
+		margin: 0;
+	}
+
+	.ig-proof-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		margin-top: 12px;
+		padding: 14px 26px;
+		background-color: #a1846d;
+		color: #ffffff;
+		text-decoration: none;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		align-self: flex-start;
+		transition: background-color 0.25s ease;
+	}
+
+	.ig-proof-cta:hover {
+		background-color: #8a6f59;
+	}
+
+	.ig-proof-cta svg { flex-shrink: 0; }
+
+	@media (max-width: 960px) {
+		.ig-proof-section { padding: 80px 32px; }
+		.ig-proof-inner {
+			grid-template-columns: 1fr;
+			gap: 48px;
+		}
+		.ig-proof-image-wrap { order: -1; }
+	}
+
+	@media (max-width: 600px) {
+		.ig-proof-section { padding: 64px 20px; }
+		.ig-proof-inner { gap: 36px; }
 	}
 
 	.sell-source-section {

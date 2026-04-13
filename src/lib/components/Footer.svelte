@@ -57,6 +57,42 @@
 						/>
 					</a>
 				</div>
+
+				<div class="footer-socials">
+					<p class="footer-socials-label">Follow Us</p>
+					<div class="footer-socials-row">
+						<a href="https://instagram.com/thewatchreserve" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="Instagram">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/>
+								<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/>
+								<circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+							</svg>
+						</a>
+						<a href="https://facebook.com/thewatchreserve" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="Facebook">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</a>
+						<a href="https://www.youtube.com/@thewatchreserve" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="YouTube">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z" stroke="currentColor" stroke-width="1.8"/>
+								<polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor"/>
+							</svg>
+						</a>
+						<a href="https://linkedin.com/company/watchreserve" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="LinkedIn">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+								<rect x="2" y="9" width="4" height="12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+								<circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="1.8"/>
+							</svg>
+						</a>
+						<a href="https://tiktok.com/@thewatchreserve" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="TikTok">
+							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</a>
+					</div>
+				</div>
 			</div>
 
 			<!-- Explore column -->
@@ -118,32 +154,38 @@
 
 	<div class="footer-bottom-bar">
 		<div class="footer-bottom-inner">
-			<a
-				href="https://instagram.com/thewatchreserve"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="social-link"
-				aria-label="Instagram"
-			>
+			<a href="https://instagram.com/thewatchreserve" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
 				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2" />
-					<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" />
-					<circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" />
+					<rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/>
+					<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+					<circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
 				</svg>
 			</a>
-			<a
-				href="https://www.youtube.com/@thewatchreserve"
-				target="_blank"
-				rel="noopener noreferrer"
-				class="social-link"
-				aria-label="YouTube"
-			>
+			<a href="https://facebook.com/thewatchreserve" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
 				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" stroke="currentColor" stroke-width="2"/>
+					<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</a>
+			<a href="https://www.youtube.com/@thewatchreserve" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="YouTube">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z" stroke="currentColor" stroke-width="2"/>
 					<polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor"/>
 				</svg>
 			</a>
+			<a href="https://linkedin.com/company/watchreserve" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<rect x="2" y="9" width="4" height="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="2"/>
+				</svg>
+			</a>
+			<a href="https://tiktok.com/@thewatchreserve" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">
+				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</a>
 			<p class="copyright-text">Watch Reserve. All rights reserved.</p>
+		<p class="copyright-text copyright-text--legal">2026 &copy; Watch Reserve LTD &nbsp;|&nbsp; VAT Number: 49717342</p>
 		</div>
 	</div>
 </footer>
@@ -431,6 +473,10 @@
 
 	.social-link:hover { color: #a1846d; }
 
+	.copyright-text--legal {
+		margin-left: auto;
+	}
+
 	.copyright-text {
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8125rem;
@@ -522,6 +568,46 @@
 		.footer-info-inner { padding: 24px 16px; }
 		.footer-container { padding: 44px 16px 36px; }
 		.footer-bottom-inner { padding: 14px 16px; }
+	}
+
+	/* ── SOCIAL ICONS (brand column) ── */
+	.footer-socials {
+		margin-top: 32px;
+	}
+
+	.footer-socials-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.6875rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: #a1846d;
+		margin: 0 0 14px 0;
+	}
+
+	.footer-socials-row {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.footer-social-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border: 1px solid rgba(161, 132, 109, 0.4);
+		color: #a1846d;
+		text-decoration: none;
+		flex-shrink: 0;
+		transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+	}
+
+	.footer-social-icon:hover {
+		color: #ffffff;
+		border-color: #a1846d;
+		background-color: #a1846d;
 	}
 
 	/* ── TRUST BADGES ── */
