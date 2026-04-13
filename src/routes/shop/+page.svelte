@@ -105,7 +105,7 @@
 			<a href="/collections/new-arrivals" class="brand-pill brand-pill-link">
 				New Arrivals
 			</a>
-			<a href="/curated-editions" class="brand-pill brand-pill-link">
+			<a href="/collections/curated-editions" class="brand-pill brand-pill-link">
 				Curated Editions
 			</a>
 		</div>

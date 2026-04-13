@@ -364,7 +364,6 @@
 		appearance: none;
 		background-color: #ffffff;
 		border: 1px solid rgba(22, 11, 17, 0.2);
-		border-radius: 6px;
 		padding: 9px 36px 9px 14px;
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
