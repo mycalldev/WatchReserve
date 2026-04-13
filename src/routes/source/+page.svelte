@@ -64,61 +64,6 @@
 	</div>
 </section>
 
-<section class="steps-section">
-	<div class="steps-container">
-		<div class="steps-header">
-			<p class="steps-eyebrow">The Process</p>
-			<h2 class="steps-title">Why Use Our Sourcing Service?</h2>
-			<p class="steps-subtitle">
-				Three simple steps stand between you and your next investment-grade timepiece.
-			</p>
-		</div>
-
-		<div class="steps-grid">
-			<!-- Step 1 -->
-			<div class="step">
-				<div class="step-number-wrap">
-					<span class="step-number">01</span>
-					<div class="step-line" aria-hidden="true"></div>
-				</div>
-				<div class="step-content">
-					<h3 class="step-heading">Global Network Access</h3>
-					<p class="step-text">
-						We connect with a worldwide network of reputable suppliers to locate rare and in-demand watches quickly — pieces that rarely surface on the open market.
-					</p>
-				</div>
-			</div>
-
-			<!-- Step 2 -->
-			<div class="step">
-				<div class="step-number-wrap">
-					<span class="step-number">02</span>
-					<div class="step-line" aria-hidden="true"></div>
-				</div>
-				<div class="step-content">
-					<h3 class="step-heading">Fair, Transparent Pricing</h3>
-					<p class="step-text">
-						You'll receive upfront, honest pricing with no pressure to commit. We only move forward when the watch and the terms are right for you.
-					</p>
-				</div>
-			</div>
-
-			<!-- Step 3 -->
-			<div class="step">
-				<div class="step-number-wrap">
-					<span class="step-number">03</span>
-				</div>
-				<div class="step-content">
-					<h3 class="step-heading">White-Glove Delivery</h3>
-					<p class="step-text">
-						Backed by five-star reviews and years of expertise, we deliver your timepiece with insured, seamless service from first enquiry to your wrist.
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
 <section class="contact-section">
 	<div class="contact-container">
 		<div class="contact-info">
@@ -198,6 +143,61 @@
 
 				</form>
 			{/if}
+		</div>
+	</div>
+</section>
+
+<section class="steps-section">
+	<div class="steps-container">
+		<div class="steps-header">
+			<p class="steps-eyebrow">The Process</p>
+			<h2 class="steps-title">Why Use Our Sourcing Service?</h2>
+			<p class="steps-subtitle">
+				Three simple steps stand between you and your next investment-grade timepiece.
+			</p>
+		</div>
+
+		<div class="steps-grid">
+			<!-- Step 1 -->
+			<div class="step">
+				<div class="step-number-wrap">
+					<span class="step-number">01</span>
+					<div class="step-line" aria-hidden="true"></div>
+				</div>
+				<div class="step-content">
+					<h3 class="step-heading">Global Network Access</h3>
+					<p class="step-text">
+						We connect with a worldwide network of reputable suppliers to locate rare and in-demand watches quickly — pieces that rarely surface on the open market.
+					</p>
+				</div>
+			</div>
+
+			<!-- Step 2 -->
+			<div class="step">
+				<div class="step-number-wrap">
+					<span class="step-number">02</span>
+					<div class="step-line" aria-hidden="true"></div>
+				</div>
+				<div class="step-content">
+					<h3 class="step-heading">Fair, Transparent Pricing</h3>
+					<p class="step-text">
+						You'll receive upfront, honest pricing with no pressure to commit. We only move forward when the watch and the terms are right for you.
+					</p>
+				</div>
+			</div>
+
+			<!-- Step 3 -->
+			<div class="step">
+				<div class="step-number-wrap">
+					<span class="step-number">03</span>
+				</div>
+				<div class="step-content">
+					<h3 class="step-heading">White-Glove Delivery</h3>
+					<p class="step-text">
+						Backed by five-star reviews and years of expertise, we deliver your timepiece with insured, seamless service from first enquiry to your wrist.
+					</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
@@ -327,14 +327,26 @@
 	/* ── STEPS SECTION ── */
 	.steps-section {
 		width: 100%;
-		background-color: #ffffff;
+		position: relative;
+		background-image: url('/assets/hero/Meteorite-Prod.jpg');
+		background-size: cover;
+		background-position: center;
 		padding: 100px 40px;
 		box-sizing: border-box;
+	}
+
+	.steps-section::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: rgba(22, 11, 17, 0.78);
 	}
 
 	.steps-container {
 		max-width: 1100px;
 		margin: 0 auto;
+		position: relative;
+		z-index: 1;
 	}
 
 	/* Header */
@@ -357,7 +369,7 @@
 		font-family: 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 4vw, 3rem);
 		font-weight: 400;
-		color: #160b11;
+		color: #ffffff;
 		margin: 0 0 20px 0;
 		line-height: 1.2;
 		letter-spacing: -0.02em;
@@ -366,7 +378,7 @@
 	.steps-subtitle {
 		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.95rem, 1.2vw, 1.0625rem);
-		color: #6b5c55;
+		color: rgba(255, 255, 255, 0.65);
 		margin: 0 auto;
 		line-height: 1.65;
 		max-width: 520px;
@@ -419,7 +431,7 @@
 		font-family: 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.1rem, 1.5vw, 1.3rem);
 		font-weight: 400;
-		color: #160b11;
+		color: #ffffff;
 		margin: 0 0 14px 0;
 		line-height: 1.3;
 		letter-spacing: -0.01em;
@@ -428,7 +440,7 @@
 	.step-text {
 		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.9rem, 1.1vw, 1rem);
-		color: #6b5c55;
+		color: rgba(255, 255, 255, 0.62);
 		line-height: 1.7;
 		font-weight: 300;
 		margin: 0;
