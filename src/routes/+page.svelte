@@ -383,7 +383,7 @@
 				<li class="about-wr-feature">
 					<span class="about-wr-feature-icon" aria-hidden="true">
 						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-							<path d="M8 18h8M6 12h8M10 12V7a4 4 0 014-4 4 4 0 011 .1"/>
+							<path d="M6 19h12M6 14h7M9 19V11a4 4 0 0 1 4-4"/>
 						</svg>
 					</span>
 					<span>Price Promise</span>
