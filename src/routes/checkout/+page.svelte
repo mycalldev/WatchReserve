@@ -81,6 +81,7 @@
 
 			stripe = stripeInstance;
 			clientSecret = payload.clientSecret;
+			verifiedTotal = Number(payload.amount);
 
 			elements = stripe.elements({
 				clientSecret,
@@ -317,6 +318,11 @@
 	const tax = $derived(cart?.tax?.amount ? Number(cart.tax.amount) : 0);
 	const total = $derived(cart?.total?.amount ? Number(cart.total.amount) : 0);
 	const currency = $derived(cart?.total?.currencyCode || 'GBP');
+
+	// Server-verified total from PaymentIntent — set once /api/create-payment-intent responds
+	let verifiedTotal = $state(null);
+	const displayTotal = $derived(verifiedTotal ?? total);
+	const priceChanged = $derived(verifiedTotal !== null && Math.abs(verifiedTotal - total) >= 0.01);
 
 	function formatMoney(amount, code = currency) {
 		try {
@@ -720,6 +726,13 @@
 							</div>
 						</div>
 
+						{#if priceChanged}
+							<div class="price-changed-notice" role="alert">
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+								The price of this item was updated while you were checking out. The total has been adjusted to {formatMoney(verifiedTotal)}.
+							</div>
+						{/if}
+
 						{#if paymentMessage && step === 4}
 							<p class="payment-message">{paymentMessage}</p>
 						{/if}
@@ -738,8 +751,8 @@
 									Processing...
 								{:else}
 									{greetingName ? `Place Order, ${greetingName}` : 'Place Order'}
-									{#if total}
-										<span class="btn-amount">{formatMoney(total)}</span>
+									{#if displayTotal}
+										<span class="btn-amount">{formatMoney(displayTotal)}</span>
 									{/if}
 								{/if}
 							</button>
@@ -802,9 +815,9 @@
 								<dd>{formatMoney(tax)}</dd>
 							</div>
 						{/if}
-						<div class="summary-row summary-row-total">
-							<dt>Total</dt>
-							<dd>{formatMoney(total)}</dd>
+						<div class="summary-row summary-row-total" class:price-updated={priceChanged}>
+							<dt>Total {#if priceChanged}<span class="price-updated-label">Updated</span>{/if}</dt>
+							<dd>{formatMoney(displayTotal)}</dd>
 						</div>
 					</dl>
 
@@ -1138,6 +1151,40 @@
 		color: #8a3030;
 		font-size: 0.875rem;
 		line-height: 1.5;
+	}
+
+	.price-changed-notice {
+		display: flex;
+		align-items: flex-start;
+		gap: 10px;
+		padding: 14px 18px;
+		background: #fffbeb;
+		border: 1px solid #d97706;
+		color: #92400e;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		line-height: 1.5;
+		margin-bottom: 4px;
+	}
+
+	.price-changed-notice svg {
+		flex-shrink: 0;
+		margin-top: 2px;
+		color: #d97706;
+	}
+
+	.summary-row-total.price-updated dd {
+		color: #d97706;
+	}
+
+	.price-updated-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: #d97706;
+		margin-left: 6px;
 	}
 
 	.trust-row {

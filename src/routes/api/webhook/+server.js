@@ -2,7 +2,7 @@ import { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, RESEND_API_KEY } from '$env/s
 import { json } from '@sveltejs/kit';
 import Stripe from 'stripe';
 import { Resend } from 'resend';
-import { getCart, createShopifyOrder } from '$lib/shopify.js';
+import { getCart, createShopifyOrder, setProductStatus } from '$lib/shopify.js';
 
 const stripe = new Stripe(STRIPE_SECRET_KEY);
 const resend = new Resend(RESEND_API_KEY);
@@ -312,6 +312,15 @@ export async function POST({ request }) {
 
 			if (meta.type === 'deposit') {
 				await sendDepositEmails(pi);
+
+				if (meta.shopify_product_id) {
+					try {
+						await setProductStatus(meta.shopify_product_id, 'reserved');
+						console.log('[webhook] product marked reserved:', meta.shopify_product_id);
+					} catch (err) {
+						console.error('[webhook] failed to mark product reserved:', err.message);
+					}
+				}
 			} else {
 				const cart = await getCart(meta.shopify_cart_id);
 				if (!cart || !cart.lines.length) {

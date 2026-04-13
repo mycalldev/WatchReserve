@@ -131,6 +131,49 @@
 		</div>
 	</section>
 
+	<!-- ── DATA & INTELLIGENCE ── -->
+	<section class="wi-data">
+		<div class="wi-data-inner">
+			<div class="wi-data-header">
+				<p class="wi-eyebrow">The Intelligence Layer</p>
+				<h2 class="wi-section-title">Data that defines the true value of every timepiece</h2>
+				<p class="wi-data-intro">
+					Every transaction, every listing, every service record that passes through Watch Reserve becomes part of a living dataset.
+				</p>
+			</div>
+			<div class="wi-data-grid">
+				<div class="wi-data-item">
+					<span class="wi-data-icon" aria-hidden="true">
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+					</span>
+					<h3 class="wi-data-label">Real-Time Valuations</h3>
+					<p class="wi-data-desc">Live market prices from active sales and dealer inventory, not outdated auction averages.</p>
+				</div>
+				<div class="wi-data-item">
+					<span class="wi-data-icon" aria-hidden="true">
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+					</span>
+					<h3 class="wi-data-label">Rarity & Desirability Scores</h3>
+					<p class="wi-data-desc">Proprietary scores across production numbers, dial variants, and collector demand signals.</p>
+				</div>
+				<div class="wi-data-item">
+					<span class="wi-data-icon" aria-hidden="true">
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+					</span>
+					<h3 class="wi-data-label">Provenance & Service History</h3>
+					<p class="wi-data-desc">Ownership records, service intervals, and parts originality — verified and structured.</p>
+				</div>
+				<div class="wi-data-item">
+					<span class="wi-data-icon" aria-hidden="true">
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+					</span>
+					<h3 class="wi-data-label">Portfolio Performance</h3>
+					<p class="wi-data-desc">Track acquisition cost against live market value and benchmark against comparable references.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<!-- ── IMAGE STRIP ── -->
 	<div class="wi-image-strip" aria-hidden="true">
 		<img src="/assets/hero/rose_daytona.jpg" alt="" />
@@ -522,6 +565,78 @@
 		font-weight: 300;
 	}
 
+	/* ── DATA & INTELLIGENCE ── */
+	.wi-data {
+		padding: 88px 40px;
+		background-color: #ffffff;
+		border-top: 1px solid rgba(161, 132, 109, 0.12);
+		border-bottom: 1px solid rgba(161, 132, 109, 0.12);
+	}
+
+	.wi-data-inner {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.wi-data-header {
+		max-width: 720px;
+		margin: 0 auto 64px;
+		text-align: center;
+	}
+
+	.wi-data-intro {
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
+		color: #3a2a31;
+		line-height: 1.85;
+		font-weight: 300;
+		margin: 0;
+	}
+
+	.wi-data-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 20px;
+	}
+
+	.wi-data-item {
+		background-color: #faf8f6;
+		border: 1px solid rgba(161, 132, 109, 0.18);
+		padding: 36px 28px;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.wi-data-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 48px;
+		height: 48px;
+		border: 1px solid rgba(161, 132, 109, 0.3);
+		color: #a1846d;
+		flex-shrink: 0;
+	}
+
+	.wi-data-label {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 1.125rem;
+		font-weight: 400;
+		color: #160b11;
+		margin: 0;
+		line-height: 1.3;
+	}
+
+	.wi-data-desc {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.9rem;
+		color: #5a4a51;
+		line-height: 1.8;
+		font-weight: 300;
+		margin: 0;
+	}
+
 	/* ── RESPONSIVE ── */
 	@media (max-width: 960px) {
 		.wi-auth-inner {
@@ -531,6 +646,10 @@
 
 		.wi-auth-images {
 			max-width: 100%;
+		}
+
+		.wi-data-grid {
+			grid-template-columns: repeat(2, 1fr);
 		}
 
 		.wi-image-strip { height: 200px; }
@@ -564,7 +683,14 @@
 		.wi-hero { padding: 72px 20px 64px; }
 
 		.wi-auth,
+		.wi-data,
 		.wi-for-collectors { padding: 56px 20px; }
+
+		.wi-data-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.wi-data-header { margin-bottom: 40px; }
 
 		.wi-banner { padding: 56px 20px; }
 

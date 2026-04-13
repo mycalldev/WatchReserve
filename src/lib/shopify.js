@@ -1105,3 +1105,33 @@ export async function createShopifyOrder({ lineItems, email, shippingAddress, bi
 
 	return completed.order;
 }
+
+// ── Set product status metafield (Admin) ─────────────────────────────────────
+
+const SET_PRODUCT_METAFIELD_MUTATION = `
+  mutation SetProductMetafield($input: ProductInput!) {
+    productUpdate(input: $input) {
+      product { id }
+      userErrors { field message }
+    }
+  }
+`;
+
+export async function setProductStatus(shopifyProductId, status) {
+	const data = await shopifyAdminFetch(SET_PRODUCT_METAFIELD_MUTATION, {
+		input: {
+			id: shopifyProductId,
+			metafields: [
+				{
+					namespace: 'custom',
+					key: 'status',
+					value: status,
+					type: 'single_line_text_field'
+				}
+			]
+		}
+	});
+
+	const { userErrors } = data.productUpdate;
+	if (userErrors?.length) throw new Error(userErrors.map((e) => e.message).join(', '));
+}
