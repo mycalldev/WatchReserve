@@ -437,6 +437,8 @@
 </section>
 
 
+<Reviews />
+
 <!-- ── INSTAGRAM SOCIAL PROOF ─────────────────────────────────────────── -->
 <section class="ig-proof-section">
 	<div class="ig-proof-inner">
@@ -472,8 +474,6 @@
 	</div>
 </section>
 
-
-<Reviews />
 
 <style>
 	.hero-section {

@@ -2,42 +2,42 @@
 	const reviews = [
 		{
 			id: 1,
-			name: 'James Mitchell',
+			name: 'Oliver H.',
 			rating: 5,
 			text: 'Exceptional service from start to finish. The team at Watch Reserve helped me find the perfect Patek Philippe I\'d been searching for. Their expertise and attention to detail is unmatched.',
 			date: 'December 2024'
 		},
 		{
 			id: 2,
-			name: 'Sarah Chen',
+			name: 'Charlotte B.',
 			rating: 5,
 			text: 'I was impressed by their authentication process and the transparency throughout. The watch arrived exactly as described, and the packaging was impeccable. Highly recommend for serious collectors.',
 			date: 'November 2024'
 		},
 		{
 			id: 3,
-			name: 'Robert Thompson',
+			name: 'Edward W.',
 			rating: 5,
 			text: 'Outstanding experience sourcing a rare Rolex GMT. The team kept me informed at every step and delivered exactly what they promised. This is how luxury watch buying should be done.',
 			date: 'November 2024'
 		},
 		{
 			id: 4,
-			name: 'Emma Williams',
+			name: 'Isabelle F.',
 			rating: 5,
 			text: 'Professional, knowledgeable, and genuinely passionate about timepieces. They took the time to understand what I was looking for and exceeded my expectations. Will definitely return.',
 			date: 'October 2024'
 		},
 		{
 			id: 5,
-			name: 'Michael Anderson',
+			name: 'Thomas R.',
 			rating: 5,
 			text: 'Sold my Audemars Piguet through Watch Reserve and received a fair valuation. The process was smooth, and the team was incredibly professional. Top-tier service all around.',
 			date: 'October 2024'
 		},
 		{
 			id: 6,
-			name: 'Sophie Martinez',
+			name: 'Alexandra P.',
 			rating: 5,
 			text: 'As a first-time luxury watch buyer, I was nervous about making such a significant purchase. The team guided me through everything and made me feel completely confident. Thank you!',
 			date: 'September 2024'
@@ -52,7 +52,7 @@
 <section class="reviews-section">
 	<div class="reviews-container">
 		<div class="reviews-header">
-			<h2 class="reviews-title">What Our <em>Clients</em> Say</h2>
+			<h2 class="reviews-title">Trusted <em>Reviews</em></h2>
 			<p class="reviews-subtitle">
 				Trusted by collectors and enthusiasts who value authenticity, expertise, and exceptional service.
 			</p>
@@ -96,15 +96,27 @@
 <style>
 	.reviews-section {
 		width: 100%;
-		background-color: #f8f8f8;
+		position: relative;
+		background-image: url('/assets/hero/Day-Date-Gold.jpg');
+		background-size: cover;
+		background-position: center;
 		padding: 100px 40px;
 		box-sizing: border-box;
+	}
+
+	.reviews-section::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: rgba(22, 11, 17, 0.82);
 	}
 
 	.reviews-container {
 		max-width: 1400px;
 		margin: 0 auto;
 		width: 100%;
+		position: relative;
+		z-index: 1;
 	}
 
 	.reviews-header {
@@ -116,7 +128,7 @@
 		font-family: 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 5vw, 4rem);
 		font-weight: 400;
-		color: #160b11;
+		color: #ffffff;
 		margin: 0 0 24px 0;
 		line-height: 1.2;
 		letter-spacing: -0.02em;
@@ -130,7 +142,7 @@
 	.reviews-subtitle {
 		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
-		color: #4a4a4a;
+		color: rgba(255, 255, 255, 0.6);
 		margin: 0;
 		line-height: 1.7;
 		font-weight: 300;
@@ -147,19 +159,19 @@
 	}
 
 	.review-card {
-		background-color: #ffffff;
+		background-color: rgba(255, 255, 255, 0.06);
+		border: 1px solid rgba(161, 132, 109, 0.25);
 		padding: 32px;
-		border-radius: 12px;
-		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+		border-radius: 0;
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		transition: background-color 0.3s ease, border-color 0.3s ease;
 	}
 
 	.review-card:hover {
-		transform: translateY(-4px);
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+		background-color: rgba(255, 255, 255, 0.1);
+		border-color: rgba(161, 132, 109, 0.5);
 	}
 
 	.review-rating {
@@ -180,7 +192,7 @@
 	.review-text {
 		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
-		color: #160b11;
+		color: rgba(255, 255, 255, 0.85);
 		line-height: 1.7;
 		font-weight: 300;
 		letter-spacing: 0.01em;
@@ -193,21 +205,21 @@
 		flex-direction: column;
 		gap: 4px;
 		padding-top: 12px;
-		border-top: 1px solid #e5e5e5;
+		border-top: 1px solid rgba(161, 132, 109, 0.25);
 	}
 
 	.review-name {
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 600;
-		color: #160b11;
+		color: #ffffff;
 		letter-spacing: 0.01em;
 	}
 
 	.review-date {
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
-		color: #666;
+		color: rgba(255, 255, 255, 0.4);
 		letter-spacing: 0.01em;
 	}
 
