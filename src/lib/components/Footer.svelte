@@ -78,6 +78,7 @@
 			<div class="footer-col">
 				<h3 class="footer-col-label">Collections</h3>
 				<nav class="footer-nav">
+					<a href="/collections/new-arrivals">New Arrivals</a>
 					<a href="/collections/rolex">Rolex</a>
 					<a href="/collections/audemars-piguet">Audemars Piguet</a>
 					<a href="/collections/patek-philippe">Patek Philippe</a>

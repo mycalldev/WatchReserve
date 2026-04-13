@@ -1,4 +1,6 @@
 <script>
+	import LuxuryForm from '$lib/components/LuxuryForm.svelte';
+
 	let { data } = $props();
 	const { articles, blogs } = data;
 
@@ -25,7 +27,7 @@
 </svelte:head>
 
 <div class="page-header">
-	<img src="/assets/hero/blog_hero.jpg" alt="" class="page-header-bg" aria-hidden="true" fetchpriority="high" />
+	<img src="/assets/hero/Patek-Warranty.jpg" alt="" class="page-header-bg" aria-hidden="true" fetchpriority="high" />
 	<div class="page-header-overlay" aria-hidden="true"></div>
 	<div class="page-header-content">
 		<p class="page-eyebrow">Knowledge &amp; Insight</p>
@@ -82,6 +84,16 @@
 
 	</div>
 </main>
+
+<!-- Enquiry Form -->
+<section class="enquiry-section">
+	<div class="enquiry-inner">
+		<p class="enquiry-eyebrow">Get In Touch</p>
+		<h2 class="enquiry-heading">Have a Question?</h2>
+		<p class="enquiry-sub">Our team of experts is on hand to help with any enquiries.</p>
+		<LuxuryForm source="Blog" />
+	</div>
+</section>
 
 <style>
 	.page-header {
@@ -195,4 +207,49 @@
 	@media (max-width: 1100px) { .articles-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
 	@media (max-width: 768px) { .blogs-container { padding: 40px 24px 72px; } .articles-grid { gap: 20px; } }
 	@media (max-width: 640px) { .page-header { padding: 60px 24px 52px; } .blogs-container { padding: 32px 16px 64px; } .articles-grid { grid-template-columns: 1fr; gap: 20px; } .card-body { padding: 20px 18px 22px; } }
+
+	/* ── ENQUIRY SECTION ── */
+	.enquiry-section {
+		background-color: #ffffff;
+		padding: 0 40px 100px;
+		border-top: 1px solid rgba(22, 11, 17, 0.07);
+	}
+	.enquiry-inner {
+		max-width: 900px;
+		margin: 0 auto;
+		padding-top: 64px;
+	}
+	.enquiry-eyebrow {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: #a1846d;
+		margin: 0 0 12px 0;
+	}
+	.enquiry-heading {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+		font-weight: 400;
+		color: #160b11;
+		margin: 0 0 14px 0;
+		line-height: 1.2;
+	}
+	.enquiry-sub {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.9375rem;
+		color: #6b5c55;
+		line-height: 1.7;
+		font-weight: 300;
+		margin: 0 0 40px 0;
+	}
+	@media (max-width: 768px) {
+		.enquiry-section { padding: 0 24px 80px; }
+		.enquiry-inner { padding-top: 48px; }
+	}
+	@media (max-width: 480px) {
+		.enquiry-section { padding: 0 16px 64px; }
+		.enquiry-inner { padding-top: 40px; }
+	}
 </style>
