@@ -421,7 +421,7 @@
 				Follow Watch Reserve on YouTube for an inside look at the collection. From condition walkthroughs and on-the-wrist reviews to the stories behind each reference, we share the detail that makes every piece worth owning.
 			</p>
 			<a
-				href="#"
+				href="https://www.youtube.com/@TheWatchReserve"
 				target="_blank"
 				rel="noopener noreferrer"
 				class="yt-proof-cta"

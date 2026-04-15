@@ -61,14 +61,14 @@
 				<div class="footer-socials">
 					<p class="footer-socials-label">Follow Us</p>
 					<div class="footer-socials-row">
-						<a href="https://instagram.com/thewatchreserve" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="Instagram">
+						<a href="https://www.instagram.com/watchreserve.co/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="Instagram">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/>
 								<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/>
 								<circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
 							</svg>
 						</a>
-						<a href="https://facebook.com/thewatchreserve" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="Facebook">
+						<a href="https://www.facebook.com/profile.php?id=61578415106925" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="Facebook">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 							</svg>
@@ -79,14 +79,14 @@
 								<polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor"/>
 							</svg>
 						</a>
-						<a href="https://linkedin.com/company/watchreserve" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="LinkedIn">
+						<a href="https://www.linkedin.com/in/conor-campbell-7a263b384/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="LinkedIn">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 								<rect x="2" y="9" width="4" height="12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 								<circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="1.8"/>
 							</svg>
 						</a>
-						<a href="https://tiktok.com/@thewatchreserve" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="TikTok">
+						<a href="https://www.tiktok.com/@watchreserve.co" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="TikTok">
 							<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 							</svg>
@@ -155,14 +155,14 @@
 
 	<div class="footer-bottom-bar">
 		<div class="footer-bottom-inner">
-			<a href="https://instagram.com/thewatchreserve" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+			<a href="https://www.instagram.com/watchreserve.co/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
 				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/>
 					<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
 					<circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
 				</svg>
 			</a>
-			<a href="https://facebook.com/thewatchreserve" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
+			<a href="https://www.facebook.com/profile.php?id=61578415106925" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
 				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
@@ -173,14 +173,14 @@
 					<polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor"/>
 				</svg>
 			</a>
-			<a href="https://linkedin.com/company/watchreserve" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+			<a href="https://www.linkedin.com/in/conor-campbell-7a263b384/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
 				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 					<rect x="2" y="9" width="4" height="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 					<circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="2"/>
 				</svg>
 			</a>
-			<a href="https://tiktok.com/@thewatchreserve" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">
+			<a href="https://www.tiktok.com/@watchreserve.co" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">
 				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>

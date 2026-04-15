@@ -129,7 +129,7 @@
 		</div>
 
 		<div class="arrivals-footer">
-			<a href="/shop" class="view-all-link">
+			<a href="/collections/new-arrivals" class="view-all-link">
 				View all New Arrivals
 				<span class="view-all-arrow">→</span>
 			</a>

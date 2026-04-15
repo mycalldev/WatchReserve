@@ -746,11 +746,11 @@
 	/* ── LAYOUT ── */
 	.product-page {
 		background-color: #ffffff;
-		padding: 56px 40px 100px;
+		padding: 3px 40px 100px;
 		box-sizing: border-box;
 		width: 100%;
 		max-width: 100%;
-		overflow: hidden;
+		overflow-x: clip;
 	}
 
 	.product-layout {
