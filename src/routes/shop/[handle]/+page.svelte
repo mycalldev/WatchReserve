@@ -9,7 +9,8 @@
 	import ActionSlideOver from '$lib/components/ActionSlideOver.svelte';
 
 	let { data, form } = $props();
-	const { product, relatedProducts } = data;
+	const product = $derived(data.product);
+	const relatedProducts = $derived(data.relatedProducts);
 
 	let activeImageIndex = $state(0);
 	let selectedVariantId = $state(product.variants[0]?.id ?? '');
@@ -19,6 +20,18 @@
 	let thumbsRef = $state(null);
 	let trustpilotEl = $state(null);
 	let locallyReserved = $state(false);
+
+	// Reset local state whenever the product changes (same-route navigation)
+	$effect(() => {
+		void product.id;
+		activeImageIndex = 0;
+		selectedVariantId = product.variants[0]?.id ?? '';
+		quantity = 1;
+		adding = false;
+		added = false;
+		locallyReserved = false;
+		slideOverOpen = false;
+	});
 
 	// ── Slide-over state ────────────────────────────────────────────────────────
 	/** @type {'cart' | 'part-exchange' | 'deposit' | null} */
@@ -746,7 +759,7 @@
 	/* ── LAYOUT ── */
 	.product-page {
 		background-color: #ffffff;
-		padding: 3px 40px 100px;
+		padding: 40px 40px 100px;
 		box-sizing: border-box;
 		width: 100%;
 		max-width: 100%;
