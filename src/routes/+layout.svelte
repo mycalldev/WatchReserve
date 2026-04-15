@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import favicon from '$lib/assets/favicon.svg';
+	const favicon = '/favicon.png';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
@@ -33,7 +33,7 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" type="image/png" href={favicon} />
 </svelte:head>
 
 <div class="announcement-banner">
