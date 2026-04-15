@@ -783,10 +783,7 @@
 	}
 
 	.trust-sep {
-		width: 1px;
-		height: 28px;
-		background: rgba(22, 11, 17, 0.1);
-		flex-shrink: 0;
+		display: none;
 	}
 
 	@media (max-width: 768px) {

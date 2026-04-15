@@ -37,6 +37,18 @@
 		if (canGoPrev) currentIndex -= 1;
 	}
 
+	let touchStartX = 0;
+
+	function handleTouchStart(e) {
+		touchStartX = e.touches[0].clientX;
+	}
+
+	function handleTouchEnd(e) {
+		const delta = touchStartX - e.changedTouches[0].clientX;
+		if (delta > 50) nextSlide();
+		else if (delta < -50) prevSlide();
+	}
+
 	function formatPrice(amount, currencyCode) {
 		return new Intl.NumberFormat('en-GB', {
 			style: 'currency',
@@ -80,7 +92,7 @@
 			</div>
 		</div>
 
-		<div class="carousel-wrapper">
+		<div class="carousel-wrapper" ontouchstart={handleTouchStart} ontouchend={handleTouchEnd}>
 			<div class="carousel-track" style="--index: {currentIndex}">
 				{#each products as product (product.id)}
 					{@const status = product.status?.trim() ?? null}
@@ -226,6 +238,7 @@
 	.carousel-wrapper {
 		width: 100%;
 		overflow: hidden;
+		touch-action: pan-y;
 	}
 
 	.carousel-track {
