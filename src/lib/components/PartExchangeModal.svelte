@@ -22,10 +22,11 @@
 	let submitted = $state(false);
 	let attempted = $state(false);
 
-	let brandRef = $state(null);
-	let modelRef = $state(null);
+	let brandRef  = $state(null);
+	let modelRef  = $state(null);
 	let targetRef = $state(null);
-	let nameRef = $state(null);
+	let nameRef   = $state(null);
+	let modalRef  = $state(null);
 
 	// ── Per-step measured heights for smooth modal-body size animation ─────
 	let h1 = $state(0);
@@ -178,6 +179,13 @@
 		}
 	});
 
+	// Scroll modal back to top on every step change
+	$effect(() => {
+		if (step) {
+			setTimeout(() => modalRef?.scrollTo({ top: 0, behavior: 'instant' }), 0);
+		}
+	});
+
 	$effect(() => {
 		if (typeof document !== 'undefined') {
 			document.body.style.overflow = open ? 'hidden' : '';
@@ -200,6 +208,7 @@
 	<!-- Modal -->
 	<div
 		class="vm-modal"
+		bind:this={modalRef}
 		role="dialog"
 		aria-modal="true"
 		aria-label="Part exchange enquiry"
@@ -1348,8 +1357,22 @@
 
 	/* Responsive */
 	@media (max-width: 520px) {
+		.vm-modal {
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: auto;
+			transform: none;
+			width: 100%;
+			max-height: 100dvh;
+			overflow-y: auto;
+		}
 		.vm-body {
 			padding: 24px 20px 28px;
+			overflow-y: visible;
+		}
+		.vm-body-stack {
+			height: auto !important;
 		}
 		.vm-header {
 			padding: 16px 20px 14px;
