@@ -649,7 +649,7 @@
 		}
 	}
 
-	@media (max-width: 380px) {
+	@media (max-width: 480px) {
 		.products-grid {
 			grid-template-columns: 1fr;
 			gap: 16px;
