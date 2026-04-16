@@ -505,13 +505,13 @@
 			align-items: stretch;
 		}
 
-		/* Row 1: utility strip — icons fill the full width, right-aligned */
+		/* Row 1: utility strip — search fills left, icons sit right */
 		.navbar-right {
 			order: 1;
 			width: 100%;
-			justify-content: flex-end;
+			justify-content: space-between;
 			padding: 8px 20px;
-			gap: 20px;
+			gap: 16px;
 			border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 			background-color: rgba(255, 255, 255, 0.03);
 		}

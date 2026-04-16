@@ -12,8 +12,9 @@
 	let activeIndex  = $state(-1);
 	let dropdownTop  = $state(0);
 
-	let inputRef = $state(null);
-	let rootRef  = $state(null);
+	let inputRef  = $state(null);
+	let rootRef   = $state(null);
+	let smRootRef = $state(null);
 	let searchTimer;
 
 	function formatPrice(n, currency = 'GBP') {
@@ -56,7 +57,8 @@
 	}
 
 	function computeDropdownTop() {
-		const nav = rootRef?.closest('nav');
+		const ref = smRootRef ?? rootRef;
+		const nav = ref?.closest('nav');
 		if (nav) dropdownTop = nav.getBoundingClientRect().bottom;
 	}
 
@@ -110,12 +112,10 @@
 	onMount(() => {
 		document.addEventListener('pointerdown', handlePointerDown);
 		window.addEventListener('scroll', handleScroll, { passive: true });
-		window.addEventListener('resize', computeDropdownTop);
 
 		return () => {
 			document.removeEventListener('pointerdown', handlePointerDown);
 			window.removeEventListener('scroll', handleScroll);
-			window.removeEventListener('resize', computeDropdownTop);
 			clearTimeout(searchTimer);
 		};
 	});
@@ -156,48 +156,43 @@
 	</div>
 </div>
 
-<!-- ── Mobile: collapsible trigger (hidden on desktop via CSS) ───────────── -->
+<!-- ── Mobile: always-visible search bar (hidden on desktop via CSS) ─────── -->
 <div
 	class="search-root sm-root"
+	bind:this={smRootRef}
 	onkeydown={handleKeydown}
 	role="search"
 	aria-label="Search watches"
 >
-	{#if expanded}
-		<div class="search-bar">
-			<svg class="search-bar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-				<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-			</svg>
-			<input
-				bind:this={inputRef}
-				bind:value={query}
-				oninput={handleInput}
-				type="search"
-				placeholder="Search watches…"
-				class="search-input"
-				autocomplete="off"
-				spellcheck="false"
-				aria-label="Search"
-				aria-autocomplete="list"
-				aria-expanded={open}
-				aria-haspopup="listbox"
-			/>
-			{#if loading}
-				<span class="search-spinner" aria-hidden="true"></span>
-			{/if}
-			<button class="search-close-btn" onclick={closeSearch} type="button" aria-label="Close search">
+	<div class="search-bar">
+		<svg class="search-bar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+			<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+		</svg>
+		<input
+			bind:this={inputRef}
+			bind:value={query}
+			oninput={handleInput}
+			onfocus={() => { expanded = true; computeDropdownTop(); }}
+			type="search"
+			placeholder="Search watches…"
+			class="search-input"
+			autocomplete="off"
+			spellcheck="false"
+			aria-label="Search"
+			aria-autocomplete="list"
+			aria-expanded={open}
+			aria-haspopup="listbox"
+		/>
+		{#if loading}
+			<span class="search-spinner" aria-hidden="true"></span>
+		{:else if query.length > 0}
+			<button class="search-close-btn" onclick={closeSearch} type="button" aria-label="Clear search">
 				<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
 					<path d="M18 6L6 18M6 6l12 12"/>
 				</svg>
 			</button>
-		</div>
-	{:else}
-		<button class="search-trigger" onclick={openSearch} type="button" aria-label="Open search">
-			<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-				<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-			</svg>
-		</button>
-	{/if}
+		{/if}
+	</div>
 </div>
 
 <!-- ── Results dropdown panel (fixed, below navbar) ──────────────────────── -->
@@ -389,7 +384,7 @@
 		flex-shrink: 0;
 	}
 
-	/* Mobile root: hidden on desktop */
+	/* Mobile root: hidden on desktop, flex: 1 on mobile to fill strip */
 	.sm-root { display: none; }
 
 	/* ── Mobile trigger button ───────────────────────── */
@@ -416,7 +411,7 @@
 		border: 1px solid rgba(255, 255, 255, 0.25);
 		border-radius: 0;
 		padding: 7px 10px 7px 12px;
-		width: 220px;
+		width: 100%;
 		transition: border-color 0.2s ease, background-color 0.2s ease;
 	}
 
@@ -772,16 +767,15 @@
 		.dropdown-inner { padding: 16px 24px 20px; }
 	}
 
-	/* Tablet: keep inline input but slightly narrower */
+	/* Mobile: swap to always-visible bar */
 	@media (max-width: 768px) {
-		.si-input { width: 110px; }
-		.si-field--active .si-input { width: 160px; }
-	}
-
-	/* Mobile: swap to collapsible trigger */
-	@media (max-width: 640px) {
-		.si-root  { display: none; }
-		.sm-root  { display: flex; align-items: center; }
+		.si-root { display: none; }
+		.sm-root {
+			display: flex;
+			align-items: center;
+			flex: 1;
+			min-width: 0;
+		}
 
 		.results-grid {
 			grid-template-columns: repeat(2, 1fr);
