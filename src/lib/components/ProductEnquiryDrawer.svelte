@@ -29,6 +29,23 @@
 	let submitError   = $state(false);
 	let touched       = $state({});
 
+	// Reset all state when the product changes (same-route navigation reuses this component)
+	$effect(() => {
+		void title;
+		open = false;
+		submitSuccess = false;
+		submitError = false;
+		isSubmitting = false;
+		touched = {};
+		formData = {
+			fullName: '', email: '', phone: '',
+			interest: 'private-viewing', preferredContact: 'email',
+			message: reference
+				? `I am interested in the ${vendor} ${title} (Ref. ${reference}) and would like to learn more.`
+				: `I am interested in the ${vendor} ${title} and would like to learn more.`
+		};
+	});
+
 	const MESSAGE_MAX = 600;
 
 	const interestOptions = [

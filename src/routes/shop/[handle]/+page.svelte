@@ -406,6 +406,16 @@
 					{/each}
 				</div>
 			{/if}
+
+			<!-- Enquiry drawer -->
+			<ProductEnquiryDrawer
+				title={product.title}
+				vendor={product.vendor ?? ''}
+				reference={productReference}
+				price={selectedVariant?.price ?? product.minPrice ?? null}
+				currencyCode={selectedVariant?.currencyCode ?? product.currencyCode ?? 'GBP'}
+				status={productStatus()}
+			/>
 		</div>
 
 		<!-- ── PRODUCT DETAILS ── -->
@@ -621,16 +631,6 @@
 					Secure Payment
 				</div>
 			</div>
-
-			<!-- Enquiry drawer -->
-			<ProductEnquiryDrawer
-				title={product.title}
-				vendor={product.vendor ?? ''}
-				reference={productReference}
-				price={selectedVariant?.price ?? product.minPrice ?? null}
-				currencyCode={selectedVariant?.currencyCode ?? product.currencyCode ?? 'GBP'}
-				status={productStatus()}
-			/>
 
 		</div>
 	</div>
@@ -877,6 +877,11 @@
 	}
 
 	.thumbnails::-webkit-scrollbar { display: none; }
+
+	.gallery :global(.eq-root) {
+		margin-top: 24px;
+		width: 100%;
+	}
 
 	.thumb {
 		flex-shrink: 0;
