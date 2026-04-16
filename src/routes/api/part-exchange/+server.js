@@ -20,6 +20,14 @@ function escapeHtml(v) {
 		.replace(/'/g, '&#39;');
 }
 
+function optionalRow(label, value) {
+	if (!value) return '';
+	return `<tr>
+		<td style="padding:6px 12px 6px 0;color:#6b5c55;width:160px;vertical-align:top;">${label}</td>
+		<td style="color:#160b11;">${escapeHtml(value)}</td>
+	</tr>`;
+}
+
 export async function POST({ request }) {
 	let body;
 	try {
@@ -28,21 +36,42 @@ export async function POST({ request }) {
 		return json({ error: 'Invalid request body.' }, { status: 400 });
 	}
 
-	const name             = clean(body.name);
-	const email            = clean(body.email);
-	const phone            = clean(body.phone);
-	const preferredContact = clean(body.preferredContact) || 'email';
-	const brand            = clean(body.brand);
-	const model            = clean(body.model);
-	const target           = clean(body.target);
+	// Contact fields
+	const name      = clean(body.name);
+	const email     = clean(body.email);
+	const phone     = clean(body.phone);
+
+	// Watch being traded in
+	const brand          = clean(body.brand);
+	const model          = clean(body.model);
+	const reference      = clean(body.reference);
+	const year           = clean(body.year);
+	const condition      = clean(body.condition);
+	const estimatedValue = clean(body.estimatedValue);
+
+	// Watch being purchased (product page context)
+	const targetProduct = clean(body.targetProduct);
+
+	// Source — 'product-page' or 'part-exchange-page'
+	const source = clean(body.source) || 'product-page';
 
 	if (name.length < 2)      return json({ error: 'Full name is required.' },            { status: 400 });
 	if (!isValidEmail(email)) return json({ error: 'A valid email address is required.' }, { status: 400 });
 	if (!brand)               return json({ error: 'Watch brand is required.' },            { status: 400 });
 	if (!model)               return json({ error: 'Watch model is required.' },            { status: 400 });
-	if (!target)              return json({ error: 'Target watch is required.' },           { status: 400 });
 
-	const contactLabel = preferredContact === 'phone' ? 'Phone' : 'Email';
+	const sourceLabel = source === 'part-exchange-page'
+		? 'Part Exchange Page · Exchange Form'
+		: 'Product Page · Part Exchange Slide-Over';
+
+	const conditionMap = {
+		'unworn':    'Unworn / New',
+		'excellent': 'Excellent',
+		'very-good': 'Very Good',
+		'good':      'Good',
+		'fair':      'Fair'
+	};
+	const conditionLabel = conditionMap[condition] || condition;
 
 	const html = `
 <!doctype html>
@@ -52,19 +81,33 @@ export async function POST({ request }) {
 			<tr>
 				<td style="padding:28px 32px;border-bottom:2px solid #a1846d;">
 					<p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#a1846d;font-weight:700;">Watch Reserve</p>
-					<h2 style="margin:6px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">New Part Exchange Request</h2>
+					<h2 style="margin:6px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">New Part Exchange Valuation Request</h2>
 				</td>
 			</tr>
 			<tr>
 				<td style="padding:16px 32px 8px;">
-					<p style="margin:0;display:inline-block;padding:5px 12px;background:#faf0e6;border:1px solid #a1846d;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#a1846d;font-weight:700;">Part Exchange Page · Exchange Form</p>
+					<p style="margin:0;display:inline-block;padding:5px 12px;background:#faf0e6;border:1px solid #a1846d;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#a1846d;font-weight:700;">${escapeHtml(sourceLabel)}</p>
 				</td>
 			</tr>
 
-			<!-- Watch they have -->
+			${targetProduct ? `
+			<!-- Watch being purchased -->
+			<tr>
+				<td style="padding:16px 32px 8px;border-top:1px solid #e5e5e5;">
+					<h3 style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:#a1846d;font-weight:700;">Part Exchange Towards</h3>
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size:14px;line-height:1.75;">
+						<tr>
+							<td style="padding:6px 12px 6px 0;color:#6b5c55;width:160px;vertical-align:top;">Target Watch</td>
+							<td style="color:#160b11;font-weight:600;">${escapeHtml(targetProduct)}</td>
+						</tr>
+					</table>
+				</td>
+			</tr>` : ''}
+
+			<!-- Watch being traded in -->
 			<tr>
 				<td style="padding:20px 32px 8px;border-top:1px solid #e5e5e5;">
-					<h3 style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:#a1846d;font-weight:700;">Watch to Exchange</h3>
+					<h3 style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:#a1846d;font-weight:700;">Watch to Trade In</h3>
 					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size:14px;line-height:1.75;">
 						<tr>
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;width:160px;vertical-align:top;">Brand</td>
@@ -74,19 +117,13 @@ export async function POST({ request }) {
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Model</td>
 							<td style="color:#160b11;">${escapeHtml(model)}</td>
 						</tr>
-					</table>
-				</td>
-			</tr>
-
-			<!-- Watch they want -->
-			<tr>
-				<td style="padding:16px 32px 8px;border-top:1px solid #e5e5e5;">
-					<h3 style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:#a1846d;font-weight:700;">Target Watch</h3>
-					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size:14px;line-height:1.75;">
-						<tr>
-							<td style="padding:6px 12px 6px 0;color:#6b5c55;width:160px;vertical-align:top;">Desired Watch</td>
-							<td style="color:#160b11;font-weight:600;">${escapeHtml(target)}</td>
-						</tr>
+						${optionalRow('Reference', reference)}
+						${optionalRow('Year', year)}
+						${condition ? `<tr>
+							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Condition</td>
+							<td style="color:#160b11;">${escapeHtml(conditionLabel)}</td>
+						</tr>` : ''}
+						${optionalRow('Est. Value', estimatedValue)}
 					</table>
 				</td>
 			</tr>
@@ -108,49 +145,62 @@ export async function POST({ request }) {
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Phone</td>
 							<td><a href="tel:${escapeHtml(phone)}" style="color:#a1846d;text-decoration:none;">${escapeHtml(phone)}</a></td>
 						</tr>` : ''}
-						<tr>
-							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Preferred Contact</td>
-							<td style="color:#160b11;">${escapeHtml(contactLabel)}</td>
-						</tr>
 					</table>
 				</td>
 			</tr>
 
 			<tr>
 				<td style="padding:16px 32px;background:#faf8f6;border-top:1px solid #e5e5e5;font-size:11px;color:#6b5c55;text-align:center;">
-					Submitted via the Part Exchange page · Reply directly to respond to the client.
+					Submitted via Watch Reserve · Reply directly to respond to the client.
 				</td>
 			</tr>
 		</table>
 	</body>
 </html>`.trim();
 
-	const text = [
-		'New Part Exchange Request — Watch Reserve',
-		'Source: Part Exchange Page · Exchange Form',
+	const textLines = [
+		'New Part Exchange Valuation Request — Watch Reserve',
+		`Source: ${sourceLabel}`,
 		'',
-		'WATCH TO EXCHANGE',
-		`Brand:         ${brand}`,
-		`Model:         ${model}`,
-		'',
-		'TARGET WATCH',
-		`Desired Watch: ${target}`,
+	];
+
+	if (targetProduct) {
+		textLines.push('PART EXCHANGE TOWARDS', `Target Watch: ${targetProduct}`, '');
+	}
+
+	textLines.push(
+		'WATCH TO TRADE IN',
+		`Brand:     ${brand}`,
+		`Model:     ${model}`,
+	);
+	if (reference)      textLines.push(`Reference: ${reference}`);
+	if (year)           textLines.push(`Year:      ${year}`);
+	if (condition)      textLines.push(`Condition: ${conditionLabel}`);
+	if (estimatedValue) textLines.push(`Est Value: ${estimatedValue}`);
+
+	textLines.push(
 		'',
 		'CONTACT DETAILS',
-		`Full Name:         ${name}`,
-		`Email:             ${email}`,
-		phone ? `Phone:             ${phone}` : null,
-		`Preferred Contact: ${contactLabel}`,
-		'',
-		'— Submitted via the Watch Reserve part exchange page'
-	].join('\n');
+		`Full Name: ${name}`,
+		`Email:     ${email}`,
+	);
+	if (phone) textLines.push(`Phone:     ${phone}`);
+
+	textLines.push('', '— Submitted via Watch Reserve');
+
+	const text = textLines.join('\n');
+
+	const subjectWatch = reference ? `${brand} ${model} (Ref. ${reference})` : `${brand} ${model}`;
+	const subject = targetProduct
+		? `Part Exchange · ${subjectWatch} towards ${targetProduct} · ${name}`
+		: `Part Exchange Valuation · ${subjectWatch} · ${name}`;
 
 	try {
 		const { error } = await resend.emails.send({
 			from: FROM,
 			to: [TO],
 			replyTo: email,
-			subject: `Part Exchange · ${brand} ${model} for ${target} · ${name}`,
+			subject,
 			html,
 			text
 		});

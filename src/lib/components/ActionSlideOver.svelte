@@ -101,6 +101,7 @@
 	let pxTouched = $state({});
 	let pxSubmitting = $state(false);
 	let pxSuccess = $state(false);
+	let pxError = $state('');
 
 	const conditionOptions = [
 		{ value: '', label: 'Select condition…' },
@@ -130,16 +131,45 @@
 		e.preventDefault();
 		pxTouched = { brand: true, model: true, condition: true, fullName: true, email: true };
 		if (!pxCanSubmit) return;
+
 		pxSubmitting = true;
-		await new Promise(r => setTimeout(r, 1200));
-		pxSubmitting = false;
-		pxSuccess = true;
+		pxError = '';
+
+		try {
+			const res = await fetch('/api/part-exchange', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name:          pxForm.fullName,
+					email:         pxForm.email,
+					phone:         pxForm.phone,
+					brand:         pxForm.brand,
+					model:         pxForm.model,
+					reference:     pxForm.reference,
+					year:          pxForm.year,
+					condition:     pxForm.condition,
+					estimatedValue: pxForm.estimatedValue,
+					targetProduct: productVendor ? `${productVendor} ${productTitle}` : productTitle,
+					source:        'product-page'
+				})
+			});
+
+			const data = await res.json().catch(() => ({}));
+			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed');
+
+			pxSuccess = true;
+		} catch (err) {
+			pxError = err?.message || 'Something went wrong — please try again.';
+		} finally {
+			pxSubmitting = false;
+		}
 	}
 
 	function resetPx() {
 		pxForm = { brand: '', model: '', reference: '', year: '', condition: '', estimatedValue: '', fullName: '', email: '', phone: '' };
 		pxTouched = {};
 		pxSuccess = false;
+		pxError = '';
 	}
 
 	// ── DEPOSIT FORM ───────────────────────────────────────────────────────────
@@ -539,6 +569,10 @@
 							<p class="so-privacy">
 								By submitting you agree to our <a href="/privacy-policy" class="so-privacy-link">Privacy Policy</a>.
 							</p>
+
+							{#if pxError}
+								<p class="so-error-msg" role="alert">{pxError}</p>
+							{/if}
 
 							<button type="submit" class="so-btn so-btn--primary" disabled={pxSubmitting}>
 								{#if pxSubmitting}
@@ -1571,6 +1605,18 @@
 		margin: 2px 0;
 	}
 
+
+	.so-error-msg {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8125rem;
+		color: #8b2635;
+		background-color: #fff5f5;
+		border: 1px solid rgba(139, 38, 53, 0.18);
+		border-left: 3px solid #c94040;
+		padding: 10px 14px;
+		margin: 0;
+		line-height: 1.5;
+	}
 
 	/* ── Responsive ── */
 	@media (max-width: 520px) {
