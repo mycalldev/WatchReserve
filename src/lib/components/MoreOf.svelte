@@ -3,6 +3,17 @@
 
 	let currentIndex = $state(0);
 	let trackRef = $state(null);
+	let touchStartX = 0;
+
+	function handleTouchStart(e) {
+		touchStartX = e.touches[0].clientX;
+	}
+
+	function handleTouchEnd(e) {
+		const delta = touchStartX - e.changedTouches[0].clientX;
+		if (delta > 50) next();
+		else if (delta < -50) prev();
+	}
 
 	// How many cards visible depends on viewport — computed per slide step
 	const visibleCount = $derived(() => {
@@ -79,7 +90,7 @@
 		</div>
 
 		<!-- Carousel -->
-		<div class="moreof-viewport" role="region" aria-label="{vendor} timepieces carousel">
+		<div class="moreof-viewport" role="region" aria-label="{vendor} timepieces carousel" ontouchstart={handleTouchStart} ontouchend={handleTouchEnd}>
 			<div
 				class="moreof-track"
 				bind:this={trackRef}
@@ -260,6 +271,7 @@
 	.moreof-viewport {
 		width: 100%;
 		overflow: hidden;
+		touch-action: pan-y;
 	}
 
 	.moreof-track {
@@ -528,9 +540,9 @@
 		.mo-card {
 			flex: 0 0 85vw;
 		}
-		/* On mobile, show dots but hide prev/next since swipe is natural */
+		/* On mobile, swipe replaces prev/next buttons */
 		.moreof-controls {
-			display: flex;
+			display: none;
 		}
 	}
 </style>
