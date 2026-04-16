@@ -556,6 +556,7 @@
 		max-width: 600px;
 		width: 100%;
 		padding-left: 40px;
+		box-sizing: border-box;
 	}
 
 	.hero-headline {
@@ -616,6 +617,7 @@
 
 		.hero-content {
 			padding-left: 20px;
+			padding-right: 20px;
 		}
 
 		.hero-headline {
@@ -629,7 +631,11 @@
 		.hero-actions {
 			flex-direction: column;
 			align-items: flex-start;
-			width: 100%;
+		}
+
+		.hero-actions :global(.button) {
+			box-sizing: border-box;
+			max-width: 240px;
 		}
 	}
 
@@ -644,6 +650,7 @@
 
 		.hero-content {
 			padding-left: 20px;
+			padding-right: 20px;
 		}
 	}
 

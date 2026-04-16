@@ -94,7 +94,7 @@
 		</div>
 
 		<button
-			class="burger-menu mobile-only"
+			class="burger-menu"
 			onclick={toggleMenu}
 			aria-label="Toggle menu"
 			aria-expanded={isMenuOpen}
@@ -203,20 +203,17 @@
 		flex-shrink: 0;
 	}
 
-	.mobile-only {
-		display: none;
-	}
-
 	.burger-menu {
+		display: none;
+		flex-direction: column;
+		justify-content: space-around;
 		background: none;
 		border: none;
 		cursor: pointer;
 		padding: 8px;
-		flex-direction: column;
-		justify-content: space-around;
-		width: 32px;
-		height: 32px;
-		gap: 5px;
+		width: 40px;
+		height: 40px;
+		box-sizing: border-box;
 		z-index: 1001;
 		position: relative;
 	}
@@ -494,30 +491,6 @@
 	}
 
 	@media (max-width: 768px) {
-		.navbar-container {
-			padding: 12px 20px;
-			gap: 20px;
-		}
-
-		.nav-links {
-			gap: 16px;
-		}
-
-		.nav-links a {
-			font-size: 12px;
-		}
-
-		.contact-btn {
-			padding: 8px 16px;
-			font-size: 12px;
-		}
-
-		.logo {
-			height: 32px;
-		}
-	}
-
-	@media (max-width: 640px) {
 		.navbar {
 			position: sticky;
 			top: 0;
@@ -552,17 +525,18 @@
 		}
 
 		.burger-menu {
+			display: flex;
 			order: 3;
-			padding: 12px 20px 12px 0;
+			width: 44px;
+			height: 44px;
+			padding: 10px;
+			box-sizing: border-box;
 			align-self: center;
+			margin-right: 16px;
 		}
 
 		.nav-links {
 			display: none;
-		}
-
-		.mobile-only {
-			display: flex;
 		}
 
 		.logo {
