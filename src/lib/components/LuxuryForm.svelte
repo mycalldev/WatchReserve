@@ -14,6 +14,7 @@
 	let submitSuccess = $state(false);
 	let submitError   = $state(false);
 	let touched       = $state({});
+	let wrapRef       = $state(null);
 
 	const MESSAGE_MAX = 600;
 
@@ -78,7 +79,7 @@
 			submitSuccess = true;
 			formData = { fullName: '', email: '', phone: '', interest: '', preferredContact: 'email', message: '' };
 			touched = {};
-			setTimeout(() => { submitSuccess = false; }, 6000);
+			setTimeout(() => wrapRef?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
 		} catch {
 			submitError = true;
 		} finally {
@@ -87,7 +88,7 @@
 	}
 </script>
 
-<div class="lf-wrap">
+<div class="lf-wrap" bind:this={wrapRef}>
 
 	<!-- Form header accent -->
 	<div class="lf-head">
@@ -98,16 +99,17 @@
 	{#if submitSuccess}
 		<div class="lf-success" role="status" aria-live="polite">
 			<div class="lf-success-icon" aria-hidden="true">
-				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M20 6L9 17l-5-5"/>
+				<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+					<polyline points="20 6 9 17 4 12"/>
 				</svg>
 			</div>
-			<div>
-				<p class="lf-success-title">Message received</p>
-				<p class="lf-success-body">Thank you — a member of the Watch Reserve team will be in touch shortly.</p>
-			</div>
+			<h3 class="lf-success-title">Enquiry Received</h3>
+			<p class="lf-success-body">Thank you — a member of the Watch Reserve team will be in touch shortly.</p>
+			<button type="button" class="lf-success-btn" onclick={() => { submitSuccess = false; }}>
+				Send Another Enquiry
+			</button>
 		</div>
-	{/if}
+	{:else}
 
 	<form class="lf-form" onsubmit={handleSubmit} novalidate>
 
@@ -331,6 +333,7 @@
 		</button>
 
 	</form>
+	{/if}
 </div>
 
 <style>
@@ -703,22 +706,21 @@
 	/* ── Success state ── */
 	.lf-success {
 		display: flex;
-		align-items: flex-start;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
 		gap: 16px;
-		background-color: #f4f9f5;
-		border: 1px solid rgba(34, 160, 90, 0.22);
-		border-left: 3px solid #22a05a;
-		padding: 20px 24px;
-		margin-bottom: 28px;
+		padding: 48px 24px;
 		animation: slideDown 0.3s ease;
 	}
 
 	.lf-success-icon {
 		flex-shrink: 0;
-		width: 36px;
-		height: 36px;
-		background-color: #22a05a;
+		width: 64px;
+		height: 64px;
+		background-color: #a1846d;
 		color: #ffffff;
+		border-radius: 50%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -726,18 +728,44 @@
 
 	.lf-success-title {
 		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: 1rem;
+		font-size: 1.5rem;
 		font-weight: 400;
-		color: #1a4a2e;
-		margin: 0 0 4px 0;
+		color: #160b11;
+		margin: 0;
+		letter-spacing: -0.01em;
 	}
 
 	.lf-success-body {
 		font-family: 'Montserrat', sans-serif;
-		font-size: 0.875rem;
-		color: rgba(26, 74, 46, 0.8);
+		font-size: 0.9375rem;
+		color: rgba(22, 11, 17, 0.6);
 		margin: 0;
-		line-height: 1.5;
+		line-height: 1.65;
+		max-width: 360px;
+	}
+
+	.lf-success-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		margin-top: 8px;
+		padding: 12px 28px;
+		background: none;
+		border: 1px solid rgba(22, 11, 17, 0.2);
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #160b11;
+		cursor: pointer;
+		transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+	}
+
+	.lf-success-btn:hover {
+		background-color: #160b11;
+		border-color: #160b11;
+		color: #ffffff;
 	}
 
 	/* ── Submit button ── */
