@@ -273,6 +273,8 @@
 		align-items: center;
 		gap: 6px;
 		overflow-x: auto;
+		flex-wrap: nowrap;
+		-webkit-overflow-scrolling: touch;
 		scrollbar-width: none;
 		-ms-overflow-style: none;
 	}
@@ -614,6 +616,7 @@
 
 		.brand-bar-inner {
 			padding: 0 16px;
+			padding-right: 16px;
 		}
 
 		.brand-pill {
