@@ -472,9 +472,9 @@
 							</div>
 							<h3 class="so-success-title">Enquiry Submitted</h3>
 							<p class="so-success-body">Thank you — a Watch Reserve specialist will assess your watch and contact you within 24 hours with a valuation.</p>
-							<button class="so-btn so-btn--outline so-btn--sm" onclick={resetPx} type="button">
-								Submit Another
-							</button>
+							<a href="/" class="so-btn so-btn--outline so-btn--sm">
+								Visit Home
+							</a>
 						</div>
 					{:else}
 						<!-- Product being purchased context -->
