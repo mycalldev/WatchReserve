@@ -97,14 +97,14 @@
 			>
 				All
 			</button>
+			<a href="/collections/new-arrivals" class="brand-pill brand-pill-link">
+				New Arrivals
+			</a>
 			{#each FEATURED_BRANDS() as brand}
 				<a href="/collections/{brand.handle}" class="brand-pill brand-pill-link">
 					{brand.label}
 				</a>
 			{/each}
-			<a href="/collections/new-arrivals" class="brand-pill brand-pill-link">
-				New Arrivals
-			</a>
 			<a href="/collections/curated-editions" class="brand-pill brand-pill-link">
 				Curated Editions
 			</a>
@@ -263,6 +263,10 @@
 	.brand-bar {
 		background-color: #ffffff;
 		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+		position: sticky;
+		top: 73px;
+		z-index: 100;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 	}
 
 	.brand-bar-inner {
@@ -606,6 +610,12 @@
 		.products-grid {
 			grid-template-columns: repeat(2, 1fr);
 			gap: 18px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.brand-bar {
+			top: 90px;
 		}
 	}
 

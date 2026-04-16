@@ -679,7 +679,7 @@
 		.model-pill { flex-shrink: 0; }
 	}
 
-	@media (max-width: 380px) {
+	@media (max-width: 500px) {
 		.products-grid { grid-template-columns: 1fr; gap: 16px; }
 	}
 </style>
