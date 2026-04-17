@@ -10,6 +10,14 @@
 	let trustpilotEl = $state(null);
 
 	onMount(() => {
+		// Superchat widget
+		const superchatScript = document.createElement('script');
+		superchatScript.src = 'https://widget.superchat.de/snippet.js?applicationKey=WCY5qZneKNvrMNKz9GzgD6QbXa';
+		superchatScript.referrerPolicy = 'no-referrer-when-downgrade';
+		superchatScript.async = true;
+		document.body.appendChild(superchatScript);
+
+		// Trustpilot widget
 		const SRC = 'https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js';
 
 		function initWidget() {
