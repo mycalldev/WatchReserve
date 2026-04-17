@@ -316,14 +316,43 @@
 		depPaymentElement = null;
 	}
 
-	// Init Stripe when reaching payment step
-	$effect(() => {
-		if (type === 'deposit' && open && depStep === 2 && !depClientSecret && !depStripeLoading) {
-			initDepositStripe();
-		}
-	});
+	// Stripe initialisation deferred — KYC step active at depStep 2
 
-	// Reset Stripe state when drawer closes
+	let depKycSubmitting = $state(false);
+	let depKycError = $state('');
+
+	async function submitKycDeposit() {
+		if (depKycSubmitting) return;
+		depKycSubmitting = true;
+		depKycError = '';
+
+		try {
+			const res = await fetch('/api/kyc-deposit', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					fullName: depForm.fullName,
+					email: depForm.email,
+					phone: depForm.phone,
+					notes: depForm.notes,
+					productTitle: product?.title ?? '',
+					productVendor: product?.vendor ?? '',
+					depositAmount: depositAmount ?? ''
+				})
+			});
+
+			const data = await res.json().catch(() => ({}));
+			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed.');
+
+			depStep = 3;
+		} catch (err) {
+			depKycError = err?.message || 'Something went wrong. Please try again.';
+		} finally {
+			depKycSubmitting = false;
+		}
+	}
+
+	// Reset deposit state when drawer closes
 	$effect(() => {
 		if (!open) {
 			depClientSecret = '';
@@ -331,6 +360,7 @@
 			depElements = null;
 			depPaymentElement = null;
 			depPaymentMessage = '';
+			depKycError = '';
 			if (depStep !== 1) depStep = 1;
 		}
 	});
@@ -706,7 +736,7 @@
 							</p>
 
 							<button type="submit" class="so-btn so-btn--primary">
-								Continue to Payment
+								Continue
 								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 									<path d="M5 12h14M12 5l7 7-7 7"/>
 								</svg>
@@ -715,7 +745,7 @@
 						</form>
 					{/if}
 
-					<!-- Step 2: Payment — kept in DOM for Stripe element lifecycle -->
+					<!-- Step 2: KYC placeholder -->
 					<div hidden={depStep !== 2}>
 						<!-- Mini product summary -->
 						<div class="dep-payment-header">
@@ -724,7 +754,7 @@
 								<span class="dep-payment-summary-item">{productVendor} {productTitle}</span>
 							</div>
 							<div class="dep-payment-amount-row">
-								<span class="dep-payment-amount-label">Amount due today</span>
+								<span class="dep-payment-amount-label">10% Deposit</span>
 								<span class="dep-payment-amount-val">{#if depositAmount}{depositAmount}{:else}10% of price{/if}</span>
 							</div>
 							<p class="dep-payment-balance-note">
@@ -732,38 +762,36 @@
 							</p>
 						</div>
 
-						<div class="so-section-head">
-							<span class="so-section-eyebrow">Payment</span>
-							<div class="so-section-rule"></div>
+						<div class="dep-kyc-block">
+							<div class="dep-kyc-icon" aria-hidden="true">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
+								</svg>
+							</div>
+							<div class="dep-kyc-copy">
+								<p class="dep-kyc-heading">Identity Verification Required</p>
+								<p class="dep-kyc-body">
+									As a regulated luxury goods dealer, Watch Reserve is required to carry out a brief Know Your Customer check before processing your deposit. A member of our team will contact you immediately at <strong>{depForm.email}</strong> or on <strong>{depForm.phone}</strong> to facilitate this.
+								</p>
+							</div>
 						</div>
 
-						<!-- Stripe loading state -->
-						{#if depStripeLoading}
-							<div class="dep-stripe-loading">
-								<span class="so-spinner" aria-hidden="true"></span>
-								<span>Loading secure payment form…</span>
-							</div>
-						{/if}
-
-						<!-- Stripe Payment Element -->
-						<div id="dep-stripe-payment-element" class="dep-stripe-element"></div>
-
-						{#if depPaymentMessage}
-							<p class="dep-payment-error">{depPaymentMessage}</p>
+						{#if depKycError}
+							<p class="dep-payment-error">{depKycError}</p>
 						{/if}
 
 						<div class="dep-payment-actions">
 							<button
 								class="so-btn so-btn--primary"
-								onclick={confirmDeposit}
-								disabled={depConfirming || depStripeLoading}
+								onclick={submitKycDeposit}
+								disabled={depKycSubmitting}
 								type="button"
 							>
-								{#if depConfirming}
+								{#if depKycSubmitting}
 									<span class="so-spinner" aria-hidden="true"></span>
-									Processing…
+									Sending…
 								{:else}
-									Pay {#if depositAmount}{depositAmount}{:else}Deposit{/if}
+									Submit Request
 									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 										<path d="M5 12h14M12 5l7 7-7 7"/>
 									</svg>
@@ -772,18 +800,11 @@
 							<button
 								class="so-btn so-btn--ghost"
 								onclick={() => (depStep = 1)}
-								disabled={depConfirming}
+								disabled={depKycSubmitting}
 								type="button"
 							>
 								Back
 							</button>
-						</div>
-
-						<div class="dep-secure-note">
-							<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
-							</svg>
-							Payments are encrypted and processed securely via Stripe.
 						</div>
 					</div>
 
@@ -795,12 +816,12 @@
 									<polyline points="20 6 9 17 4 12"/>
 								</svg>
 							</div>
-							<h3 class="so-success-title">Deposit Received</h3>
+							<h3 class="so-success-title">Request Received</h3>
 							<p class="so-success-body">
-								Your {#if depositAmount}{depositAmount}{:else}deposit{/if} deposit has been processed. This timepiece is now reserved in your name for 7 days. A confirmation has been sent to {depForm.email}.
+								Thank you, {depForm.fullName}. A Watch Reserve specialist will contact you at <strong>{depForm.email}</strong> or on <strong>{depForm.phone}</strong> immediately to complete your identity verification and arrange your deposit payment.
 							</p>
 							<p class="so-success-body" style="margin-top: 8px; font-size: 13px;">
-								A Watch Reserve specialist will be in touch to arrange collection or delivery and collect the balance of {#if balanceAmount}{balanceAmount}{:else}the remaining amount{/if}.
+								Once your deposit of {#if depositAmount}{depositAmount}{:else}10%{/if} is confirmed, this timepiece will be reserved in your name for 7 days.
 							</p>
 							<button class="so-btn so-btn--outline so-btn--sm" onclick={onclose} type="button">
 								Close
@@ -1639,6 +1660,52 @@
 
 	@media (max-width: 380px) {
 		.so-title { font-size: 0.9375rem; }
+	}
+
+	/* Deposit KYC step */
+	.dep-kyc-block {
+		display: flex;
+		align-items: flex-start;
+		gap: 14px;
+		padding: 18px;
+		border: 1px solid rgba(161, 132, 109, 0.2);
+		background: #faf7f2;
+		margin-bottom: 20px;
+	}
+
+	.dep-kyc-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		background: rgba(161, 132, 109, 0.12);
+		color: #a1846d;
+		flex-shrink: 0;
+	}
+
+	.dep-kyc-copy {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.dep-kyc-heading {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #160b11;
+		margin: 0;
+	}
+
+	.dep-kyc-body {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.825rem;
+		line-height: 1.65;
+		color: rgba(22, 11, 17, 0.6);
+		margin: 0;
 	}
 
 	/* Deposit payment step */

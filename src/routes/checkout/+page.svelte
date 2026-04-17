@@ -51,6 +51,8 @@
 	let errors = $state({});
 	let placing = $state(false);
 	let orderComplete = $state(false);
+	let kycSubmitting = $state(false);
+	let kycError = $state('');
 
 	// Stripe state
 	let stripe = $state(null);
@@ -171,11 +173,40 @@
 		}
 	});
 
-	$effect(() => {
-		if (step === 3 && !clientSecret && !stripeLoading) {
-			initializeStripePayment();
+	// Stripe initialisation deferred — KYC step active at step 3
+
+	async function submitKycCheckout() {
+		if (kycSubmitting) return;
+		kycSubmitting = true;
+		kycError = '';
+
+		try {
+			const res = await fetch('/api/kyc-checkout', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					firstName: contact.firstName.trim(),
+					lastName: contact.lastName.trim(),
+					email: contact.email.trim(),
+					phone: shipping.phone.trim(),
+					address1: shipping.address1.trim(),
+					address2: shipping.address2?.trim() || '',
+					city: shipping.city.trim(),
+					postcode: shipping.postcode.trim(),
+					country: shipping.country
+				})
+			});
+
+			const data = await res.json().catch(() => ({}));
+			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed.');
+
+			orderComplete = true;
+		} catch (err) {
+			kycError = err?.message || 'Something went wrong. Please try again.';
+		} finally {
+			kycSubmitting = false;
 		}
-	});
+	}
 
 	function persistCustomer() {
 		try {
@@ -371,9 +402,8 @@
 					Thank you{greetingName ? `, ${greetingName}` : ''}.
 				</h1>
 				<p class="complete-body">
-					Your order has been received. A confirmation will be on its way to
-					<strong>{contact.email}</strong> shortly. One of our specialists will contact you to
-					arrange insured delivery of your timepiece.
+					Your enquiry has been received. A member of our team will be in touch at
+					<strong>{contact.email}</strong>{#if shipping.phone} or on <strong>{shipping.phone}</strong>{/if} shortly to complete your verification and arrange secure payment.
 				</p>
 				<a href="/shop" class="empty-cta">Continue Browsing</a>
 			</div>
@@ -393,16 +423,10 @@
 								<span class="step-label">Shipping</span>
 							</button>
 						</li>
-						<li class="step" class:active={step === 3} class:done={step > 3}>
+						<li class="step" class:active={step === 3}>
 							<button type="button" class="step-button" onclick={() => goToStep(3)}>
 								<span class="step-number">3</span>
-								<span class="step-label">Payment</span>
-							</button>
-						</li>
-						<li class="step" class:active={step === 4}>
-							<button type="button" class="step-button" onclick={() => goToStep(4)}>
-								<span class="step-number">4</span>
-								<span class="step-label">Review</span>
+								<span class="step-label">Next Steps</span>
 							</button>
 						</li>
 					</ol>
@@ -607,153 +631,48 @@
 						<div class="step-actions">
 							<button type="button" class="btn btn-ghost" onclick={prevStep}>Back</button>
 							<button type="button" class="btn btn-primary" onclick={nextStep}>
-								Continue to Payment
+								Continue to Next Steps
 							</button>
 						</div>
 					</div>
 
 					<div class="step-panel" hidden={step !== 3}>
-						<h2 class="panel-title">Payment</h2>
-						<p class="panel-intro">
-							Your payment details are encrypted and processed securely by Stripe. Watch Reserve
-							never stores your card information.
-						</p>
-
-						{#if stripeLoading && !clientSecret}
-							<div class="stripe-loading">
-								<div class="stripe-spinner" aria-hidden="true"></div>
-								<p>Loading secure payment form...</p>
-							</div>
-						{/if}
-
-						<div id="stripe-payment-element" class="stripe-mount"></div>
-
-						{#if paymentMessage && step === 3}
-							<p class="payment-message">{paymentMessage}</p>
-						{/if}
-
-						<div class="trust-row">
-							<span class="trust-item">
-								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" /></svg>
-								256-bit SSL Encryption
-							</span>
-							<span class="trust-item">
-								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 9 18l-5-5" /></svg>
-								PCI DSS Compliant
-							</span>
-						</div>
-
-						<div class="step-actions">
-							<button type="button" class="btn btn-ghost" onclick={prevStep}>Back</button>
-							<button
-								type="button"
-								class="btn btn-primary"
-								onclick={nextStep}
-								disabled={!clientSecret}
-							>
-								Review Order
-							</button>
-						</div>
-					</div>
-
-					<div class="step-panel" hidden={step !== 4}>
 						<h2 class="panel-title">
 							{#if greetingName}
 								Almost there, {greetingName}.
 							{:else}
-								Review your order
+								Next Steps
 							{/if}
 						</h2>
 						<p class="panel-intro">
-							{#if greetingName}
-								Please take a moment to confirm everything is correct before we process your
-								order.
-							{:else}
-								Please confirm the details below before placing your order.
-							{/if}
+							Before we can process your payment, Watch Reserve requires a brief identity verification in line with our Know Your Customer obligations. A member of our team will contact you immediately by phone or email to facilitate this and arrange secure payment.
 						</p>
 
-						<div class="review-grid">
-							<div class="review-card">
-								<div class="review-card-head">
-									<span class="review-card-label">Contact</span>
-									<button type="button" class="review-edit" onclick={() => goToStep(1)}>Edit</button>
-								</div>
-								<p class="review-line">{contact.firstName} {contact.lastName}</p>
-								<p class="review-line muted">{contact.email}</p>
+						<div class="kyc-block">
+							<div class="kyc-icon" aria-hidden="true">
+								<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z" />
+								</svg>
 							</div>
-
-							<div class="review-card">
-								<div class="review-card-head">
-									<span class="review-card-label">Shipping</span>
-									<button type="button" class="review-edit" onclick={() => goToStep(2)}>Edit</button>
-								</div>
-								<p class="review-line">{shipping.address1}</p>
-								{#if shipping.address2}
-									<p class="review-line">{shipping.address2}</p>
-								{/if}
-								<p class="review-line muted">{shipping.city}, {shipping.postcode}</p>
-								<p class="review-line muted">{shipping.country}</p>
-								{#if shipping.phone}
-									<p class="review-line muted">{shipping.phone}</p>
-								{/if}
-							</div>
-
-							<div class="review-card">
-								<div class="review-card-head">
-									<span class="review-card-label">Billing</span>
-									<button type="button" class="review-edit" onclick={() => goToStep(2)}>Edit</button>
-								</div>
-								{#if billingSameAsShipping}
-									<p class="review-line muted">Same as shipping address</p>
-								{:else}
-									<p class="review-line">{billing.address1}</p>
-									{#if billing.address2}
-										<p class="review-line">{billing.address2}</p>
-									{/if}
-									<p class="review-line muted">{billing.city}, {billing.postcode}</p>
-									<p class="review-line muted">{billing.country}</p>
-								{/if}
-							</div>
-
-							<div class="review-card">
-								<div class="review-card-head">
-									<span class="review-card-label">Payment</span>
-									<button type="button" class="review-edit" onclick={() => goToStep(3)}>Edit</button>
-								</div>
-								<p class="review-line">Secured by Stripe</p>
-								<p class="review-line muted">Card details confirmed at payment step</p>
+							<div class="kyc-copy">
+								<p class="kyc-heading">Identity Verification Required</p>
+								<p class="kyc-body">
+									We'll reach out to you at <strong>{contact.email}</strong>{#if shipping.phone} or on <strong>{shipping.phone}</strong>{/if} to complete verification. This is a standard step for all Watch Reserve transactions.
+								</p>
 							</div>
 						</div>
 
-						{#if priceChanged}
-							<div class="price-changed-notice" role="alert">
-								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-								The price of this item was updated while you were checking out. The total has been adjusted to {formatMoney(verifiedTotal)}.
-							</div>
-						{/if}
-
-						{#if paymentMessage && step === 4}
-							<p class="payment-message">{paymentMessage}</p>
+						{#if kycError}
+							<p class="payment-message">{kycError}</p>
 						{/if}
 
 						<div class="step-actions">
-							<button type="button" class="btn btn-ghost" onclick={prevStep} disabled={placing}>
-								Back
-							</button>
-							<button
-								type="button"
-								class="btn btn-primary btn-large"
-								onclick={placeOrder}
-								disabled={placing || !clientSecret}
-							>
-								{#if placing}
-									Processing...
+							<button type="button" class="btn btn-ghost" onclick={prevStep} disabled={kycSubmitting}>Back</button>
+							<button type="button" class="btn btn-primary" onclick={submitKycCheckout} disabled={kycSubmitting}>
+								{#if kycSubmitting}
+									Sending…
 								{:else}
-									{greetingName ? `Place Order, ${greetingName}` : 'Place Order'}
-									{#if displayTotal}
-										<span class="btn-amount">{formatMoney(displayTotal)}</span>
-									{/if}
+									Submit Request
 								{/if}
 							</button>
 						</div>
@@ -1397,6 +1316,50 @@
 		margin-right: 8px;
 		color: #a1846d;
 		font-weight: 600;
+	}
+
+	/* KYC step */
+	.kyc-block {
+		display: flex;
+		align-items: flex-start;
+		gap: 18px;
+		padding: 24px;
+		border: 1px solid #ece7df;
+		background: #faf7f2;
+		margin-bottom: 28px;
+	}
+
+	.kyc-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		background: #f4efe7;
+		color: #a1846d;
+		flex-shrink: 0;
+	}
+
+	.kyc-copy {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.kyc-heading {
+		font-size: 0.78rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #160b11;
+		margin: 0;
+	}
+
+	.kyc-body {
+		font-size: 0.9rem;
+		line-height: 1.65;
+		color: #6a5f58;
+		margin: 0;
 	}
 
 	/* Empty state */
