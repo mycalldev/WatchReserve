@@ -203,6 +203,10 @@
 				<path d="M12 5v14M5 12l7 7 7-7"/>
 			</svg>
 		</button>
+		<p class="hero-stock">
+			<span class="hero-stock-dot" aria-hidden="true"></span>
+			<strong>In Stock: 1</strong>
+		</p>
 	</div>
 
 	<div class="hero-dots" aria-hidden="true">
@@ -316,6 +320,12 @@
 		</div>
 
 		<div class="gallery-text">
+			<button class="reserve-cta" onclick={scrollToForm}>
+				Reserve This Watch
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<path d="M12 5v14M5 12l7 7 7-7"/>
+				</svg>
+			</button>
 			<p class="content-eyebrow">About This Timepiece</p>
 			<h3 class="gallery-text-heading">A Masterpiece of<br /><em>Swiss Savoir-Faire</em></h3>
 			<p class="content-body">
@@ -715,6 +725,30 @@
 		background: #8a6f59;
 	}
 
+	.hero-stock {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin: 16px 0 0;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.82rem;
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	.hero-stock strong {
+		font-weight: 700;
+		color: #ffffff;
+	}
+
+	.hero-stock-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #4caf7d;
+		flex-shrink: 0;
+		box-shadow: 0 0 6px rgba(76, 175, 125, 0.7);
+	}
+
 	.hero-dots {
 		position: absolute;
 		bottom: 28px;
@@ -793,6 +827,29 @@
 	.content-cta:hover {
 		color: #a1846d;
 		border-color: #a1846d;
+	}
+
+	/* ── RESERVE CTA ── */
+	.reserve-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		padding: 16px 32px;
+		background: #422635;
+		color: #ffffff;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		border: none;
+		cursor: pointer;
+		transition: background 0.2s ease;
+		margin-bottom: 36px;
+	}
+
+	.reserve-cta:hover {
+		background: #a1846d;
 	}
 
 	/* ── REASONS ── */
