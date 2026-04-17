@@ -48,12 +48,12 @@
 
 	// Gallery slider
 	const galleryImages = [
-		{ src: '/assets/Landing/Vacheron_01/01_Product Image Front Image', alt: 'Vacheron Constantin Overseas Dual Time — front' },
-		{ src: '/assets/Landing/Vacheron_01/02_Product Image Dial', alt: 'Vacheron Constantin Overseas Dual Time — dial' },
-		{ src: '/assets/Landing/Vacheron_01/03_Product Image Angle', alt: 'Vacheron Constantin Overseas Dual Time — angle' },
-		{ src: '/assets/Landing/Vacheron_01/04_Product Image Crown', alt: 'Vacheron Constantin Overseas Dual Time — crown' },
-		{ src: '/assets/Landing/Vacheron_01/05_Product Image Side', alt: 'Vacheron Constantin Overseas Dual Time — side' },
-		{ src: '/assets/Landing/Vacheron_01/06_Product Image Clasp', alt: 'Vacheron Constantin Overseas Dual Time — clasp' }
+		{ src: '/assets/Landing/Vacheron_01/01_Product Image Front Image', alt: 'Vacheron Constantin Overseas Dual Time, front' },
+		{ src: '/assets/Landing/Vacheron_01/02_Product Image Dial', alt: 'Vacheron Constantin Overseas Dual Time, dial' },
+		{ src: '/assets/Landing/Vacheron_01/03_Product Image Angle', alt: 'Vacheron Constantin Overseas Dual Time, angle' },
+		{ src: '/assets/Landing/Vacheron_01/04_Product Image Crown', alt: 'Vacheron Constantin Overseas Dual Time, crown' },
+		{ src: '/assets/Landing/Vacheron_01/05_Product Image Side', alt: 'Vacheron Constantin Overseas Dual Time, side' },
+		{ src: '/assets/Landing/Vacheron_01/Desktop/06_Product Image Clasp', alt: 'Vacheron Constantin Overseas Dual Time, clasp' }
 	];
 
 	let galleryIndex = $state(0);
