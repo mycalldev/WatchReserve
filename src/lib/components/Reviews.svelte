@@ -2,24 +2,19 @@
 	const reviews = [
 		{
 			id: 1,
-			name: 'Oliver H.',
+			name: 'Jayesh',
 			rating: 5,
-			text: 'Exceptional service from start to finish. The team at Watch Reserve helped me find the perfect Patek Philippe I\'d been searching for. Their expertise and attention to detail is unmatched.',
-			date: 'December 2024'
-		},
-		{
-			id: 2,
-			name: 'Charlotte B.',
-			rating: 5,
-			text: 'I was impressed by their authentication process and the transparency throughout. The watch arrived exactly as described, and the packaging was impeccable. Highly recommend for serious collectors.',
-			date: 'November 2024'
+			title: 'Exceptional Service. Shout out to Jean-Luc!',
+			text: 'Jean-Luc made my purchasing journey an absolute breeze. His communication was exceptional and he was able to provide all the details I needed to put my mind at ease. Thanks Jean-Luc for helping me get my hands on my dream watch. I\'d definitely recommend Watch Reserve and will be using them for my next purchase.',
+			date: '19th January 2026'
 		},
 		{
 			id: 3,
-			name: 'Edward W.',
+			name: 'Gary Coles',
 			rating: 5,
-			text: 'Outstanding experience sourcing a rare Rolex GMT. The team kept me informed at every step and delivered exactly what they promised. This is how luxury watch buying should be done.',
-			date: 'November 2024'
+			title: 'Just purchased a Rolex Sea Dweller…',
+			text: 'Just purchased a Rolex Sea Dweller through this company and absolutely delighted. Jean-Luc wasn\'t happy when he received the 2022 model I ordered and so sourced a 2024 at the same cost. I was kept informed at every point of sale and the watch arrived as described and on time. Would definitely recommend this company if you are looking for a luxury watch.',
+			date: '31st January 2026'
 		},
 		{
 			id: 4,
@@ -37,10 +32,11 @@
 		},
 		{
 			id: 6,
-			name: 'Alexandra P.',
+			name: 'Mr J Peracha',
 			rating: 5,
-			text: 'As a first-time luxury watch buyer, I was nervous about making such a significant purchase. The team guided me through everything and made me feel completely confident. Thank you!',
-			date: 'September 2024'
+			title: 'From the start Will was professional',
+			text: 'From the start Will was professional, polite and efficient, great comms throughout. The watch (Patek 5230G) arrived exactly as described and at a competitive price, box and papers as described. First time I bought a used watch. Highly recommended and would happily deal with them again.',
+			date: '13th February 2026'
 		}
 	];
 
@@ -59,7 +55,7 @@
 		</div>
 
 		<div class="reviews-grid">
-			{#each reviews.slice(0, 3) as review}
+			{#each reviews.slice(0, 2) as review}
 				<div class="review-card">
 					<div class="review-rating">
 						{#each renderStars(review.rating) as filled}
@@ -82,7 +78,10 @@
 							</svg>
 						{/each}
 					</div>
-					<p class="review-text">"{review.text}"</p>
+					{#if review.title}
+					<p class="review-title">{review.title}</p>
+				{/if}
+				<p class="review-text">"{review.text}"</p>
 					<div class="review-footer">
 						<span class="review-name">{review.name}</span>
 						<span class="review-date">{review.date}</span>
@@ -194,6 +193,16 @@
 	.star-icon.filled {
 		color: #a1846d;
 		fill: #a1846d;
+	}
+
+	.review-title {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.82rem;
+		font-weight: 700;
+		color: #ffffff;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		margin: 0 0 10px;
 	}
 
 	.review-text {

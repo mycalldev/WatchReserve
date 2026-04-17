@@ -449,7 +449,7 @@
 				Stay up to date with new arrivals, behind-the-scenes moments, and the stories behind the pieces. Follow Watch Reserve on Instagram for a closer look at what makes each timepiece worth owning.
 			</p>
 			<a
-				href="https://instagram.com/thewatchreserve"
+				href="https://www.instagram.com/watchreserve.co/"
 				target="_blank"
 				rel="noopener noreferrer"
 				class="ig-proof-cta"

@@ -270,15 +270,17 @@
 									<span class="result-vendor">{result.vendor}</span>
 								{/if}
 								<p class="result-title">{result.title}</p>
-								<div class="result-meta">
+							<div class="result-meta">
+								{#if statusSlug !== 'sold' && statusSlug !== 'reserved'}
 									<span class="result-price">
 										{formatPrice(result.price, result.currencyCode)}
 									</span>
-									<span class="result-status status-{statusSlug}">
-										<span class="r-dot" aria-hidden="true"></span>
-										{status ?? 'Available'}
-									</span>
-								</div>
+								{/if}
+								<span class="result-status status-{statusSlug}">
+									<span class="r-dot" aria-hidden="true"></span>
+									{status ?? 'Available'}
+								</span>
+							</div>
 							</div>
 
 							<svg class="result-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

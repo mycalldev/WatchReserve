@@ -437,18 +437,29 @@
 				{/if}
 			</div>
 
-			<div class="trust-strip">
-				<div class="trust-item">
-					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-					</svg>
-					Fully Authenticated
+			<div class="trust-banner">
+				<div class="trust-banner-item">
+					<div class="trust-banner-icon">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+						</svg>
+					</div>
+					<div class="trust-banner-text">
+						<span class="trust-banner-label">Fully Authenticated</span>
+						<span class="trust-banner-sub">Inspected by our in-house specialists</span>
+					</div>
 				</div>
-				<div class="trust-item">
-					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-					</svg>
-					Insured Delivery
+				<div class="trust-banner-divider" aria-hidden="true"></div>
+				<div class="trust-banner-item">
+					<div class="trust-banner-icon">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+						</svg>
+					</div>
+					<div class="trust-banner-text">
+						<span class="trust-banner-label">Insured Delivery</span>
+						<span class="trust-banner-sub">Fully insured, tracked worldwide</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -489,7 +500,7 @@
 						id="lp-name"
 						type="text"
 						class="form-input"
-						placeholder="James Whitmore"
+						placeholder="Full Name"
 						autocomplete="name"
 						bind:value={form.fullName}
 						oninput={() => { if (errors.fullName) { errors = { ...errors, fullName: '' }; } }}
@@ -857,6 +868,19 @@
 		margin-top: 20px;
 	}
 
+	.reasons-accordion .spec-accordion-trigger {
+		background: #422635;
+		color: #ffffff;
+	}
+
+	.reasons-accordion .spec-accordion-trigger:hover {
+		background: #5a3249;
+	}
+
+	.reasons-accordion .spec-chevron {
+		color: #ffffff;
+	}
+
 	.reasons-list {
 		list-style: none;
 		margin: 0;
@@ -947,25 +971,57 @@
 		margin: 0;
 	}
 
-	.trust-strip {
+	.trust-banner {
 		display: flex;
-		flex-direction: column;
-		gap: 12px;
+		align-items: stretch;
+		border: 1px solid #ece7df;
+		background: #faf7f2;
 		margin-top: 32px;
 	}
 
-	.trust-item {
+	.trust-banner-item {
 		display: flex;
 		align-items: center;
-		gap: 10px;
+		gap: 14px;
+		padding: 20px 24px;
+		flex: 1;
+	}
+
+	.trust-banner-icon {
+		width: 40px;
+		height: 40px;
+		background: #422635;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		color: #ffffff;
+	}
+
+	.trust-banner-text {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+	}
+
+	.trust-banner-label {
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.8rem;
-		color: #6a5f58;
+		font-weight: 700;
+		color: #160b11;
 		letter-spacing: 0.04em;
 	}
 
-	.trust-item svg {
-		color: #a1846d;
+	.trust-banner-sub {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		color: #6a5f58;
+		letter-spacing: 0.02em;
+	}
+
+	.trust-banner-divider {
+		width: 1px;
+		background: #ece7df;
 		flex-shrink: 0;
 	}
 
@@ -1016,6 +1072,16 @@
 	.spec-accordion--centred .spec-accordion-trigger {
 		position: relative;
 		justify-content: flex-end;
+		background: #422635;
+		color: #ffffff;
+	}
+
+	.spec-accordion--centred .spec-accordion-trigger:hover {
+		background: #5a3249;
+	}
+
+	.spec-accordion--centred .spec-chevron {
+		color: #ffffff;
 	}
 
 	.spec-accordion--centred .spec-accordion-trigger span {
@@ -1657,9 +1723,14 @@
 			margin-top: 24px;
 		}
 
-		.trust-strip {
+		.trust-banner {
 			margin-top: 24px;
-			align-items: center;
+			flex-direction: column;
+		}
+
+		.trust-banner-divider {
+			width: 100%;
+			height: 1px;
 		}
 
 		.enquiry-section {
