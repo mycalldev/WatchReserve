@@ -5,42 +5,42 @@
 			name: 'Oliver H.',
 			rating: 5,
 			text: 'Exceptional service from start to finish. The team at Watch Reserve helped me find the perfect Patek Philippe I\'d been searching for. Their expertise and attention to detail is unmatched.',
-			date: 'December 2024'
+			date: 'December 2025'
 		},
 		{
 			id: 2,
 			name: 'Charlotte B.',
 			rating: 5,
 			text: 'I was impressed by their authentication process and the transparency throughout. The watch arrived exactly as described, and the packaging was impeccable. Highly recommend for serious collectors.',
-			date: 'November 2024'
+			date: 'November 2025'
 		},
 		{
 			id: 3,
 			name: 'Edward W.',
 			rating: 5,
 			text: 'Outstanding experience sourcing a rare Rolex GMT. The team kept me informed at every step and delivered exactly what they promised. This is how luxury watch buying should be done.',
-			date: 'November 2024'
+			date: 'November 2025'
 		},
 		{
 			id: 4,
 			name: 'Isabelle F.',
 			rating: 5,
 			text: 'Professional, knowledgeable, and genuinely passionate about timepieces. They took the time to understand what I was looking for and exceeded my expectations. Will definitely return.',
-			date: 'October 2024'
+			date: 'October 2025'
 		},
 		{
 			id: 5,
 			name: 'Thomas R.',
 			rating: 5,
 			text: 'Sold my Audemars Piguet through Watch Reserve and received a fair valuation. The process was smooth, and the team was incredibly professional. Top-tier service all around.',
-			date: 'October 2024'
+			date: 'October 2025'
 		},
 		{
 			id: 6,
 			name: 'Alexandra P.',
 			rating: 5,
 			text: 'As a first-time luxury watch buyer, I was nervous about making such a significant purchase. The team guided me through everything and made me feel completely confident. Thank you!',
-			date: 'September 2024'
+			date: 'September 2025'
 		}
 	];
 
