@@ -29,10 +29,10 @@ const CONDITION_LABELS = {
 };
 
 const BOX_PAPERS_LABELS = {
-	'full-set':    'Full Set (box + papers)',
+	'yes':         'Full Set (box + papers)',
+	'no':          'No Box or Papers',
 	'box-only':    'Box Only',
-	'papers-only': 'Papers Only',
-	'none':        'No Box or Papers'
+	'papers-only': 'Papers Only'
 };
 
 export async function POST({ request }) {

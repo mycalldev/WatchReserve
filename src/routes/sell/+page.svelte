@@ -161,29 +161,60 @@
 		condition: '', boxPapers: '', askingPrice: '',
 		_hp: ''
 	});
-	let cfErrors  = $state({});
+	let cfStep       = $state(1);
 	let cfSubmitting = $state(false);
 	let cfSubmitted  = $state(false);
-	let cfAttempted  = $state(false);
+	let cfBrandRef   = $state(null);
+	let cfModelRef   = $state(null);
 
-	function validateCf() {
-		const e = {};
-		if (cf.name.trim().length < 2)                          e.name       = 'Please enter your full name.';
-		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cf.email))      e.email      = 'Please enter a valid email address.';
-		if (cf.phone.replace(/\D/g, '').length < 7)             e.phone      = 'Please enter a valid phone number.';
-		if (!cf.brand.trim())                                    e.brand      = 'Please enter the watch brand.';
-		if (!cf.model.trim())                                    e.model      = 'Please enter the watch model.';
-		if (!cf.condition)                                       e.condition  = 'Please select the condition.';
-		if (!cf.boxPapers)                                       e.boxPapers  = 'Please select an option.';
-		return e;
+	let cfh1 = $state(0), cfh2 = $state(0), cfh3 = $state(0), cfh4 = $state(0);
+	const cfStepHeight = $derived(cfStep === 1 ? cfh1 : cfStep === 2 ? cfh2 : cfStep === 3 ? cfh3 : cfh4);
+
+	const cfCanStep1 = $derived(cf.brand.trim().length > 0);
+	const cfCanStep2 = $derived(cf.model.trim().length > 0);
+	const cfCanStep3 = $derived(cf.condition !== '' && cf.boxPapers !== '');
+
+	function cfIsValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+	const cfCanSubmit = $derived(
+		cf.name.trim().length >= 2 &&
+		cfIsValidEmail(cf.email) &&
+		cf.phone.replace(/\D/g, '').length >= 7
+	);
+
+	let cfErrors    = $state({});
+	let cfAttempted = $state(false);
+
+	function cfSelectBrand(b) {
+		cf.brand = b;
+		cfStep = 2;
+		setTimeout(() => cfModelRef?.focus(), 80);
+	}
+
+	function cfConfirmBrand() {
+		if (!cfCanStep1) return;
+		cfStep = 2;
+		setTimeout(() => cfModelRef?.focus(), 80);
+	}
+
+	function cfConfirmModel() {
+		if (!cfCanStep2) return;
+		cfStep = 3;
+	}
+
+	function cfConfirmDetails() {
+		if (!cfCanStep3) return;
+		cfStep = 4;
+	}
+
+	function cfGoBack() {
+		if (cfStep > 1) cfStep -= 1;
 	}
 
 	async function handleCfSubmit(e) {
 		e.preventDefault();
-		cfAttempted = true;
 		if (cf._hp) return;
-		cfErrors = validateCf();
-		if (Object.keys(cfErrors).length > 0) return;
+		cfAttempted = true;
+		if (!cfCanSubmit) return;
 		cfSubmitting = true;
 
 		try {
@@ -216,7 +247,11 @@
 	}
 
 	$effect(() => {
-		if (cfAttempted) cfErrors = validateCf();
+		if (cfAttempted) cfErrors = {
+			name:  cf.name.trim().length < 2                      ? 'Please enter your full name.'        : '',
+			email: !cfIsValidEmail(cf.email)                      ? 'Please enter a valid email address.' : '',
+			phone: cf.phone.replace(/\D/g, '').length < 7         ? 'Please enter a valid phone number.'  : ''
+		};
 	});
 </script>
 
@@ -689,13 +724,23 @@
 	<div class="consign-body">
 		<div class="consign-body-inner">
 
-
 			<!-- ── Consignment Form ── -->
 			<div class="cf-wrap">
 				<div class="cf-head-row">
 					<h3 class="cf-heading">Enquire About Consignment</h3>
 					<p class="cf-subheading">Complete the form below and a specialist will be in touch to discuss your watch and agree terms.</p>
 				</div>
+
+				<!-- Honeypot -->
+				<input
+					type="text"
+					name="website"
+					bind:value={cf._hp}
+					tabindex="-1"
+					autocomplete="off"
+					aria-hidden="true"
+					style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"
+				/>
 
 				{#if cfSubmitted}
 					<div class="cf-success" role="status" transition:fade={{ duration: 300 }}>
@@ -708,120 +753,159 @@
 						<p class="cf-success-text">Thank you — a member of our team will be in touch within one business day to discuss your consignment.</p>
 					</div>
 				{:else}
-					<form class="cf-form" onsubmit={handleCfSubmit} novalidate>
-						<!-- Honeypot -->
-						<input
-							type="text"
-							name="website"
-							bind:value={cf._hp}
-							tabindex="-1"
-							autocomplete="off"
-							aria-hidden="true"
-							style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"
-						/>
+					<!-- Progress bar -->
+					<div class="cf-progress" aria-hidden="true">
+						<div class="cf-progress-bar" style="width: {cfStep * 25}%"></div>
+					</div>
 
-						<!-- Row 1: Name + Email -->
-						<div class="cf-row">
-							<div class="cf-field" class:cf-field--error={cfErrors.name}>
-								<label class="cf-label" for="cf-name">Full Name <span class="cf-req" aria-hidden="true">*</span></label>
-								<input
-									id="cf-name"
-									type="text"
-									class="cf-input"
-									bind:value={cf.name}
-									placeholder="John Smith"
-									autocomplete="name"
-									aria-required="true"
-									aria-describedby={cfErrors.name ? 'cf-name-err' : undefined}
-								/>
-								{#if cfErrors.name}<p class="cf-error" id="cf-name-err" role="alert">{cfErrors.name}</p>{/if}
-							</div>
-							<div class="cf-field" class:cf-field--error={cfErrors.email}>
-								<label class="cf-label" for="cf-email">Email <span class="cf-req" aria-hidden="true">*</span></label>
-								<input
-									id="cf-email"
-									type="email"
-									class="cf-input"
-									bind:value={cf.email}
-									placeholder="email@example.com"
-									autocomplete="email"
-									aria-required="true"
-									aria-describedby={cfErrors.email ? 'cf-email-err' : undefined}
-								/>
-								{#if cfErrors.email}<p class="cf-error" id="cf-email-err" role="alert">{cfErrors.email}</p>{/if}
-							</div>
-						</div>
+					<!-- Animated step panels -->
+					<div class="cf-step-stack" style:height={cfStepHeight ? `${cfStepHeight}px` : 'auto'}>
 
-						<!-- Row 2: Phone + Brand -->
-						<div class="cf-row">
-							<div class="cf-field" class:cf-field--error={cfErrors.phone}>
-								<label class="cf-label" for="cf-phone">Phone Number <span class="cf-req" aria-hidden="true">*</span></label>
+						<!-- ── STEP 1: BRAND ── -->
+						{#if cfStep === 1}
+						<div
+							class="cf-step-body"
+							bind:clientHeight={cfh1}
+							in:fade={{ duration: 260, delay: 140 }}
+							out:fade={{ duration: 160 }}
+						>
+							<p class="cf-step-label">Step 1 of 4</p>
+							<h4 class="cf-step-heading">What brand is your watch?</h4>
+
+							<div class="cf-brand-field">
 								<input
-									id="cf-phone"
-									type="tel"
-									class="cf-input"
-									bind:value={cf.phone}
-									placeholder="+44 7700 000000"
-									autocomplete="tel"
-									aria-required="true"
-									aria-describedby={cfErrors.phone ? 'cf-phone-err' : undefined}
-								/>
-								{#if cfErrors.phone}<p class="cf-error" id="cf-phone-err" role="alert">{cfErrors.phone}</p>{/if}
-							</div>
-							<div class="cf-field" class:cf-field--error={cfErrors.brand}>
-								<label class="cf-label" for="cf-brand">Brand <span class="cf-req" aria-hidden="true">*</span></label>
-								<input
-									id="cf-brand"
-									type="text"
-									class="cf-input"
+									bind:this={cfBrandRef}
 									bind:value={cf.brand}
+									type="text"
+									class="cf-brand-input"
 									placeholder="e.g. Rolex"
-									aria-required="true"
-									aria-describedby={cfErrors.brand ? 'cf-brand-err' : undefined}
+									autocomplete="off"
+									spellcheck="false"
+									onkeydown={(e) => e.key === 'Enter' && cfConfirmBrand()}
 								/>
-								{#if cfErrors.brand}<p class="cf-error" id="cf-brand-err" role="alert">{cfErrors.brand}</p>{/if}
+								<div class="cf-brand-input-line"></div>
 							</div>
+
+							<div class="cf-brand-grid">
+								{#each POPULAR_BRANDS as b}
+									<button
+										type="button"
+										class="cf-brand-chip"
+										class:cf-brand-chip--active={cf.brand === b}
+										onclick={() => cfSelectBrand(b)}
+									>{b}</button>
+								{/each}
+							</div>
+
+							<button type="button" class="cf-next-btn" onclick={cfConfirmBrand} disabled={!cfCanStep1}>
+								Continue
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M5 12h14M12 5l7 7-7 7"/>
+								</svg>
+							</button>
 						</div>
 
-						<!-- Row 3: Model + Reference -->
-						<div class="cf-row">
-							<div class="cf-field" class:cf-field--error={cfErrors.model}>
-								<label class="cf-label" for="cf-model">Model <span class="cf-req" aria-hidden="true">*</span></label>
+						<!-- ── STEP 2: MODEL + REFERENCE ── -->
+						{:else if cfStep === 2}
+						<div
+							class="cf-step-body"
+							bind:clientHeight={cfh2}
+							in:fade={{ duration: 260, delay: 140 }}
+							out:fade={{ duration: 160 }}
+						>
+							<p class="cf-step-label">Step 2 of 4</p>
+
+							<button type="button" class="cf-brand-crumb" onclick={cfGoBack} aria-label="Change brand">
+								<span class="cf-brand-crumb-name">{cf.brand}</span>
+								<span class="cf-brand-crumb-change">
+									<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+										<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+									</svg>
+								</span>
+							</button>
+
+							<h4 class="cf-step-heading">Which model?</h4>
+
+							<div class="cf-model-search">
+								<svg class="cf-model-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+								</svg>
 								<input
-									id="cf-model"
-									type="text"
-									class="cf-input"
+									bind:this={cfModelRef}
 									bind:value={cf.model}
-									placeholder="e.g. Submariner Date"
-									aria-required="true"
-									aria-describedby={cfErrors.model ? 'cf-model-err' : undefined}
-								/>
-								{#if cfErrors.model}<p class="cf-error" id="cf-model-err" role="alert">{cfErrors.model}</p>{/if}
-							</div>
-							<div class="cf-field">
-								<label class="cf-label" for="cf-ref">Reference Number</label>
-								<input
-									id="cf-ref"
 									type="text"
-									class="cf-input"
+									class="cf-model-input"
+									placeholder="e.g. Submariner, Nautilus, Royal Oak…"
+									autocomplete="off"
+									spellcheck="false"
+									onkeydown={(e) => e.key === 'Enter' && cfConfirmModel()}
+								/>
+							</div>
+							<div class="cf-model-underline"></div>
+
+							<div class="cf-ref-row">
+								<label for="cf-ref-s" class="cf-ref-label">
+									Ref. Number
+									<span class="cf-ref-optional">— optional</span>
+								</label>
+								<input
+									id="cf-ref-s"
+									type="text"
+									class="cf-ref-input"
 									bind:value={cf.reference}
 									placeholder="e.g. 126610LN"
+									autocomplete="off"
+									spellcheck="false"
 								/>
+								<div class="cf-ref-underline"></div>
 							</div>
+
+							<button type="button" class="cf-next-btn" onclick={cfConfirmModel} disabled={!cfCanStep2}>
+								Continue
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M5 12h14M12 5l7 7-7 7"/>
+								</svg>
+							</button>
 						</div>
 
-						<!-- Row 4: Condition + Asking Price -->
-						<div class="cf-row">
-							<div class="cf-field" class:cf-field--error={cfErrors.condition}>
-								<label class="cf-label" for="cf-condition">Condition <span class="cf-req" aria-hidden="true">*</span></label>
+						<!-- ── STEP 3: WATCH DETAILS ── -->
+						{:else if cfStep === 3}
+						<div
+							class="cf-step-body"
+							bind:clientHeight={cfh3}
+							in:fade={{ duration: 260, delay: 140 }}
+							out:fade={{ duration: 160 }}
+						>
+							<p class="cf-step-label">Step 3 of 4</p>
+
+							<div class="cf-step-summary">
+								<button type="button" class="cf-summary-back" onclick={cfGoBack} aria-label="Go back">
+									<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M19 12H5M12 5l-7 7 7 7"/>
+									</svg>
+								</button>
+								<div class="cf-summary-watch">
+									<div class="cf-summary-icon" aria-hidden="true">
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+											<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/>
+											<line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/>
+											<line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/>
+										</svg>
+									</div>
+									<div>
+										<span class="cf-summary-brand">{cf.brand}</span>
+										<span class="cf-summary-model">{cf.model}</span>
+									</div>
+								</div>
+							</div>
+
+							<h4 class="cf-step-heading" style="margin-top: 8px;">Watch details</h4>
+
+							<!-- Condition -->
+							<div class="cf-sfield" style="margin-bottom: 20px;">
+								<label for="cfs-condition" class="cf-slabel">Condition <span class="cf-sreq">*</span></label>
 								<div class="cf-select-wrap">
-									<select
-										id="cf-condition"
-										class="cf-select"
-										bind:value={cf.condition}
-										aria-required="true"
-										aria-describedby={cfErrors.condition ? 'cf-condition-err' : undefined}
-									>
+									<select id="cfs-condition" class="cf-sinput cf-select" bind:value={cf.condition}>
 										<option value="" disabled>Select condition…</option>
 										<option value="unworn">Unworn / New</option>
 										<option value="excellent">Excellent</option>
@@ -833,64 +917,148 @@
 										<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
 									</span>
 								</div>
-								{#if cfErrors.condition}<p class="cf-error" id="cf-condition-err" role="alert">{cfErrors.condition}</p>{/if}
 							</div>
-							<div class="cf-field">
-								<label class="cf-label" for="cf-price">Asking Price</label>
+
+							<!-- Box & Papers -->
+							<div class="cf-sfield" style="margin-bottom: 20px;">
+								<span class="cf-slabel">Box &amp; Papers <span class="cf-sreq">*</span></span>
+								<div class="cf-radio-group" role="radiogroup">
+									<label class="cf-radio-label">
+										<input type="radio" class="cf-radio" bind:group={cf.boxPapers} value="yes" />
+										<span class="cf-radio-box"></span>
+										Yes
+									</label>
+									<label class="cf-radio-label">
+										<input type="radio" class="cf-radio" bind:group={cf.boxPapers} value="no" />
+										<span class="cf-radio-box"></span>
+										No
+									</label>
+									<label class="cf-radio-label">
+										<input type="radio" class="cf-radio" bind:group={cf.boxPapers} value="box-only" />
+										<span class="cf-radio-box"></span>
+										Box only
+									</label>
+									<label class="cf-radio-label">
+										<input type="radio" class="cf-radio" bind:group={cf.boxPapers} value="papers-only" />
+										<span class="cf-radio-box"></span>
+										Papers only
+									</label>
+								</div>
+							</div>
+
+							<!-- Asking Price (optional) -->
+							<div class="cf-sfield" style="margin-bottom: 32px;">
+								<label for="cfs-price" class="cf-slabel">Asking Price <span class="cf-soptional">optional</span></label>
 								<input
-									id="cf-price"
+									id="cfs-price"
 									type="text"
-									class="cf-input"
+									class="cf-sinput"
 									bind:value={cf.askingPrice}
 									placeholder="e.g. £12,500"
 								/>
 							</div>
-						</div>
 
-						<!-- Box & Papers -->
-						<div class="cf-field cf-field--full" class:cf-field--error={cfErrors.boxPapers}>
-							<span class="cf-label">Box &amp; Papers? <span class="cf-req" aria-hidden="true">*</span></span>
-							<div class="cf-radio-group" role="radiogroup" aria-required="true" aria-describedby={cfErrors.boxPapers ? 'cf-bp-err' : undefined}>
-								<label class="cf-radio-label">
-									<input type="radio" class="cf-radio" bind:group={cf.boxPapers} value="yes" />
-									<span class="cf-radio-box"></span>
-									Yes
-								</label>
-								<label class="cf-radio-label">
-									<input type="radio" class="cf-radio" bind:group={cf.boxPapers} value="no" />
-									<span class="cf-radio-box"></span>
-									No
-								</label>
-								<label class="cf-radio-label">
-									<input type="radio" class="cf-radio" bind:group={cf.boxPapers} value="box-only" />
-									<span class="cf-radio-box"></span>
-									Box only
-								</label>
-								<label class="cf-radio-label">
-									<input type="radio" class="cf-radio" bind:group={cf.boxPapers} value="papers-only" />
-									<span class="cf-radio-box"></span>
-									Papers only
-								</label>
-							</div>
-							{#if cfErrors.boxPapers}<p class="cf-error" id="cf-bp-err" role="alert">{cfErrors.boxPapers}</p>{/if}
-						</div>
-
-						<!-- Submit -->
-						<div class="cf-submit-row">
-							<button type="submit" class="cf-submit-btn" disabled={cfSubmitting} aria-busy={cfSubmitting}>
-								{#if cfSubmitting}
-									<span class="cf-spinner" aria-hidden="true"></span>
-									Submitting…
-								{:else}
-									Submit Enquiry
-									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-										<path d="M5 12h14M12 5l7 7-7 7"/>
-									</svg>
-								{/if}
+							<button type="button" class="cf-next-btn" onclick={cfConfirmDetails} disabled={!cfCanStep3}>
+								Continue
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M5 12h14M12 5l7 7-7 7"/>
+								</svg>
 							</button>
-							<p class="cf-submit-note">Fully confidential &mdash; your details will never be shared.</p>
 						</div>
-					</form>
+
+						<!-- ── STEP 4: CONTACT DETAILS ── -->
+						{:else if cfStep === 4}
+						<div
+							class="cf-step-body"
+							bind:clientHeight={cfh4}
+							in:fade={{ duration: 260, delay: 140 }}
+							out:fade={{ duration: 160 }}
+						>
+							<p class="cf-step-label">Step 4 of 4</p>
+
+							<div class="cf-step-summary">
+								<button type="button" class="cf-summary-back" onclick={cfGoBack} aria-label="Go back">
+									<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M19 12H5M12 5l-7 7 7 7"/>
+									</svg>
+								</button>
+								<div class="cf-summary-watch">
+									<div class="cf-summary-icon" aria-hidden="true">
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+											<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/>
+											<line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/>
+											<line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/>
+										</svg>
+									</div>
+									<div>
+										<span class="cf-summary-brand">{cf.brand}</span>
+										<span class="cf-summary-model">{cf.model}</span>
+									</div>
+								</div>
+							</div>
+
+							<h4 class="cf-step-heading" style="margin-top: 8px;">Your contact details</h4>
+
+							<form class="cf-contact-form" onsubmit={handleCfSubmit} novalidate>
+								<div class="cf-sfield" class:cf-sfield--error={cfErrors.name}>
+									<label for="cfs-name" class="cf-slabel">Full Name <span class="cf-sreq">*</span></label>
+									<input
+										id="cfs-name"
+										type="text"
+										class="cf-sinput"
+										bind:value={cf.name}
+										placeholder="John Smith"
+										autocomplete="name"
+									/>
+									{#if cfErrors.name}<p class="cf-serror" role="alert">{cfErrors.name}</p>{/if}
+								</div>
+
+								<div class="cf-sfield" class:cf-sfield--error={cfErrors.email}>
+									<label for="cfs-email" class="cf-slabel">Email <span class="cf-sreq">*</span></label>
+									<input
+										id="cfs-email"
+										type="email"
+										class="cf-sinput"
+										bind:value={cf.email}
+										placeholder="email@example.com"
+										autocomplete="email"
+									/>
+									{#if cfErrors.email}<p class="cf-serror" role="alert">{cfErrors.email}</p>{/if}
+								</div>
+
+								<div class="cf-sfield" class:cf-sfield--error={cfErrors.phone}>
+									<label for="cfs-phone" class="cf-slabel">Phone <span class="cf-sreq">*</span></label>
+									<input
+										id="cfs-phone"
+										type="tel"
+										class="cf-sinput"
+										bind:value={cf.phone}
+										placeholder="+44 7700 000000"
+										autocomplete="tel"
+									/>
+									{#if cfErrors.phone}<p class="cf-serror" role="alert">{cfErrors.phone}</p>{/if}
+								</div>
+
+								<p class="cf-privacy-note">
+									By submitting you agree to our <a href="/privacy-policy">Privacy Policy</a>. Your details will never be shared.
+								</p>
+
+								<button type="submit" class="cf-next-btn" disabled={cfSubmitting} aria-busy={cfSubmitting}>
+									{#if cfSubmitting}
+										<span class="cf-spinner" aria-hidden="true"></span>
+										Submitting…
+									{:else}
+										Submit Enquiry
+										<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+											<path d="M5 12h14M12 5l7 7-7 7"/>
+										</svg>
+									{/if}
+								</button>
+							</form>
+						</div>
+						{/if}
+
+					</div>
 				{/if}
 			</div>
 
@@ -1262,14 +1430,14 @@
 		margin: 0;
 	}
 
-	/* ── Consignment Form ── */
+	/* ── Consignment Form (step flow) ── */
 	.cf-wrap {
 		border-top: 1px solid rgba(22, 11, 17, 0.08);
 		padding-top: 48px;
 	}
 
 	.cf-head-row {
-		margin-bottom: 36px;
+		margin-bottom: 32px;
 	}
 
 	.cf-heading {
@@ -1291,49 +1459,343 @@
 		max-width: 560px;
 	}
 
-	.cf-form {
-		display: flex;
-		flex-direction: column;
-		gap: 24px;
+	/* Progress bar */
+	.cf-progress {
+		height: 2px;
+		background-color: rgba(22, 11, 17, 0.07);
+		margin-bottom: 40px;
+		max-width: 640px;
 	}
 
-	.cf-row {
+	.cf-progress-bar {
+		height: 100%;
+		background-color: #a1846d;
+		transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	}
+
+	/* Step stack */
+	.cf-step-stack {
+		position: relative;
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 20px 32px;
+		grid-template-columns: 1fr;
+		align-items: start;
+		overflow-x: hidden;
+		transition: height 520ms cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
-	.cf-field {
+	.cf-step-stack > .cf-step-body {
+		grid-area: 1 / 1;
+		min-width: 0;
+	}
+
+	.cf-step-body {
 		display: flex;
 		flex-direction: column;
-		gap: 7px;
+		gap: 0;
+		max-width: 640px;
 	}
 
-	.cf-field--full {
-		grid-column: 1 / -1;
-	}
-
-	.cf-label {
+	/* Step labels */
+	.cf-step-label {
 		font-family: 'Montserrat', sans-serif;
-		font-size: 0.72rem;
-		font-weight: 600;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: rgba(22, 11, 17, 0.35);
+		margin: 0 0 10px;
+	}
+
+	.cf-step-heading {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+		font-weight: 400;
+		color: #160b11;
+		margin: 0 0 28px;
+		letter-spacing: -0.01em;
+		line-height: 1.2;
+	}
+
+	/* Brand input (step 1) */
+	.cf-brand-field {
+		margin-bottom: 4px;
+	}
+
+	.cf-brand-input {
+		width: 100%;
+		box-sizing: border-box;
+		background: none;
+		border: none;
+		outline: none;
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.5rem, 3vw, 2rem);
+		font-weight: 400;
+		color: #160b11;
+		letter-spacing: -0.02em;
+		padding: 0 0 8px;
+		caret-color: #a1846d;
+	}
+
+	.cf-brand-input::placeholder { color: rgba(22, 11, 17, 0.2); }
+
+	.cf-brand-input-line {
+		height: 2px;
+		background: linear-gradient(90deg, #a1846d 0%, rgba(161,132,109,0.2) 100%);
+		margin-bottom: 28px;
+	}
+
+	/* Brand chips */
+	.cf-brand-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 32px;
+	}
+
+	.cf-brand-chip {
+		padding: 7px 14px;
+		background: none;
+		border: 1px solid rgba(22, 11, 17, 0.14);
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.78rem;
+		font-weight: 500;
+		color: rgba(22, 11, 17, 0.6);
+		cursor: pointer;
+		transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+		white-space: nowrap;
+	}
+
+	.cf-brand-chip:hover { border-color: #a1846d; color: #a1846d; background-color: rgba(161,132,109,0.04); }
+
+	.cf-brand-chip--active {
+		background-color: #a1846d;
+		border-color: #a1846d;
+		color: #ffffff;
+	}
+
+	/* Brand crumb (step 2) */
+	.cf-brand-crumb {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		margin-bottom: 20px;
+		width: fit-content;
+	}
+
+	.cf-brand-crumb-name {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+		font-weight: 400;
+		color: #160b11;
+		letter-spacing: -0.02em;
+		border-bottom: 2px solid #a1846d;
+		padding-bottom: 2px;
+	}
+
+	.cf-brand-crumb-change {
+		width: 26px;
+		height: 26px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid rgba(22,11,17,0.15);
+		color: rgba(22,11,17,0.4);
+		flex-shrink: 0;
+		transition: background-color 0.2s ease, color 0.2s ease;
+	}
+
+	.cf-brand-crumb:hover .cf-brand-crumb-change { background-color: #160b11; color: #ffffff; border-color: #160b11; }
+
+	/* Model search (step 2) */
+	.cf-model-search {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.cf-model-search-icon { color: rgba(22,11,17,0.3); flex-shrink: 0; }
+
+	.cf-model-input {
+		flex: 1;
+		background: none;
+		border: none;
+		outline: none;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 1rem;
+		font-weight: 400;
+		color: #160b11;
+		padding: 6px 0;
+		caret-color: #a1846d;
+	}
+
+	.cf-model-input::placeholder { color: rgba(22,11,17,0.25); }
+
+	.cf-model-underline {
+		height: 1.5px;
+		background-color: rgba(22, 11, 17, 0.12);
+		margin-bottom: 20px;
+	}
+
+	/* Reference field (step 2) */
+	.cf-ref-row {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		margin-bottom: 28px;
+	}
+
+	.cf-ref-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: rgba(22, 11, 17, 0.4);
+	}
+
+	.cf-ref-optional {
+		font-weight: 400;
+		letter-spacing: 0.04em;
+		text-transform: none;
+		color: rgba(22, 11, 17, 0.3);
+	}
+
+	.cf-ref-input {
+		background: none;
+		border: none;
+		outline: none;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.9rem;
+		color: #160b11;
+		padding: 5px 0;
+		caret-color: #a1846d;
+		width: 100%;
+	}
+
+	.cf-ref-input::placeholder { color: rgba(22, 11, 17, 0.25); }
+
+	.cf-ref-underline {
+		height: 1px;
+		background-color: rgba(22, 11, 17, 0.1);
+	}
+
+	/* Step summary row (steps 3 & 4) */
+	.cf-step-summary {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 20px;
+	}
+
+	.cf-summary-back {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		background: none;
+		border: 1px solid rgba(22,11,17,0.12);
+		color: rgba(22,11,17,0.45);
+		cursor: pointer;
+		flex-shrink: 0;
+		transition: background-color 0.2s ease, color 0.2s ease;
+	}
+
+	.cf-summary-back:hover { background-color: #160b11; color: #ffffff; border-color: #160b11; }
+
+	.cf-summary-watch {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex: 1;
+		min-width: 0;
+	}
+
+	.cf-summary-icon {
+		width: 38px;
+		height: 38px;
+		background-color: rgba(161,132,109,0.1);
+		color: #a1846d;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.cf-summary-watch > div {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		min-width: 0;
+	}
+
+	.cf-summary-brand {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.62rem;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
-		color: rgba(22, 11, 17, 0.6);
-	}
-
-	.cf-req {
 		color: #a1846d;
 	}
 
-	.cf-input,
-	.cf-select {
+	.cf-summary-model {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 1rem;
+		color: #160b11;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	/* Step fields (steps 3 & 4) */
+	.cf-sfield {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.cf-sfield--error .cf-sinput,
+	.cf-sfield--error .cf-select {
+		border-color: #c0392b;
+	}
+
+	.cf-slabel {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: rgba(22, 11, 17, 0.55);
+	}
+
+	.cf-sreq { color: #a1846d; }
+
+	.cf-soptional {
+		font-weight: 400;
+		letter-spacing: 0.04em;
+		text-transform: none;
+		color: rgba(22, 11, 17, 0.35);
+		font-size: 0.65rem;
+	}
+
+	.cf-serror {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.75rem;
+		color: #c0392b;
+		margin: 0;
+	}
+
+	/* Shared input style (steps 3 & 4) */
+	.cf-sinput {
 		width: 100%;
 		box-sizing: border-box;
 		padding: 11px 14px;
 		background: #faf9f8;
 		border: 1px solid rgba(22, 11, 17, 0.14);
-		border-radius: 0;
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
@@ -1343,28 +1805,20 @@
 		-webkit-appearance: none;
 	}
 
-	.cf-input::placeholder { color: rgba(22, 11, 17, 0.3); }
+	.cf-sinput::placeholder { color: rgba(22, 11, 17, 0.3); }
 
-	.cf-input:focus,
-	.cf-select:focus {
+	.cf-sinput:focus {
 		border-color: #a1846d;
 		box-shadow: 0 0 0 3px rgba(161, 132, 109, 0.12);
 		background: #fff;
 	}
 
-	.cf-field--error .cf-input,
-	.cf-field--error .cf-select {
-		border-color: #c0392b;
-	}
-
-	.cf-select-wrap {
-		position: relative;
-	}
-
-	.cf-select-wrap .cf-select {
+	.cf-select {
 		padding-right: 36px;
 		cursor: pointer;
 	}
+
+	.cf-select-wrap { position: relative; }
 
 	.cf-select-arrow {
 		position: absolute;
@@ -1377,14 +1831,7 @@
 		align-items: center;
 	}
 
-	.cf-error {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.75rem;
-		color: #c0392b;
-		margin: 0;
-		font-weight: 400;
-	}
-
+	/* Radio group (step 3) */
 	.cf-radio-group {
 		display: flex;
 		flex-wrap: wrap;
@@ -1421,9 +1868,7 @@
 		transition: border-color 0.18s ease;
 	}
 
-	.cf-radio:checked + .cf-radio-box {
-		border-color: #a1846d;
-	}
+	.cf-radio:checked + .cf-radio-box { border-color: #a1846d; }
 
 	.cf-radio:checked + .cf-radio-box::after {
 		content: '';
@@ -1437,17 +1882,31 @@
 		box-shadow: 0 0 0 3px rgba(161, 132, 109, 0.22);
 	}
 
-	.cf-submit-row {
+	/* Contact form (step 4) */
+	.cf-contact-form {
 		display: flex;
-		align-items: center;
-		gap: 24px;
-		flex-wrap: wrap;
-		padding-top: 8px;
+		flex-direction: column;
+		gap: 20px;
 	}
 
-	.cf-submit-btn {
+	.cf-privacy-note {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		color: rgba(22,11,17,0.4);
+		line-height: 1.55;
+		margin: 0;
+		padding-top: 4px;
+		border-top: 1px solid rgba(22,11,17,0.06);
+	}
+
+	.cf-privacy-note a { color: #a1846d; text-decoration: none; border-bottom: 1px solid rgba(161,132,109,0.3); }
+	.cf-privacy-note a:hover { color: #8a6f59; }
+
+	/* Next / Submit button */
+	.cf-next-btn {
 		display: inline-flex;
 		align-items: center;
+		justify-content: center;
 		gap: 10px;
 		padding: 15px 36px;
 		background-color: #a1846d;
@@ -1460,21 +1919,22 @@
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		transition: background-color 0.22s ease, transform 0.2s ease, box-shadow 0.22s ease, gap 0.22s ease;
+		margin-top: 8px;
 		white-space: nowrap;
-		flex-shrink: 0;
 	}
 
-	.cf-submit-btn:hover:not(:disabled) {
+	.cf-next-btn:hover:not(:disabled) {
 		background-color: #8a6f59;
 		transform: translateY(-2px);
 		box-shadow: 0 8px 24px rgba(161, 132, 109, 0.28);
 		gap: 14px;
 	}
 
-	.cf-submit-btn:active:not(:disabled) { transform: translateY(0); }
+	.cf-next-btn:active:not(:disabled) { transform: translateY(0); }
 
-	.cf-submit-btn:disabled {
-		opacity: 0.6;
+	.cf-next-btn:disabled {
+		background-color: rgba(22, 11, 17, 0.12);
+		color: rgba(22, 11, 17, 0.35);
 		cursor: not-allowed;
 	}
 
@@ -1490,15 +1950,6 @@
 	}
 
 	@keyframes cf-spin { to { transform: rotate(360deg); } }
-
-	.cf-submit-note {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.8rem;
-		color: rgba(22, 11, 17, 0.4);
-		margin: 0;
-		font-weight: 300;
-		line-height: 1.5;
-	}
 
 	/* Success state */
 	.cf-success {
@@ -1546,24 +1997,17 @@
 	}
 
 	@media (max-width: 768px) {
-		.consign-pillars {
-			grid-template-columns: 1fr;
-			gap: 32px;
-		}
 		.consign-body { padding: 60px 30px 72px; }
 		.consign-banner-content { padding: 36px 30px; }
+		.cf-brand-chip { font-size: 0.75rem; padding: 7px 12px; }
 	}
 
 	@media (max-width: 480px) {
 		.consign-banner { height: clamp(260px, 60vw, 380px); }
 		.consign-body { padding: 48px 20px 60px; }
 		.consign-banner-content { padding: 28px 20px; }
-		.cf-submit-row { flex-direction: column; align-items: flex-start; gap: 14px; }
-		.cf-submit-btn { width: 100%; justify-content: center; }
-	}
-
-	@media (max-width: 640px) {
-		.cf-row { grid-template-columns: 1fr; gap: 20px; }
+		.cf-next-btn { width: 100%; }
+		.cf-brand-chip { font-size: 0.72rem; padding: 6px 10px; }
 	}
 
 	/* ── VALUATION MODAL ── */
