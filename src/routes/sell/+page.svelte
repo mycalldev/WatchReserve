@@ -5,12 +5,19 @@
 
 	// ── Valuation modal state ────────────────────────────────────────────────────
 	let modalOpen  = $state(false);
-	let step       = $state(1); // 1 = brand, 2 = model, 3 = details
+	let step       = $state(1); // 1 = brand, 2 = model, 3 = watch details, 4 = message, 5 = contact
 
 	let brand      = $state('');
 	let brandInput = $state('');
 	let model      = $state('');
 	let modelInput = $state('');
+	let refInput   = $state('');
+
+	let watchYear      = $state('');
+	let watchCondition = $state('');
+	let hasBox         = $state(false);
+	let hasPapers      = $state(false);
+	let watchMessage   = $state('');
 
 	let details    = $state({ name: '', email: '', phone: '' });
 	let submitting = $state(false);
@@ -23,7 +30,9 @@
 	let h1 = $state(0);
 	let h2 = $state(0);
 	let h3 = $state(0);
-	const stepHeight = $derived(step === 1 ? h1 : step === 2 ? h2 : h3);
+	let h4 = $state(0);
+	let h5 = $state(0);
+	const stepHeight = $derived(step === 1 ? h1 : step === 2 ? h2 : step === 3 ? h3 : step === 4 ? h4 : h5);
 
 	const POPULAR_BRANDS = [
 		'Rolex', 'Patek Philippe', 'Audemars Piguet', 'Omega',
@@ -34,7 +43,9 @@
 	function openModal() {
 		modalOpen = true;
 		step = 1;
-		brand = brandInput = model = modelInput = '';
+		brand = brandInput = model = modelInput = refInput = '';
+		watchYear = watchCondition = watchMessage = '';
+		hasBox = hasPapers = false;
 		details = { name: '', email: '', phone: '' };
 		submitted = false;
 		setTimeout(() => brandRef?.focus(), 80);
@@ -66,10 +77,22 @@
 		step = 3;
 	}
 
-	function goBack() {
-		if (step === 2) { step = 1; model = modelInput = ''; setTimeout(() => brandRef?.focus(), 80); }
-		if (step === 3) { step = 2; setTimeout(() => modelRef?.focus(), 80); }
+	function confirmWatchDetails() {
+		step = 4;
 	}
+
+	function confirmMessage() {
+		step = 5;
+	}
+
+	function goBack() {
+		if (step === 2) { step = 1; model = modelInput = refInput = ''; setTimeout(() => brandRef?.focus(), 80); }
+		if (step === 3) { step = 2; setTimeout(() => modelRef?.focus(), 80); }
+		if (step === 4) { step = 3; }
+		if (step === 5) { step = 4; }
+	}
+
+	const canAdvanceWatchDetails = $derived(watchYear.trim().length > 0 && watchCondition !== '');
 
 	function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
@@ -89,11 +112,17 @@
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
-					name:  details.name,
-					email: details.email,
-					phone: details.phone,
+					name:      details.name,
+					email:     details.email,
+					phone:     details.phone,
 					brand,
-					model
+					model,
+					reference: refInput,
+					year:      watchYear,
+					condition: watchCondition,
+					box:       hasBox,
+					papers:    hasPapers,
+					message:   watchMessage
 				})
 			});
 
@@ -210,7 +239,7 @@
 		<p class="valuation-eyebrow">Sell With Confidence</p>
 		<h2 class="valuation-heading">Discover what your watch<br class="br-desk" /> is worth today</h2>
 		<p class="valuation-sub">
-			Enter your watch brand and model for an instant market valuation powered by live pricing data.
+			Enter your watch brand and model for an instant expert valuation.
 		</p>
 		<button type="button" class="valuation-btn" onclick={openModal}>
 			Get a Free Valuation
@@ -257,7 +286,7 @@
 
 		<!-- Step progress -->
 		<div class="vm-progress" aria-hidden="true">
-			<div class="vm-progress-bar" style="width: {step === 1 ? 33 : step === 2 ? 66 : 100}%"></div>
+			<div class="vm-progress-bar" style="width: {step === 1 ? 20 : step === 2 ? 40 : step === 3 ? 60 : step === 4 ? 80 : 100}%"></div>
 		</div>
 
 		<!-- ── STEPS (animated height + sequenced slide/fade) ── -->
@@ -270,7 +299,7 @@
 				in:fly={{ x: 28, duration: 460, delay: 340, easing: cubicOut }}
 				out:fly={{ x: -28, duration: 320, easing: cubicInOut }}
 			>
-				<p class="vm-step-label">Step 1 of 3</p>
+				<p class="vm-step-label">Step 1 of 5</p>
 				<h3 class="vm-step-heading">What brand is your watch?</h3>
 
 				<div class="vm-field">
@@ -319,7 +348,7 @@
 				in:fly={{ x: 28, duration: 460, delay: 340, easing: cubicOut }}
 				out:fly={{ x: -28, duration: 320, easing: cubicInOut }}
 			>
-				<p class="vm-step-label">Step 2 of 3</p>
+				<p class="vm-step-label">Step 2 of 5</p>
 
 				<!-- Brand crumb -->
 				<button type="button" class="vm-brand-crumb" onclick={goBack} aria-label="Change brand">
@@ -353,6 +382,24 @@
 				</div>
 				<div class="vm-model-underline"></div>
 
+				<!-- Optional reference number -->
+				<div class="vm-ref-row">
+					<label for="vm-ref" class="vm-ref-label">
+						Ref. Number
+						<span class="vm-ref-optional">— optional</span>
+					</label>
+					<input
+						id="vm-ref"
+						type="text"
+						class="vm-ref-input"
+						bind:value={refInput}
+						placeholder="e.g. 126610LN"
+						autocomplete="off"
+						spellcheck="false"
+					/>
+					<div class="vm-ref-underline"></div>
+				</div>
+
 				{#if modelInput.trim()}
 					<div class="vm-model-preview">
 						<div class="vm-model-preview-icon" aria-hidden="true">
@@ -375,12 +422,103 @@
 					</div>
 				{/if}
 
-				<button
-					type="button"
-					class="vm-next-btn"
-					onclick={confirmModel}
-					disabled={!modelInput.trim()}
-				>
+				{#if modelInput.trim()}
+					<button
+						type="button"
+						class="vm-next-btn"
+						onclick={confirmModel}
+					>
+						Continue
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M5 12h14M12 5l7 7-7 7"/>
+						</svg>
+					</button>
+				{/if}
+			</div>
+
+		<!-- ── STEP 3: WATCH DETAILS ── -->
+		{:else if step === 3}
+			<div
+				class="vm-body"
+				bind:clientHeight={h3}
+				in:fly={{ x: 28, duration: 460, delay: 340, easing: cubicOut }}
+				out:fly={{ x: -28, duration: 320, easing: cubicInOut }}
+			>
+				<p class="vm-step-label">Step 3 of 5</p>
+
+				<!-- Watch summary -->
+				<div class="vm-summary">
+					<button type="button" class="vm-summary-back" onclick={goBack} aria-label="Go back">
+						<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M19 12H5M12 5l-7 7 7 7"/>
+						</svg>
+					</button>
+					<div class="vm-summary-watch">
+						<div class="vm-summary-icon" aria-hidden="true">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/>
+								<line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/>
+								<line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/>
+							</svg>
+						</div>
+						<div>
+							<span class="vm-summary-brand">{brand}</span>
+							<span class="vm-summary-model">{model}</span>
+						</div>
+					</div>
+				</div>
+
+				<h3 class="vm-step-heading" style="margin-top: 8px;">Watch details</h3>
+
+				<!-- Year -->
+				<div class="vm-form-field" style="margin-bottom: 20px;">
+					<label for="vm-year" class="vm-form-label">Year <span class="vm-req">*</span></label>
+					<input
+						id="vm-year"
+						type="text"
+						class="vm-form-input"
+						placeholder="e.g. 2019"
+						maxlength="4"
+						bind:value={watchYear}
+					/>
+				</div>
+
+				<!-- Condition -->
+				<div class="vm-form-field" style="margin-bottom: 24px;">
+					<label for="vm-condition" class="vm-form-label">Condition</label>
+					<div class="vm-select-wrap">
+						<select id="vm-condition" class="vm-form-input vm-select" bind:value={watchCondition}>
+							<option value="" disabled>Select condition…</option>
+							<option value="unworn">Unworn / New</option>
+							<option value="excellent">Excellent</option>
+							<option value="very-good">Very Good</option>
+							<option value="good">Good</option>
+							<option value="fair">Fair</option>
+						</select>
+						<span class="vm-select-arrow" aria-hidden="true">
+							<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+						</span>
+					</div>
+				</div>
+
+				<!-- Box & Papers -->
+				<div class="vm-form-field" style="margin-bottom: 32px;">
+					<span class="vm-form-label">Box &amp; Papers</span>
+					<div class="vm-checkbox-group">
+						<label class="vm-checkbox-label">
+							<input type="checkbox" class="vm-checkbox" bind:checked={hasBox} />
+							<span class="vm-checkbox-box"></span>
+							Box
+						</label>
+						<label class="vm-checkbox-label">
+							<input type="checkbox" class="vm-checkbox" bind:checked={hasPapers} />
+							<span class="vm-checkbox-box"></span>
+							Papers
+						</label>
+					</div>
+				</div>
+
+				<button type="button" class="vm-next-btn" onclick={confirmWatchDetails} disabled={!canAdvanceWatchDetails}>
 					Continue
 					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 						<path d="M5 12h14M12 5l7 7-7 7"/>
@@ -388,11 +526,64 @@
 				</button>
 			</div>
 
-		<!-- ── STEP 3: CONTACT DETAILS ── -->
-		{:else if step === 3}
+		<!-- ── STEP 4: MESSAGE ── -->
+		{:else if step === 4}
 			<div
 				class="vm-body"
-				bind:clientHeight={h3}
+				bind:clientHeight={h4}
+				in:fly={{ x: 28, duration: 460, delay: 340, easing: cubicOut }}
+				out:fly={{ x: -28, duration: 320, easing: cubicInOut }}
+			>
+				<p class="vm-step-label">Step 4 of 5</p>
+
+				<!-- Watch summary -->
+				<div class="vm-summary">
+					<button type="button" class="vm-summary-back" onclick={goBack} aria-label="Go back">
+						<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M19 12H5M12 5l-7 7 7 7"/>
+						</svg>
+					</button>
+					<div class="vm-summary-watch">
+						<div class="vm-summary-icon" aria-hidden="true">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/>
+								<line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/>
+								<line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/>
+							</svg>
+						</div>
+						<div>
+							<span class="vm-summary-brand">{brand}</span>
+							<span class="vm-summary-model">{model}</span>
+						</div>
+					</div>
+				</div>
+
+				<h3 class="vm-step-heading" style="margin-top: 8px;">Anything else to add?</h3>
+
+				<div class="vm-form-field" style="margin-bottom: 28px;">
+					<label for="vm-message" class="vm-form-label">Your message <span class="vm-optional-label">— optional</span></label>
+					<textarea
+						id="vm-message"
+						class="vm-form-input vm-textarea"
+						placeholder="e.g. Any service history, known marks, or specific details about the watch…"
+						rows="5"
+						bind:value={watchMessage}
+					></textarea>
+				</div>
+
+				<button type="button" class="vm-next-btn" onclick={confirmMessage}>
+					Continue
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M5 12h14M12 5l7 7-7 7"/>
+					</svg>
+				</button>
+			</div>
+
+		<!-- ── STEP 5: CONTACT DETAILS ── -->
+		{:else if step === 5}
+			<div
+				class="vm-body"
+				bind:clientHeight={h5}
 				in:fly={{ x: 28, duration: 460, delay: 340, easing: cubicOut }}
 				out:fly={{ x: -28, duration: 320, easing: cubicInOut }}
 			>
@@ -412,11 +603,11 @@
 						</button>
 					</div>
 				{:else}
-					<p class="vm-step-label">Step 3 of 3</p>
+					<p class="vm-step-label">Step 5 of 5</p>
 
 					<!-- Watch summary -->
 					<div class="vm-summary">
-						<button type="button" class="vm-summary-back" onclick={goBack} aria-label="Change model">
+						<button type="button" class="vm-summary-back" onclick={goBack} aria-label="Go back">
 							<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
 								<path d="M19 12H5M12 5l-7 7 7 7"/>
 							</svg>
@@ -1918,6 +2109,145 @@
 		line-height: 1.65;
 		margin: 0;
 		max-width: 360px;
+	}
+
+	/* Optional ref field (step 2) */
+	.vm-ref-row {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		margin-bottom: 20px;
+	}
+
+	.vm-ref-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: rgba(22, 11, 17, 0.4);
+	}
+
+	.vm-ref-optional {
+		font-weight: 400;
+		letter-spacing: 0.04em;
+		text-transform: none;
+		color: rgba(22, 11, 17, 0.3);
+	}
+
+	.vm-ref-input {
+		background: none;
+		border: none;
+		outline: none;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.9rem;
+		font-weight: 400;
+		color: #160b11;
+		padding: 5px 0;
+		caret-color: #a1846d;
+		width: 100%;
+	}
+
+	.vm-ref-input::placeholder { color: rgba(22, 11, 17, 0.25); }
+
+	.vm-ref-underline {
+		height: 1px;
+		background-color: rgba(22, 11, 17, 0.1);
+	}
+
+	/* Select wrapper (step 3) */
+	.vm-select-wrap {
+		position: relative;
+	}
+
+	.vm-select {
+		appearance: none;
+		-webkit-appearance: none;
+		padding-right: 36px;
+		cursor: pointer;
+	}
+
+	.vm-select-arrow {
+		position: absolute;
+		right: 12px;
+		top: 50%;
+		transform: translateY(-50%);
+		pointer-events: none;
+		color: rgba(22, 11, 17, 0.4);
+		display: flex;
+		align-items: center;
+	}
+
+	/* Checkbox group (step 3) */
+	.vm-checkbox-group {
+		display: flex;
+		gap: 24px;
+		padding-top: 6px;
+	}
+
+	.vm-checkbox-label {
+		display: flex;
+		align-items: center;
+		gap: 9px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		color: #160b11;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.vm-checkbox {
+		position: absolute;
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	.vm-checkbox-box {
+		display: inline-block;
+		width: 17px;
+		height: 17px;
+		border: 1.5px solid rgba(22, 11, 17, 0.25);
+		flex-shrink: 0;
+		position: relative;
+		transition: border-color 0.18s ease, background-color 0.18s ease;
+	}
+
+	.vm-checkbox:checked + .vm-checkbox-box {
+		border-color: #a1846d;
+		background-color: #a1846d;
+	}
+
+	.vm-checkbox:checked + .vm-checkbox-box::after {
+		content: '';
+		position: absolute;
+		left: 4px;
+		top: 1px;
+		width: 5px;
+		height: 9px;
+		border: 2px solid #ffffff;
+		border-top: none;
+		border-left: none;
+		transform: rotate(45deg);
+	}
+
+	.vm-checkbox:focus-visible + .vm-checkbox-box {
+		box-shadow: 0 0 0 3px rgba(161, 132, 109, 0.22);
+	}
+
+	/* Textarea (step 4) */
+	.vm-textarea {
+		resize: vertical;
+		min-height: 110px;
+		line-height: 1.6;
+	}
+
+	.vm-optional-label {
+		font-weight: 400;
+		letter-spacing: 0.04em;
+		text-transform: none;
+		color: rgba(22, 11, 17, 0.35);
+		font-size: 0.68rem;
 	}
 
 	/* Modal responsive */

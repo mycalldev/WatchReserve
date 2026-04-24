@@ -50,7 +50,7 @@
 	<div class="hero-container">
 		<div class="hero-content">
 			<h1 class="hero-headline">
-				Pre-Owned <em>Rare Luxury</em> Timepieces
+				Pre-Owned Rare Luxury Timepieces
 			</h1>
 			<p class="hero-subheadline">
 				Explore investment-grade timepieces - sourced, authenticated, and delivered by a team who knows your time is valuable.
@@ -273,7 +273,7 @@
 			</ul>
 
 			<div class="widget-footer">
-				<span class="widget-footer-label">Watch Reserve Intelligence API</span>
+				<span class="widget-footer-label">Watch Reserve Intelligence</span>
 				<span class="widget-footer-note">Members only · Joining soon</span>
 			</div>
 
@@ -312,7 +312,7 @@
 				Source a Watch?
 			</h2>
 			<p class="sell-source-text">
-				While our primary focus is helping you find the perfect timepiece, we also offer expert valuations and bespoke sourcing for collectors.
+				Whether you're looking to sell, part-exchange, or acquire a specific reference - our team is here to assist you.
 			</p>
 			<div class="sell-source-links">
 				<a href="/sell" class="sell-source-link">

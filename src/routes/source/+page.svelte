@@ -55,7 +55,7 @@
 	<div class="source-hero-container">
 		<div class="source-hero-content">
 			<h1 class="source-hero-heading">
-				Let Us <em>Source</em> Your Next Timepiece
+				Let Us Source Your Next Timepiece
 			</h1>
 			<p class="source-hero-text">
 				From hard-to-find classics to the latest releases, we tap into our global network to help you secure the perfect watch without delay or pressure.

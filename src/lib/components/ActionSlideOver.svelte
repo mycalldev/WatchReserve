@@ -662,7 +662,7 @@
 								</div>
 								<div class="dep-breakdown-rule" aria-hidden="true"></div>
 								<div class="dep-breakdown-row dep-breakdown-row--balance">
-									<span class="dep-breakdown-label">Balance on Collection / Delivery</span>
+									<span class="dep-breakdown-label">Balance on Collection</span>
 									<span class="dep-breakdown-val">
 										{#if balanceAmount}{balanceAmount}{:else}90% of price{/if}
 									</span>
@@ -690,7 +690,7 @@
 								</div>
 							</div>
 							<p class="dep-info-note">
-								A 10% holding deposit secures this timepiece exclusively for you for 7 days. The remaining balance is payable upon collection or delivery.
+								A 10% holding deposit secures this timepiece exclusively for you for 7 days. The remaining balance is payable upon collection.
 							</p>
 						</div>
 

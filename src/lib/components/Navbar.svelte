@@ -31,7 +31,7 @@
 			<li><a href="/sell">SELL</a></li>
 			<li><a href="/source">SOURCE</a></li>
 			<li><a href="/blogs">BLOGS & GUIDES</a></li>
-			<li><a href="/api">API</a></li>
+			<li><a href="/api">INTELLIGENCE</a></li>
 			<li><a href="/contact">CONTACT</a></li>
 		</ul>
 
@@ -121,7 +121,7 @@
 			<li><a href="/sell" onclick={closeMenu}>SELL</a></li>
 			<li><a href="/source" onclick={closeMenu}>SOURCE</a></li>
 			<li><a href="/blogs" onclick={closeMenu}>BLOGS & GUIDES</a></li>
-			<li><a href="/api" onclick={closeMenu}>API</a></li>
+			<li><a href="/api" onclick={closeMenu}>INTELLIGENCE</a></li>
 				<li><a href="/wishlist" onclick={closeMenu}>WISHLIST{wishlist.count > 0 ? ` (${wishlist.count})` : ''}</a></li>
 				<li class="contact-li"><a href="/contact" onclick={closeMenu} class="mobile-contact-link">CONTACT</a></li>
 			</ul>

@@ -38,13 +38,13 @@
 
 			<!-- Brand column -->
 			<div class="footer-col footer-col--brand">
-				<h2 class="footer-heading">The Tech Hub of Luxury Watches</h2>
+				<h2 class="footer-heading">Watch Reserve</h2>
 				<p class="footer-description">
 					Watch Reserve is a boutique based in Canary Wharf, specialising in the sale and sourcing of pre-owned luxury timepieces. We offer a discreet, five-star service for collectors across the UK.
 				</p>
 				<div class="footer-badges">
 					<a
-						href="https://www.chrono24.co.uk"
+						href="https://www.chrono24.co.uk/dealer/watchreserve/index.htm"
 						target="_blank"
 						rel="noopener noreferrer"
 						class="footer-badge-link"
@@ -186,7 +186,7 @@
 				</svg>
 			</a>
 			<p class="copyright-text">Watch Reserve. All rights reserved.</p>
-		<p class="copyright-text copyright-text--legal">2026 &copy; Watch Reserve LTD &nbsp;|&nbsp; VAT Number: 49717342</p>
+		<p class="copyright-text copyright-text--legal">2026 &copy; Watch Reserve LTD &nbsp;|&nbsp; VAT Number: GB497176342</p>
 		</div>
 	</div>
 </footer>
