@@ -2,7 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import LinkButton from '$lib/components/LinkButton.svelte';
 	import NewArrivals from '$lib/components/NewArrivals.svelte';
-	import Reviews from '$lib/components/Reviews.svelte';
+
 	import ApiTrialModal from '$lib/components/ApiTrialModal.svelte';
 	import { onMount, onDestroy } from 'svelte';
 
@@ -27,6 +27,10 @@
 		clearInterval(sliderInterval);
 	});
 </script>
+
+<svelte:head>
+	<script src="https://elfsightcdn.com/platform.js" async></script>
+</svelte:head>
 
 <ApiTrialModal />
 
@@ -437,7 +441,9 @@
 </section>
 
 
-<Reviews />
+<section class="reviews-section">
+	<div class="elfsight-app-deaa2cf4-ebad-4bfa-83c3-47476e08ab47" data-elfsight-app-lazy></div>
+</section>
 
 <!-- ── INSTAGRAM SOCIAL PROOF ─────────────────────────────────────────── -->
 <section class="ig-proof-section">
@@ -1523,6 +1529,24 @@
 		.expertise-container {
 			gap: 32px;
 		}
+	}
+
+	/* ── REVIEWS SECTION ── */
+	.reviews-section {
+		width: 100%;
+		background-color: #ffffff;
+		padding: 80px 40px;
+		box-sizing: border-box;
+		border-top: 1px solid rgba(22, 11, 17, 0.07);
+		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+	}
+
+	@media (max-width: 768px) {
+		.reviews-section { padding: 60px 20px; }
+	}
+
+	@media (max-width: 480px) {
+		.reviews-section { padding: 48px 16px; }
 	}
 
 	/* ── API SECTION ── */
