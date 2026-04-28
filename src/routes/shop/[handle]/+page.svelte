@@ -105,7 +105,10 @@
 		activeImageIndex = index;
 		if (thumbsRef) {
 			const thumb = thumbsRef.querySelectorAll('.thumb')[index];
-			thumb?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+			if (thumb) {
+				const scrollLeft = thumb.offsetLeft - (thumbsRef.offsetWidth / 2) + (thumb.offsetWidth / 2);
+				thumbsRef.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+			}
 		}
 	}
 
