@@ -1727,6 +1727,10 @@
 			padding: 80px 24px;
 		}
 
+		.hero-cta {
+			margin-bottom: 24px;
+		}
+
 		.gallery-section {
 			padding: 48px 0;
 		}
