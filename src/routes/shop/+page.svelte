@@ -52,6 +52,14 @@
 			result = [...result].sort((a, b) => b.price - a.price);
 		} else if (sortOrder === 'name-asc') {
 			result = [...result].sort((a, b) => a.title.localeCompare(b.title));
+		} else if (sortOrder === 'status-new-arrival') {
+			result = result.filter((p) => p.status?.toLowerCase() === 'new arrival');
+		} else if (sortOrder === 'status-available') {
+			result = result.filter((p) => p.status?.toLowerCase() === 'available');
+		} else if (sortOrder === 'status-reserved') {
+			result = result.filter((p) => p.status?.toLowerCase() === 'reserved');
+		} else if (sortOrder === 'status-sold') {
+			result = result.filter((p) => p.status?.toLowerCase() === 'sold');
 		}
 
 		return result;
@@ -134,6 +142,11 @@
 						<option value="price-asc">Price: Low to High</option>
 						<option value="price-desc">Price: High to Low</option>
 						<option value="name-asc">Name: A to Z</option>
+						<option disabled>──────────</option>
+						<option value="status-new-arrival">New Arrival</option>
+						<option value="status-available">Available</option>
+						<option value="status-reserved">Reserved</option>
+						<option value="status-sold">Sold</option>
 					</select>
 				</div>
 			</div>
