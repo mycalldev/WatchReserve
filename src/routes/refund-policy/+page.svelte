@@ -27,7 +27,7 @@
 				If the exchange is possible, we will arrange for your new watch to be delivered or collected within our usual delivery timeframes once we have received the original item.
 			</p>
 			<p>
-				If the exchange is not possible — for example because the item is out of stock or differs in price — we will let you know and arrange a refund instead. You may then choose to make a new purchase with us.
+				If the exchange is not possible - for example because the item is out of stock or differs in price - we will let you know and arrange a refund instead. You may then choose to make a new purchase with us.
 			</p>
 		</section>
 

@@ -1,154 +1,387 @@
 <section class="tos-page">
 	<div class="tos-container">
-		<h1 class="tos-title">Terms of Service</h1>
+		<h1 class="tos-title">Terms and Conditions</h1>
+		<p class="tos-date">Last updated: 28 April 2026</p>
+
+		<!-- ── PART 1: BUYING ── -->
+		<div class="tos-part-header">
+			<h2 class="tos-part-title">Buying a Watch From Us</h2>
+		</div>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 1 – Access and Account</h2>
-			<p>By agreeing to these Terms of Service, you represent that you are at least the age of 18 years old.</p>
-			<p>To use the Services, including accessing or browsing our online stores or purchasing any of the products or services we offer, you may be asked to provide certain information, such as your email address, billing, payment, and shipping information. You represent and warrant that all the information you provide in our stores is correct, current and complete and that you have all rights necessary to provide this information.</p>
-			<p>You are solely responsible for maintaining the security of your account credentials and for all of your account activity. You may not transfer, sell, assign, or license your account to any other person.</p>
+			<h3 class="section-title">About These Terms</h3>
+			<p>
+				These are the terms and conditions on which we sell watches to you via our website (<a href="https://watchreserve.co.uk/">watchreserve.co.uk</a>), via social media, by phone, and in our showroom.
+			</p>
+			<p>
+				Please read these terms carefully before buying a watch from us. They tell you who we are, how we will provide your watch, how either of us may change or end our agreement, and what to do if there is a problem. Please pay particular attention to the section titled "Our Liability to You."
+			</p>
+			<p>
+				We may update these terms from time to time. The current version will always be available on our website.
+			</p>
+			<p>
+				These terms apply to consumers only. You are a consumer if you are an individual buying a watch for personal use, and not in connection with a business or trade. We do not sell watches to businesses.
+			</p>
+			<p>By using our website, creating an account, or purchasing a watch from us, you confirm that:</p>
+			<ul>
+				<li>You are over the age of 18</li>
+				<li>You have read, understood, and agree to be bound by these terms</li>
+				<li>You have authority to enter into this agreement</li>
+			</ul>
+			<p>
+				Additional terms also apply to your purchase, including our <a href="/refund-policy">returns policy</a>, our <a href="/warranty-policy">warranty</a>, and our <a href="/privacy-policy">privacy policy</a>. If you purchase using finance, we will provide the relevant additional terms at the time.
+			</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 2 – Our Products</h2>
-			<p>We have made every effort to provide an accurate representation of our products and services in our online stores. However, please note that colours or product appearance may differ from how they may appear on your screen due to the type of device you use to access the store and your device settings and configuration.</p>
-			<p>We do not warrant that the appearance or quality of any products or services purchased by you will meet your expectations or be the same as depicted or rendered in our online stores.</p>
-			<p>All descriptions of products are subject to change at any time without notice at our sole discretion. We reserve the right to discontinue any product at any time and may limit the quantities of any products that we offer to any person, geographic region or jurisdiction, on a case-by-case basis.</p>
+			<h3 class="section-title">Our Details</h3>
+			<p>
+				We are Watch Reserve Ltd, a company registered in England and Wales with company number 16541771. Our registered office is at Amelia House, Crescent Road, Worthing, BN11 1RL. Our trading address is 25 Cabot Square, Canary Wharf, London E14 4QZ.
+			</p>
+			<p>
+				You can reach us by telephone on <a href="tel:02081501987">0208 150 1987</a> or by email at <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a>. If we need to contact you, we will do so by telephone or at the email address you have provided.
+			</p>
+			<p>When we refer to "writing" or "written" in these terms, this includes email.</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 3 – Orders</h2>
-			<p>When you place an order, you are making an offer to purchase. The Watch Reserve LTD reserves the right to accept or decline your order for any reason at its discretion. Your order is not accepted until The Watch Reserve LTD confirms acceptance. We must receive and process your payment before your order is accepted. Please review your order carefully before submitting, as The Watch Reserve LTD may be unable to accommodate cancellation requests after an order is accepted. In the event that we do not accept, make a change to, or cancel an order, we will attempt to notify you by contacting the e‑mail, billing address, and/or phone number provided at the time the order was made.</p>
-			<p>Your purchases are subject to return or exchange solely in accordance with our Refund Policy.</p>
-			<p>You represent and warrant that your purchases are for your own personal or household use and not for commercial resale or export.</p>
+			<h3 class="section-title">Placing an Order</h3>
+			<p>
+				You can place an order by visiting our showroom, calling us on <a href="tel:02081501987">0208 150 1987</a>, or emailing <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a>.
+			</p>
+			<p>
+				For online and phone purchases, we will send you an email confirming whether your order has been accepted, along with the estimated delivery date and any deposit paid.
+			</p>
+			<p>
+				<strong>If we cannot accept your order:</strong> If we are unable to accept your order for any reason - for example, because the watch is no longer available, there is a fault, or we have identified a pricing error - we will let you know in writing and will not charge you.
+			</p>
+			<p>
+				We supply watches across the UK mainland and, subject to agreement, internationally. Where we agree to ship outside the UK, delivery costs, taxes, and duties may vary.
+			</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 4 – Prices and Billing</h2>
-			<p>Prices, discounts and promotions are subject to change without notice. The price charged for a product or service will be the price in effect at the time the order is placed and will be set out in your order confirmation email. Unless otherwise expressly stated, posted prices do not include taxes, shipping, handling, customs or import charges.</p>
-			<p>Prices posted in our online stores may be different from prices offered in physical stores or in online or other stores operated by third parties. We may offer, from time to time, promotions on the Services that may affect pricing and that are governed by terms and conditions separate from these Terms. If there is a conflict between the terms for a promotion and these Terms, the promotion terms will govern.</p>
-			<p>You agree to provide current, complete and accurate purchase, payment and account information for all purchases made at our stores. You agree to promptly update your account and other information, including your email address, credit card numbers and expiration dates, so that we can complete your transactions and contact you as needed.</p>
-			<p>You represent and warrant that (i) the credit card information you provide is true, correct, and complete, (ii) you are duly authorised to use such credit card for the purchase, (iii) charges incurred by you will be honoured by your credit card company, and (iv) you will pay charges incurred by you at the posted prices, including shipping and handling charges and all applicable taxes, if any.</p>
+			<h3 class="section-title">Our Watches</h3>
+			<p>
+				Images on our website and in marketing materials are for illustrative purposes only. While we do our best to represent watches accurately, colours and finishes may appear slightly different on your device.
+			</p>
+			<p>
+				We may ask you to provide additional information or evidence of identity to complete your purchase. We also reserve the right to carry out credit and identity checks.
+			</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 5 – Shipping and Delivery</h2>
-			<p>We are not liable for shipping and delivery delays. All delivery times are estimates only and are not guaranteed. We are not responsible for delays caused by shipping couriers, customs processing, or events outside our control. Once we transfer products to the courier, title and risk of loss passes to you.</p>
+			<h3 class="section-title">Changes to Your Order</h3>
+			<p>
+				If you would like to make a change to your order, please contact us and we will let you know whether it is possible and advise of any effect on price or timing.
+			</p>
+			<p>We may make changes to reflect updates in relevant laws or regulatory requirements.</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 6 – Intellectual Property</h2>
-			<p>Our Services, including but not limited to all trademarks, brands, text, displays, images, graphics, product reviews, video, and audio, and the design, selection, and arrangement thereof, are owned by The Watch Reserve LTD, its affiliates or licensors and are protected by UK and foreign patent, copyright and other intellectual property laws.</p>
-			<p>These Terms permit you to use the Services for your personal, non-commercial use only. You must not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material on the Services without our prior written consent. Except as expressly provided herein, nothing in these Terms grants or shall be construed as granting a license or other rights to you under any patent, trademark, copyright, or other intellectual property of The Watch Reserve LTD, Shopify or any third party. Unauthorised use of the Services may be a violation of intellectual property laws. All rights not expressly granted herein are reserved by The Watch Reserve LTD.</p>
-			<p>The Watch Reserve LTD names, logos, product and service names, designs, and slogans are trademarks of The Watch Reserve LTD or its affiliates or licensors. You must not use such trademarks without the prior written permission of The Watch Reserve LTD. Shopify's name, logo, product and service names, designs and slogans are trademarks of Shopify. All other names, logos, product and service names, designs, and slogans on the Services are the trademarks of their respective owners.</p>
+			<h3 class="section-title">Price and Payment</h3>
+			<p>
+				Prices are displayed on our website and in our showroom and include VAT unless otherwise stated. Delivery charges outside the UK will be confirmed at the time of order.
+			</p>
+			<p>
+				If the rate of VAT changes between your order date and the date we supply your watch, we will adjust accordingly, unless you have already paid in full.
+			</p>
+			<p>
+				If a watch is incorrectly priced, we will contact you before accepting your order. If the correct price is lower than stated, we will charge the lower amount. If it is higher and you do not wish to proceed, we will refund any sums paid within 10 business days.
+			</p>
+			<p>We accept Visa, Mastercard, American Express, debit card, bank transfer, and finance.</p>
+			<p>
+				We may require a deposit of 10% to secure your order. We reserve the right to request a higher deposit for high-value purchases. Full details can be found in our <a href="/deposit-policy">Deposit Policy</a>.
+			</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 7 – Optional Tools</h2>
-			<p>You may be provided with access to customer tools offered by third parties as part of the Services, which we neither monitor nor have any control nor input.</p>
-			<p>You acknowledge and agree that we provide access to such tools "as is" and "as available" without any warranties, representations or conditions of any kind and without any endorsement. We shall have no liability whatsoever arising from or relating to your use of optional third-party tools.</p>
-			<p>Any use by you of the optional tools offered through the site is entirely at your own risk and discretion and you should ensure that you are familiar with and approve of the terms on which tools are provided by the relevant third-party provider(s).</p>
-			<p>We may also, in the future, offer new features through the Services (including the release of new tools and resources). Such new features shall also be deemed part of the Services and are subject to these Terms of Service.</p>
+			<h3 class="section-title">Delivery and Collection</h3>
+			<p>
+				We will arrange a suitable time with you to deliver your watch or for you to collect it from our showroom. It is your responsibility to ensure your delivery address is correct.
+			</p>
+			<p>
+				We will aim to deliver your watch as soon as reasonably possible. If your order is delayed by something outside our control, we will let you know and take steps to minimise the impact. If the delay is substantial, you may end the agreement and receive a full refund.
+			</p>
+			<p>
+				Your watch becomes your responsibility from the time it is delivered or collected. Ownership passes to you once we have received payment in full and in cleared funds.
+			</p>
+			<p>
+				We will not dispatch a watch until payment has been received in full. If you purchased using finance and issues arise at a later date, you will be required to make payment in full.
+			</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 8 – Third-Party Links</h2>
-			<p>The Services may contain materials and hyperlinks to websites provided or operated by third parties (including any embedded third party functionality). We are not responsible for examining or evaluating the content or accuracy of any third-party materials or websites you choose to access. If you decide to leave the Services to access these materials or third party sites, you do so at your own risk.</p>
-			<p>We are not liable for any harm or damages related to your access of any third-party websites, or your purchase or use of any products, services, resources, or content on any third-party websites. Please review carefully the third-party's policies and practices and make sure you understand them before you engage in any transaction. Complaints, claims, concerns, or questions regarding third-party products and services should be directed to the third-party.</p>
+			<h3 class="section-title">The Watches We Sell</h3>
+			<p>
+				We sell pre-owned watches via our website, showroom, and social media. All watches are authenticated as part of our checking process. Where a watch does not include original papers or box, this will be made clear before purchase.
+			</p>
+			<p>
+				A pre-owned watch will not be in the same condition as a new watch and may not meet the performance standards of a new watch, for example in relation to timekeeping or water resistance. We do not warrant that pre-owned watches will perform as new.
+			</p>
+			<p>Any stated age of manufacture is an estimate only and is not guaranteed by us.</p>
+			<p>
+				Some straps and parts may not be original. If this is important to you, please contact us before placing your order.
+			</p>
+			<p>
+				We do not guarantee water resistance unless specifically stated. Please contact us before purchasing if you have any queries about water resistance.
+			</p>
+			<p>
+				If we are unable to fulfil your order after accepting it, we will offer a suitable alternative where possible. If this is not possible or you do not wish to proceed, we will issue a full refund within 10 working days.
+			</p>
+			<p>
+				All watches come with a 24-month warranty unless otherwise stated. Full details can be found in our <a href="/warranty-policy">Warranty Policy</a>. The warranty is only valid if its terms are complied with.
+			</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 9 – Relationship with Shopify</h2>
-			<p>The Watch Reserve LTD is powered by Shopify, which enables us to provide the Services to you. However, any sales and purchases you make in our Store are made directly with The Watch Reserve LTD. By using the Services, you acknowledge and agree that Shopify is not responsible for any aspect of any sales between you and The Watch Reserve LTD, including any injury, damage, or loss resulting from purchased products and services. You hereby expressly release Shopify and its affiliates from all claims, damages, and liabilities arising from or related to your purchases and transactions with The Watch Reserve LTD.</p>
+			<h3 class="section-title">Cancellations and Returns</h3>
+			<p>
+				If you wish to cancel your order, please contact us at <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a> as soon as possible. If your order has not been dispatched, we will refund the full amount. If you cancel within 48 hours of delivery, we may charge for any reasonable costs incurred.
+			</p>
+			<p>
+				If you purchased online, by phone, or via social media, you have the right to return your watch within 14 days of receipt. Please refer to our <a href="/refund-policy">Returns Policy</a> for full details. This right does not apply to purchases made in person at our showroom, though your statutory rights are unaffected.
+			</p>
+			<p>
+				If your watch is faulty, defective, or not as described, please refer to our <a href="/refund-policy">Returns Policy</a> or contact us at <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a>.
+			</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 10 – Privacy Policy</h2>
-			<p>All personal information we collect through the Services is subject to our <a href="/privacy-policy" class="tos-link">Privacy Policy</a>, and certain personal information may be subject to Shopify's Privacy Policy. By using the Services, you acknowledge that you have read these privacy policies.</p>
-			<p>Because the Services are hosted by Shopify, Shopify collects and processes personal information about your access to and use of the Services in order to provide and improve the Services for you. Information you submit to the Services will be transmitted to and shared with Shopify as well as third parties that may be located in other countries than where you reside, in order to provide services to you. Review our privacy policy for more details on how we, Shopify, and our partners use your personal information.</p>
+			<h3 class="section-title">Our Liability to You</h3>
+			<p>
+				If we fail to comply with these terms, we are responsible for loss or damage that is a foreseeable result of our breach. We are not responsible for loss or damage that is not foreseeable.
+			</p>
+			<p>
+				We do not limit our liability for death or personal injury caused by our negligence, fraud or fraudulent misrepresentation, breach of your legal rights in relation to the watch, or liability under the Consumer Protection Act 1987.
+			</p>
+			<p>We supply watches to consumers for personal use only and are not liable for any business losses.</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 11 – Feedback</h2>
-			<p>If you submit, upload, post, email, or otherwise transmit any ideas, suggestions, feedback, reviews, proposals, plans, or other content (collectively, "Feedback"), you grant us a perpetual, worldwide, sublicensable, royalty-free license to use, reproduce, modify, publish, distribute and display such Feedback in any medium for any purpose, including for commercial use. We may, for example, use our rights under this license to operate, provide, evaluate, enhance, improve and promote the Services and to perform our obligations and exercise our rights under the Terms of Service.</p>
-			<p>You also represent and warrant that: (i) you own or have all necessary rights to all Feedback; (ii) you have disclosed any compensation or incentives received in connection with your submission of Feedback; and (iii) your Feedback will comply with these Terms. We are and shall be under no obligation (1) to maintain your Feedback in confidence; (2) to pay compensation for your Feedback; or (3) to respond to your Feedback.</p>
-			<p>We may, but have no obligation to, monitor, edit or remove Feedback that we determine in our sole discretion to be unlawful, offensive, threatening, libellous, defamatory, pornographic, obscene or otherwise objectionable or violates any party's intellectual property or these Terms of Service.</p>
-			<p>You agree that your Feedback will not violate any right of any third-party, including copyright, trademark, privacy, personality or other personal or proprietary right. You further agree that your Feedback will not contain libellous or otherwise unlawful, abusive or obscene Feedback, or contain any computer virus or other malware that could in any way affect the operation of the Services or any related website. You may not use a false email address, pretend to be someone other than yourself, or otherwise mislead us or third-parties as to the origin of any Feedback. You are solely responsible for any Feedback you make and its accuracy. We take no responsibility and assume no liability for any Feedback posted by you or any third-party.</p>
+			<h3 class="section-title">Other Important Terms</h3>
+			<p>
+				We may transfer our rights and obligations to another organisation and will notify you if we plan to do so. If you are unhappy with the transfer, you may end the agreement within 7 working days of being notified.
+			</p>
+			<p>You may not transfer your rights under this agreement to anyone else.</p>
+			<p>
+				We will not be responsible for events beyond our control, including natural disasters, terrorist attacks, utility failures, strikes, governmental restrictions, or pandemics. If such an event continues for more than 4 weeks, you will have the right to end the agreement and may be entitled to a refund.
+			</p>
+			<p>If any part of these terms is found to be unlawful, the remaining terms will continue in full force.</p>
+			<p>If we do not immediately enforce any right under these terms, we may still do so at a later date.</p>
+			<p>
+				These terms are governed by English law. Any disputes will be subject to the exclusive jurisdiction of the courts of England and Wales.
+			</p>
+		</section>
+
+		<!-- ── PART 2: WARRANTY ── -->
+		<div class="tos-part-header">
+			<h2 class="tos-part-title">Warranty Cover</h2>
+		</div>
+
+		<section class="tos-section">
+			<h3 class="section-title">Our Details</h3>
+			<p>
+				We are Watch Reserve Ltd, a company registered in England and Wales with company number 16541771. Our registered office is at Amelia House, Crescent Road, Worthing, BN11 1RL. Our trading address is 25 Cabot Square, Canary Wharf, London E14 4QZ.
+			</p>
+			<p>
+				You can reach us by telephone on <a href="tel:02081501987">0208 150 1987</a> or by email at <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a>. If we need to contact you, we will do so by telephone or at the email address you have provided.
+			</p>
+			<p>
+				Our warranty cover does not affect your statutory rights as a consumer under English law. We only sell watches to consumers.
+			</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 12 – Errors, Inaccuracies and Omissions</h2>
-			<p>Occasionally there may be information on or in the Services that contain typographical errors, inaccuracies or omissions that may relate to product descriptions, pricing, promotions, offers, product shipping charges, transit times and availability. We reserve the right to correct any errors, inaccuracies or omissions, and to change or update information or cancel orders if any information is inaccurate at any time without prior notice (including after you have submitted your order).</p>
+			<h3 class="section-title">Our Warranty</h3>
+			<p>
+				Every watch we sell comes with 24 months warranty cover from the date of delivery or collection, subject to the terms below.
+			</p>
+			<p>
+				It is important you understand what is and is not covered, and what you need to do to keep your cover valid.
+			</p>
+			<p>Our warranty is not transferable. If you sell or give the watch to someone else, the warranty will no longer be valid.</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 13 – Prohibited Uses</h2>
-			<p>You may access and use the Services for lawful purposes only. You may not access or use the Services, directly or indirectly: (a) for any unlawful or malicious purpose; (b) to violate any international, federal, provincial or state regulations, rules, laws, or local ordinances; (c) to infringe upon or violate our intellectual property rights or the intellectual property rights of others; (d) to harass, abuse, insult, harm, defame, slander, disparage, intimidate, or harm any of our employees or any other person; (e) to transmit false or misleading information; (f) to send, knowingly receive, upload, download, use, or re-use any material that does not comply with these Terms; (g) to transmit, or procure the sending of, any advertising or promotional material, including any "junk mail," "chain letter," "spam," or any other similar solicitation; (h) to impersonate or attempt to impersonate any other person or entity; or (i) to engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the Services, or which, as determined by us, may harm The Watch Reserve LTD, Shopify or users of the Services, or expose them to liability.</p>
-			<p>In addition, you agree not to: (a) upload or transmit viruses or any other type of malicious code that will or may be used in any way that will affect the functionality or operation of the Services; (b) reproduce, duplicate, copy, sell, resell or exploit any portion of the Services; (c) collect or track the personal information of others; (d) spam, phish, pharm, pretext, spider, crawl, or scrape; or (e) interfere with or circumvent the security features of the Services or any related website, other websites, or the Internet. We reserve the right to suspend, disable, or terminate your account at any time, without notice, if we determine that you have violated any part of these Terms.</p>
+			<h3 class="section-title">Keeping Your Warranty Valid</h3>
+			<p>To remain covered under this warranty, you must:</p>
+			<ul>
+				<li>Use, service, and care for the watch in accordance with the manufacturer's instructions and our recommendations</li>
+				<li>Retain all original papers and authentication documents provided at the time of purchase</li>
+				<li>Not customise or alter the watch in any way</li>
+				<li>Obtain our prior written approval before taking the watch to a third party for repairs or servicing</li>
+				<li>Notify us of any potential claim within 10 business days of becoming aware of the problem</li>
+			</ul>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 14 – Termination</h2>
-			<p>We may terminate this agreement or your access to the Services (or any part thereof) in our sole discretion at any time without notice, and you will remain liable for all amounts due up to and including the date of termination.</p>
-			<p>The following sections will continue to apply following any termination: Intellectual Property, Feedback, Termination, Disclaimer of Warranties, Limitation of Liability, Indemnification, Severability, Waiver; Entire Agreement, Assignment, Governing Law, Privacy Policy, and any other provisions that by their nature should survive termination.</p>
+			<h3 class="section-title">What Is Not Covered</h3>
+			<p>Your warranty will not apply in the following circumstances:</p>
+			<ul>
+				<li>Normal wear and tear</li>
+				<li>Damage caused by tampering or unauthorised modifications</li>
+				<li>Use in inappropriate conditions, including extreme weather or water depths beyond the manufacturer's rated specification</li>
+				<li>Installation of parts not suitable for your specific watch</li>
+				<li>Damage caused by negligence or deliberate misuse</li>
+				<li>Loss of original papers or authentication documents</li>
+				<li>Repairs or servicing carried out without our prior written approval</li>
+			</ul>
+			<p>Where a claim is accepted, we will repair or replace the affected parts only and will not be liable for any other losses.</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 15 – Disclaimer of Warranties</h2>
-			<p>The information presented on or through the Services is made available solely for general information purposes. We do not warrant the accuracy, completeness, or usefulness of this information. Any reliance you place on such information is strictly at your own risk. We disclaim all liability and responsibility arising from any reliance placed on such materials by you or any other visitor to the Services, or by anyone who may be informed of any of its contents.</p>
-			<p class="tos-uppercase">EXCEPT AS EXPRESSLY STATED BY THE WATCH RESERVE LTD, THE SERVICES AND ALL PRODUCTS OFFERED THROUGH THE SERVICES ARE PROVIDED 'AS IS' AND 'AS AVAILABLE' FOR YOUR USE, WITHOUT ANY REPRESENTATION, WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ALL IMPLIED WARRANTIES OR CONDITIONS OF MERCHANTABILITY, MERCHANTABLE QUALITY, FITNESS FOR A PARTICULAR PURPOSE, DURABILITY, TITLE, AND NON-INFRINGEMENT. WE DO NOT GUARANTEE, REPRESENT OR WARRANT THAT YOUR USE OF THE SERVICES WILL BE UNINTERRUPTED, TIMELY, SECURE OR ERROR-FREE. SOME JURISDICTIONS LIMIT OR DO NOT ALLOW THE DISCLAIMER OF IMPLIED OR OTHER WARRANTIES SO THE ABOVE DISCLAIMER MAY NOT APPLY TO YOU.</p>
+			<h3 class="section-title">Making a Claim</h3>
+			<p>
+				If you think your watch may be covered, please contact us within 10 business days of becoming aware of the problem:
+			</p>
+			<ul class="plain-list">
+				<li>Email: <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a></li>
+				<li>Phone: <a href="tel:02081501987">0208 150 1987</a></li>
+			</ul>
+			<p>
+				We may ask you to send the watch to us for inspection. We will respond within 10 business days to confirm whether your claim has been accepted and advise on next steps.
+			</p>
+		</section>
+
+		<!-- ── PART 3: SELLING ── -->
+		<div class="tos-part-header">
+			<h2 class="tos-part-title">Selling a Watch to Us or Using Our Consignment Service</h2>
+		</div>
+
+		<section class="tos-section">
+			<h3 class="section-title">About These Terms</h3>
+			<p>
+				These are the terms on which we buy watches from you, or act as your agent to sell your watch on your behalf, via our website, showroom, or by phone.
+			</p>
+			<p>
+				These terms explain how our buying and consignment process works and what both parties are responsible for.
+			</p>
+			<p>
+				These terms apply to consumers only - individuals selling a watch in a personal capacity and not in the course of a business.
+			</p>
+			<p>By selling a watch to us or engaging us as your agent, you confirm that:</p>
+			<ul>
+				<li>You are over the age of 18</li>
+				<li>You have read, understood, and agree to these terms</li>
+				<li>You are the legal owner of the watch and no other party has a claim on it</li>
+				<li>There is no outstanding finance or borrowing secured against the watch</li>
+				<li>The watch has not been reported lost or stolen and is not subject to any insurance or third-party claim</li>
+				<li>You have authority to enter into this agreement</li>
+			</ul>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 16 – Limitation of Liability</h2>
-			<p class="tos-uppercase">TO THE FULLEST EXTENT PROVIDED BY LAW, IN NO CASE SHALL THE WATCH RESERVE LTD, OUR PARTNERS, DIRECTORS, OFFICERS, EMPLOYEES, AFFILIATES, AGENTS, CONTRACTORS, SERVICE PROVIDERS OR LICENSORS, OR THOSE OF SHOPIFY AND ITS AFFILIATES, BE LIABLE FOR ANY INJURY, LOSS, CLAIM, OR ANY DIRECT, INDIRECT, INCIDENTAL, PUNITIVE, SPECIAL, OR CONSEQUENTIAL DAMAGES OF ANY KIND, INCLUDING, WITHOUT LIMITATION, LOST PROFITS, LOST REVENUE, LOST SAVINGS, LOSS OF DATA, REPLACEMENT COSTS, OR ANY SIMILAR DAMAGES, WHETHER BASED IN CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE, ARISING FROM YOUR USE OF ANY OF THE SERVICES OR ANY PRODUCTS PROCURED USING THE SERVICES, OR FOR ANY OTHER CLAIM RELATED IN ANY WAY TO YOUR USE OF THE SERVICES OR ANY PRODUCT, INCLUDING, BUT NOT LIMITED TO, ANY ERRORS OR OMISSIONS IN ANY CONTENT, OR ANY LOSS OR DAMAGE OF ANY KIND INCURRED AS A RESULT OF THE USE OF THE SERVICES OR ANY CONTENT (OR PRODUCT) POSTED, TRANSMITTED, OR OTHERWISE MADE AVAILABLE VIA THE SERVICES, EVEN IF ADVISED OF THEIR POSSIBILITY.</p>
+			<h3 class="section-title">Our Details</h3>
+			<p>
+				We are Watch Reserve Ltd, a company registered in England and Wales with company number 16541771. Our registered office is at Amelia House, Crescent Road, Worthing, BN11 1RL. Our trading address is 25 Cabot Square, Canary Wharf, London E14 4QZ.
+			</p>
+			<p>
+				You can reach us by telephone on <a href="tel:02081501987">0208 150 1987</a> or by email at <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a>. If we need to contact you, we will do so by telephone or at the email address you have provided.
+			</p>
+			<p>When we refer to "writing" or "written" in these terms, this includes email.</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 17 – Indemnification</h2>
-			<p>You agree to indemnify, defend and hold harmless The Watch Reserve LTD, Shopify, and our affiliates, partners, officers, directors, employees, agents, contractors, licensors, and service providers from any losses, damages, liabilities or claims, including reasonable attorneys' fees, payable to any third party due to or arising out of (1) your breach of these Terms of Service or the documents they incorporate by reference, (2) your violation of any law or the rights of a third party, or (3) your access to and use of the Services.</p>
-			<p>We will notify you of any indemnifiable claim, provided that a failure to promptly notify will not relieve you of your obligations unless you are materially prejudiced. We may control the defence and settlement of such claim at your expense, including choice of counsel, but will not settle any claim requiring non-monetary obligations from you without your consent (not to be unreasonably withheld). You will cooperate in the defence of indemnified claims, including by providing relevant documents.</p>
+			<h3 class="section-title">Selling Your Watch to Us</h3>
+			<p>
+				To sell your watch to us, please provide details of the make, model, approximate age, condition, and whether you have the original box and papers. You can do this via our website, by phone, by email, or in person at our showroom. You are responsible for ensuring all information you provide is accurate and complete.
+			</p>
+			<p>
+				If we are interested in purchasing your watch, we will provide an indicative quotation. This is subject to contract and is not legally binding. We reserve the right to withdraw it at any time. Unless otherwise agreed, the quotation will remain open for 5 working days.
+			</p>
+			<p>
+				If you wish to proceed, please arrange for your watch to be delivered to our showroom at 25 Cabot Square, Canary Wharf, London E14 4QZ. You must use a reliable, insured courier and ensure the watch is securely packed. You must insure your watch during transit for its full replacement value. We cannot be held responsible for watches that fail to arrive. If you bring your watch in person, you will need to provide two forms of identification, including a passport or driving licence.
+			</p>
+			<p>By sending or bringing your watch to us, you confirm that:</p>
+			<ul>
+				<li>There are no undisclosed or hidden defects</li>
+				<li>The make, model, and serial number are accurate</li>
+				<li>The watch is genuine and all components are authentic</li>
+				<li>The waterproof seal, if applicable, has not been tampered with</li>
+				<li>The watch is your property, free from any finance, charge, or third-party claim</li>
+				<li>Any papers, box, or packaging are authentic and belong with the watch</li>
+				<li>The watch has not been subject to an insurance claim or substantial repairs</li>
+				<li>The watch is not an insurance write-off</li>
+				<li>All applicable taxes and duties have been paid</li>
+				<li>There are no facts or circumstances that would affect our decision to purchase your watch</li>
+			</ul>
+			<p>
+				Once your watch arrives, we will confirm receipt and aim to inspect it within a reasonable period. We will check its authenticity, condition, and whether it has been reported lost, stolen, or is subject to finance. If the watch matches any lost or stolen register, we may be legally required to secure it and notify the police. You remain responsible for your watch while it is in our possession until we agree to purchase it.
+			</p>
+			<p>
+				Following inspection, we will let you know whether we wish to proceed and the price we are prepared to pay - the Final Valuation. This may be higher, lower, or the same as the initial quotation. Once you accept the Final Valuation in writing, a binding agreement is formed and you are obliged to sell at that price.
+			</p>
+			<p>
+				We may ask you to contribute to the cost of any repairs, servicing, or polishing required before we can sell your watch. We will inform you of any such costs in advance.
+			</p>
+			<p>
+				Once you confirm you wish to proceed, we will pay the Final Valuation - less any agreed costs - to your nominated bank account within 10 working days. Time for payment is not of the essence.
+			</p>
+			<p>
+				If we have made an error in a quotation or Final Valuation that was obvious and could reasonably have been identified as a mistake, we are not obliged to purchase at the incorrect price. We do not accept liability for accidental errors.
+			</p>
+			<p>
+				If we discover that any of your warranties or undertakings are untrue or incomplete, we reserve the right to rescind our agreement, require repayment of any sums paid, and/or claim damages for any losses incurred.
+			</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 18 – Severability</h2>
-			<p>In the event that any provision of these Terms of Service is determined to be unlawful, void or unenforceable, such provision shall nonetheless be enforceable to the fullest extent permitted by applicable law, and the unenforceable portion shall be deemed to be severed from these Terms of Service, such determination shall not affect the validity and enforceability of any other remaining provisions.</p>
+			<h3 class="section-title">After We Have Purchased Your Watch</h3>
+			<p>
+				Once we have purchased your watch and paid for it in full, it becomes our property and we may deal with it as we choose. You will have no right to request it back.
+			</p>
+			<p>
+				If you wish to part-exchange your watch against a purchase from us, the two transactions will be treated as separate agreements. If either is breached, we may cancel both without liability.
+			</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 19 – Waiver; Entire Agreement</h2>
-			<p>The failure of us to exercise or enforce any right or provision of these Terms of Service shall not constitute a waiver of such right or provision.</p>
-			<p>These Terms of Service and any policies or operating rules posted by us on this site or in respect to the Service constitutes the entire agreement and understanding between you and us and governs your use of the Service, superseding any prior or contemporaneous agreements, communications and proposals, whether oral or written, between you and us (including, but not limited to, any prior versions of the Terms of Service).</p>
-			<p>Any ambiguities in the interpretation of these Terms of Service shall not be construed against the drafting party.</p>
+			<h3 class="section-title">Consignment and Agency Sales</h3>
+			<p>
+				Rather than buying your watch outright, we may agree to sell it on your behalf as your agent during an agreed sale period.
+			</p>
+			<p>
+				The same initial steps apply as for a direct sale. Once we agree to act as your agent, we are authorised to commit you to a legally binding sale at a price no lower than the Final Valuation, without further reference to you during the agreed sale period.
+			</p>
+			<p>
+				You remain responsible for your watch while it is in our possession. You must insure it for its full replacement value throughout the sale period.
+			</p>
+			<p>
+				If we are unable to sell your watch within the agreed period, we will arrange for it to be returned to you. You will be liable for any reasonable costs incurred in connection with the return and our time acting as your agent.
+			</p>
+			<p>
+				Once sold, you will not be entitled to change your mind or reclaim the watch. We will transfer the proceeds to your nominated bank account within 10 working days. Time for payment is not of the essence.
+			</p>
+			<p>Where we act as your agent, we will use reasonable care and skill to secure a sale on your behalf.</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 20 – Assignment</h2>
-			<p>You may not delegate, transfer or assign this Agreement or any of your rights or obligations under these Terms without our prior written consent, and any such attempt will be null and void. We may transfer, assign, or delegate these Terms and our rights and obligations without consent or notice to you.</p>
+			<h3 class="section-title">Our Liability to You</h3>
+			<p>
+				We are responsible for loss or damage that is a foreseeable result of our failure to comply with these terms. We are not responsible for losses that are not foreseeable.
+			</p>
+			<p>
+				We do not limit our liability for death or personal injury caused by our negligence, fraud or fraudulent misrepresentation, or breach of your legal rights.
+			</p>
 		</section>
 
 		<section class="tos-section">
-			<h2 class="section-title">Section 21 – Governing Law</h2>
-			<p>These Terms of Service and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the courts in the jurisdiction where The Watch Reserve LTD is based. You and The Watch Reserve LTD consent to venue and personal jurisdiction in such courts.</p>
+			<h3 class="section-title">Other Important Terms</h3>
+			<p>
+				We may transfer our rights and obligations to another organisation and will notify you if we plan to do so. If you are unhappy with the transfer, you may end the agreement within 5 working days.
+			</p>
+			<p>You may not transfer your rights under this agreement to anyone else.</p>
+			<p>
+				We will not be responsible for events beyond our control. If such an event continues for more than 4 weeks, you may end the agreement and may be entitled to a refund.
+			</p>
+			<p>If any part of these terms is found to be unlawful, the remaining terms continue in full force.</p>
+			<p>If we do not immediately enforce any right, we may still do so at a later date.</p>
+			<p>
+				These terms are governed by English law and any disputes will be subject to the exclusive jurisdiction of the courts of England and Wales.
+			</p>
 		</section>
 
-		<section class="tos-section">
-			<h2 class="section-title">Section 22 – Headings</h2>
-			<p>The headings used in this agreement are included for convenience only and will not limit or otherwise affect these Terms.</p>
-		</section>
-
-		<section class="tos-section">
-			<h2 class="section-title">Section 23 – Changes to Terms of Service</h2>
-			<p>You can review the most current version of the Terms of Service at any time on this page.</p>
-			<p>We reserve the right, in our sole discretion, to update, change, or replace any part of these Terms of Service by posting updates and changes to our website. It is your responsibility to check our website periodically for changes. We will notify you of any material changes to these Terms in accordance with applicable law, and such changes will be effective on the date specified in the notice. Your continued use of or access to the Services following the posting of any changes to these Terms of Service constitutes acceptance of those changes.</p>
-		</section>
-
-		<section class="tos-section">
-			<h2 class="section-title">Section 24 – Contact Information</h2>
-			<p>Questions about the Terms of Service should be sent to us at <a href="mailto:info@watchreserve.co.uk" class="tos-link">info@watchreserve.co.uk</a>.</p>
-		</section>
-
-		<p class="last-updated">Last Updated: {new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
 	</div>
 </section>
 
@@ -175,25 +408,53 @@
 		font-size: clamp(2.5rem, 5vw, 3.5rem);
 		font-weight: 400;
 		color: #160b11;
-		margin: 0 0 48px 0;
+		margin: 0 0 16px 0;
+		line-height: 1.2;
+		letter-spacing: -0.02em;
+	}
+
+	.tos-date {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.9rem;
+		color: rgba(22, 11, 17, 0.5);
+		font-weight: 400;
+		margin: 0 0 64px 0;
+		font-style: italic;
+	}
+
+	.tos-part-header {
+		border-top: 2px solid #a1846d;
+		padding-top: 48px;
+		margin-bottom: 40px;
+	}
+
+	.tos-part-header:first-of-type {
+		border-top: none;
+		padding-top: 0;
+	}
+
+	.tos-part-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.75rem, 3vw, 2.5rem);
+		font-weight: 400;
+		color: #160b11;
+		margin: 0;
 		line-height: 1.2;
 		letter-spacing: -0.02em;
 	}
 
 	.tos-section {
-		margin-bottom: 48px;
+		margin-bottom: 40px;
 	}
 
 	.section-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: clamp(1.25rem, 2vw, 1.5rem);
-		font-weight: 600;
-		color: #160b11;
-		margin: 0 0 20px 0;
-		line-height: 1.3;
-		letter-spacing: -0.01em;
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.8rem, 0.9vw, 0.875rem);
+		font-weight: 700;
+		color: #a1846d;
+		margin: 0 0 16px 0;
+		letter-spacing: 0.14em;
 		text-transform: uppercase;
-		letter-spacing: 0.04em;
 	}
 
 	.tos-section p {
@@ -207,56 +468,48 @@
 		overflow-wrap: break-word;
 	}
 
-	.tos-uppercase {
-		font-size: clamp(0.85rem, 1vw, 0.9375rem) !important;
-		letter-spacing: 0.02em;
-		color: #333 !important;
+	.tos-section p:last-child {
+		margin-bottom: 0;
 	}
 
-	.tos-link {
+	.tos-section a {
 		color: #a1846d;
 		text-decoration: none;
-		transition: opacity 0.3s ease;
+		transition: opacity 0.2s ease;
 	}
 
-	.tos-link:hover {
+	.tos-section a:hover {
 		opacity: 0.7;
 		text-decoration: underline;
 	}
 
-	.contact-info {
-		margin-top: 24px;
-		padding: 24px;
-		background-color: #f5f5f5;
-		border-radius: 8px;
-	}
-
-	.contact-info p {
-		margin: 0 0 8px 0;
-		font-family: 'Montserrat', sans-serif;
-		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
-		line-height: 1.6;
-		color: #160b11;
-		font-weight: 300;
-	}
-
-	.contact-info p:last-child {
-		margin-bottom: 0;
-	}
-
-	.contact-info strong {
+	.tos-section strong {
 		font-weight: 600;
 	}
 
-	.last-updated {
+	.tos-section ul {
+		margin: 0 0 16px 0;
+		padding-left: 22px;
+	}
+
+	.tos-section li {
 		font-family: 'Montserrat', sans-serif;
-		font-size: 0.875rem;
-		color: #666;
-		margin-top: 48px;
-		padding-top: 24px;
-		border-top: 1px solid #e5e5e5;
-		text-align: center;
-		font-style: italic;
+		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
+		line-height: 1.7;
+		color: #160b11;
+		margin-bottom: 10px;
+		font-weight: 300;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+	}
+
+	.tos-section li:last-child {
+		margin-bottom: 0;
+	}
+
+	.plain-list {
+		list-style: none;
+		padding-left: 0 !important;
 	}
 
 	@media (max-width: 768px) {
@@ -265,26 +518,35 @@
 		}
 
 		.tos-container {
-			width: 100%;
 			max-width: 100%;
 			padding: 0;
 		}
 
 		.tos-title {
-			margin: 0 0 36px 0;
+			margin: 0 0 12px 0;
+			text-align: center;
+		}
+
+		.tos-date {
+			margin: 0 0 48px 0;
+			text-align: center;
+		}
+
+		.tos-part-header {
+			padding-top: 40px;
+			margin-bottom: 32px;
+		}
+
+		.tos-part-title {
 			text-align: center;
 		}
 
 		.tos-section {
-			margin-bottom: 40px;
+			margin-bottom: 32px;
 		}
 
 		.section-title {
 			text-align: center;
-		}
-
-		.contact-info {
-			padding: 20px;
 		}
 	}
 
@@ -293,18 +555,28 @@
 			padding: 40px 15px;
 		}
 
-		.tos-container {
-			width: 100%;
-			max-width: 100%;
-			padding: 0;
+		.tos-title {
+			text-align: center;
 		}
 
-		.tos-title {
+		.tos-date {
+			text-align: center;
+		}
+
+		.tos-part-title {
 			text-align: center;
 		}
 
 		.section-title {
 			text-align: center;
+		}
+
+		.tos-section ul {
+			padding-left: 18px;
+		}
+
+		.plain-list {
+			padding-left: 0 !important;
 		}
 	}
 </style>

@@ -37,7 +37,7 @@
 			<ul class="warranty-list">
 				<li>Normal wear and tear</li>
 				<li>Damage caused by tampering or unauthorised modifications</li>
-				<li>Use in inappropriate conditions — such as extreme weather or water depths beyond the manufacturer's rated specification</li>
+				<li>Use in inappropriate conditions - such as extreme weather or water depths beyond the manufacturer's rated specification</li>
 				<li>Parts installed that aren't suitable for your specific watch</li>
 				<li>Damage caused by negligence or deliberate misuse</li>
 				<li>Missing original papers or authentication documents</li>

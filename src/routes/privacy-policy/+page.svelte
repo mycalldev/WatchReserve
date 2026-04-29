@@ -1,148 +1,219 @@
 <section class="privacy-policy-page">
 	<div class="privacy-container">
 		<h1 class="privacy-title">Privacy Policy</h1>
-		<p class="privacy-intro">
-			At Watch Reserve, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.
-		</p>
+		<p class="privacy-date">Last updated: 27th April 2026</p>
 
 		<section class="privacy-section">
-			<h2 class="section-title">Personal Information We Collect or Process</h2>
-			<p>
-				We collect and process various types of personal information to provide you with our services and improve your experience. The types of information we may collect include:
-			</p>
+			<h2 class="section-title">Our Contact Details</h2>
+			<div class="contact-block">
+				<p class="contact-name">Watch Reserve Ltd</p>
+				<p>25 Cabot Square, Canary Wharf, London E14 4QZ</p>
+				<p><a href="tel:02081501987">0208 150 1987</a></p>
+				<p><a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a></p>
+			</div>
+		</section>
+
+		<section class="privacy-section">
+			<h2 class="section-title">The Type of Personal Information We Collect</h2>
+			<p>We currently collect and process the following information:</p>
 			<ul>
-				<li>Contact information (name, email address, phone number, mailing address)</li>
-				<li>Payment information (credit card details, billing address)</li>
-				<li>Account information (username, password, preferences)</li>
-				<li>Transaction history and purchase records</li>
-				<li>Communication records (correspondence with our team)</li>
-				<li>Device and usage information (IP address, browser type, pages visited)</li>
-				<li>Location data (when permitted by your device settings)</li>
+				<li>Names and contact details (name, email address, telephone number)</li>
+				<li>Home and delivery addresses</li>
+				<li>Date of birth (for identity verification on high-value transactions)</li>
+				<li>Identification documents (e.g. passport or driving licence)</li>
+				<li>Purchase, sale, and account history</li>
+				<li>Payment details (including card or bank information for transfers and direct debits)</li>
+				<li>Website user information (including user journeys and cookie tracking)</li>
+				<li>Records of meetings, decisions, and correspondence</li>
+				<li>Information relating to compliments or complaints</li>
+				<li>Account information, including registration details</li>
+				<li>Information used for security purposes</li>
+				<li>Marketing preferences and records of consent</li>
+				<li>Location data</li>
+				<li>IP addresses</li>
+				<li>Communications received via WhatsApp or Superchat (which may be stored in our CRM system)</li>
+				<li>CCTV data including image</li>
+				<li>Any other personal information required to comply with legal obligations</li>
 			</ul>
 		</section>
 
 		<section class="privacy-section">
-			<h2 class="section-title">Personal Information Sources</h2>
-			<p>
-				We collect personal information from various sources, including:
-			</p>
+			<h2 class="section-title">How We Get Your Personal Information and Why We Collect It</h2>
+			<p>We collect data in the following ways:</p>
 			<ul>
-				<li>Directly from you when you create an account, make a purchase, or contact us</li>
-				<li>Automatically when you visit our website through cookies and similar technologies</li>
-				<li>From third-party service providers who assist us in operating our business</li>
-				<li>From publicly available sources when necessary for verification purposes</li>
+				<li>Data is given to us by you</li>
+				<li>Data is received from other sources</li>
+				<li>Data is collected automatically</li>
+			</ul>
+			<p>Most of the personal information we process is provided to us directly by you for one of the following reasons:</p>
+			<ul>
+				<li>Contacting us through the website, telephone, post, email, WhatsApp, Superchat, or any other means</li>
+				<li>When registering with us and setting up an account</li>
+				<li>When completing a contact or enquiry form</li>
+				<li>When making a payment or submitting an offer to buy or sell a watch through our website or otherwise</li>
+				<li>When electing to receive marketing communications from us</li>
+				<li>When using our services or visiting our showroom</li>
+			</ul>
+			<p>We also receive personal information indirectly from the following sources:</p>
+			<ul>
+				<li>Trustpilot and Google Reviews - where you submit a public review of our services</li>
+				<li>Shopify and Stripe - our e-commerce platform, which processes order and account data on our behalf</li>
+				<li>WhatsApp and Superchat - customer communications received through these channels</li>
 			</ul>
 		</section>
 
 		<section class="privacy-section">
-			<h2 class="section-title">How We Use Your Personal Information</h2>
+			<h2 class="section-title">How We Use Your Information</h2>
 			<p>
-				We use your personal information for the following purposes:
+				We use the information you have given us in order to answer your enquiry, process an offer to buy your watch, process a purchase or sale, manage your account, comply with our legal obligations, prevent fraud, improve our website and services, and send you marketing communications where you have opted in to receive them.
 			</p>
+			<p>Any or all of the above data may be required by us in order to provide you with the best possible service and experience when using our website. Specifically, data may be used by us for the following reasons:</p>
 			<ul>
-				<li>To process and fulfill your orders and transactions</li>
-				<li>To communicate with you about your orders, account, and our services</li>
-				<li>To provide customer support and respond to your inquiries</li>
-				<li>To send you marketing communications (with your consent)</li>
-				<li>To improve our website, products, and services</li>
-				<li>To detect and prevent fraud, abuse, and security threats</li>
-				<li>To comply with legal obligations and enforce our terms of service</li>
+				<li>Internal record keeping</li>
+				<li>Improvement of our products and services</li>
+				<li>Transmission by email of marketing materials that may be of interest to you</li>
+				<li>Contact for marketing research purposes which may be done by email, telephone or mail</li>
+			</ul>
+			<p>
+				For the delivery of direct marketing to you via e-mail, we'll need your consent, whether via an opt-in or soft-opt-in:
+			</p>
+			<p>
+				Soft opt-in consent is a specific type of consent which applies when you have previously engaged with us (for example, you contact us to ask us for more details about a particular product/service, and we are marketing similar products/services). Under "soft opt-in" consent, we will take your consent as given unless you opt-out. You can do this at any time by contacting us via telephone, email or post.
+			</p>
+			<p>
+				For other types of e-marketing, we are required to obtain your explicit consent; that is, you need to take positive and affirmative action when consenting such as checking a tick box that we'll provide.
+			</p>
+			<p>
+				If you are not satisfied with our approach to marketing, you have the right to withdraw consent at any time. To find out how to withdraw your consent, see the section headed "Your data protection rights" below.
+			</p>
+			<p>
+				When you register with us and set up an account to receive our services, we are legally entitled to process your data as necessary to fulfil or establish the agreement between you and the Company.
+			</p>
+			<p>We may share this information with the following groups of people for the following reasons:</p>
+			<ul>
+				<li>Our employees, agents and/or professional advisors - to obtain advice and carry out business operations</li>
+				<li>Third-party service providers (including Shopify, CRM and accounting software providers) - to help provide and improve our services</li>
+				<li>Third-party payment providers - to process payments and refunds securely</li>
+				<li>Delivery and logistics providers - to fulfil orders</li>
+				<li>Relevant regulatory and law enforcement authorities - to facilitate the detection of crime, compliance with tax obligations, or other legal requirements</li>
+			</ul>
+			<p>Under the UK General Data Protection Regulation (GDPR), the lawful bases we rely on for processing this information are:</p>
+			<ul>
+				<li><strong>Your consent.</strong> You are able to remove your consent at any time by contacting <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a>.</li>
+				<li><strong>We have a contractual obligation.</strong> For example, to process and fulfil your orders, manage your account, and process payments.</li>
+				<li><strong>We have a legal obligation.</strong> For example, to carry out identity verification and compliance checks.</li>
+				<li><strong>We have a legitimate interest.</strong> For example, to prevent fraud, maintain the security of our website, improve our services, and manage customer enquiries and complaints.</li>
 			</ul>
 		</section>
 
 		<section class="privacy-section">
-			<h2 class="section-title">How We Disclose Personal Information</h2>
+			<h2 class="section-title">How We Store Your Personal Information</h2>
 			<p>
-				We may share your personal information with:
+				Your information is securely stored on our systems. We retain your data only for the period necessary to achieve the legal purpose for which it was collected, except when legal obligations necessitate a longer retention period (such as for tax, accounting purposes, or if there is a reasonable likelihood of litigation).
 			</p>
+		</section>
+
+		<section class="privacy-section">
+			<h2 class="section-title">Your Data Protection Rights</h2>
+			<p>Under data protection law, you have rights including:</p>
 			<ul>
-				<li>Service providers who assist us in operating our business (payment processors, shipping companies, IT services)</li>
-				<li>Business partners and affiliates when necessary for service delivery</li>
-				<li>Legal authorities when required by law or to protect our rights</li>
-				<li>Third parties in connection with a business transfer or merger</li>
+				<li><strong>Your right of access</strong> - You have the right to ask us for copies of your personal information.</li>
+				<li><strong>Your right to rectification</strong> - You have the right to ask us to rectify personal information you think is inaccurate. You also have the right to ask us to complete information you think is incomplete.</li>
+				<li><strong>Your right to erasure</strong> - You have the right to ask us to erase your personal information in certain circumstances.</li>
+				<li><strong>Your right to restriction of processing</strong> - You have the right to ask us to restrict the processing of your personal information in certain circumstances.</li>
+				<li><strong>Your right to object to processing</strong> - You have the right to object to the processing of your personal information in certain circumstances.</li>
+				<li><strong>Your right to data portability</strong> - You have the right to ask that we transfer the personal information you gave us to another organisation, or to you, in certain circumstances.</li>
+				<li><strong>Your right to withdraw consent</strong> - Where we rely on consent to process your personal information (for example, for marketing), you have the right to withdraw that consent at any time. Withdrawing consent does not affect the lawfulness of any processing carried out before you withdrew it.</li>
 			</ul>
 			<p>
-				We do not sell your personal information to third parties for their marketing purposes.
+				You are not required to pay any charge for exercising your rights. If you make a request, we have one month to respond to you.
+			</p>
+			<p>
+				Please contact us at <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a>, <a href="tel:02081501987">0208 150 1987</a>, or 25 Cabot Square, Canary Wharf, London E14 4QZ if you wish to make a request.
 			</p>
 		</section>
 
 		<section class="privacy-section">
-			<h2 class="section-title">Relationship with Shopify</h2>
-			<p>
-				Our website is hosted on Shopify. When you make a purchase through our store, Shopify processes your payment information and order details. Shopify's use of your personal information is governed by their Privacy Policy. We encourage you to review Shopify's privacy practices to understand how they handle your data.
-			</p>
-		</section>
-
-		<section class="privacy-section">
-			<h2 class="section-title">Third Party Websites and Links</h2>
-			<p>
-				Our website may contain links to third-party websites that are not operated by us. We are not responsible for the privacy practices or content of these external sites. We encourage you to review the privacy policies of any third-party websites you visit.
-			</p>
-		</section>
-
-		<section class="privacy-section">
-			<h2 class="section-title">Children's Data</h2>
-			<p>
-				Our services are not intended for individuals under the age of 18. We do not knowingly collect personal information from children. If we become aware that we have collected information from a child without parental consent, we will take steps to delete that information promptly.
-			</p>
-		</section>
-
-		<section class="privacy-section">
-			<h2 class="section-title">Security and Retention of Your Information</h2>
-			<p>
-				We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet or electronic storage is 100% secure.
-			</p>
-			<p>
-				We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law.
-			</p>
-		</section>
-
-		<section class="privacy-section">
-			<h2 class="section-title">Your Rights and Choices</h2>
-			<p>
-				Depending on your location, you may have certain rights regarding your personal information, including:
-			</p>
-			<ul>
-				<li><strong>Right to Know:</strong> You have the right to request information about the personal data we collect, use, and disclose about you.</li>
-				<li><strong>Right to Delete:</strong> You may request that we delete your personal information, subject to certain exceptions.</li>
-				<li><strong>Right to Correct:</strong> You can request correction of inaccurate or incomplete personal information.</li>
-				<li><strong>Right to Opt-Out:</strong> You may opt-out of the sale or sharing of your personal information (where applicable).</li>
-				<li><strong>Right to Non-Discrimination:</strong> We will not discriminate against you for exercising your privacy rights.</li>
+			<h2 class="section-title">How to Complain</h2>
+			<p>If you have any concerns about our use of your personal information, you can make a complaint to us at:</p>
+			<ul class="plain-list">
+				<li>Email: <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a></li>
+				<li>Phone: <a href="tel:02081501987">0208 150 1987</a></li>
+				<li>Post: 25 Cabot Square, Canary Wharf, London E14 4QZ</li>
 			</ul>
+			<p>You can also complain to the ICO if you are unhappy with how we have used your data. The ICO's address:</p>
+			<div class="address-block">
+				<p>Information Commissioner's Office</p>
+				<p>Wycliffe House</p>
+				<p>Water Lane</p>
+				<p>Wilmslow</p>
+				<p>Cheshire</p>
+				<p>SK9 5AF</p>
+				<p>Helpline number: <a href="tel:03031231113">0303 123 1113</a></p>
+				<p>ICO website: <a href="https://www.ico.org.uk" target="_blank" rel="noopener noreferrer">www.ico.org.uk</a></p>
+			</div>
+		</section>
+
+		<section class="privacy-section">
+			<h2 class="section-title">Links to Other Websites</h2>
 			<p>
-				To exercise these rights, please contact us using the information provided in the Contact section below.
+				This website may, from time to time, provide links to other websites. This Privacy Policy does not extend to your use of such websites. You are advised to read the Privacy Policy or statement of other websites prior to using them.
 			</p>
 		</section>
 
 		<section class="privacy-section">
-			<h2 class="section-title">Complaints</h2>
+			<h2 class="section-title">Cookies</h2>
 			<p>
-				If you have concerns about how we handle your personal information, you may file a complaint with your local data protection authority. We are committed to working with you to resolve any privacy concerns you may have.
+				Cookies are text files placed on your computer to collect standard Internet log information and visitor behavior information. When you visit our websites, we may collect information from you automatically through cookies or similar technology. We use cookies to improve your experience of using the website and to improve our range of products. We have chosen these cookies and have taken steps to ensure that your privacy is protected and always respected.
+			</p>
+			<p>
+				All cookies used by this website are used in accordance with current UK and EU Cookie Law.
+			</p>
+			<p>
+				Before the website places cookies on your computer, you will be presented with a message bar requesting your consent to set those cookies. By giving your consent to the placing of cookies, you are enabling us to provide a better experience and service to you. You may, if you wish, deny consent to the placing of cookies; however certain features of the website may not function fully or as intended.
+			</p>
+
+			<h3 class="subsection-title">What types of cookies do we use and how do we use them?</h3>
+			<p>There are a number of different types of cookies; however, our website uses:</p>
+			<ul>
+				<li><strong>Strictly necessary cookies</strong> - These are cookies that are required for the operation of our website. They include, for example, cookies that enable you to log into secure areas of our website, use a shopping cart or make use of e-billing services.</li>
+				<li><strong>Functionality cookies</strong> - These are used to recognise you when you return to our website. This enables us to personalise our content for you, greet you by name and remember your preferences (for example, your choice of language or region). A mix of first-party and third-party cookies are used. By using the website, you agree to our placement of functionality cookies.</li>
+				<li><strong>Analytical/performance cookies</strong> - They allow us to recognise and count the number of visitors and to see how visitors move around our website when they are using it. This helps us to improve the way our website works, for example, by ensuring that users are finding what they are looking for easily.</li>
+				<li><strong>Advertising cookies</strong> - These are used to collect information about your visit to our website, the content you viewed, the links you followed and information about your browser, device, and your IP address. We will use this information to make our website, and the advertising displayed on it, more relevant to your interests. Our company sometimes shares some limited aspects of this data with third parties for advertising purposes. We may also share online data collected through cookies with our advertising partners. This means that when you visit another website, you may be shown advertising based on your browsing patterns on our website.</li>
+			</ul>
+
+			<h3 class="subsection-title">How to manage cookies</h3>
+			<p>
+				You can also choose to enable or disable cookies in your internet browser. By default, most internet browsers accept cookies but this can be changed. For further details, please see the help menu in your internet browser. You can switch off cookies at any time, however, you may lose any information that enables you to access the website more quickly and efficiently.
+			</p>
+			<p>
+				You can choose to delete cookies at any time. However, you may lose any information that enables you to access the website more quickly and efficiently including, but not limited to, personalisation settings.
+			</p>
+			<p>
+				It is recommended that you ensure that your internet browser is up-to-date and that you consult the help and guidance provided by the developer of your internet browser if you are unsure about adjusting your privacy settings.
+			</p>
+			<p>
+				For more information generally on cookies, including how to disable them, please refer to <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer">www.aboutcookies.org</a>. You will also find details on how to delete cookies from your computer.
 			</p>
 		</section>
 
 		<section class="privacy-section">
-			<h2 class="section-title">International Transfers</h2>
+			<h2 class="section-title">Changes to Our Privacy Policy</h2>
 			<p>
-				Your personal information may be transferred to and processed in countries other than your country of residence. These countries may have data protection laws that differ from those in your jurisdiction. We take appropriate safeguards to ensure that your personal information receives an adequate level of protection.
+				Our company keeps its privacy policy under regular review and places any updates on this web page.
 			</p>
 		</section>
 
 		<section class="privacy-section">
-			<h2 class="section-title">Changes to This Privacy Policy</h2>
-			<p>
-				We may update this Privacy Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. We will notify you of any material changes by posting the new Privacy Policy on this page and updating the "Last Updated" date. We encourage you to review this Privacy Policy periodically.
-			</p>
+			<h2 class="section-title">Contact Us</h2>
+			<p>For all data protection queries, requests, or concerns:</p>
+			<div class="contact-block">
+				<p class="contact-name">Watch Reserve Ltd</p>
+				<p>25 Cabot Square, Canary Wharf, London E14 4QZ</p>
+				<p><a href="tel:02081501987">0208 150 1987</a></p>
+				<p><a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a></p>
+			</div>
 		</section>
-
-		<section class="privacy-section">
-			<h2 class="section-title">Contact</h2>
-			<p>
-				If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please contact us at <a href="mailto:info@watchreserve.co.uk">info@watchreserve.co.uk</a>.
-			</p>
-		</section>
-
-		<p class="last-updated">Last Updated: {new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
 	</div>
 </section>
 
@@ -169,18 +240,18 @@
 		font-size: clamp(2.5rem, 5vw, 3.5rem);
 		font-weight: 400;
 		color: #160b11;
-		margin: 0 0 32px 0;
+		margin: 0 0 16px 0;
 		line-height: 1.2;
 		letter-spacing: -0.02em;
 	}
 
-	.privacy-intro {
+	.privacy-date {
 		font-family: 'Montserrat', sans-serif;
-		font-size: clamp(1rem, 1.2vw, 1.125rem);
-		line-height: 1.7;
-		color: #160b11;
-		margin: 0 0 48px 0;
-		font-weight: 300;
+		font-size: 0.9rem;
+		color: rgba(22, 11, 17, 0.5);
+		font-weight: 400;
+		margin: 0 0 56px 0;
+		font-style: italic;
 	}
 
 	.privacy-section {
@@ -197,6 +268,15 @@
 		letter-spacing: -0.01em;
 	}
 
+	.subsection-title {
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
+		font-weight: 600;
+		color: #160b11;
+		margin: 24px 0 12px 0;
+		letter-spacing: 0.02em;
+	}
+
 	.privacy-section p {
 		font-family: 'Montserrat', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
@@ -209,8 +289,8 @@
 	}
 
 	.privacy-section ul {
-		margin: 16px 0 24px 0;
-		padding-left: 24px;
+		margin: 0 0 16px 0;
+		padding-left: 22px;
 	}
 
 	.privacy-section li {
@@ -218,80 +298,97 @@
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.7;
 		color: #160b11;
-		margin-bottom: 12px;
+		margin-bottom: 10px;
 		font-weight: 300;
 		word-wrap: break-word;
 		overflow-wrap: break-word;
+	}
+
+	.privacy-section li:last-child {
+		margin-bottom: 0;
 	}
 
 	.privacy-section li strong {
 		font-weight: 600;
 	}
 
-	.contact-info {
-		margin-top: 24px;
-		padding: 24px;
-		background-color: #f5f5f5;
-		border-radius: 8px;
-	}
-
-	.contact-info p {
-		margin: 0 0 12px 0;
-		font-family: 'Montserrat', sans-serif;
-		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
-		line-height: 1.6;
-		color: #160b11;
-	}
-
-	.contact-info a {
+	.privacy-section a {
 		color: #a1846d;
 		text-decoration: none;
-		transition: opacity 0.3s ease;
+		transition: opacity 0.2s ease;
 	}
 
-	.contact-info a:hover {
+	.privacy-section a:hover {
 		opacity: 0.7;
 		text-decoration: underline;
 	}
 
-	.last-updated {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.875rem;
-		color: #666;
-		margin-top: 48px;
-		padding-top: 24px;
-		border-top: 1px solid #e5e5e5;
-		text-align: center;
-		font-style: italic;
+	.plain-list {
+		list-style: none;
+		padding-left: 0 !important;
+	}
+
+	.plain-list li {
+		padding-left: 0;
+	}
+
+	.contact-block {
+		margin-top: 20px;
+		padding: 28px 32px;
+		background-color: #f8f6f4;
+		border-left: 3px solid #a1846d;
+	}
+
+	.contact-name {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 1.125rem;
+		font-weight: 400;
+		color: #160b11;
+		margin: 0 0 16px 0;
+	}
+
+	.contact-block p {
+		margin: 0 0 8px 0;
+	}
+
+	.address-block {
+		margin: 16px 0 24px 0;
+		padding: 24px 28px;
+		background-color: #f8f6f4;
+		border-left: 2px solid rgba(161, 132, 109, 0.4);
+	}
+
+	.address-block p {
+		margin: 0 0 6px 0 !important;
+	}
+
+	.address-block p:last-child {
+		margin-top: 14px !important;
+		margin-bottom: 0 !important;
 	}
 
 	@media (max-width: 768px) {
 		.privacy-policy-page {
 			padding: 60px 20px;
-			width: 100%;
-			box-sizing: border-box;
 		}
 
 		.privacy-container {
-			width: 100%;
 			max-width: 100%;
-			margin: 0 auto;
 			padding: 0;
 		}
 
 		.privacy-title {
-			margin: 0 0 24px 0;
+			margin: 0 0 12px 0;
 			text-align: center;
 		}
 
-		.privacy-intro {
+		.privacy-date {
 			margin: 0 0 40px 0;
 			text-align: center;
 		}
 
 		.privacy-section {
 			margin-bottom: 40px;
-			width: 100%;
 		}
 
 		.section-title {
@@ -299,36 +396,25 @@
 			text-align: center;
 		}
 
-		.privacy-section p {
-			text-align: left;
+		.contact-block {
+			padding: 20px;
 		}
 
-		.contact-info {
-			padding: 20px;
-			width: 100%;
-			box-sizing: border-box;
+		.address-block {
+			padding: 18px 20px;
 		}
 	}
 
 	@media (max-width: 480px) {
 		.privacy-policy-page {
 			padding: 40px 15px;
-			width: 100%;
-			box-sizing: border-box;
-		}
-
-		.privacy-container {
-			width: 100%;
-			max-width: 100%;
-			margin: 0 auto;
-			padding: 0;
 		}
 
 		.privacy-title {
 			text-align: center;
 		}
 
-		.privacy-intro {
+		.privacy-date {
 			text-align: center;
 		}
 
@@ -337,15 +423,11 @@
 		}
 
 		.privacy-section ul {
-			padding-left: 20px;
-			width: 100%;
-			box-sizing: border-box;
+			padding-left: 18px;
 		}
 
-		.contact-info {
-			width: 100%;
-			box-sizing: border-box;
+		.plain-list {
+			padding-left: 0 !important;
 		}
 	}
 </style>
-
