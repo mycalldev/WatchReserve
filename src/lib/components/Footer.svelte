@@ -129,6 +129,7 @@
 					<a href="/terms-of-service">Terms of Service</a>
 					<a href="/shipping-policy">Shipping Policy</a>
 					<a href="/deposit-policy">Deposit Policy</a>
+					<a href="/warranty-policy">Warranty Policy</a>
 				</nav>
 			</div>
 
