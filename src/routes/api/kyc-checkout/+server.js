@@ -83,6 +83,10 @@ export async function POST({ request }) {
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Shipping Address</td>
 							<td style="color:#160b11;">${escapeHtml(addressLines)}</td>
 						</tr>` : ''}
+						<tr>
+							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Marketing Opt-in</td>
+							<td style="color:#160b11;">${gdprConsent ? 'Yes' : 'No'}</td>
+						</tr>
 					</table>
 				</td>
 			</tr>
@@ -103,6 +107,7 @@ export async function POST({ request }) {
 		`Email: ${email}`,
 		phone ? `Phone: ${phone}` : null,
 		addressLines ? `Shipping Address: ${addressLines}` : null,
+		`Marketing Opt-in: ${gdprConsent ? 'Yes' : 'No'}`,
 		'',
 		'Please contact this customer to complete KYC verification and arrange payment.'
 	]

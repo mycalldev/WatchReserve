@@ -90,6 +90,10 @@ export async function POST({ request }) {
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Preferred Contact</td>
 							<td style="color:#160b11;">${escapeHtml(contactPreference)}</td>
 						</tr>
+						<tr>
+							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Marketing Opt-in</td>
+							<td style="color:#160b11;">${gdprConsent ? 'Yes' : 'No'}</td>
+						</tr>
 					</table>
 				</td>
 			</tr>
@@ -109,6 +113,7 @@ export async function POST({ request }) {
 		`Email: ${email}`,
 		`Phone: ${phone}`,
 		`Preferred Contact: ${contactPreference}`,
+		`Marketing Opt-in: ${gdprConsent ? 'Yes' : 'No'}`,
 		'',
 		`— Submitted via ${source}`
 	].join('\n');

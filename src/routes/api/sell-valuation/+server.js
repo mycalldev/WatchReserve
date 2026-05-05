@@ -127,6 +127,10 @@ export async function POST({ request }) {
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Phone</td>
 							<td><a href="tel:${escapeHtml(phone)}" style="color:#a1846d;text-decoration:none;">${escapeHtml(phone)}</a></td>
 						</tr>` : ''}
+						<tr>
+							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Marketing Opt-in</td>
+							<td style="color:#160b11;">${gdprConsent ? 'Yes' : 'No'}</td>
+						</tr>
 					</table>
 				</td>
 			</tr>
@@ -156,6 +160,7 @@ export async function POST({ request }) {
 		`Full Name: ${name}`,
 		`Email: ${email}`,
 		phone ? `Phone: ${phone}` : null,
+		`Marketing Opt-in: ${gdprConsent ? 'Yes' : 'No'}`,
 		'',
 		'— Submitted via the Watch Reserve sell page'
 	]

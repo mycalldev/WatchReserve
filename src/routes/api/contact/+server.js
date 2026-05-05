@@ -114,6 +114,10 @@ export async function POST({ request }) {
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Area of Interest</td>
 							<td style="color:#160b11;">${escapeHtml(interestLabel)}</td>
 						</tr>
+						<tr>
+							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Marketing Opt-in</td>
+							<td style="color:#160b11;">${gdprConsent ? 'Yes' : 'No'}</td>
+						</tr>
 					</table>
 				</td>
 			</tr>
@@ -141,6 +145,7 @@ export async function POST({ request }) {
 		phone ? `Phone: ${phone}` : null,
 		`Preferred Contact: ${contactLabel}`,
 		`Area of Interest: ${interestLabel}`,
+		`Marketing Opt-in: ${gdprConsent ? 'Yes' : 'No'}`,
 		'',
 		message ? `Message:\n${message}` : null,
 		'',
