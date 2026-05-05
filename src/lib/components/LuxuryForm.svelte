@@ -105,7 +105,7 @@
 				</svg>
 			</div>
 			<h3 class="lf-success-title">Enquiry Received</h3>
-			<p class="lf-success-body">Thank you — a member of the Watch Reserve team will be in touch shortly.</p>
+			<p class="lf-success-body">Thank you. A member of the Watch Reserve team will be in touch shortly.</p>
 			<button type="button" class="lf-success-btn" onclick={() => { submitSuccess = false; }}>
 				Send Another Enquiry
 			</button>
@@ -319,7 +319,7 @@
 		<!-- ── Error banner ── -->
 		{#if submitError}
 			<div class="lf-error-banner" role="alert">
-				Something went wrong — please try again or contact us directly.
+				Something went wrong. Please try again or contact us directly.
 			</div>
 		{/if}
 

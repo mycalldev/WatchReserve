@@ -177,7 +177,7 @@
 							</svg>
 						</div>
 						<h3 class="eq-success-title">Enquiry Received</h3>
-						<p class="eq-success-body">Thank you — a member of the Watch Reserve team will be in touch shortly.</p>
+						<p class="eq-success-body">Thank you. A member of the Watch Reserve team will be in touch shortly.</p>
 						<button type="button" class="eq-success-btn" onclick={() => { submitSuccess = false; }}>
 							Send Another Enquiry
 						</button>
@@ -359,7 +359,7 @@
 					</label>
 
 					{#if submitError}
-						<p class="eq-error-msg" role="alert">Something went wrong — please try again.</p>
+						<p class="eq-error-msg" role="alert">Something went wrong. Please try again.</p>
 					{/if}
 
 					<!-- Submit -->

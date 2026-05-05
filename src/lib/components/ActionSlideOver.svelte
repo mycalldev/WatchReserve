@@ -161,7 +161,7 @@
 
 			pxSuccess = true;
 		} catch (err) {
-			pxError = err?.message || 'Something went wrong — please try again.';
+			pxError = err?.message || 'Something went wrong. Please try again.';
 		} finally {
 			pxSubmitting = false;
 		}
@@ -505,7 +505,7 @@
 								</svg>
 							</div>
 							<h3 class="so-success-title">Enquiry Submitted</h3>
-							<p class="so-success-body">Thank you — a Watch Reserve specialist will assess your watch and contact you within 24 hours with a valuation.</p>
+							<p class="so-success-body">Thank you. A Watch Reserve specialist will assess your watch and contact you within 24 hours with a valuation.</p>
 							<a href="/" class="so-btn so-btn--outline so-btn--sm">
 								Visit Home
 							</a>

@@ -163,9 +163,10 @@
 		condition: '', boxPapers: '', askingPrice: '',
 		_hp: ''
 	});
-	let cfStep       = $state(1);
-	let cfSubmitting = $state(false);
-	let cfSubmitted  = $state(false);
+	let cfStep        = $state(1);
+	let cfSubmitting  = $state(false);
+	let cfSubmitted   = $state(false);
+	let cfGdprConsent = $state(false);
 	let cfBrandRef   = $state(null);
 	let cfModelRef   = $state(null);
 
@@ -233,7 +234,7 @@
 					condition:   cf.condition,
 					boxPapers:   cf.boxPapers,
 					askingPrice: cf.askingPrice,
-					gdprConsent
+					gdprConsent: cfGdprConsent
 				})
 			});
 
@@ -634,7 +635,7 @@
 						</div>
 						<h3 class="vm-success-title">Valuation Request Sent</h3>
 						<p class="vm-success-body">
-							Thank you — a Watch Reserve specialist will assess your <strong>{brand} {model}</strong> and respond within 24 hours with a competitive valuation.
+							Thank you. A Watch Reserve specialist will assess your <strong>{brand} {model}</strong> and respond within 24 hours with a competitive valuation.
 						</p>
 						<button type="button" class="vm-next-btn" onclick={closeModal}>
 							Close
@@ -759,7 +760,7 @@
 							</svg>
 						</div>
 						<h4 class="cf-success-title">Enquiry received</h4>
-						<p class="cf-success-text">Thank you — a member of our team will be in touch within one business day to discuss your consignment.</p>
+						<p class="cf-success-text">Thank you. A member of our team will be in touch within one business day to discuss your consignment.</p>
 					</div>
 				{:else}
 					<!-- Progress bar -->
@@ -1051,6 +1052,12 @@
 								<p class="cf-privacy-note">
 									By submitting you agree to our <a href="/privacy-policy">Privacy Policy</a>. Your details will never be shared.
 								</p>
+
+								<label class="gdpr-check">
+									<input type="checkbox" bind:checked={cfGdprConsent} class="gdpr-check-input" />
+									<span class="gdpr-check-box" aria-hidden="true"></span>
+									<span class="gdpr-check-label">I am happy to receive updates and offers from Watch Reserve by email.</span>
+								</label>
 
 								<button type="submit" class="cf-next-btn" disabled={cfSubmitting} aria-busy={cfSubmitting}>
 									{#if cfSubmitting}
