@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit';
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
+import { syncToKlaviyo } from '$lib/klaviyo.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
 const TO   = 'info@watchreserve.co.uk';
-const FROM = 'Watch Reserve <onboarding@resend.dev>';
+const FROM = 'Watch Reserve <noreply@watchreserve.co.uk>';
 
 function clean(v) { return String(v ?? '').trim(); }
 
@@ -28,17 +29,18 @@ export async function POST({ request }) {
 		return json({ error: 'Invalid request body.' }, { status: 400 });
 	}
 
-	const name      = clean(body.name);
-	const email     = clean(body.email);
-	const phone     = clean(body.phone);
-	const brand     = clean(body.brand);
-	const model     = clean(body.model);
-	const reference = clean(body.reference);
-	const year      = clean(body.year);
-	const condition = clean(body.condition);
-	const box       = body.box === true;
-	const papers    = body.papers === true;
-	const message   = clean(body.message);
+	const name        = clean(body.name);
+	const email       = clean(body.email);
+	const phone       = clean(body.phone);
+	const brand       = clean(body.brand);
+	const model       = clean(body.model);
+	const reference   = clean(body.reference);
+	const year        = clean(body.year);
+	const condition   = clean(body.condition);
+	const box         = body.box === true;
+	const papers      = body.papers === true;
+	const message     = clean(body.message);
+	const gdprConsent = body.gdprConsent === true;
 
 	const boxPapersLabel = box && papers ? 'Box &amp; Papers' : box ? 'Box only' : papers ? 'Papers only' : 'None';
 	const boxPapersText  = box && papers ? 'Box & Papers' : box ? 'Box only' : papers ? 'Papers only' : 'None';
@@ -175,6 +177,7 @@ export async function POST({ request }) {
 			return json({ error: 'Failed to send request. Please try again later.' }, { status: 502 });
 		}
 
+		await syncToKlaviyo(email, name.split(' ')[0], gdprConsent);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[sell-valuation] unexpected error:', err);

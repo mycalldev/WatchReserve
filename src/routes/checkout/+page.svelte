@@ -23,6 +23,7 @@
 
 	let step = $state(1);
 	let returningCustomer = $state(false);
+	let gdprConsent = $state(false);
 
 	let contact = $state({
 		firstName: '',
@@ -193,7 +194,8 @@
 					address2: shipping.address2?.trim() || '',
 					city: shipping.city.trim(),
 					postcode: shipping.postcode.trim(),
-					country: shipping.country
+					country: shipping.country,
+					gdprConsent
 				})
 			});
 
@@ -476,6 +478,12 @@
 								class:error={errors.email}
 							/>
 							{#if errors.email}<span class="field-error">{errors.email}</span>{/if}
+						</label>
+
+						<label class="gdpr-check">
+							<input type="checkbox" bind:checked={gdprConsent} class="gdpr-check-input" />
+							<span class="gdpr-check-box" aria-hidden="true"></span>
+							<span class="gdpr-check-label">I am happy to receive updates and offers from Watch Reserve by email.</span>
 						</label>
 
 						<div class="step-actions">
@@ -1476,5 +1484,64 @@
 		.step-actions {
 			flex-direction: column-reverse;
 		}
+	}
+
+	/* ── GDPR consent checkbox ── */
+	.gdpr-check {
+		display: flex;
+		align-items: flex-start;
+		gap: 10px;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.gdpr-check-input {
+		position: absolute;
+		opacity: 0;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+	}
+
+	.gdpr-check-box {
+		flex-shrink: 0;
+		width: 16px;
+		height: 16px;
+		border: 1.5px solid #d0d0d0;
+		background-color: #ffffff;
+		position: relative;
+		margin-top: 1px;
+		transition: border-color 0.2s ease, background-color 0.2s ease;
+	}
+
+	.gdpr-check:hover .gdpr-check-box {
+		border-color: #a1846d;
+	}
+
+	.gdpr-check-input:checked + .gdpr-check-box {
+		background-color: #a1846d;
+		border-color: #a1846d;
+	}
+
+	.gdpr-check-input:checked + .gdpr-check-box::after {
+		content: '';
+		position: absolute;
+		left: 4px;
+		top: 1px;
+		width: 5px;
+		height: 9px;
+		border: 2px solid #ffffff;
+		border-top: none;
+		border-left: none;
+		transform: rotate(45deg);
+	}
+
+	.gdpr-check-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8rem;
+		color: rgba(22, 11, 17, 0.55);
+		line-height: 1.55;
 	}
 </style>

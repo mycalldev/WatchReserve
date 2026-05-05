@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit';
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
+import { syncToKlaviyo } from '$lib/klaviyo.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
 const TO   = 'info@watchreserve.co.uk';
-const FROM = 'Watch Reserve <onboarding@resend.dev>';
+const FROM = 'Watch Reserve <noreply@watchreserve.co.uk>';
 
 function clean(v) { return String(v ?? '').trim(); }
 
@@ -30,6 +31,7 @@ export async function POST({ request }) {
 
 	const firstName = clean(body.firstName);
 	const email     = clean(body.email);
+	const gdprConsent = body.gdprConsent === true;
 
 	if (!isValidEmail(email)) return json({ error: 'A valid email address is required.' }, { status: 400 });
 
@@ -99,6 +101,7 @@ export async function POST({ request }) {
 			return json({ error: 'Failed to join waitlist. Please try again later.' }, { status: 502 });
 		}
 
+		await syncToKlaviyo(email, firstName, gdprConsent);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[waitlist] unexpected error:', err);

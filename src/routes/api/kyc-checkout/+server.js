@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit';
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
+import { syncToKlaviyo } from '$lib/klaviyo.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
 const TO = 'info@watchreserve.co.uk';
-const FROM = 'Watch Reserve <onboarding@resend.dev>';
+const FROM = 'Watch Reserve <noreply@watchreserve.co.uk>';
 
 function clean(v) {
 	return String(v ?? '').trim();
@@ -28,16 +29,17 @@ export async function POST({ request }) {
 		return json({ error: 'Invalid request body.' }, { status: 400 });
 	}
 
-	const firstName = clean(body.firstName);
-	const lastName = clean(body.lastName);
-	const fullName = `${firstName} ${lastName}`.trim();
-	const email = clean(body.email);
-	const phone = clean(body.phone);
-	const address1 = clean(body.address1);
-	const address2 = clean(body.address2);
-	const city = clean(body.city);
-	const postcode = clean(body.postcode);
-	const country = clean(body.country);
+	const firstName   = clean(body.firstName);
+	const lastName    = clean(body.lastName);
+	const fullName    = `${firstName} ${lastName}`.trim();
+	const email       = clean(body.email);
+	const phone       = clean(body.phone);
+	const address1    = clean(body.address1);
+	const address2    = clean(body.address2);
+	const city        = clean(body.city);
+	const postcode    = clean(body.postcode);
+	const country     = clean(body.country);
+	const gdprConsent = body.gdprConsent === true;
 
 	if (!fullName || !email) {
 		return json({ error: 'Missing required fields.' }, { status: 400 });
@@ -122,6 +124,7 @@ export async function POST({ request }) {
 			return json({ error: 'Failed to send notification.' }, { status: 502 });
 		}
 
+		await syncToKlaviyo(email, firstName, gdprConsent);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[kyc-checkout] unexpected error:', err);

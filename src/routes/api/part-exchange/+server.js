@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit';
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
+import { syncToKlaviyo } from '$lib/klaviyo.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
 const TO   = 'info@watchreserve.co.uk';
-const FROM = 'Watch Reserve <onboarding@resend.dev>';
+const FROM = 'Watch Reserve <noreply@watchreserve.co.uk>';
 
 function clean(v) { return String(v ?? '').trim(); }
 
@@ -37,9 +38,10 @@ export async function POST({ request }) {
 	}
 
 	// Contact fields
-	const name      = clean(body.name);
-	const email     = clean(body.email);
-	const phone     = clean(body.phone);
+	const name        = clean(body.name);
+	const email       = clean(body.email);
+	const phone       = clean(body.phone);
+	const gdprConsent = body.gdprConsent === true;
 
 	// Watch being traded in
 	const brand          = clean(body.brand);
@@ -210,6 +212,7 @@ export async function POST({ request }) {
 			return json({ error: 'Failed to send. Please try again later.' }, { status: 502 });
 		}
 
+		await syncToKlaviyo(email, name.split(' ')[0], gdprConsent);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[part-exchange] unexpected error:', err);

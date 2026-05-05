@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit';
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
+import { syncToKlaviyo } from '$lib/klaviyo.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
 const TO = 'info@watchreserve.co.uk';
-const FROM = 'Watch Reserve <onboarding@resend.dev>';
+const FROM = 'Watch Reserve <noreply@watchreserve.co.uk>';
 
 function clean(v) {
 	return String(v ?? '').trim();
@@ -28,13 +29,14 @@ export async function POST({ request }) {
 		return json({ error: 'Invalid request body.' }, { status: 400 });
 	}
 
-	const fullName = clean(body.fullName);
-	const email = clean(body.email);
-	const phone = clean(body.phone);
-	const notes = clean(body.notes);
-	const productTitle = clean(body.productTitle);
+	const fullName      = clean(body.fullName);
+	const email         = clean(body.email);
+	const phone         = clean(body.phone);
+	const notes         = clean(body.notes);
+	const productTitle  = clean(body.productTitle);
 	const productVendor = clean(body.productVendor);
 	const depositAmount = clean(body.depositAmount);
+	const gdprConsent   = body.gdprConsent === true;
 
 	if (!fullName || !email) {
 		return json({ error: 'Missing required fields.' }, { status: 400 });
@@ -137,6 +139,7 @@ export async function POST({ request }) {
 			return json({ error: 'Failed to send notification.' }, { status: 502 });
 		}
 
+		await syncToKlaviyo(email, fullName.split(' ')[0], gdprConsent);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[kyc-deposit] unexpected error:', err);

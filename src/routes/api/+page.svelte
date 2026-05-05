@@ -3,6 +3,7 @@
 	let email = $state('');
 	let submitted = $state(false);
 	let submitting = $state(false);
+	let gdprConsent = $state(false);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -13,7 +14,7 @@
 			const res = await fetch('/api/waitlist', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ firstName, email })
+				body: JSON.stringify({ firstName, email, gdprConsent })
 			});
 
 			const data = await res.json().catch(() => ({}));
@@ -116,6 +117,12 @@
 								aria-label="Email address"
 							/>
 						</div>
+						<label class="gdpr-check">
+							<input type="checkbox" bind:checked={gdprConsent} class="gdpr-check-input" />
+							<span class="gdpr-check-box" aria-hidden="true"></span>
+							<span class="gdpr-check-label">I am happy to receive updates and offers from Watch Reserve by email.</span>
+						</label>
+
 						<button type="submit" class="wi-banner-btn" disabled={submitting}>
 							{#if submitting}
 								Sending…
@@ -605,6 +612,65 @@
 		line-height: 1.8;
 		font-weight: 300;
 		margin: 0;
+	}
+
+	/* ── GDPR consent checkbox ── */
+	.gdpr-check {
+		display: flex;
+		align-items: flex-start;
+		gap: 10px;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.gdpr-check-input {
+		position: absolute;
+		opacity: 0;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+	}
+
+	.gdpr-check-box {
+		flex-shrink: 0;
+		width: 16px;
+		height: 16px;
+		border: 1.5px solid rgba(255, 255, 255, 0.25);
+		background-color: rgba(255, 255, 255, 0.07);
+		position: relative;
+		margin-top: 1px;
+		transition: border-color 0.2s ease, background-color 0.2s ease;
+	}
+
+	.gdpr-check:hover .gdpr-check-box {
+		border-color: #a1846d;
+	}
+
+	.gdpr-check-input:checked + .gdpr-check-box {
+		background-color: #a1846d;
+		border-color: #a1846d;
+	}
+
+	.gdpr-check-input:checked + .gdpr-check-box::after {
+		content: '';
+		position: absolute;
+		left: 4px;
+		top: 1px;
+		width: 5px;
+		height: 9px;
+		border: 2px solid #ffffff;
+		border-top: none;
+		border-left: none;
+		transform: rotate(45deg);
+	}
+
+	.gdpr-check-label {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8rem;
+		color: rgba(255, 255, 255, 0.5);
+		line-height: 1.55;
 	}
 
 	/* ── RESPONSIVE ── */

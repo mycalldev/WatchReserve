@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit';
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
+import { syncToKlaviyo } from '$lib/klaviyo.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
 const TO   = 'info@watchreserve.co.uk';
-const FROM = 'Watch Reserve <onboarding@resend.dev>';
+const FROM = 'Watch Reserve <noreply@watchreserve.co.uk>';
 
 function clean(v) { return String(v ?? '').trim(); }
 
@@ -28,11 +29,12 @@ export async function POST({ request }) {
 		return json({ error: 'Invalid request body.' }, { status: 400 });
 	}
 
-	const fullName  = clean(body.fullName);
-	const email     = clean(body.email);
-	const brand     = clean(body.brand);
-	const model     = clean(body.model);
-	const reference = clean(body.reference);
+	const fullName    = clean(body.fullName);
+	const email       = clean(body.email);
+	const brand       = clean(body.brand);
+	const model       = clean(body.model);
+	const reference   = clean(body.reference);
+	const gdprConsent = body.gdprConsent === true;
 
 	if (fullName.length < 2)  return json({ error: 'Full name is required.' },            { status: 400 });
 	if (!isValidEmail(email)) return json({ error: 'A valid email address is required.' }, { status: 400 });
@@ -131,6 +133,7 @@ export async function POST({ request }) {
 			return json({ error: 'Failed to send. Please try again later.' }, { status: 502 });
 		}
 
+		await syncToKlaviyo(email, fullName.split(' ')[0], gdprConsent);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[source-request] unexpected error:', err);

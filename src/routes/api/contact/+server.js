@@ -1,12 +1,13 @@
 import { json } from '@sveltejs/kit';
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
+import { syncToKlaviyo } from '$lib/klaviyo.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
 const TO = 'info@watchreserve.co.uk';
 
-const FROM = 'Watch Reserve <onboarding@resend.dev>';
+const FROM = 'Watch Reserve <noreply@watchreserve.co.uk>';
 
 function clean(v) {
 	return String(v ?? '').trim();
@@ -51,6 +52,7 @@ export async function POST({ request }) {
 	const preferredContact = clean(body.preferredContact) || 'email';
 	const message = clean(body.message);
 	const source = clean(body.source) || 'Contact Page';
+	const gdprConsent = body.gdprConsent === true;
 
 	// Server-side validation (client is validated too, this is defence in depth)
 	if (fullName.length < 2) {
@@ -162,6 +164,7 @@ export async function POST({ request }) {
 			return json({ error: 'Failed to send message. Please try again later.' }, { status: 502 });
 		}
 
+		await syncToKlaviyo(email, fullName.split(' ')[0], gdprConsent);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[contact] unexpected error:', err);
