@@ -301,7 +301,6 @@
 	<div
 		class="vm-backdrop"
 		transition:fade={{ duration: 240, easing: cubicInOut }}
-		onclick={closeModal}
 		aria-hidden="true"
 	></div>
 
