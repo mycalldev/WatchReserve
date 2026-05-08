@@ -133,7 +133,12 @@ export async function POST({ request }) {
 		await sendCustomerConfirmation({
 			to: email,
 			firstName,
-			formType: 'kyc-checkout'
+			formType: 'kyc-checkout',
+			summary: [
+				{ label: 'Phone', value: phone },
+				{ label: 'Shipping Address', value: addressLines },
+				{ label: 'Marketing Opt-in', value: gdprConsent ? 'Yes' : 'No' }
+			]
 		});
 
 		await syncToKlaviyo(email, firstName, gdprConsent);

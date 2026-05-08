@@ -11,6 +11,9 @@ const PHONE_TEL = '+442081501987';
 const ADDRESS = '25 Cabot Square, Canary Wharf, London E14 4QA';
 const OPENING_HOURS = 'Mon – Sat: 10:00AM – 6:00PM';
 
+const TZ = 'Europe/London';
+const LOCALE = 'en-GB';
+
 function escapeHtml(v) {
 	return String(v ?? '')
 		.replace(/&/g, '&amp;')
@@ -18,6 +21,14 @@ function escapeHtml(v) {
 		.replace(/>/g, '&gt;')
 		.replace(/"/g, '&quot;')
 		.replace(/'/g, '&#39;');
+}
+
+function formatSubmittedAt(date = new Date()) {
+	return new Intl.DateTimeFormat(LOCALE, {
+		timeZone: TZ,
+		dateStyle: 'long',
+		timeStyle: 'short'
+	}).format(date);
 }
 
 const TEMPLATES = {
@@ -108,8 +119,32 @@ const TEMPLATES = {
 	})
 };
 
-function buildHtml({ heading, formName, intro, firstName }) {
+function filterRows(rows) {
+	return rows.filter((r) => r.value !== undefined && r.value !== null && String(r.value).trim() !== '');
+}
+
+function renderSummaryHtmlRows(rows) {
+	return filterRows(rows)
+		.map(
+			(r) => `<tr>
+					<td style="padding:6px 12px 6px 0;color:#6b5c55;width:160px;vertical-align:top;">${escapeHtml(r.label)}</td>
+					<td style="color:#160b11;white-space:pre-wrap;">${escapeHtml(r.value)}</td>
+				</tr>`
+		)
+		.join('\n');
+}
+
+function renderSummaryTextRows(rows) {
+	return filterRows(rows).map((r) => `${r.label}: ${r.value}`);
+}
+
+function buildHtml({ heading, formName, intro, firstName, summary, submittedAt }) {
 	const greeting = firstName ? `Dear ${escapeHtml(firstName)},` : 'Dear Customer,';
+	const summaryHtml = renderSummaryHtmlRows([
+		{ label: 'Submitted', value: submittedAt },
+		...summary
+	]);
+
 	return `
 <!doctype html>
 <html>
@@ -124,9 +159,18 @@ function buildHtml({ heading, formName, intro, firstName }) {
 			</tr>
 
 			<tr>
-				<td style="padding:28px 32px 20px;">
+				<td style="padding:28px 32px 16px;">
 					<p style="margin:0 0 14px;font-size:14px;line-height:1.7;color:#3a2a31;">${greeting}</p>
 					<p style="margin:0;font-size:14px;line-height:1.7;color:#3a2a31;">Thank you for filling out the ${escapeHtml(formName)}. ${escapeHtml(intro)}</p>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="padding:16px 32px 24px;border-top:1px solid #e5e5e5;">
+					<h3 style="margin:0 0 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:#a1846d;font-weight:700;">Your Submission</h3>
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size:14px;line-height:1.75;">
+						${summaryHtml}
+					</table>
 				</td>
 			</tr>
 
@@ -167,14 +211,22 @@ function buildHtml({ heading, formName, intro, firstName }) {
 </html>`.trim();
 }
 
-function buildText({ heading, formName, intro, firstName }) {
+function buildText({ heading, formName, intro, firstName, summary, submittedAt }) {
 	const greeting = firstName ? `Dear ${firstName},` : 'Dear Customer,';
+	const summaryLines = renderSummaryTextRows([
+		{ label: 'Submitted', value: submittedAt },
+		...summary
+	]);
+
 	return [
 		heading,
 		'',
 		greeting,
 		'',
 		`Thank you for filling out the ${formName}. ${intro}`,
+		'',
+		'YOUR SUBMISSION',
+		...summaryLines,
 		'',
 		'NEED TO SPEAK WITH US SOONER?',
 		`Phone:         ${PHONE_DISPLAY}`,
@@ -193,9 +245,15 @@ function buildText({ heading, formName, intro, firstName }) {
  * Sends an automated confirmation email to the customer after they submit a form.
  * Errors are swallowed so a Resend outage never breaks a form submission.
  *
- * @param {{ to: string, firstName?: string, formType: keyof typeof TEMPLATES, details?: object }} args
+ * @param {{
+ *   to: string,
+ *   firstName?: string,
+ *   formType: keyof typeof TEMPLATES,
+ *   details?: object,
+ *   summary?: Array<{ label: string, value: string }>
+ * }} args
  */
-export async function sendCustomerConfirmation({ to, firstName, formType, details = {} }) {
+export async function sendCustomerConfirmation({ to, firstName, formType, details = {}, summary = [] }) {
 	if (!to) return;
 
 	const builder = TEMPLATES[formType];
@@ -205,6 +263,7 @@ export async function sendCustomerConfirmation({ to, firstName, formType, detail
 	}
 
 	const template = builder(details);
+	const submittedAt = formatSubmittedAt();
 
 	try {
 		const { error } = await resend.emails.send({
@@ -212,8 +271,8 @@ export async function sendCustomerConfirmation({ to, firstName, formType, detail
 			to: [to],
 			replyTo: REPLY_TO,
 			subject: template.subject,
-			html: buildHtml({ ...template, firstName }),
-			text: buildText({ ...template, firstName })
+			html: buildHtml({ ...template, firstName, summary, submittedAt }),
+			text: buildText({ ...template, firstName, summary, submittedAt })
 		});
 
 		if (error) {

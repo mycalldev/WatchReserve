@@ -224,7 +224,18 @@ export async function POST({ request }) {
 			to: email,
 			firstName,
 			formType: 'part-exchange',
-			details: { targetProduct }
+			details: { targetProduct },
+			summary: [
+				{ label: 'Target Watch', value: targetProduct },
+				{ label: 'Trade-In Brand', value: brand },
+				{ label: 'Trade-In Model', value: model },
+				{ label: 'Reference', value: reference },
+				{ label: 'Year', value: year },
+				{ label: 'Condition', value: conditionLabel },
+				{ label: 'Estimated Value', value: estimatedValue },
+				{ label: 'Phone', value: phone },
+				{ label: 'Marketing Opt-in', value: gdprConsent ? 'Yes' : 'No' }
+			]
 		});
 
 		await syncToKlaviyo(email, firstName, gdprConsent);

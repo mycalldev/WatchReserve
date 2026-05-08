@@ -110,7 +110,12 @@ export async function POST({ request }) {
 		await sendCustomerConfirmation({
 			to: email,
 			firstName,
-			formType: 'waitlist'
+			formType: 'waitlist',
+			summary: [
+				{ label: 'Email', value: email },
+				{ label: 'List', value: 'Watch Reserve Intelligence Waitlist' },
+				{ label: 'Marketing Opt-in', value: gdprConsent ? 'Yes' : 'No' }
+			]
 		});
 
 		await syncToKlaviyo(email, firstName, gdprConsent);

@@ -139,7 +139,13 @@ export async function POST({ request }) {
 		await sendCustomerConfirmation({
 			to: email,
 			firstName,
-			formType: 'landing-enquiry'
+			formType: 'landing-enquiry',
+			summary: [
+				{ label: 'Source', value: source },
+				{ label: 'Preferred Contact', value: contactPreference },
+				{ label: 'Phone', value: phone },
+				{ label: 'Marketing Opt-in', value: gdprConsent ? 'Yes' : 'No' }
+			]
 		});
 
 		await syncToKlaviyo(email, firstName, gdprConsent);

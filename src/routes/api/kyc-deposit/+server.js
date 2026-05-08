@@ -151,7 +151,14 @@ export async function POST({ request }) {
 			to: email,
 			firstName,
 			formType: 'kyc-deposit',
-			details: { productLabel }
+			details: { productLabel },
+			summary: [
+				{ label: 'Watch', value: productLabel },
+				{ label: 'Deposit (10%)', value: depositAmount },
+				{ label: 'Phone', value: phone },
+				{ label: 'Notes', value: notes },
+				{ label: 'Marketing Opt-in', value: gdprConsent ? 'Yes' : 'No' }
+			]
 		});
 
 		await syncToKlaviyo(email, firstName, gdprConsent);

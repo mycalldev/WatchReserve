@@ -146,7 +146,13 @@ export async function POST({ request }) {
 			to: email,
 			firstName,
 			formType: 'source-request',
-			details: { productLabel }
+			details: { productLabel },
+			summary: [
+				{ label: 'Brand', value: brand },
+				{ label: 'Model', value: model },
+				{ label: 'Reference', value: reference },
+				{ label: 'Marketing Opt-in', value: gdprConsent ? 'Yes' : 'No' }
+			]
 		});
 
 		await syncToKlaviyo(email, firstName, gdprConsent);

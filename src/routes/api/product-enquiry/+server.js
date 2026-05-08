@@ -212,7 +212,18 @@ export async function POST({ request }) {
 			to: email,
 			firstName,
 			formType: 'product-enquiry',
-			details: { productLabel }
+			details: { productLabel },
+			summary: [
+				{ label: 'Watch', value: productLabel },
+				{ label: 'Reference', value: productRef },
+				{ label: 'Status', value: productStatus },
+				{ label: 'Price', value: priceFormatted },
+				{ label: 'Area of Interest', value: interestLabel },
+				{ label: 'Preferred Contact', value: contactLabel },
+				{ label: 'Phone', value: phone },
+				{ label: 'Message', value: message },
+				{ label: 'Marketing Opt-in', value: gdprConsent ? 'Yes' : 'No' }
+			]
 		});
 
 		await syncToKlaviyo(email, firstName, gdprConsent);

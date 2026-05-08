@@ -84,14 +84,14 @@
 			{#if sfSubmitted}
 				<div class="sf-success" role="status" aria-live="polite">
 					<div class="sf-success-icon" aria-hidden="true">
-						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-							<path d="M20 6L9 17l-5-5"/>
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+							<polyline points="20 6 9 17 4 12"/>
 						</svg>
 					</div>
-					<div>
-						<p class="sf-success-title">Request received</p>
-						<p class="sf-success-body">A sourcing specialist will be in touch within 24 hours.</p>
-					</div>
+					<h3 class="sf-success-title">Sourcing Request Received</h3>
+					<p class="sf-success-body">
+						Thank you. A Watch Reserve sourcing specialist will begin the search for your <strong>{sf.brand} {sf.model}</strong> and respond within 24 hours.
+					</p>
 				</div>
 			{:else}
 				<form class="sf-form" onsubmit={handleSfSubmit} novalidate>
@@ -755,20 +755,20 @@
 
 	.sf-success {
 		display: flex;
-		align-items: flex-start;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
 		gap: 16px;
-		background-color: #f4f9f5;
-		border: 1px solid rgba(34, 160, 90, 0.22);
-		border-left: 3px solid #22a05a;
-		padding: 20px 24px;
+		padding: 48px 24px;
 	}
 
 	.sf-success-icon {
 		flex-shrink: 0;
-		width: 36px;
-		height: 36px;
-		background-color: #22a05a;
+		width: 56px;
+		height: 56px;
+		background-color: #a1846d;
 		color: #ffffff;
+		border-radius: 50%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -776,17 +776,24 @@
 
 	.sf-success-title {
 		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: 1rem;
-		color: #1a4a2e;
-		margin: 0 0 4px;
+		font-size: 1.375rem;
+		font-weight: 400;
+		color: #160b11;
+		margin: 0;
 	}
 
 	.sf-success-body {
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
-		color: rgba(26, 74, 46, 0.8);
+		color: rgba(22, 11, 17, 0.6);
+		line-height: 1.65;
 		margin: 0;
-		line-height: 1.5;
+		max-width: 420px;
+	}
+
+	.sf-success-body strong {
+		color: #160b11;
+		font-weight: 600;
 	}
 
 	@media (max-width: 640px) {
