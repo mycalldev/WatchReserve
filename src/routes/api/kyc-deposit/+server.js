@@ -2,6 +2,7 @@ import { json } from '@sveltejs/kit';
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
 import { syncToKlaviyo } from '$lib/klaviyo.js';
+import { sendCustomerConfirmation } from '$lib/customerConfirmation.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -144,7 +145,16 @@ export async function POST({ request }) {
 			return json({ error: 'Failed to send notification.' }, { status: 502 });
 		}
 
-		await syncToKlaviyo(email, fullName.split(' ')[0], gdprConsent);
+		const firstName = fullName.split(' ')[0];
+
+		await sendCustomerConfirmation({
+			to: email,
+			firstName,
+			formType: 'kyc-deposit',
+			details: { productLabel }
+		});
+
+		await syncToKlaviyo(email, firstName, gdprConsent);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[kyc-deposit] unexpected error:', err);

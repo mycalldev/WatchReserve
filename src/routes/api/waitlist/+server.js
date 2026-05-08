@@ -2,6 +2,7 @@ import { json } from '@sveltejs/kit';
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
 import { syncToKlaviyo } from '$lib/klaviyo.js';
+import { sendCustomerConfirmation } from '$lib/customerConfirmation.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -105,6 +106,12 @@ export async function POST({ request }) {
 			console.error('[waitlist] resend error:', error);
 			return json({ error: 'Failed to join waitlist. Please try again later.' }, { status: 502 });
 		}
+
+		await sendCustomerConfirmation({
+			to: email,
+			firstName,
+			formType: 'waitlist'
+		});
 
 		await syncToKlaviyo(email, firstName, gdprConsent);
 		return json({ success: true });

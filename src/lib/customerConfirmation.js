@@ -16,11 +16,81 @@ function escapeHtml(v) {
 }
 
 const TEMPLATES = {
-	contact: {
+	contact: () => ({
 		subject: "We've Received Your Enquiry · Watch Reserve",
 		heading: "We've Received Your Enquiry",
 		intro: 'Thank you for reaching out to Watch Reserve. We have received your enquiry and a member of our team will be in touch shortly to assist you.'
-	}
+	}),
+
+	'product-enquiry': ({ productLabel } = {}) => ({
+		subject: productLabel
+			? `We've Received Your Enquiry · ${productLabel}`
+			: "We've Received Your Enquiry · Watch Reserve",
+		heading: "We've Received Your Enquiry",
+		intro: productLabel
+			? `Thank you for your interest in the ${productLabel}. We have received your enquiry and a member of our team will be in touch shortly to assist you.`
+			: 'Thank you for your enquiry. We have received your message and a member of our team will be in touch shortly to assist you.'
+	}),
+
+	'sell-valuation': () => ({
+		subject: 'Your Valuation Request Has Been Received · Watch Reserve',
+		heading: 'Your Valuation Request Has Been Received',
+		intro: 'Thank you for submitting your timepiece for valuation. A member of our team will review the details you have provided and be in touch shortly with our offer.'
+	}),
+
+	'sell-consignment': () => ({
+		subject: 'Your Consignment Submission Has Been Received · Watch Reserve',
+		heading: 'Your Consignment Submission Has Been Received',
+		intro: 'Thank you for considering Watch Reserve to consign your timepiece. A member of our team will review your submission and be in touch shortly to discuss the next steps.'
+	}),
+
+	'part-exchange': ({ targetProduct } = {}) => ({
+		subject: targetProduct
+			? `Your Part Exchange Request Has Been Received · ${targetProduct}`
+			: 'Your Part Exchange Request Has Been Received · Watch Reserve',
+		heading: 'Your Part Exchange Request Has Been Received',
+		intro: targetProduct
+			? `Thank you for your part exchange enquiry towards the ${targetProduct}. A member of our team will review the details of your trade-in and be in touch shortly with a valuation.`
+			: 'Thank you for your part exchange enquiry. A member of our team will review the details of your trade-in and be in touch shortly with a valuation.'
+	}),
+
+	'source-request': ({ productLabel } = {}) => ({
+		subject: productLabel
+			? `Your Sourcing Request Has Been Received · ${productLabel}`
+			: 'Your Sourcing Request Has Been Received · Watch Reserve',
+		heading: 'Your Sourcing Request Has Been Received',
+		intro: productLabel
+			? `Thank you for entrusting Watch Reserve to source the ${productLabel}. A member of our team will begin the search and be in touch shortly to keep you informed throughout the process.`
+			: 'Thank you for entrusting Watch Reserve to source your next timepiece. A member of our team will begin the search and be in touch shortly to keep you informed throughout the process.'
+	}),
+
+	waitlist: () => ({
+		subject: "You're On the Watch Reserve Intelligence Waitlist",
+		heading: "You're On the Waitlist",
+		intro: 'Thank you for joining the Watch Reserve Intelligence waitlist. You will be among the first to receive access when we launch, along with exclusive early insights and updates.'
+	}),
+
+	'landing-enquiry': () => ({
+		subject: "We've Received Your Enquiry · Watch Reserve",
+		heading: "We've Received Your Enquiry",
+		intro: 'Thank you for your enquiry. A member of our team will be in touch shortly using your preferred contact method.'
+	}),
+
+	'kyc-checkout': () => ({
+		subject: 'Your Order Is Being Verified · Watch Reserve',
+		heading: 'Your Order Is Being Verified',
+		intro: 'Thank you for your order. As part of our standard verification process for high-value timepieces, a member of our team will be in touch shortly to complete a brief identity check and arrange your payment.'
+	}),
+
+	'kyc-deposit': ({ productLabel } = {}) => ({
+		subject: productLabel
+			? `Your Deposit Request Is Being Verified · ${productLabel}`
+			: 'Your Deposit Request Is Being Verified · Watch Reserve',
+		heading: 'Your Deposit Request Is Being Verified',
+		intro: productLabel
+			? `Thank you for your interest in reserving the ${productLabel}. As part of our standard verification process, a member of our team will be in touch shortly to complete a brief identity check and arrange your deposit payment.`
+			: 'Thank you for your interest in reserving this timepiece. As part of our standard verification process, a member of our team will be in touch shortly to complete a brief identity check and arrange your deposit payment.'
+	})
 };
 
 function buildHtml({ heading, intro, firstName }) {
@@ -78,16 +148,18 @@ function buildText({ heading, intro, firstName }) {
  * Sends an automated confirmation email to the customer after they submit a form.
  * Errors are swallowed so a Resend outage never breaks a form submission.
  *
- * @param {{ to: string, firstName?: string, formType: keyof typeof TEMPLATES }} args
+ * @param {{ to: string, firstName?: string, formType: keyof typeof TEMPLATES, details?: object }} args
  */
-export async function sendCustomerConfirmation({ to, firstName, formType }) {
+export async function sendCustomerConfirmation({ to, firstName, formType, details = {} }) {
 	if (!to) return;
 
-	const template = TEMPLATES[formType];
-	if (!template) {
+	const builder = TEMPLATES[formType];
+	if (!builder) {
 		console.error(`[customerConfirmation] unknown formType: ${formType}`);
 		return;
 	}
+
+	const template = builder(details);
 
 	try {
 		const { error } = await resend.emails.send({
