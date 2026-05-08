@@ -668,8 +668,8 @@
 
 	.gdpr-check-label {
 		font-family: 'Montserrat', sans-serif;
-		font-size: 0.8rem;
-		color: rgba(255, 255, 255, 0.5);
+		font-size: 0.875rem;
+		color: rgba(255, 255, 255, 0.78);
 		line-height: 1.55;
 	}
 
