@@ -233,7 +233,7 @@
 					reference:   cf.reference,
 					condition:   cf.condition,
 					boxPapers:   cf.boxPapers,
-					askingPrice: cf.askingPrice,
+					askingPrice: cf.askingPrice.trim() ? `£${cf.askingPrice.trim().replace(/^£\s*/, '')}` : '',
 					gdprConsent: cfGdprConsent
 				})
 			});
@@ -754,12 +754,14 @@
 				{#if cfSubmitted}
 					<div class="cf-success" role="status" transition:fade={{ duration: 300 }}>
 						<div class="cf-success-icon" aria-hidden="true">
-							<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-								<path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+								<polyline points="20 6 9 17 4 12"/>
 							</svg>
 						</div>
-						<h4 class="cf-success-title">Enquiry received</h4>
-						<p class="cf-success-text">Thank you. A member of our team will be in touch within one business day to discuss your consignment.</p>
+						<h4 class="cf-success-title">Consignment Submission Received</h4>
+						<p class="cf-success-text">
+							Thank you. A Watch Reserve specialist will review your <strong>{cf.brand} {cf.model}</strong> and respond within one business day to discuss your consignment.
+						</p>
 					</div>
 				{:else}
 					<!-- Progress bar -->
@@ -958,13 +960,17 @@
 							<!-- Asking Price (optional) -->
 							<div class="cf-sfield" style="margin-bottom: 32px;">
 								<label for="cfs-price" class="cf-slabel">Asking Price <span class="cf-soptional">optional</span></label>
-								<input
-									id="cfs-price"
-									type="text"
-									class="cf-sinput"
-									bind:value={cf.askingPrice}
-									placeholder="e.g. £12,500"
-								/>
+								<div class="cf-sinput-currency">
+									<span class="cf-sprefix" aria-hidden="true">£</span>
+									<input
+										id="cfs-price"
+										type="text"
+										class="cf-sinput cf-sinput--currency"
+										bind:value={cf.askingPrice}
+										placeholder="e.g. 12,500"
+										inputmode="numeric"
+									/>
+								</div>
 							</div>
 
 							<button type="button" class="cf-next-btn" onclick={cfConfirmDetails} disabled={!cfCanStep3}>
@@ -1822,6 +1828,25 @@
 
 	.cf-sinput::placeholder { color: rgba(22, 11, 17, 0.3); }
 
+	.cf-sinput-currency {
+		position: relative;
+	}
+
+	.cf-sprefix {
+		position: absolute;
+		left: 14px;
+		top: 50%;
+		transform: translateY(-50%);
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.875rem;
+		color: #6b5c55;
+		pointer-events: none;
+	}
+
+	.cf-sinput--currency {
+		padding-left: 28px;
+	}
+
 	.cf-sinput:focus {
 		border-color: #a1846d;
 		box-shadow: 0 0 0 3px rgba(161, 132, 109, 0.12);
@@ -1970,39 +1995,43 @@
 	.cf-success {
 		display: flex;
 		flex-direction: column;
-		align-items: flex-start;
-		gap: 12px;
-		padding: 40px 0;
+		align-items: center;
+		text-align: center;
+		gap: 16px;
+		padding: 48px 24px;
 	}
 
 	.cf-success-icon {
-		width: 52px;
-		height: 52px;
+		width: 56px;
+		height: 56px;
+		background-color: #a1846d;
+		color: #ffffff;
 		border-radius: 50%;
-		background: rgba(161, 132, 109, 0.1);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: #a1846d;
 	}
 
 	.cf-success-title {
 		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: 1.3rem;
+		font-size: 1.375rem;
 		font-weight: 400;
 		color: #160b11;
 		margin: 0;
-		letter-spacing: -0.01em;
 	}
 
 	.cf-success-text {
 		font-family: 'Montserrat', sans-serif;
-		font-size: 0.9rem;
+		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.6);
+		line-height: 1.65;
 		margin: 0;
-		font-weight: 300;
-		line-height: 1.7;
-		max-width: 480px;
+		max-width: 420px;
+	}
+
+	.cf-success-text strong {
+		color: #160b11;
+		font-weight: 600;
 	}
 
 	/* Responsive */
