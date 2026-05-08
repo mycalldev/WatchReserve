@@ -6,6 +6,11 @@ const resend = new Resend(RESEND_API_KEY);
 const FROM = 'Watch Reserve <noreply@watchreserve.co.uk>';
 const REPLY_TO = 'info@watchreserve.co.uk';
 
+const PHONE_DISPLAY = '+44 (0)20 8150 1987';
+const PHONE_TEL = '+442081501987';
+const ADDRESS = '25 Cabot Square, Canary Wharf, London E14 4QA';
+const OPENING_HOURS = 'Mon – Sat: 10:00AM – 6:00PM';
+
 function escapeHtml(v) {
 	return String(v ?? '')
 		.replace(/&/g, '&amp;')
@@ -19,7 +24,8 @@ const TEMPLATES = {
 	contact: () => ({
 		subject: "We've Received Your Enquiry · Watch Reserve",
 		heading: "We've Received Your Enquiry",
-		intro: 'Thank you for reaching out to Watch Reserve. We have received your enquiry and a member of our team will be in touch shortly to assist you.'
+		formName: 'Contact Form',
+		intro: 'We have received your enquiry and a member of our team will be in touch shortly to assist you.'
 	}),
 
 	'product-enquiry': ({ productLabel } = {}) => ({
@@ -27,21 +33,24 @@ const TEMPLATES = {
 			? `We've Received Your Enquiry · ${productLabel}`
 			: "We've Received Your Enquiry · Watch Reserve",
 		heading: "We've Received Your Enquiry",
+		formName: 'Product Enquiry Form',
 		intro: productLabel
-			? `Thank you for your interest in the ${productLabel}. We have received your enquiry and a member of our team will be in touch shortly to assist you.`
-			: 'Thank you for your enquiry. We have received your message and a member of our team will be in touch shortly to assist you.'
+			? `We have received your enquiry about the ${productLabel} and a member of our team will be in touch shortly to assist you.`
+			: 'We have received your enquiry and a member of our team will be in touch shortly to assist you.'
 	}),
 
 	'sell-valuation': () => ({
 		subject: 'Your Valuation Request Has Been Received · Watch Reserve',
 		heading: 'Your Valuation Request Has Been Received',
-		intro: 'Thank you for submitting your timepiece for valuation. A member of our team will review the details you have provided and be in touch shortly with our offer.'
+		formName: 'Valuation Request Form',
+		intro: 'A member of our team will review the details you have provided and be in touch shortly with our offer.'
 	}),
 
 	'sell-consignment': () => ({
 		subject: 'Your Consignment Submission Has Been Received · Watch Reserve',
 		heading: 'Your Consignment Submission Has Been Received',
-		intro: 'Thank you for considering Watch Reserve to consign your timepiece. A member of our team will review your submission and be in touch shortly to discuss the next steps.'
+		formName: 'Consignment Form',
+		intro: 'A member of our team will review your submission and be in touch shortly to discuss the next steps.'
 	}),
 
 	'part-exchange': ({ targetProduct } = {}) => ({
@@ -49,9 +58,10 @@ const TEMPLATES = {
 			? `Your Part Exchange Request Has Been Received · ${targetProduct}`
 			: 'Your Part Exchange Request Has Been Received · Watch Reserve',
 		heading: 'Your Part Exchange Request Has Been Received',
+		formName: 'Part Exchange Form',
 		intro: targetProduct
-			? `Thank you for your part exchange enquiry towards the ${targetProduct}. A member of our team will review the details of your trade-in and be in touch shortly with a valuation.`
-			: 'Thank you for your part exchange enquiry. A member of our team will review the details of your trade-in and be in touch shortly with a valuation.'
+			? `A member of our team will review the details of your trade-in towards the ${targetProduct} and be in touch shortly with a valuation.`
+			: 'A member of our team will review the details of your trade-in and be in touch shortly with a valuation.'
 	}),
 
 	'source-request': ({ productLabel } = {}) => ({
@@ -59,27 +69,31 @@ const TEMPLATES = {
 			? `Your Sourcing Request Has Been Received · ${productLabel}`
 			: 'Your Sourcing Request Has Been Received · Watch Reserve',
 		heading: 'Your Sourcing Request Has Been Received',
+		formName: 'Sourcing Request Form',
 		intro: productLabel
-			? `Thank you for entrusting Watch Reserve to source the ${productLabel}. A member of our team will begin the search and be in touch shortly to keep you informed throughout the process.`
-			: 'Thank you for entrusting Watch Reserve to source your next timepiece. A member of our team will begin the search and be in touch shortly to keep you informed throughout the process.'
+			? `A member of our team will begin the search for the ${productLabel} and be in touch shortly to keep you informed throughout the process.`
+			: 'A member of our team will begin the search and be in touch shortly to keep you informed throughout the process.'
 	}),
 
 	waitlist: () => ({
 		subject: "You're On the Watch Reserve Intelligence Waitlist",
 		heading: "You're On the Waitlist",
-		intro: 'Thank you for joining the Watch Reserve Intelligence waitlist. You will be among the first to receive access when we launch, along with exclusive early insights and updates.'
+		formName: 'Waitlist Form',
+		intro: 'You will be among the first to receive access when we launch, along with exclusive early insights and updates.'
 	}),
 
 	'landing-enquiry': () => ({
 		subject: "We've Received Your Enquiry · Watch Reserve",
 		heading: "We've Received Your Enquiry",
-		intro: 'Thank you for your enquiry. A member of our team will be in touch shortly using your preferred contact method.'
+		formName: 'Enquiry Form',
+		intro: 'A member of our team will be in touch shortly using your preferred contact method.'
 	}),
 
 	'kyc-checkout': () => ({
 		subject: 'Your Order Is Being Verified · Watch Reserve',
 		heading: 'Your Order Is Being Verified',
-		intro: 'Thank you for your order. As part of our standard verification process for high-value timepieces, a member of our team will be in touch shortly to complete a brief identity check and arrange your payment.'
+		formName: 'Checkout Form',
+		intro: 'As part of our standard verification process for high-value timepieces, a member of our team will be in touch shortly to complete a brief identity check and arrange your payment.'
 	}),
 
 	'kyc-deposit': ({ productLabel } = {}) => ({
@@ -87,59 +101,90 @@ const TEMPLATES = {
 			? `Your Deposit Request Is Being Verified · ${productLabel}`
 			: 'Your Deposit Request Is Being Verified · Watch Reserve',
 		heading: 'Your Deposit Request Is Being Verified',
+		formName: 'Deposit Request Form',
 		intro: productLabel
-			? `Thank you for your interest in reserving the ${productLabel}. As part of our standard verification process, a member of our team will be in touch shortly to complete a brief identity check and arrange your deposit payment.`
-			: 'Thank you for your interest in reserving this timepiece. As part of our standard verification process, a member of our team will be in touch shortly to complete a brief identity check and arrange your deposit payment.'
+			? `As part of our standard verification process for the ${productLabel}, a member of our team will be in touch shortly to complete a brief identity check and arrange your deposit payment.`
+			: 'As part of our standard verification process, a member of our team will be in touch shortly to complete a brief identity check and arrange your deposit payment.'
 	})
 };
 
-function buildHtml({ heading, intro, firstName }) {
+function buildHtml({ heading, formName, intro, firstName }) {
 	const greeting = firstName ? `Dear ${escapeHtml(firstName)},` : 'Dear Customer,';
 	return `
 <!doctype html>
 <html>
 	<body style="margin:0;padding:24px;background-color:#faf8f6;font-family:Arial,Helvetica,sans-serif;color:#160b11;">
 		<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #e5e5e5;">
+
 			<tr>
 				<td style="padding:28px 32px;border-bottom:2px solid #a1846d;">
 					<p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#a1846d;font-weight:700;">Watch Reserve</p>
 					<h2 style="margin:6px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">${escapeHtml(heading)}</h2>
 				</td>
 			</tr>
+
 			<tr>
-				<td style="padding:28px 32px;">
+				<td style="padding:28px 32px 20px;">
 					<p style="margin:0 0 14px;font-size:14px;line-height:1.7;color:#3a2a31;">${greeting}</p>
-					<p style="margin:0 0 14px;font-size:14px;line-height:1.7;color:#3a2a31;">${escapeHtml(intro)}</p>
-					<p style="margin:0 0 14px;font-size:14px;line-height:1.7;color:#3a2a31;">If your enquiry is urgent, please reply directly to this email and we will get back to you as soon as possible.</p>
-					<p style="margin:24px 0 0;font-size:14px;line-height:1.7;color:#3a2a31;">Warm regards,<br/>The Watch Reserve Team</p>
+					<p style="margin:0;font-size:14px;line-height:1.7;color:#3a2a31;">Thank you for filling out the ${escapeHtml(formName)}. ${escapeHtml(intro)}</p>
 				</td>
 			</tr>
+
 			<tr>
-				<td style="padding:20px 32px;background:#faf8f6;border-top:1px solid #e5e5e5;font-size:11px;color:#6b5c55;text-align:center;line-height:1.7;">
-					Watch Reserve · 25 Cabot Square, Canary Wharf, London E14 4QA<br/>
+				<td style="padding:20px 32px;background:#f9f5f2;border-top:1px solid #e5e5e5;border-left:3px solid #a1846d;">
+					<p style="margin:0 0 8px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#a1846d;font-weight:700;">Need to Speak with Us Sooner?</p>
+					<p style="margin:0 0 18px;font-family:Georgia,'Times New Roman',serif;font-size:18px;font-weight:400;color:#160b11;">
+						<a href="tel:${PHONE_TEL}" style="color:#160b11;text-decoration:none;">${PHONE_DISPLAY}</a>
+					</p>
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size:14px;line-height:1.75;">
+						<tr>
+							<td style="padding:4px 12px 4px 0;color:#6b5c55;width:140px;vertical-align:top;">Address</td>
+							<td style="color:#160b11;">${ADDRESS}</td>
+						</tr>
+						<tr>
+							<td style="padding:4px 12px 4px 0;color:#6b5c55;vertical-align:top;">Opening Hours</td>
+							<td style="color:#160b11;">${OPENING_HOURS}</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="padding:24px 32px 28px;border-top:1px solid #e5e5e5;">
+					<p style="margin:0;font-size:14px;line-height:1.7;color:#3a2a31;">Warm regards,<br/>The Watch Reserve Team</p>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="padding:18px 32px;background:#faf8f6;border-top:1px solid #e5e5e5;font-size:11px;color:#6b5c55;text-align:center;line-height:1.7;">
+					Watch Reserve · ${ADDRESS}<br/>
 					<a href="https://www.watchreserve.co.uk" style="color:#a1846d;text-decoration:none;">www.watchreserve.co.uk</a>
 				</td>
 			</tr>
+
 		</table>
 	</body>
 </html>`.trim();
 }
 
-function buildText({ heading, intro, firstName }) {
+function buildText({ heading, formName, intro, firstName }) {
 	const greeting = firstName ? `Dear ${firstName},` : 'Dear Customer,';
 	return [
 		heading,
 		'',
 		greeting,
 		'',
-		intro,
+		`Thank you for filling out the ${formName}. ${intro}`,
 		'',
-		'If your enquiry is urgent, please reply directly to this email and we will get back to you as soon as possible.',
+		'NEED TO SPEAK WITH US SOONER?',
+		`Phone:         ${PHONE_DISPLAY}`,
+		`Address:       ${ADDRESS}`,
+		`Opening Hours: ${OPENING_HOURS}`,
 		'',
 		'Warm regards,',
 		'The Watch Reserve Team',
 		'',
-		'Watch Reserve · 25 Cabot Square, Canary Wharf, London E14 4QA',
+		`Watch Reserve · ${ADDRESS}`,
 		'www.watchreserve.co.uk'
 	].join('\n');
 }
