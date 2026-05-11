@@ -1,4 +1,6 @@
 <script>
+	import { trackEvent } from '$lib/ga.js';
+
 	let sf = $state({ fullName: '', email: '', brand: '', model: '', reference: '' });
 	let sfSubmitting = $state(false);
 	let sfSubmitted = $state(false);
@@ -39,6 +41,8 @@
 			const data = await res.json();
 			if (!res.ok) {
 				console.error('[source-request]', data.error);
+			} else {
+				trackEvent('form_submit', { form_name: 'source_request', brand: sf.brand, model: sf.model });
 			}
 		} catch (err) {
 			console.error('[source-request] fetch error:', err);

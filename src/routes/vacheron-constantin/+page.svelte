@@ -1,5 +1,6 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
+	import { trackEvent } from '$lib/ga.js';
 
 	const heroSlides = [
 		{
@@ -140,6 +141,7 @@
 			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed.');
 
 			submitted = true;
+			trackEvent('form_submit', { form_name: 'landing_enquiry', source: 'Vacheron Constantin Landing Page' });
 		} catch (err) {
 			submitError = err?.message || 'Something went wrong. Please try again.';
 		} finally {

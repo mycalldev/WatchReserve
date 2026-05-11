@@ -4,6 +4,7 @@
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
+	import ConditionalGA from '$lib/components/ConditionalGA.svelte';
 
 	let { children } = $props();
 
@@ -61,6 +62,8 @@
 <Footer />
 
 <CookieConsent />
+
+<ConditionalGA />
 
 <style>
 	.announcement-banner {

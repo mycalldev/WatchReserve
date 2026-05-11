@@ -4,6 +4,7 @@
 	import { loadStripe } from '@stripe/stripe-js';
 	import { PUBLIC_STRIPE_PUBLISHABLE_KEY } from '$env/static/public';
 	import { cart as cartStore } from '$lib/stores/cart.svelte.js';
+	import { trackEvent } from '$lib/ga.js';
 
 	let { data } = $props();
 
@@ -158,6 +159,11 @@
 				const pi = result?.paymentIntent;
 				if (pi?.status === 'succeeded') {
 					orderComplete = true;
+					trackEvent('purchase', {
+						transaction_id: pi.id,
+						value: pi.amount ? pi.amount / 100 : displayTotal,
+						currency: pi.currency ? pi.currency.toUpperCase() : currency
+					});
 				} else if (pi?.status === 'processing') {
 					paymentMessage = 'Your payment is processing. We will confirm shortly.';
 				} else {
@@ -203,6 +209,12 @@
 			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed.');
 
 			orderComplete = true;
+			trackEvent('form_submit', { form_name: 'kyc_checkout' });
+			trackEvent('purchase', {
+				transaction_id: `kyc-${Date.now()}`,
+				value: displayTotal,
+				currency
+			});
 		} catch (err) {
 			kycError = err?.message || 'Something went wrong. Please try again.';
 		} finally {
@@ -335,6 +347,11 @@
 
 		if (paymentIntent?.status === 'succeeded') {
 			orderComplete = true;
+			trackEvent('purchase', {
+				transaction_id: paymentIntent.id,
+				value: displayTotal,
+				currency
+			});
 		} else if (paymentIntent?.status === 'processing') {
 			paymentMessage = 'Your payment is processing. We will confirm shortly.';
 		} else {

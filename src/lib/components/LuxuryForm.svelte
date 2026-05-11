@@ -1,4 +1,6 @@
 <script>
+	import { trackEvent } from '$lib/ga.js';
+
 	let { source = 'Contact Page' } = $props();
 
 	let formData = $state({
@@ -78,6 +80,7 @@
 			}
 
 			submitSuccess = true;
+			trackEvent('form_submit', { form_name: 'luxury_contact', source });
 			formData = { fullName: '', email: '', phone: '', interest: '', preferredContact: 'email', message: '' };
 			touched = {};
 			setTimeout(() => wrapRef?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);

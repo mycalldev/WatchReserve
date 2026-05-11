@@ -1,6 +1,7 @@
 <script>
 	import { slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
+	import { trackEvent } from '$lib/ga.js';
 
 	/** @type {{ title: string, vendor: string, reference: string | null, price: string | null, currencyCode: string, status: string | null }} */
 	let { title = '', vendor = '', reference = null, price = null, currencyCode = 'GBP', status = null } = $props();
@@ -104,6 +105,12 @@
 			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed');
 
 			submitSuccess = true;
+			trackEvent('form_submit', {
+				form_name: 'product_enquiry',
+				product_title: title,
+				product_vendor: vendor,
+				product_reference: reference ?? undefined
+			});
 			formData = {
 				fullName: '', email: '', phone: '',
 				interest: 'private-viewing', preferredContact: 'email',

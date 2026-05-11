@@ -1,4 +1,6 @@
 <script>
+	import { trackEvent } from '$lib/ga.js';
+
 	let firstName = $state('');
 	let email = $state('');
 	let submitted = $state(false);
@@ -19,6 +21,7 @@
 
 			const data = await res.json().catch(() => ({}));
 			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed');
+			trackEvent('form_submit', { form_name: 'api_waitlist' });
 		} catch (err) {
 			console.error('[waitlist] fetch error:', err);
 		} finally {

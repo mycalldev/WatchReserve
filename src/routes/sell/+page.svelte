@@ -2,6 +2,7 @@
 	import { fly, fade } from 'svelte/transition';
 	import { cubicOut, cubicInOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
+	import { trackEvent } from '$lib/ga.js';
 
 	// ── Valuation modal state ────────────────────────────────────────────────────
 	let modalOpen  = $state(false);
@@ -131,6 +132,8 @@
 			const data = await res.json();
 			if (!res.ok) {
 				console.error('[sell-valuation]', data.error);
+			} else {
+				trackEvent('form_submit', { form_name: 'sell_valuation', brand, model });
 			}
 		} catch (err) {
 			console.error('[sell-valuation] fetch error:', err);
@@ -241,6 +244,8 @@
 			const data = await res.json();
 			if (!res.ok) {
 				console.error('[sell-consignment]', data.error);
+			} else {
+				trackEvent('form_submit', { form_name: 'sell_consignment', brand: cf.brand, model: cf.model });
 			}
 		} catch (err) {
 			console.error('[sell-consignment] fetch error:', err);

@@ -1,14 +1,13 @@
 <script>
 	import { onMount } from 'svelte';
-
-	const STORAGE_KEY = 'wr_cookie_consent';
+	import { CONSENT_KEY, notifyConsentChanged } from '$lib/ga.js';
 
 	let visible = $state(false);
 	let animateIn = $state(false);
 
 	function hasConsented() {
 		try {
-			return !!localStorage.getItem(STORAGE_KEY);
+			return !!localStorage.getItem(CONSENT_KEY);
 		} catch {
 			return false;
 		}
@@ -16,12 +15,13 @@
 
 	function saveConsent(value) {
 		try {
-			localStorage.setItem(STORAGE_KEY, value);
+			localStorage.setItem(CONSENT_KEY, value);
 		} catch { /* ignore */ }
 	}
 
 	function dismiss(choice) {
 		saveConsent(choice);
+		notifyConsentChanged(choice);
 		animateIn = false;
 		setTimeout(() => (visible = false), 380);
 	}

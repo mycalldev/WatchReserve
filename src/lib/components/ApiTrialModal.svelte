@@ -1,5 +1,6 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
+	import { trackEvent } from '$lib/ga.js';
 
 	const STORAGE_KEY = 'wr_api_modal_dismissed_until';
 	const SUPPRESS_HOURS = 24;
@@ -79,6 +80,7 @@
 				submitError = data?.error || 'Something went wrong. Please try again.';
 			} else {
 				submitted = true;
+				trackEvent('form_submit', { form_name: 'api_waitlist_popup' });
 				setTimeout(() => dismiss(), 3200);
 			}
 		} catch {

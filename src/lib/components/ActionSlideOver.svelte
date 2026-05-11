@@ -4,6 +4,7 @@
 	import { onMount, tick } from 'svelte';
 	import { loadStripe } from '@stripe/stripe-js';
 	import { PUBLIC_STRIPE_PUBLISHABLE_KEY } from '$env/static/public';
+	import { trackEvent } from '$lib/ga.js';
 
 	/**
 	 * @typedef {'cart' | 'part-exchange' | 'deposit'} DrawerType
@@ -160,6 +161,12 @@
 			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed');
 
 			pxSuccess = true;
+			trackEvent('form_submit', {
+				form_name: 'part_exchange_product',
+				brand: pxForm.brand,
+				model: pxForm.model,
+				target_product: productVendor ? `${productVendor} ${productTitle}` : productTitle
+			});
 		} catch (err) {
 			pxError = err?.message || 'Something went wrong. Please try again.';
 		} finally {
@@ -349,6 +356,12 @@
 			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed.');
 
 			depStep = 3;
+			trackEvent('form_submit', {
+				form_name: 'kyc_deposit',
+				product_title: product?.title ?? '',
+				product_vendor: product?.vendor ?? '',
+				deposit_amount: depositAmount ?? ''
+			});
 		} catch (err) {
 			depKycError = err?.message || 'Something went wrong. Please try again.';
 		} finally {

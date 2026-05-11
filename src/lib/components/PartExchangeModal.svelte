@@ -2,6 +2,7 @@
 	import { fly, fade } from 'svelte/transition';
 	import { cubicOut, cubicInOut } from 'svelte/easing';
 	import { onMount } from 'svelte';
+	import { trackEvent } from '$lib/ga.js';
 
 	let { open = $bindable(false) } = $props();
 
@@ -156,9 +157,11 @@
 			if (!res.ok || !data.success) throw new Error(data.error ?? 'Request failed');
 
 			submitted = true;
+			trackEvent('form_submit', { form_name: 'part_exchange', brand, model, target });
 		} catch {
 			// Still show success to the user — don't block on transient errors
 			submitted = true;
+			trackEvent('form_submit', { form_name: 'part_exchange', brand, model, target });
 		} finally {
 			submitting = false;
 		}
