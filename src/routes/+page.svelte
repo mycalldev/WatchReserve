@@ -411,12 +411,7 @@
 <section class="yt-proof-section">
 	<div class="yt-proof-inner">
 		<div class="yt-proof-image-wrap">
-			<img
-				src="/assets/youtube-social.png"
-				alt="Watch Reserve on YouTube"
-				class="yt-proof-image"
-				loading="lazy"
-			/>
+			<div class="elfsight-app-11c56141-8a09-473f-82c0-2b8015f4a811" data-elfsight-app-lazy></div>
 		</div>
 		<div class="yt-proof-content">
 			<p class="yt-proof-eyebrow">On YouTube</p>
@@ -448,7 +443,30 @@
 <!-- ── INSTAGRAM SOCIAL PROOF ─────────────────────────────────────────── -->
 <section class="ig-proof-section">
 	<div class="ig-proof-inner">
-		<div class="elfsight-app-faa54c63-89cb-4bbe-aa82-ff1ab0c58360" data-elfsight-app-lazy></div>
+		<div class="ig-proof-content">
+			<p class="ig-proof-eyebrow">On Instagram</p>
+			<h2 class="ig-proof-heading">Follow the collection</h2>
+			<p class="ig-proof-text">
+				Stay up to date with new arrivals, behind-the-scenes moments, and the stories behind every reference. Follow Watch Reserve on Instagram for a closer look at what makes each timepiece worth owning.
+			</p>
+			<a
+				href="https://www.instagram.com/watchreserve.co/"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="ig-proof-cta"
+				aria-label="Follow Watch Reserve on Instagram"
+			>
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<rect x="2" y="2" width="20" height="20" rx="5" />
+					<circle cx="12" cy="12" r="4" />
+					<circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
+				</svg>
+				Follow on Instagram
+			</a>
+		</div>
+		<div class="ig-proof-embed-wrap">
+			<div class="elfsight-app-faa54c63-89cb-4bbe-aa82-ff1ab0c58360" data-elfsight-app-lazy></div>
+		</div>
 	</div>
 </section>
 
@@ -936,11 +954,8 @@
 		overflow: hidden;
 	}
 
-	.yt-proof-image {
-		display: block;
+	.yt-proof-image-wrap :global([class^='elfsight-app-']) {
 		width: 100%;
-		height: auto;
-		object-fit: cover;
 	}
 
 	.yt-proof-content {
@@ -1031,19 +1046,98 @@
 	.ig-proof-inner {
 		max-width: 1200px;
 		margin: 0 auto;
-		width: 100%;
+		display: grid;
+		grid-template-columns: 1fr 1.2fr;
+		gap: 72px;
+		align-items: center;
 	}
 
-	.ig-proof-inner :global([class^='elfsight-app-']) {
+	.ig-proof-content {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.ig-proof-eyebrow {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: #a1846d;
+		margin: 0;
+	}
+
+	.ig-proof-heading {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: clamp(1.875rem, 3.2vw, 2.5rem);
+		font-weight: 400;
+		color: #160b11;
+		margin: 0;
+		line-height: 1.2;
+		letter-spacing: -0.015em;
+	}
+
+	.ig-proof-text {
+		font-family: 'Montserrat', sans-serif;
+		font-size: clamp(0.95rem, 1.05vw, 1.0625rem);
+		line-height: 1.75;
+		color: #3a2a31;
+		font-weight: 300;
+		margin: 0;
+	}
+
+	.ig-proof-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		margin-top: 12px;
+		padding: 14px 26px;
+		background-color: #160b11;
+		color: #ffffff;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.78rem;
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		text-decoration: none;
+		border: 1px solid #160b11;
+		align-self: flex-start;
+		transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+	}
+
+	.ig-proof-cta:hover {
+		background-color: #a1846d;
+		border-color: #a1846d;
+	}
+
+	.ig-proof-cta svg { flex-shrink: 0; }
+
+	.ig-proof-embed-wrap {
+		position: relative;
+		width: 100%;
+		background-color: #faf8f6;
+		border: 1px solid rgba(22, 11, 17, 0.08);
+		box-shadow: 0 18px 48px rgba(22, 11, 17, 0.1), 0 4px 16px rgba(22, 11, 17, 0.06);
+		overflow: hidden;
+	}
+
+	.ig-proof-embed-wrap :global([class^='elfsight-app-']) {
 		width: 100%;
 	}
 
 	@media (max-width: 960px) {
 		.ig-proof-section { padding: 80px 32px; }
+		.ig-proof-inner {
+			grid-template-columns: 1fr;
+			gap: 48px;
+		}
+		.ig-proof-embed-wrap { order: -1; }
 	}
 
 	@media (max-width: 600px) {
 		.ig-proof-section { padding: 64px 20px; }
+		.ig-proof-inner { gap: 36px; }
 	}
 
 	.sell-source-section {
