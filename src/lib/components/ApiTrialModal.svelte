@@ -492,38 +492,36 @@
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		gap: 12px;
-		padding: 8px 0 4px;
+		gap: 16px;
+		padding: 24px 0 8px;
 	}
 
 	.success-icon {
-		width: 60px;
-		height: 60px;
+		width: 56px;
+		height: 56px;
+		background-color: #a1846d;
+		color: #ffffff;
 		border-radius: 50%;
-		background: linear-gradient(135deg, rgba(22, 163, 74, 0.1) 0%, rgba(22, 163, 74, 0.06) 100%);
-		border: 1.5px solid rgba(22, 163, 74, 0.22);
-		color: #16a34a;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-bottom: 4px;
 	}
 
 	.success-title {
 		font-family: 'Georgia', 'Times New Roman', serif;
-		font-size: 1.3rem;
+		font-size: 1.375rem;
 		font-weight: 400;
 		color: #160b11;
 		margin: 0;
-		letter-spacing: -0.01em;
 	}
 
 	.success-msg {
 		font-family: 'Montserrat', sans-serif;
 		font-size: 0.875rem;
-		color: #888;
+		color: rgba(22, 11, 17, 0.6);
+		line-height: 1.65;
 		margin: 0;
-		line-height: 1.55;
+		max-width: 360px;
 	}
 
 	/* ── GDPR consent checkbox ── */
