@@ -44,7 +44,15 @@ export async function syncToKlaviyo(email, firstName, gdprConsent, source) {
 	};
 
 	try {
+		// Always upsert the profile first so first_name + custom properties land,
+		// regardless of consent. The subscribe job below cannot carry custom props.
+		await upsertProfile(profileAttributes);
+
 		if (gdprConsent) {
+			if (!listId) {
+				console.error('[klaviyo] KLAVIYO_LIST_ID is empty — cannot subscribe');
+				return;
+			}
 			const res = await fetch(`${API_BASE}/profile-subscription-bulk-create-jobs/`, {
 				method: 'POST',
 				headers: headers(),
@@ -52,13 +60,12 @@ export async function syncToKlaviyo(email, firstName, gdprConsent, source) {
 					data: {
 						type: 'profile-subscription-bulk-create-job',
 						attributes: {
-							list_id: listId,
 							profiles: {
 								data: [
 									{
 										type: 'profile',
 										attributes: {
-											...profileAttributes,
+											email,
 											subscriptions: {
 												email: { marketing: { consent: 'SUBSCRIBED' } }
 											}
@@ -66,23 +73,23 @@ export async function syncToKlaviyo(email, firstName, gdprConsent, source) {
 									}
 								]
 							}
+						},
+						relationships: {
+							list: {
+								data: { type: 'list', id: listId }
+							}
 						}
 					}
 				})
 			});
 			if (!res.ok) {
 				const body = await res.json().catch(() => ({}));
-				console.error('[klaviyo] subscribe failed:', body?.errors?.[0]?.detail ?? res.status);
-				return;
+				console.error(
+					'[klaviyo] subscribe failed:',
+					res.status,
+					JSON.stringify(body?.errors ?? body)
+				);
 			}
-
-			// Subscribe job does not accept custom properties, so patch the profile
-			// separately so the source/timestamp land on the profile record.
-			if (trimmedSource) {
-				await upsertProfile(profileAttributes);
-			}
-		} else {
-			await upsertProfile(profileAttributes);
 		}
 	} catch (err) {
 		console.error('[klaviyo] error:', err);
