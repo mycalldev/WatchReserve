@@ -161,7 +161,7 @@ export async function POST({ request }) {
 			]
 		});
 
-		await syncToKlaviyo(email, firstName, gdprConsent);
+		await syncToKlaviyo(email, firstName, gdprConsent, 'KYC · Deposit');
 		return json({ success: true });
 	} catch (err) {
 		console.error('[kyc-deposit] unexpected error:', err);

@@ -238,7 +238,7 @@ export async function POST({ request }) {
 			]
 		});
 
-		await syncToKlaviyo(email, firstName, gdprConsent);
+		await syncToKlaviyo(email, firstName, gdprConsent, 'Part Exchange');
 		return json({ success: true });
 	} catch (err) {
 		console.error('[part-exchange] unexpected error:', err);

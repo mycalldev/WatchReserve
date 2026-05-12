@@ -201,7 +201,7 @@ export async function POST({ request }) {
 			]
 		});
 
-		await syncToKlaviyo(email, firstName, gdprConsent);
+		await syncToKlaviyo(email, firstName, gdprConsent, 'Sell · Consignment');
 		return json({ success: true });
 	} catch (err) {
 		console.error('[sell-consignment] unexpected error:', err);

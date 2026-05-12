@@ -148,7 +148,7 @@ export async function POST({ request }) {
 			]
 		});
 
-		await syncToKlaviyo(email, firstName, gdprConsent);
+		await syncToKlaviyo(email, firstName, gdprConsent, `Landing · ${source}`);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[landing-enquiry] unexpected error:', err);

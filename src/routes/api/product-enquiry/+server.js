@@ -226,7 +226,7 @@ export async function POST({ request }) {
 			]
 		});
 
-		await syncToKlaviyo(email, firstName, gdprConsent);
+		await syncToKlaviyo(email, firstName, gdprConsent, 'Product Enquiry');
 		return json({ success: true });
 	} catch (err) {
 		console.error('[product-enquiry] unexpected error:', err);

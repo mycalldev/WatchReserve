@@ -155,7 +155,7 @@ export async function POST({ request }) {
 			]
 		});
 
-		await syncToKlaviyo(email, firstName, gdprConsent);
+		await syncToKlaviyo(email, firstName, gdprConsent, 'Source Request');
 		return json({ success: true });
 	} catch (err) {
 		console.error('[source-request] unexpected error:', err);

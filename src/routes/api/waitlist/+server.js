@@ -118,7 +118,7 @@ export async function POST({ request }) {
 			]
 		});
 
-		await syncToKlaviyo(email, firstName, gdprConsent);
+		await syncToKlaviyo(email, firstName, gdprConsent, 'Waitlist');
 		return json({ success: true });
 	} catch (err) {
 		console.error('[waitlist] unexpected error:', err);

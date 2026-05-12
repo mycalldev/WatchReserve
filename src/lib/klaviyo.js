@@ -21,9 +21,27 @@ function headers() {
  * @param {string} email
  * @param {string} firstName
  * @param {boolean} gdprConsent
+ * @param {string} [source] - Which form the submission came from
  */
-export async function syncToKlaviyo(email, firstName, gdprConsent) {
+export async function syncToKlaviyo(email, firstName, gdprConsent, source) {
 	if (!email) return;
+
+	const listId = (KLAVIYO_LIST_ID ?? '').trim();
+	const trimmedFirstName = (firstName ?? '').trim();
+	const trimmedSource = (source ?? '').trim();
+
+	const profileAttributes = {
+		email,
+		...(trimmedFirstName ? { first_name: trimmedFirstName } : {}),
+		...(trimmedSource
+			? {
+					properties: {
+						last_form_source: trimmedSource,
+						last_form_submitted_at: new Date().toISOString()
+					}
+				}
+			: {})
+	};
 
 	try {
 		if (gdprConsent) {
@@ -34,13 +52,13 @@ export async function syncToKlaviyo(email, firstName, gdprConsent) {
 					data: {
 						type: 'profile-subscription-bulk-create-job',
 						attributes: {
-							list_id: KLAVIYO_LIST_ID,
+							list_id: listId,
 							profiles: {
 								data: [
 									{
 										type: 'profile',
 										attributes: {
-											email,
+											...profileAttributes,
 											subscriptions: {
 												email: { marketing: { consent: 'SUBSCRIBED' } }
 											}
@@ -55,29 +73,57 @@ export async function syncToKlaviyo(email, firstName, gdprConsent) {
 			if (!res.ok) {
 				const body = await res.json().catch(() => ({}));
 				console.error('[klaviyo] subscribe failed:', body?.errors?.[0]?.detail ?? res.status);
+				return;
+			}
+
+			// Subscribe job does not accept custom properties, so patch the profile
+			// separately so the source/timestamp land on the profile record.
+			if (trimmedSource) {
+				await upsertProfile(profileAttributes);
 			}
 		} else {
-			// Profile-only — no list subscription
-			const res = await fetch(`${API_BASE}/profiles/`, {
-				method: 'POST',
-				headers: headers(),
-				body: JSON.stringify({
-					data: {
-						type: 'profile',
-						attributes: {
-							email,
-							first_name: firstName || ''
-						}
-					}
-				})
-			});
-			// 409 = profile already exists, not an error
-			if (!res.ok && res.status !== 409) {
-				const body = await res.json().catch(() => ({}));
-				console.error('[klaviyo] profile create failed:', body?.errors?.[0]?.detail ?? res.status);
-			}
+			await upsertProfile(profileAttributes);
 		}
 	} catch (err) {
 		console.error('[klaviyo] error:', err);
+	}
+}
+
+async function upsertProfile(attributes) {
+	const res = await fetch(`${API_BASE}/profiles/`, {
+		method: 'POST',
+		headers: headers(),
+		body: JSON.stringify({
+			data: {
+				type: 'profile',
+				attributes
+			}
+		})
+	});
+	// 409 = profile already exists — extract the id and PATCH to merge new fields.
+	if (res.status === 409) {
+		const body = await res.json().catch(() => ({}));
+		const existingId = body?.errors?.[0]?.meta?.duplicate_profile_id;
+		if (!existingId) return;
+		const patch = await fetch(`${API_BASE}/profiles/${existingId}/`, {
+			method: 'PATCH',
+			headers: headers(),
+			body: JSON.stringify({
+				data: {
+					type: 'profile',
+					id: existingId,
+					attributes
+				}
+			})
+		});
+		if (!patch.ok) {
+			const patchBody = await patch.json().catch(() => ({}));
+			console.error('[klaviyo] profile patch failed:', patchBody?.errors?.[0]?.detail ?? patch.status);
+		}
+		return;
+	}
+	if (!res.ok) {
+		const body = await res.json().catch(() => ({}));
+		console.error('[klaviyo] profile create failed:', body?.errors?.[0]?.detail ?? res.status);
 	}
 }

@@ -141,7 +141,7 @@ export async function POST({ request }) {
 			]
 		});
 
-		await syncToKlaviyo(email, firstName, gdprConsent);
+		await syncToKlaviyo(email, firstName, gdprConsent, 'KYC · Checkout');
 		return json({ success: true });
 	} catch (err) {
 		console.error('[kyc-checkout] unexpected error:', err);
