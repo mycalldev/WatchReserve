@@ -108,7 +108,7 @@
 			messages = [
 				...messages,
 				{
-					body: 'Welcome to The Watch Reserve. How can we help you find your next timepiece?',
+					body: 'Welcome to Watch Reserve. How can we help you find your next timepiece?',
 					senderRole: 'agent',
 					timestamp: Date.now()
 				}
@@ -213,7 +213,7 @@
 		<div class="window" role="dialog" aria-label="Live chat">
 			<header class="header">
 				<div class="header-text">
-					<span class="title">The Watch Reserve</span>
+					<span class="title">Watch Reserve</span>
 					<span class="subtitle">Concierge Team</span>
 				</div>
 				<span class="status" data-status={status}>{statusLabels[status]}</span>
