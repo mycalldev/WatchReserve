@@ -4,6 +4,8 @@
 
 	const SOCKET_URL = 'wss://chat.watchreserve.co.uk';
 	const SESSION_STORAGE_KEY = 'wr_chat_session_id';
+	const MESSAGES_STORAGE_KEY = 'wr_chat_messages';
+	const MESSAGES_STORAGE_LIMIT = 200;
 
 	let isOpen = $state(false);
 	let messages = $state([]);
@@ -44,6 +46,17 @@
 				localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
 			} catch { /* ignore */ }
 		}
+
+		try {
+			const stored = localStorage.getItem(MESSAGES_STORAGE_KEY);
+			if (stored) {
+				const parsed = JSON.parse(stored);
+				if (Array.isArray(parsed) && parsed.length > 0) {
+					messages = parsed;
+					welcomeShown = true;
+				}
+			}
+		} catch { /* ignore parse/storage errors */ }
 
 		const teaserTimer = setTimeout(() => {
 			if (!teaserDismissed) showTeaser = true;
@@ -96,6 +109,14 @@
 		if (isOpen && messages.length >= 0 && messagesEndEl) {
 			messagesEndEl.scrollIntoView({ behavior: 'smooth' });
 		}
+	});
+
+	$effect(() => {
+		if (messages.length === 0) return;
+		try {
+			const trimmed = messages.slice(-MESSAGES_STORAGE_LIMIT);
+			localStorage.setItem(MESSAGES_STORAGE_KEY, JSON.stringify(trimmed));
+		} catch { /* quota exceeded or storage disabled — drop silently */ }
 	});
 
 	$effect(() => {
