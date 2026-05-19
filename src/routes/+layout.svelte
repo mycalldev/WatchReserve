@@ -5,6 +5,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
 	import ConditionalGA from '$lib/components/ConditionalGA.svelte';
+	import LiveChat from '$lib/components/LiveChat.svelte';
 
 	let { children } = $props();
 
@@ -64,6 +65,8 @@
 <CookieConsent />
 
 <ConditionalGA />
+
+<LiveChat />
 
 <style>
 	.announcement-banner {

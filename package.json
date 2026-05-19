@@ -30,6 +30,7 @@
 	"dependencies": {
 		"@stripe/stripe-js": "^9.1.0",
 		"resend": "^6.10.0",
+		"socket.io-client": "^4.8.3",
 		"stripe": "^22.0.1"
 	}
 }
