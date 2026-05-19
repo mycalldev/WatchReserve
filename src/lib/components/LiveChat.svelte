@@ -272,7 +272,7 @@
 		font-size: 0.8125rem;
 		line-height: 1.5;
 		cursor: pointer;
-		z-index: 9998;
+		z-index: 800;
 		animation: wrTeaserIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
@@ -353,7 +353,7 @@
 		align-items: center;
 		justify-content: center;
 		box-shadow: 0 6px 20px rgba(22, 11, 17, 0.28), 0 2px 6px rgba(161, 132, 109, 0.35);
-		z-index: 9999;
+		z-index: 801;
 		transition: transform 0.2s ease, box-shadow 0.2s ease;
 	}
 
@@ -385,7 +385,7 @@
 		box-shadow: 0 16px 48px rgba(22, 11, 17, 0.28);
 		display: flex;
 		flex-direction: column;
-		z-index: 9999;
+		z-index: 801;
 		overflow: hidden;
 		font-family: 'Montserrat', sans-serif;
 		animation: wrWindowIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
