@@ -160,6 +160,7 @@
 </script>
 
 {#if browser}
+<div class="lc-root" class:lc-root-open={isOpen} aria-hidden={!isOpen && !showTeaser ? 'true' : 'false'}>
 	{#if showTeaser && !isOpen}
 		<div
 			class="teaser"
@@ -188,6 +189,7 @@
 		type="button"
 		class="bubble"
 		class:bubble-open={isOpen}
+		class:bubble-hide-mobile={isOpen}
 		onclick={toggle}
 		aria-label={isOpen ? 'Close chat' : 'Open chat'}
 		aria-expanded={isOpen}
@@ -216,7 +218,19 @@
 					<span class="title">Watch Reserve</span>
 					<span class="subtitle">Concierge Team</span>
 				</div>
-				<span class="status" data-status={status}>{statusLabels[status]}</span>
+				<div class="header-right">
+					<span class="status" data-status={status}>{statusLabels[status]}</span>
+					<button
+						type="button"
+						class="header-close"
+						onclick={toggle}
+						aria-label="Close chat"
+					>
+						<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+							<path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+						</svg>
+					</button>
+				</div>
 			</header>
 
 			<div class="messages">
@@ -253,12 +267,34 @@
 			</form>
 		</div>
 	{/if}
+</div>
 {/if}
 
 <style>
+	/* ── ROOT (viewport-anchored container) ── */
+	.lc-root {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		height: 100dvh;
+		overflow: hidden;
+		pointer-events: none;
+		z-index: 800;
+	}
+
+	.lc-root-open {
+		z-index: 1050;
+	}
+
+	.lc-root > * {
+		pointer-events: auto;
+	}
+
 	/* ── TEASER ── */
 	.teaser {
-		position: fixed;
+		position: absolute;
 		bottom: 96px;
 		right: 112px;
 		max-width: 280px;
@@ -272,7 +308,9 @@
 		font-size: 0.8125rem;
 		line-height: 1.5;
 		cursor: pointer;
-		z-index: 800;
+		box-sizing: border-box;
+		overflow-wrap: break-word;
+		word-wrap: break-word;
 		animation: wrTeaserIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
@@ -338,7 +376,7 @@
 
 	/* ── BUBBLE ── */
 	.bubble {
-		position: fixed;
+		position: absolute;
 		bottom: 32px;
 		right: 32px;
 		width: 64px;
@@ -353,7 +391,6 @@
 		align-items: center;
 		justify-content: center;
 		box-shadow: 0 6px 20px rgba(22, 11, 17, 0.28), 0 2px 6px rgba(161, 132, 109, 0.35);
-		z-index: 801;
 		transition: transform 0.2s ease, box-shadow 0.2s ease;
 	}
 
@@ -373,19 +410,18 @@
 
 	/* ── WINDOW ── */
 	.window {
-		position: fixed;
+		position: absolute;
 		bottom: 112px;
 		right: 32px;
 		width: 400px;
 		height: 580px;
-		max-height: calc(100vh - 160px);
+		max-height: calc(100% - 160px);
 		background: #ffffff;
 		border: 1px solid rgba(161, 132, 109, 0.2);
 		border-radius: 4px;
 		box-shadow: 0 16px 48px rgba(22, 11, 17, 0.28);
 		display: flex;
 		flex-direction: column;
-		z-index: 801;
 		overflow: hidden;
 		font-family: 'Montserrat', sans-serif;
 		animation: wrWindowIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
@@ -434,6 +470,12 @@
 		font-weight: 500;
 	}
 
+	.header-right {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
 	.status {
 		font-size: 0.6875rem;
 		letter-spacing: 0.05em;
@@ -442,6 +484,29 @@
 		align-items: center;
 		gap: 6px;
 		color: rgba(255, 255, 255, 0.7);
+	}
+
+	.header-close {
+		background: transparent;
+		border: none;
+		color: rgba(255, 255, 255, 0.7);
+		cursor: pointer;
+		padding: 6px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 4px;
+		transition: color 0.2s ease, background-color 0.2s ease;
+	}
+
+	.header-close:hover {
+		color: #ffffff;
+		background: rgba(255, 255, 255, 0.08);
+	}
+
+	.header-close:focus-visible {
+		outline: 2px solid #a1846d;
+		outline-offset: 1px;
 	}
 
 	.status::before {
@@ -606,7 +671,7 @@
 	}
 
 	/* ── RESPONSIVE ── */
-	@media (max-width: 480px) {
+	@media (max-width: 768px) {
 		.bubble {
 			bottom: 16px;
 			right: 16px;
@@ -614,10 +679,14 @@
 			height: 56px;
 		}
 
+		.bubble-hide-mobile {
+			display: none;
+		}
+
 		.teaser {
 			right: 16px;
 			bottom: 84px;
-			max-width: calc(100vw - 32px);
+			max-width: calc(100% - 32px);
 			font-size: 0.75rem;
 		}
 
@@ -630,12 +699,15 @@
 		}
 
 		.window {
-			right: 8px;
-			left: 8px;
-			bottom: 84px;
-			width: auto;
-			height: calc(100dvh - 100px);
-			max-height: calc(100dvh - 100px);
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			max-height: 100%;
+			border: none;
+			border-radius: 0;
 		}
 	}
 </style>
