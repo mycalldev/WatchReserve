@@ -215,38 +215,6 @@
 	</div>
 </section>
 
-<!-- ── TRUSTPILOT BAR ── -->
-<div class="tp-bar">
-	<div class="tp-bar-inner">
-		<div class="tp-main">
-			<img src="/assets/trustpilot.png" alt="Trustpilot" class="tp-logo" />
-			<div class="tp-divider" aria-hidden="true"></div>
-			<div class="tp-rating">
-				<div class="tp-stars" aria-label="4.8 out of 5 stars">
-					{#each [1,2,3,4] as _}
-						<span class="tp-star tp-star--full" aria-hidden="true">
-							<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-						</span>
-					{/each}
-					<span class="tp-star" aria-hidden="true">
-						<svg viewBox="0 0 24 24" width="20" height="20">
-							<defs>
-								<linearGradient id="tp-partial-fill-vc">
-									<stop offset="80%" stop-color="#00b67a"/>
-									<stop offset="80%" stop-color="#e0e0e0"/>
-								</linearGradient>
-							</defs>
-							<path fill="url(#tp-partial-fill-vc)" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-						</svg>
-					</span>
-				</div>
-				<p class="tp-score"><strong>4.8</strong> out of 5</p>
-			</div>
-			<div class="tp-divider" aria-hidden="true"></div>
-			<p class="tp-label"><strong>Excellent</strong> — Rated by our customers</p>
-		</div>
-	</div>
-</div>
 
 <!-- ── PRODUCT DETAILS STRIP ── -->
 <div class="product-strip">
@@ -1230,86 +1198,7 @@
 		}
 	}
 
-	/* ── TRUSTPILOT BAR ── */
-	.tp-bar {
-		width: 100%;
-		background: #ffffff;
-		border-top: 1px solid rgba(22, 11, 17, 0.07);
-		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
-		padding: 18px 40px;
-		box-sizing: border-box;
-	}
-
-	.tp-bar-inner {
-		max-width: 1240px;
-		margin: 0 auto;
-		display: flex;
-		justify-content: center;
-	}
-
-	.tp-main {
-		display: flex;
-		align-items: center;
-		gap: 28px;
-		flex-wrap: wrap;
-		justify-content: center;
-	}
-
-	.tp-logo {
-		height: 28px;
-		width: auto;
-		display: block;
-		flex-shrink: 0;
-	}
-
-	.tp-divider {
-		width: 1px;
-		height: 28px;
-		background: rgba(22, 11, 17, 0.1);
-		flex-shrink: 0;
-	}
-
-	.tp-rating {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-	}
-
-	.tp-stars {
-		display: flex;
-		align-items: center;
-		gap: 2px;
-	}
-
-	.tp-star--full { color: #00b67a; }
-
-	.tp-score {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.875rem;
-		color: #160b11;
-		margin: 0;
-		white-space: nowrap;
-	}
-
-	.tp-label {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.875rem;
-		color: rgba(22, 11, 17, 0.6);
-		margin: 0;
-		white-space: nowrap;
-	}
-
-	.tp-label strong { color: #160b11; font-weight: 600; }
-
-	@media (max-width: 640px) {
-		.tp-bar { padding: 16px 20px; }
-		.tp-divider { display: none; }
-		.tp-main { gap: 14px; }
-		.tp-label { display: none; }
-		.tp-logo { height: 22px; }
-	}
-
-	/* ── ENQUIRY SECTION ── */
+/* ── ENQUIRY SECTION ── */
 	/* ── ENQUIRY SECTION ── */
 	.enquiry-section {
 		background: #f7f5f2;
