@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	const favicon = '/favicon.png';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
@@ -8,52 +7,15 @@
 	import LiveChat from '$lib/components/LiveChat.svelte';
 
 	let { children } = $props();
-
-	let trustpilotEl = $state(null);
-
-	onMount(() => {
-		// Trustpilot widget
-		const SRC = 'https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js';
-
-		function initWidget() {
-			if (typeof window !== 'undefined' && window.Trustpilot && trustpilotEl) {
-				window.Trustpilot.loadFromElement(trustpilotEl, true);
-			}
-		}
-
-		const existing = document.querySelector('script[src*="tp.widget.bootstrap.min.js"]');
-		if (existing) {
-			initWidget();
-			return;
-		}
-
-		const script = document.createElement('script');
-		script.src = SRC;
-		script.async = true;
-		script.onload = initWidget;
-		document.head.appendChild(script);
-	});
 </script>
 
 <svelte:head>
 	<link rel="icon" type="image/png" href={favicon} />
+	<script src="https://elfsightcdn.com/platform.js" async></script>
 </svelte:head>
 
 <div class="announcement-banner">
-	<!-- TrustBox widget - Micro Star -->
-	<div
-		bind:this={trustpilotEl}
-		class="trustpilot-widget"
-		data-locale="en-GB"
-		data-template-id="5419b732fbfb950b10de65e5"
-		data-businessunit-id="688cd47d354b1ad541993312"
-		data-style-height="24px"
-		data-style-width="100%"
-		data-token="70e88cb7-59fa-4a6b-8a51-aa184e23812c"
-	>
-		<a href="https://uk.trustpilot.com/review/thewatchreserve.co.uk" target="_blank" rel="noopener">Trustpilot</a>
-	</div>
-	<!-- End TrustBox widget -->
+	<div class="elfsight-app-3792420a-7204-4b4b-b884-4ed4c4b7956f" data-elfsight-app-lazy></div>
 </div>
 
 <Navbar />
@@ -72,15 +34,18 @@
 	.announcement-banner {
 		width: 100%;
 		background-color: #f5f0eb;
-		padding: 10px 20px;
+		padding: 6px 20px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 44px;
+		min-height: 0;
+		max-height: 50px;
+		overflow: hidden;
 	}
 
-	.announcement-banner :global(.trustpilot-widget) {
+	.announcement-banner :global([class^='elfsight-app-']) {
 		max-width: 100%;
+		width: fit-content !important;
 	}
 
 	:global(html) {

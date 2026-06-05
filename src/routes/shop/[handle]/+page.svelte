@@ -18,7 +18,6 @@
 	let adding = $state(false);
 	let added = $state(false);
 	let thumbsRef = $state(null);
-	let trustpilotEl = $state(null);
 	let locallyReserved = $state(false);
 
 	// Reset local state whenever the product changes (same-route navigation)
@@ -60,29 +59,8 @@
 		}
 		document.addEventListener('open-drawer', handleOpenDrawer);
 
-		// Initialize the Trustpilot widget once the bootstrap script is available.
-		// The script is loaded globally by +layout.svelte; poll briefly in case
-		// this page mounts before the async script finishes downloading.
-		let trustpilotInterval;
-		let trustpilotTimeout;
-		function initTrustpilot() {
-			if (typeof window !== 'undefined' && window.Trustpilot && trustpilotEl) {
-				window.Trustpilot.loadFromElement(trustpilotEl, true);
-				return true;
-			}
-			return false;
-		}
-		if (!initTrustpilot()) {
-			trustpilotInterval = setInterval(() => {
-				if (initTrustpilot()) clearInterval(trustpilotInterval);
-			}, 100);
-			trustpilotTimeout = setTimeout(() => clearInterval(trustpilotInterval), 5000);
-		}
-
 		return () => {
 			document.removeEventListener('open-drawer', handleOpenDrawer);
-			if (trustpilotInterval) clearInterval(trustpilotInterval);
-			if (trustpilotTimeout) clearTimeout(trustpilotTimeout);
 		};
 	});
 
@@ -557,22 +535,9 @@
 				</div>
 			</div>
 
-			<!-- Trustpilot social proof -->
+			<!-- Google Reviews social proof -->
 			<div class="product-trustpilot">
-				<!-- TrustBox widget - Micro Star -->
-				<div
-					bind:this={trustpilotEl}
-					class="trustpilot-widget"
-					data-locale="en-GB"
-					data-template-id="5419b732fbfb950b10de65e5"
-					data-businessunit-id="688cd47d354b1ad541993312"
-					data-style-height="24px"
-					data-style-width="100%"
-					data-token="70e88cb7-59fa-4a6b-8a51-aa184e23812c"
-				>
-					<a href="https://uk.trustpilot.com/review/thewatchreserve.co.uk" target="_blank" rel="noopener">Trustpilot</a>
-				</div>
-				<!-- End TrustBox widget -->
+				<div class="elfsight-app-3792420a-7204-4b4b-b884-4ed4c4b7956f" data-elfsight-app-lazy></div>
 			</div>
 
 			<!-- Wishlist -->
@@ -1202,7 +1167,7 @@
 	.btn-action-dark:disabled svg,
 	.btn-action-outline:disabled svg { color: #c9c1b8; }
 
-	/* ── TRUSTPILOT SOCIAL PROOF ── */
+	/* ── GOOGLE REVIEWS SOCIAL PROOF ── */
 	.product-trustpilot {
 		width: 100%;
 		margin: 4px 0 8px;
@@ -1210,7 +1175,7 @@
 		justify-content: center;
 	}
 
-	.product-trustpilot :global(.trustpilot-widget) {
+	.product-trustpilot :global([class^='elfsight-app-']) {
 		width: 100%;
 	}
 

@@ -28,9 +28,6 @@
 	});
 </script>
 
-<svelte:head>
-	<script src="https://elfsightcdn.com/platform.js" async></script>
-</svelte:head>
 
 <ApiTrialModal />
 
@@ -78,55 +75,16 @@
 	</div>
 </section>
 
-<!-- ── TRUSTPILOT BAR ── -->
-<div class="tp-bar">
-	<div class="tp-bar-inner">
-		<div class="tp-main">
-			<img src="/assets/trustpilot.png" alt="Trustpilot" class="tp-logo" />
-			<div class="tp-divider" aria-hidden="true"></div>
-			<div class="tp-rating">
-				<div class="tp-stars" aria-label="4.8 out of 5 stars">
-					<!-- 4 full stars -->
-					{#each [1,2,3,4] as _}
-						<span class="tp-star tp-star--full" aria-hidden="true">
-							<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-						</span>
-					{/each}
-					<!-- 80% filled star via SVG linearGradient -->
-					<span class="tp-star" aria-hidden="true">
-						<svg viewBox="0 0 24 24" width="20" height="20">
-							<defs>
-								<linearGradient id="tp-partial-fill">
-									<stop offset="80%" stop-color="#00b67a"/>
-									<stop offset="80%" stop-color="#e0e0e0"/>
-								</linearGradient>
-							</defs>
-							<path fill="url(#tp-partial-fill)" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-						</svg>
-					</span>
-				</div>
-				<p class="tp-score"><strong>4.8</strong> out of 5</p>
-			</div>
-			<div class="tp-divider" aria-hidden="true"></div>
-			<p class="tp-label"><strong>Excellent</strong> — Rated by our customers</p>
-		</div>
-	</div>
-</div>
-
-
-<NewArrivals products={data.newArrivals} />
-
 <!-- ── TRUST BANNER ── -->
 <div class="trust-bar">
 	<div class="trust-bar-inner">
 		<div class="trust-item">
 			<span class="trust-icon" aria-hidden="true">
 				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
-					<rect x="1" y="3" width="22" height="18" rx="2" ry="2"/>
+					<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
 				</svg>
 			</span>
-			<span class="trust-text">Insured Next Day Delivery</span>
+			<span class="trust-text">24 Month Warranty</span>
 		</div>
 
 		<div class="trust-sep" aria-hidden="true"></div>
@@ -134,10 +92,10 @@
 		<div class="trust-item">
 			<span class="trust-icon" aria-hidden="true">
 				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M3 7h18m0 0l-4-4m4 4l-4 4M21 17H3m0 0l4-4m-4 4l4 4"/>
+					<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
 				</svg>
 			</span>
-			<span class="trust-text">Part Exchange Available</span>
+			<span class="trust-text">Trusted Chrono24 Partner</span>
 		</div>
 
 		<div class="trust-sep" aria-hidden="true"></div>
@@ -145,13 +103,15 @@
 		<div class="trust-item">
 			<span class="trust-icon" aria-hidden="true">
 				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-					<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+					<rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
 				</svg>
 			</span>
-			<span class="trust-text">Finance Available</span>
+			<span class="trust-text">Insured Priority Delivery</span>
 		</div>
 	</div>
 </div>
+
+<NewArrivals products={data.newArrivals} />
 
 <section class="brands-section">
 	<div class="brands-container">
@@ -650,92 +610,7 @@
 		}
 	}
 
-	/* ── TRUSTPILOT BAR ── */
-	.tp-bar {
-		width: 100%;
-		background: #ffffff;
-		border-top: 1px solid rgba(22, 11, 17, 0.07);
-		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
-		padding: 18px 40px;
-		box-sizing: border-box;
-	}
-
-	.tp-bar-inner {
-		max-width: 1240px;
-		margin: 0 auto;
-		display: flex;
-		justify-content: center;
-	}
-
-	.tp-main {
-		display: flex;
-		align-items: center;
-		gap: 28px;
-		flex-wrap: wrap;
-		justify-content: center;
-	}
-
-	.tp-logo {
-		height: 28px;
-		width: auto;
-		display: block;
-		flex-shrink: 0;
-	}
-
-	.tp-divider {
-		width: 1px;
-		height: 28px;
-		background: rgba(22, 11, 17, 0.1);
-		flex-shrink: 0;
-	}
-
-	.tp-rating {
-		display: flex;
-		align-items: center;
-		gap: 10px;
-	}
-
-	.tp-stars {
-		display: flex;
-		align-items: center;
-		gap: 2px;
-	}
-
-	.tp-star--full {
-		color: #00b67a;
-	}
-
-
-	.tp-score {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.875rem;
-		color: #160b11;
-		margin: 0;
-		white-space: nowrap;
-	}
-
-	.tp-label {
-		font-family: 'Montserrat', sans-serif;
-		font-size: 0.875rem;
-		color: rgba(22, 11, 17, 0.6);
-		margin: 0;
-		white-space: nowrap;
-	}
-
-	.tp-label strong {
-		color: #160b11;
-		font-weight: 600;
-	}
-
-	@media (max-width: 640px) {
-		.tp-bar { padding: 16px 20px; }
-		.tp-divider { display: none; }
-		.tp-main { gap: 14px; }
-		.tp-label { display: none; }
-		.tp-logo { height: 22px; }
-	}
-
-	/* ── TRUST BANNER ── */
+/* ── TRUST BANNER ── */
 	.trust-bar {
 		width: 100%;
 		background: #ffffff;
