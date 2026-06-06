@@ -69,7 +69,7 @@
 
 		<div class="reviews-intro">
 			<p class="reviews-intro-text">
-				Every review below is from a genuine client. We take pride in the relationships we build and the service we deliver, from first enquiry through to after-sale care. These reviews are pulled directly from our <strong>Google Business</strong> and <strong>Trustpilot</strong> profiles.
+				Every review below is from a genuine client. We take pride in the relationships we build and the service we deliver, from first enquiry through to after-sale care.
 			</p>
 			<div class="reviews-score">
 				<div class="score-stars">
