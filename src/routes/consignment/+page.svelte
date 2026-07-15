@@ -263,20 +263,15 @@
 		return () => clearInterval(reviewTimer);
 	});
 
-	// Mobile "How It Works" slider: auto-advances, but pauses while the user is
-	// touching/dragging it and resumes from wherever they left it.
+	// Mobile "How It Works" slider: manual swipe only, with dots tracking position.
 	let stepsEl = $state();
-	let stepsPaused = false;
-	let stepTimer;
-	let stepResumeTimeout;
+	let stepIndex = $state(0);
+	let stepScrollRaf;
 
 	function scrollToStep(i) {
 		const container = stepsEl;
 		const li = container?.children[i];
 		if (!container || !li) return;
-		// Scroll only the slider's own horizontal axis via scrollTo — scrollIntoView
-		// would also drag the page's vertical scroll to bring this section into view,
-		// even if the user is looking at a different part of the page.
 		const target = li.offsetLeft - (container.clientWidth - li.clientWidth) / 2;
 		container.scrollTo({ left: target, behavior: 'smooth' });
 	}
@@ -296,56 +291,17 @@
 		return closest;
 	}
 
-	function pauseStepsAutoplay() {
-		stepsPaused = true;
-		clearTimeout(stepResumeTimeout);
+	function handleStepsScroll() {
+		cancelAnimationFrame(stepScrollRaf);
+		stepScrollRaf = requestAnimationFrame(() => {
+			stepIndex = nearestStepIndex();
+		});
 	}
 
-	function resumeStepsAutoplay() {
-		clearTimeout(stepResumeTimeout);
-		// Grace period so the user can keep reading after they let go before it advances again.
-		stepResumeTimeout = setTimeout(() => {
-			stepsPaused = false;
-		}, 3000);
+	function goToStep(i) {
+		stepIndex = i;
+		scrollToStep(i);
 	}
-
-	$effect(() => {
-		if (!browser || !stepsEl) return;
-
-		const mediaQuery = window.matchMedia('(max-width: 520px)');
-		let stepsInView = false;
-
-		// Only auto-advance while the section is actually on screen — otherwise
-		// there'd be nothing stopping it from scrolling the slider while the user
-		// is looking at a completely different part of the page.
-		const visibilityObserver = new IntersectionObserver(
-			([entry]) => {
-				stepsInView = entry.isIntersecting;
-			},
-			{ threshold: 0.4 }
-		);
-		visibilityObserver.observe(stepsEl);
-
-		function syncAutoplay() {
-			clearInterval(stepTimer);
-			if (!mediaQuery.matches) return;
-			stepTimer = setInterval(() => {
-				if (stepsPaused || !stepsInView) return;
-				const next = (nearestStepIndex() + 1) % stepsEl.children.length;
-				scrollToStep(next);
-			}, 3200);
-		}
-
-		syncAutoplay();
-		mediaQuery.addEventListener('change', syncAutoplay);
-
-		return () => {
-			clearInterval(stepTimer);
-			clearTimeout(stepResumeTimeout);
-			mediaQuery.removeEventListener('change', syncAutoplay);
-			visibilityObserver.disconnect();
-		};
-	});
 </script>
 
 <svelte:head>
@@ -413,13 +369,7 @@
 				<h2>One Simple Process</h2>
 			</div>
 
-			<ol
-				class="cg-steps"
-				bind:this={stepsEl}
-				onpointerdown={pauseStepsAutoplay}
-				onpointerup={resumeStepsAutoplay}
-				onpointercancel={resumeStepsAutoplay}
-			>
+			<ol class="cg-steps" bind:this={stepsEl} onscroll={handleStepsScroll}>
 				<li>
 					<div class="cg-step-title">Share the Details</div>
 					<div class="cg-step-body">Get in touch via the form below with the details of your watch.</div>
@@ -449,6 +399,14 @@
 					</div>
 				</li>
 			</ol>
+
+			<div class="cg-steps-dots">
+				<button type="button" class="cg-steps-dot" class:cg-active={stepIndex === 0} aria-label="Go to step 1" onclick={() => goToStep(0)}></button>
+				<button type="button" class="cg-steps-dot" class:cg-active={stepIndex === 1} aria-label="Go to step 2" onclick={() => goToStep(1)}></button>
+				<button type="button" class="cg-steps-dot" class:cg-active={stepIndex === 2} aria-label="Go to step 3" onclick={() => goToStep(2)}></button>
+				<button type="button" class="cg-steps-dot" class:cg-active={stepIndex === 3} aria-label="Go to step 4" onclick={() => goToStep(3)}></button>
+				<button type="button" class="cg-steps-dot" class:cg-active={stepIndex === 4} aria-label="Go to step 5" onclick={() => goToStep(4)}></button>
+			</div>
 
 			<p class="cg-how-note">
 				<span class="cg-tag">For Consignments</span>Your watch is professionally photographed and listed online,
@@ -975,6 +933,8 @@
 		.cg-steps li::after { display: none; }
 	}
 
+	.cg-steps-dots { display: none; }
+
 	/* Mobile: swipeable slider instead of a stacked list, so the form isn't pushed far down the page */
 	@media (max-width: 520px) {
 		.cg-steps {
@@ -997,7 +957,20 @@
 			flex: 0 0 var(--step-card-width);
 			scroll-snap-align: center;
 		}
+		.cg-steps-dots { display: flex; justify-content: center; gap: 10px; margin-top: 22px; }
 	}
+
+	.cg-steps-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: transparent;
+		border: 1px solid var(--cream-45);
+		cursor: pointer;
+		padding: 0;
+		transition: background 0.2s;
+	}
+	.cg-steps-dot.cg-active { background: var(--cream); border-color: var(--cream); }
 
 	/* FORM */
 	.cg-form-section { background: linear-gradient(180deg, var(--cream) 0%, #f3e9e7 100%); }
