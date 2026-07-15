@@ -1,22 +1,93 @@
 <script>
-	// Visual-only mock of the step form — not wired to a backend yet.
 	const TOTAL = 4;
 	let step = $state(1);
 	let done = $state(false);
+	let submitting = $state(false);
+	let submitError = $state('');
+
+	let brand = $state('');
+	let model = $state('');
+	let reference = $state('');
+	let year = $state('');
 
 	let condition = $state('');
 	let hasBox = $state('');
 	let hasPapers = $state('');
+	let photos = $state('');
+
 	let preference = $state('both');
 
+	let firstName = $state('');
+	let lastName = $state('');
+	let email = $state('');
+	let phone = $state('');
+	let gdprConsent = $state(false);
+
+	let honeypot = $state('');
+
 	const progressPct = $derived(done ? 100 : (step / TOTAL) * 100);
+
+	function isValidEmail(v) {
+		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+	}
+
+	async function submitConsignment() {
+		if (honeypot) {
+			// Honeypot field was filled in — almost certainly a bot. Pretend
+			// success without actually submitting the enquiry.
+			done = true;
+			return;
+		}
+
+		submitError = '';
+
+		if (!firstName.trim() || !lastName.trim() || !isValidEmail(email)) {
+			submitError = 'Please provide your name and a valid email address.';
+			return;
+		}
+
+		submitting = true;
+		try {
+			const res = await fetch('/api/consignment', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					brand,
+					model,
+					reference,
+					year,
+					condition,
+					hasBox,
+					hasPapers,
+					photos,
+					preference,
+					firstName,
+					lastName,
+					email,
+					phone,
+					gdprConsent
+				})
+			});
+
+			const data = await res.json();
+			if (!res.ok) {
+				submitError = data.error || 'Failed to send your request. Please try again.';
+				return;
+			}
+			done = true;
+		} catch {
+			submitError = 'Failed to send your request. Please try again.';
+		} finally {
+			submitting = false;
+		}
+	}
 
 	function next() {
 		if (step < TOTAL) {
 			step += 1;
-		} else {
-			done = true;
+			return;
 		}
+		submitConsignment();
 	}
 	function back() {
 		if (step > 1) step -= 1;
@@ -78,7 +149,6 @@
 		<div class="cg-hero-bg"></div>
 		<div class="cg-container">
 			<div class="cg-hero-inner">
-				<div class="cg-hero-eyebrow">Watch Reserve</div>
 				<h1 class="cg-hero-title">Sell or Consign Your Watch</h1>
 				<p class="cg-hero-text">
 					We offer two ways to sell your watch. Choose the option that best reflects your priorities, and our
@@ -173,11 +243,11 @@
 		</div>
 	</section>
 
-	<!-- FORM (visual only — not yet wired up) -->
+	<!-- FORM -->
 	<section class="cg-section cg-form-section" id="start">
 		<div class="cg-container">
 			<div class="cg-section-head cg-center">
-				<h2>Get Your Valuation</h2>
+				<h2>Get Your Instant Valuation</h2>
 				<p>Tell us about your watch and our specialists will reply shortly. Confidential, with no obligation.</p>
 			</div>
 
@@ -200,7 +270,7 @@
 							{#if step === 1}
 								<div class="cg-field">
 									<label for="cg-brand">Brand</label>
-									<select id="cg-brand">
+									<select id="cg-brand" bind:value={brand}>
 										<option value="" disabled selected>Select a brand</option>
 										<option>Rolex</option>
 										<option>Patek Philippe</option>
@@ -220,16 +290,16 @@
 								<div class="cg-field-row">
 									<div class="cg-field">
 										<label for="cg-model">Model</label>
-										<input type="text" id="cg-model" placeholder="e.g. Daytona" />
+										<input type="text" id="cg-model" placeholder="e.g. Daytona" bind:value={model} />
 									</div>
 									<div class="cg-field">
 										<label for="cg-ref">Reference Number <span class="cg-optional">(optional)</span></label>
-										<input type="text" id="cg-ref" placeholder="e.g. 116500LN" />
+										<input type="text" id="cg-ref" placeholder="e.g. 116500LN" bind:value={reference} />
 									</div>
 								</div>
 								<div class="cg-field">
 									<label for="cg-year">Year</label>
-									<input type="text" id="cg-year" placeholder="e.g. 2021" />
+									<input type="text" id="cg-year" placeholder="e.g. 2021" bind:value={year} />
 								</div>
 							{:else if step === 2}
 								<div class="cg-field">
@@ -279,7 +349,7 @@
 								</div>
 								<div class="cg-field">
 									<label for="cg-photos">Photos <span class="cg-optional">(optional)</span></label>
-									<input type="text" id="cg-photos" placeholder="Paste a link, or add photos when we reply" />
+									<input type="text" id="cg-photos" placeholder="Paste a link, or add photos when we reply" bind:value={photos} />
 								</div>
 							{:else if step === 3}
 								<div class="cg-field">
@@ -333,22 +403,40 @@
 								</div>
 							{:else if step === 4}
 								<div class="cg-field-row">
-									<div class="cg-field"><label for="cg-fname">First Name</label><input type="text" id="cg-fname" placeholder="First name" /></div>
-									<div class="cg-field"><label for="cg-lname">Last Name</label><input type="text" id="cg-lname" placeholder="Last name" /></div>
+									<div class="cg-field"><label for="cg-fname">First Name</label><input type="text" id="cg-fname" placeholder="First name" bind:value={firstName} /></div>
+									<div class="cg-field"><label for="cg-lname">Last Name</label><input type="text" id="cg-lname" placeholder="Last name" bind:value={lastName} /></div>
 								</div>
 								<div class="cg-field">
-									<label for="cg-email">Email</label><input type="text" id="cg-email" placeholder="you@example.com" />
+									<label for="cg-email">Email</label><input type="email" id="cg-email" placeholder="you@example.com" bind:value={email} autocomplete="email" />
 								</div>
 								<div class="cg-field">
 									<label for="cg-phone">Phone <span class="cg-optional">(optional)</span></label>
-									<input type="text" id="cg-phone" placeholder="Best number to reach you" />
+									<input type="tel" id="cg-phone" placeholder="Best number to reach you" bind:value={phone} autocomplete="tel" />
 								</div>
+								<label class="cg-gdpr-check">
+									<input type="checkbox" bind:checked={gdprConsent} class="cg-gdpr-input" />
+									<span class="cg-gdpr-box" aria-hidden="true"></span>
+									<span class="cg-gdpr-label">I am happy to receive updates and offers from Watch Reserve by email.</span>
+								</label>
+								{#if submitError}<p class="cg-form-error" role="alert">{submitError}</p>{/if}
 							{/if}
+
+							<div class="cg-hp-field" aria-hidden="true">
+								<label for="cg-company">Company</label>
+								<input
+									type="text"
+									id="cg-company"
+									name="company"
+									bind:value={honeypot}
+									tabindex="-1"
+									autocomplete="off"
+								/>
+							</div>
 
 							<div class="cg-form-nav">
 								<button type="button" class="cg-link-back" hidden={step === 1} onclick={back}>Back</button>
-								<button type="button" class="cg-btn cg-btn-primary" onclick={next}
-									>{step === TOTAL ? 'Submit' : 'Continue'}</button
+								<button type="button" class="cg-btn cg-btn-primary" onclick={next} disabled={submitting} aria-busy={submitting}
+									>{step === TOTAL ? (submitting ? 'Submitting…' : 'Submit') : 'Continue'}</button
 								>
 							</div>
 						</form>
@@ -474,7 +562,7 @@
 		background:
 			linear-gradient(90deg, rgba(22, 11, 17, 0.72) 0%, rgba(22, 11, 17, 0.45) 45%, rgba(22, 11, 17, 0.1) 100%),
 			linear-gradient(to top, rgba(22, 11, 17, 0.55) 0%, rgba(22, 11, 17, 0) 45%),
-			url('/assets/hero/rose_daytona.jpg') center/cover no-repeat;
+			url('/assets/consignment_hero.jpg') center/cover no-repeat;
 	}
 	.cg-hero .cg-container { width: 100%; }
 	.cg-hero-inner { position: relative; z-index: 2; max-width: 520px; padding: 20px 0; }
@@ -715,11 +803,41 @@
 	.cg-pref-text strong { display: block; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.04em; margin-bottom: 2px; }
 	.cg-pref-text span { font-size: 0.82rem; font-weight: 300; color: var(--maroon-70); }
 
-	.cg-form-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; gap: 14px; }
+	.cg-hp-field {
+		position: absolute;
+		left: -9999px;
+		top: -9999px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+
+	.cg-gdpr-check { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; user-select: none; margin-top: 18px; }
+	.cg-gdpr-input { position: absolute; opacity: 0; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+	.cg-gdpr-box { flex-shrink: 0; width: 16px; height: 16px; border: 1.5px solid var(--maroon-15); background-color: var(--white); position: relative; margin-top: 1px; transition: border-color 0.2s ease, background-color 0.2s ease; }
+	.cg-gdpr-check:hover .cg-gdpr-box { border-color: var(--maroon-45); }
+	.cg-gdpr-input:checked + .cg-gdpr-box { background-color: var(--maroon-45); border-color: var(--maroon-45); }
+	.cg-gdpr-input:checked + .cg-gdpr-box::after {
+		content: '';
+		position: absolute;
+		left: 4px;
+		top: 1px;
+		width: 5px;
+		height: 9px;
+		border: 2px solid var(--white);
+		border-top: none;
+		border-left: none;
+		transform: rotate(45deg);
+	}
+	.cg-gdpr-label { font-family: var(--font-ui); font-size: 0.82rem; font-weight: 300; color: var(--maroon-70); line-height: 1.55; }
+
+	.cg-form-error { margin-top: 14px; font-family: var(--font-ui); font-size: 0.8rem; color: #a33; }
+	.cg-form-nav { display: flex; justify-content: flex-end; align-items: center; margin-top: 32px; gap: 14px; }
 	.cg-link-back {
 		background: none;
 		border: none;
 		cursor: pointer;
+		margin-right: auto;
 		font-family: var(--font-ui);
 		font-size: 0.68rem;
 		font-weight: 600;
@@ -737,16 +855,29 @@
 	@media (max-width: 620px) { .cg-form-card { padding: 36px 28px; } }
 
 	/* REVIEWS */
-	.cg-reviews { background: var(--maroon); color: var(--cream); }
-	.cg-reviews-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 64px; align-items: center; }
-	.cg-review-stage { position: relative; min-height: 210px; }
-	.cg-review-slide { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
+	.cg-reviews { position: relative; background: var(--maroon); color: var(--cream); overflow: hidden; }
+	.cg-reviews::before {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: calc(var(--gutter) + 26%);
+		transform: translate(-50%, -50%);
+		width: 640px;
+		height: 640px;
+		background: url('/logo.png') center/contain no-repeat;
+		opacity: 0.03;
+		pointer-events: none;
+		z-index: 0;
+	}
+	.cg-reviews-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 64px; align-items: center; }
+	.cg-review-stage { position: relative; min-height: 340px; }
+	.cg-review-slide { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-start; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
 	.cg-review-slide.cg-active { opacity: 1; pointer-events: auto; }
-	.cg-stars { color: var(--cream); letter-spacing: 4px; font-size: 0.9rem; margin-bottom: 20px; opacity: 0.85; }
+	.cg-stars { color: var(--cream); letter-spacing: 4px; font-size: 0.9rem; margin: 0 0 20px; opacity: 0.85; }
 	.cg-review-quote { font-family: var(--font-head); font-size: clamp(1.35rem, 2.6vw, 1.85rem); line-height: 1.38; color: var(--cream); margin: 0 0 22px; }
 	.cg-review-name { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); opacity: 0.7; margin: 0; }
 	.cg-review-source { font-weight: 400; opacity: 0.65; margin-left: 8px; }
-	.cg-review-dots { display: flex; gap: 10px; margin-top: 34px; }
+	.cg-review-dots { display: flex; gap: 10px; margin-top: 56px; }
 	.cg-review-dot { width: 8px; height: 8px; border-radius: 50%; background: transparent; border: 1px solid var(--cream-45); cursor: pointer; padding: 0; transition: background 0.2s; }
 	.cg-review-dot.cg-active { background: var(--cream); border-color: var(--cream); }
 

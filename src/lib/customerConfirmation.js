@@ -64,6 +64,13 @@ const TEMPLATES = {
 		intro: 'A member of our team will review your submission and be in touch shortly to discuss the next steps.'
 	}),
 
+	consignment: () => ({
+		subject: 'Your Valuation Request Has Been Received · Watch Reserve',
+		heading: 'Your Valuation Request Has Been Received',
+		formName: 'Sale and Consignment Page Valuation Form',
+		intro: 'A member of our team will review the details you have provided and be in touch shortly with your valuation.'
+	}),
+
 	'part-exchange': ({ targetProduct } = {}) => ({
 		subject: targetProduct
 			? `Your Part Exchange Request Has Been Received · ${targetProduct}`
