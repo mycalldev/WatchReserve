@@ -28,6 +28,28 @@ const PREFERENCE_LABELS = {
 	outright:     'A Fast, Guaranteed Sale (Outright)'
 };
 
+const MAX_PHOTOS = 4;
+const MAX_PHOTO_SIZE = 4 * 1024 * 1024; // 4MB, matches the client-side cap
+
+function parsePhotoAttachments(rawPhotos) {
+	if (!Array.isArray(rawPhotos)) return [];
+
+	return rawPhotos
+		.slice(0, MAX_PHOTOS)
+		.filter((p) => p && typeof p.content === 'string' && typeof p.filename === 'string')
+		.filter((p) => p.contentType?.startsWith?.('image/'))
+		.map((p) => ({
+			filename: p.filename,
+			content: p.content,
+			contentType: p.contentType
+		}))
+		.filter((p) => {
+			// content is base64 — decoded size is roughly 3/4 of the encoded length
+			const approxBytes = (p.content.length * 3) / 4;
+			return approxBytes <= MAX_PHOTO_SIZE;
+		});
+}
+
 export async function POST({ request }) {
 	let body;
 	try {
@@ -43,7 +65,7 @@ export async function POST({ request }) {
 	const condition   = clean(body.condition);
 	const hasBox      = clean(body.hasBox);
 	const hasPapers   = clean(body.hasPapers);
-	const photos      = clean(body.photos);
+	const photoAttachments = parsePhotoAttachments(body.photos);
 	const preference  = clean(body.preference);
 	const firstName   = clean(body.firstName);
 	const lastName    = clean(body.lastName);
@@ -108,9 +130,9 @@ export async function POST({ request }) {
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Has Papers</td>
 							<td style="color:#160b11;">${escapeHtml(hasPapers)}</td>
 						</tr>` : ''}
-						${photos ? `<tr>
+						${photoAttachments.length ? `<tr>
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Photos</td>
-							<td style="color:#160b11;">${escapeHtml(photos)}</td>
+							<td style="color:#160b11;">${photoAttachments.length} image${photoAttachments.length === 1 ? '' : 's'} attached</td>
 						</tr>` : ''}
 						${preferenceLabel ? `<tr>
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Preference</td>
@@ -163,7 +185,7 @@ export async function POST({ request }) {
 		condition      ? `Condition: ${condition}`         : null,
 		hasBox         ? `Has Box: ${hasBox}`              : null,
 		hasPapers      ? `Has Papers: ${hasPapers}`        : null,
-		photos         ? `Photos: ${photos}`               : null,
+		photoAttachments.length ? `Photos: ${photoAttachments.length} image${photoAttachments.length === 1 ? '' : 's'} attached` : null,
 		preferenceLabel ? `Preference: ${preferenceLabel}` : null,
 		'',
 		'— Contact Details —',
@@ -184,7 +206,8 @@ export async function POST({ request }) {
 			replyTo: email,
 			subject: `Sale and Consignment Valuation · ${brand} ${model} · ${name}`,
 			html,
-			text
+			text,
+			...(photoAttachments.length ? { attachments: photoAttachments } : {})
 		});
 
 		if (error) {

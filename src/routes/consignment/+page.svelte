@@ -1,9 +1,14 @@
 <script>
+	import { browser } from '$app/environment';
+
+	const STORAGE_KEY = 'wr_consignment_form';
+
 	const TOTAL = 4;
 	let step = $state(1);
 	let done = $state(false);
 	let submitting = $state(false);
 	let submitError = $state('');
+	let attempted = $state(false);
 
 	let brand = $state('');
 	let model = $state('');
@@ -13,7 +18,11 @@
 	let condition = $state('');
 	let hasBox = $state('');
 	let hasPapers = $state('');
-	let photos = $state('');
+
+	const MAX_PHOTOS = 4;
+	const MAX_PHOTO_SIZE = 4 * 1024 * 1024; // 4MB
+	let photoFiles = $state([]);
+	let photoError = $state('');
 
 	let preference = $state('both');
 
@@ -25,10 +34,124 @@
 
 	let honeypot = $state('');
 
+	if (browser) {
+		try {
+			const raw = localStorage.getItem(STORAGE_KEY);
+			if (raw) {
+				const saved = JSON.parse(raw);
+				step = saved.step ?? 1;
+				brand = saved.brand ?? '';
+				model = saved.model ?? '';
+				reference = saved.reference ?? '';
+				year = saved.year ?? '';
+				condition = saved.condition ?? '';
+				hasBox = saved.hasBox ?? '';
+				hasPapers = saved.hasPapers ?? '';
+				preference = saved.preference ?? 'both';
+				firstName = saved.firstName ?? '';
+				lastName = saved.lastName ?? '';
+				email = saved.email ?? '';
+				phone = saved.phone ?? '';
+				gdprConsent = saved.gdprConsent ?? false;
+			}
+		} catch {
+			// Ignore corrupt/unreadable storage — form just starts blank.
+		}
+	}
+
+	$effect(() => {
+		if (!browser || done) return;
+		const data = {
+			step,
+			brand,
+			model,
+			reference,
+			year,
+			condition,
+			hasBox,
+			hasPapers,
+			preference,
+			firstName,
+			lastName,
+			email,
+			phone,
+			gdprConsent
+		};
+		localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+	});
+
 	const progressPct = $derived(done ? 100 : (step / TOTAL) * 100);
 
 	function isValidEmail(v) {
 		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+	}
+
+	const errors = $derived.by(() => {
+		const e = {};
+		if (step === 1) {
+			if (!brand) e.brand = 'Please select a brand.';
+			if (!model.trim()) e.model = 'Please enter the model.';
+			if (!year.trim()) e.year = 'Please enter the year.';
+		} else if (step === 2) {
+			if (!condition) e.condition = 'Please select a condition.';
+			if (!hasBox) e.hasBox = 'Please let us know if you have the box.';
+			if (!hasPapers) e.hasPapers = 'Please let us know if you have the papers.';
+		} else if (step === 4) {
+			if (!firstName.trim()) e.firstName = 'First name is required.';
+			if (!lastName.trim()) e.lastName = 'Last name is required.';
+			if (!email.trim()) e.email = 'Email is required.';
+			else if (!isValidEmail(email)) e.email = 'Please enter a valid email address.';
+		}
+		return e;
+	});
+
+	function formatFileSize(bytes) {
+		return bytes < 1024 * 1024 ? `${Math.round(bytes / 1024)}KB` : `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+	}
+
+	function handlePhotoSelect(e) {
+		photoError = '';
+		const incoming = Array.from(e.target.files ?? []);
+		e.target.value = '';
+
+		for (const file of incoming) {
+			if (photoFiles.length >= MAX_PHOTOS) {
+				photoError = `You can attach up to ${MAX_PHOTOS} photos.`;
+				break;
+			}
+			if (!file.type.startsWith('image/')) {
+				photoError = `${file.name} isn't a supported image file.`;
+				continue;
+			}
+			if (file.size > MAX_PHOTO_SIZE) {
+				photoError = `${file.name} is larger than 4MB.`;
+				continue;
+			}
+			photoFiles = [...photoFiles, file];
+		}
+	}
+
+	function removePhoto(i) {
+		photoFiles = photoFiles.filter((_, idx) => idx !== i);
+	}
+
+	function readFileAsBase64(file) {
+		return new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.onload = () => resolve(String(reader.result).split(',')[1] ?? '');
+			reader.onerror = () => reject(reader.error);
+			reader.readAsDataURL(file);
+		});
+	}
+
+	async function filesToAttachments(files) {
+		return Promise.all(
+			files.map(async (file) => ({
+				filename: file.name,
+				contentType: file.type,
+				content: await readFileAsBase64(file)
+			}))
+		);
 	}
 
 	async function submitConsignment() {
@@ -41,13 +164,10 @@
 
 		submitError = '';
 
-		if (!firstName.trim() || !lastName.trim() || !isValidEmail(email)) {
-			submitError = 'Please provide your name and a valid email address.';
-			return;
-		}
-
 		submitting = true;
 		try {
+			const photos = await filesToAttachments(photoFiles);
+
 			const res = await fetch('/api/consignment', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -75,6 +195,7 @@
 				return;
 			}
 			done = true;
+			if (browser) localStorage.removeItem(STORAGE_KEY);
 		} catch {
 			submitError = 'Failed to send your request. Please try again.';
 		} finally {
@@ -83,6 +204,9 @@
 	}
 
 	function next() {
+		attempted = true;
+		if (Object.keys(errors).length > 0) return;
+		attempted = false;
 		if (step < TOTAL) {
 			step += 1;
 			return;
@@ -90,6 +214,7 @@
 		submitConsignment();
 	}
 	function back() {
+		attempted = false;
 		if (step > 1) step -= 1;
 	}
 
@@ -268,7 +393,7 @@
 					{:else}
 						<form novalidate onsubmit={(e) => e.preventDefault()}>
 							{#if step === 1}
-								<div class="cg-field">
+								<div class="cg-field" class:cg-field-invalid={attempted && errors.brand}>
 									<label for="cg-brand">Brand</label>
 									<select id="cg-brand" bind:value={brand}>
 										<option value="" disabled selected>Select a brand</option>
@@ -286,23 +411,26 @@
 										<option>Hublot</option>
 										<option>Other</option>
 									</select>
+									{#if attempted && errors.brand}<p class="cg-field-error" role="alert">{errors.brand}</p>{/if}
 								</div>
 								<div class="cg-field-row">
-									<div class="cg-field">
+									<div class="cg-field" class:cg-field-invalid={attempted && errors.model}>
 										<label for="cg-model">Model</label>
 										<input type="text" id="cg-model" placeholder="e.g. Daytona" bind:value={model} />
+										{#if attempted && errors.model}<p class="cg-field-error" role="alert">{errors.model}</p>{/if}
 									</div>
 									<div class="cg-field">
 										<label for="cg-ref">Reference Number <span class="cg-optional">(optional)</span></label>
 										<input type="text" id="cg-ref" placeholder="e.g. 116500LN" bind:value={reference} />
 									</div>
 								</div>
-								<div class="cg-field">
+								<div class="cg-field" class:cg-field-invalid={attempted && errors.year}>
 									<label for="cg-year">Year</label>
 									<input type="text" id="cg-year" placeholder="e.g. 2021" bind:value={year} />
+									{#if attempted && errors.year}<p class="cg-field-error" role="alert">{errors.year}</p>{/if}
 								</div>
 							{:else if step === 2}
-								<div class="cg-field">
+								<div class="cg-field" class:cg-field-invalid={attempted && errors.condition}>
 									<label for="cg-condition">Condition</label>
 									<div class="cg-choice-group" id="cg-condition">
 										{#each ['Unworn', 'Excellent', 'Good', 'Fair'] as opt}
@@ -316,8 +444,9 @@
 											>
 										{/each}
 									</div>
+									{#if attempted && errors.condition}<p class="cg-field-error" role="alert">{errors.condition}</p>{/if}
 								</div>
-								<div class="cg-field">
+								<div class="cg-field" class:cg-field-invalid={attempted && errors.hasBox}>
 									<label for="cg-box">Do You Have the Box?</label>
 									<div class="cg-choice-group" id="cg-box">
 										{#each ['Yes', 'No'] as opt}
@@ -331,8 +460,9 @@
 											>
 										{/each}
 									</div>
+									{#if attempted && errors.hasBox}<p class="cg-field-error" role="alert">{errors.hasBox}</p>{/if}
 								</div>
-								<div class="cg-field">
+								<div class="cg-field" class:cg-field-invalid={attempted && errors.hasPapers}>
 									<label for="cg-papers">Do You Have the Papers?</label>
 									<div class="cg-choice-group" id="cg-papers">
 										{#each ['Yes', 'No'] as opt}
@@ -346,10 +476,37 @@
 											>
 										{/each}
 									</div>
+									{#if attempted && errors.hasPapers}<p class="cg-field-error" role="alert">{errors.hasPapers}</p>{/if}
 								</div>
 								<div class="cg-field">
 									<label for="cg-photos">Photos <span class="cg-optional">(optional)</span></label>
-									<input type="text" id="cg-photos" placeholder="Paste a link, or add photos when we reply" bind:value={photos} />
+									<input
+										type="file"
+										id="cg-photos"
+										class="cg-file-input"
+										accept="image/*"
+										multiple
+										onchange={handlePhotoSelect}
+									/>
+									<label for="cg-photos" class="cg-file-btn">Choose Photos</label>
+									<p class="cg-field-hint">Up to {MAX_PHOTOS} images, 4MB each.</p>
+									{#if photoFiles.length}
+										<ul class="cg-photo-list">
+											{#each photoFiles as file, i (file.name + file.lastModified)}
+												<li class="cg-photo-item">
+													<span class="cg-photo-name">{file.name}</span>
+													<span class="cg-photo-size">{formatFileSize(file.size)}</span>
+													<button
+														type="button"
+														class="cg-photo-remove"
+														onclick={() => removePhoto(i)}
+														aria-label="Remove {file.name}">×</button
+													>
+												</li>
+											{/each}
+										</ul>
+									{/if}
+									{#if photoError}<p class="cg-form-error">{photoError}</p>{/if}
 								</div>
 							{:else if step === 3}
 								<div class="cg-field">
@@ -403,17 +560,27 @@
 								</div>
 							{:else if step === 4}
 								<div class="cg-field-row">
-									<div class="cg-field"><label for="cg-fname">First Name</label><input type="text" id="cg-fname" placeholder="First name" bind:value={firstName} /></div>
-									<div class="cg-field"><label for="cg-lname">Last Name</label><input type="text" id="cg-lname" placeholder="Last name" bind:value={lastName} /></div>
+									<div class="cg-field" class:cg-field-invalid={attempted && errors.firstName}>
+										<label for="cg-fname">First Name</label>
+										<input type="text" id="cg-fname" placeholder="First name" bind:value={firstName} />
+										{#if attempted && errors.firstName}<p class="cg-field-error" role="alert">{errors.firstName}</p>{/if}
+									</div>
+									<div class="cg-field" class:cg-field-invalid={attempted && errors.lastName}>
+										<label for="cg-lname">Last Name</label>
+										<input type="text" id="cg-lname" placeholder="Last name" bind:value={lastName} />
+										{#if attempted && errors.lastName}<p class="cg-field-error" role="alert">{errors.lastName}</p>{/if}
+									</div>
 								</div>
-								<div class="cg-field">
-									<label for="cg-email">Email</label><input type="email" id="cg-email" placeholder="you@example.com" bind:value={email} autocomplete="email" />
+								<div class="cg-field" class:cg-field-invalid={attempted && errors.email}>
+									<label for="cg-email">Email</label>
+									<input type="email" id="cg-email" placeholder="you@example.com" bind:value={email} autocomplete="email" />
+									{#if attempted && errors.email}<p class="cg-field-error" role="alert">{errors.email}</p>{/if}
 								</div>
 								<div class="cg-field">
 									<label for="cg-phone">Phone <span class="cg-optional">(optional)</span></label>
 									<input type="tel" id="cg-phone" placeholder="Best number to reach you" bind:value={phone} autocomplete="tel" />
 								</div>
-								<label class="cg-gdpr-check">
+								<label class="cg-gdpr-wrap">
 									<input type="checkbox" bind:checked={gdprConsent} class="cg-gdpr-input" />
 									<span class="cg-gdpr-box" aria-hidden="true"></span>
 									<span class="cg-gdpr-label">I am happy to receive updates and offers from Watch Reserve by email.</span>
@@ -751,6 +918,8 @@
 	}
 	.cg-optional { font-weight: 400; opacity: 0.6; letter-spacing: 0.08em; }
 	.cg-field input[type='text'],
+	.cg-field input[type='email'],
+	.cg-field input[type='tel'],
 	.cg-field select {
 		width: 100%;
 		font-family: var(--font-ui);
@@ -764,10 +933,58 @@
 		outline: none;
 		transition: border-color 0.2s;
 	}
+	.cg-field select { border-radius: 4px; }
 	.cg-field input:focus,
 	.cg-field select:focus { border-color: var(--maroon); }
 	.cg-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 	@media (max-width: 520px) { .cg-field-row { grid-template-columns: 1fr; } }
+
+	.cg-field-error { margin: 8px 0 0; font-family: var(--font-ui); font-size: 0.74rem; color: #a33; }
+	.cg-field-invalid input[type='text'],
+	.cg-field-invalid input[type='email'],
+	.cg-field-invalid input[type='tel'],
+	.cg-field-invalid select { border-color: #a33; }
+	.cg-field-invalid .cg-choice-group { border: 1px solid #a33; padding: 8px; }
+
+	.cg-file-input { position: absolute; opacity: 0; width: 1px; height: 1px; overflow: hidden; }
+	.cg-file-btn {
+		display: inline-block;
+		font-family: var(--font-ui);
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--maroon);
+		padding: 11px 22px;
+		border: 1px solid var(--maroon-45);
+		cursor: pointer;
+		transition: background 0.2s, color 0.2s;
+	}
+	.cg-file-btn:hover { background: var(--maroon); color: var(--cream); }
+	.cg-field-hint { margin: 8px 0 0; font-family: var(--font-ui); font-size: 0.74rem; font-weight: 300; color: var(--maroon-70); }
+	.cg-photo-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+	.cg-photo-item {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 9px 12px;
+		background: var(--white);
+		border: 1px solid var(--maroon-15);
+		font-family: var(--font-ui);
+		font-size: 0.8rem;
+	}
+	.cg-photo-name { flex: 1; color: var(--maroon); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.cg-photo-size { color: var(--maroon-70); font-size: 0.7rem; }
+	.cg-photo-remove {
+		background: none;
+		border: none;
+		cursor: pointer;
+		color: var(--maroon-70);
+		font-size: 1rem;
+		line-height: 1;
+		padding: 0 2px;
+	}
+	.cg-photo-remove:hover { color: var(--maroon); }
 
 	.cg-choice-group { display: flex; flex-wrap: wrap; gap: 10px; }
 	.cg-choice {
@@ -812,24 +1029,37 @@
 		overflow: hidden;
 	}
 
-	.cg-gdpr-check { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; user-select: none; margin-top: 18px; }
+	.cg-gdpr-wrap {
+		display: flex;
+		align-items: flex-start;
+		gap: 12px;
+		cursor: pointer;
+		user-select: none;
+		margin-top: 20px;
+		padding: 16px 18px;
+		background: var(--maroon-08);
+		border: 1px solid var(--maroon-15);
+		border-left: 3px solid var(--maroon);
+		transition: background 0.2s ease;
+	}
+	.cg-gdpr-wrap:hover { background: var(--maroon-15); }
 	.cg-gdpr-input { position: absolute; opacity: 0; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
-	.cg-gdpr-box { flex-shrink: 0; width: 16px; height: 16px; border: 1.5px solid var(--maroon-15); background-color: var(--white); position: relative; margin-top: 1px; transition: border-color 0.2s ease, background-color 0.2s ease; }
-	.cg-gdpr-check:hover .cg-gdpr-box { border-color: var(--maroon-45); }
-	.cg-gdpr-input:checked + .cg-gdpr-box { background-color: var(--maroon-45); border-color: var(--maroon-45); }
+	.cg-gdpr-box { flex-shrink: 0; width: 19px; height: 19px; border: 1.5px solid var(--maroon-45); background-color: var(--white); position: relative; margin-top: 1px; transition: border-color 0.2s ease, background-color 0.2s ease; }
+	.cg-gdpr-wrap:hover .cg-gdpr-box { border-color: var(--maroon); }
+	.cg-gdpr-input:checked + .cg-gdpr-box { background-color: var(--maroon); border-color: var(--maroon); }
 	.cg-gdpr-input:checked + .cg-gdpr-box::after {
 		content: '';
 		position: absolute;
-		left: 4px;
-		top: 1px;
-		width: 5px;
-		height: 9px;
+		left: 5px;
+		top: 2px;
+		width: 6px;
+		height: 10px;
 		border: 2px solid var(--white);
 		border-top: none;
 		border-left: none;
 		transform: rotate(45deg);
 	}
-	.cg-gdpr-label { font-family: var(--font-ui); font-size: 0.82rem; font-weight: 300; color: var(--maroon-70); line-height: 1.55; }
+	.cg-gdpr-label { font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; color: var(--maroon); line-height: 1.55; }
 
 	.cg-form-error { margin-top: 14px; font-family: var(--font-ui); font-size: 0.8rem; color: #a33; }
 	.cg-form-nav { display: flex; justify-content: flex-end; align-items: center; margin-top: 32px; gap: 14px; }
