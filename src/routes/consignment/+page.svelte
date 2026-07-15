@@ -262,6 +262,90 @@
 		restartReviewTimer();
 		return () => clearInterval(reviewTimer);
 	});
+
+	// Mobile "How It Works" slider: auto-advances, but pauses while the user is
+	// touching/dragging it and resumes from wherever they left it.
+	let stepsEl = $state();
+	let stepsPaused = false;
+	let stepTimer;
+	let stepResumeTimeout;
+
+	function scrollToStep(i) {
+		const container = stepsEl;
+		const li = container?.children[i];
+		if (!container || !li) return;
+		// Scroll only the slider's own horizontal axis via scrollTo — scrollIntoView
+		// would also drag the page's vertical scroll to bring this section into view,
+		// even if the user is looking at a different part of the page.
+		const target = li.offsetLeft - (container.clientWidth - li.clientWidth) / 2;
+		container.scrollTo({ left: target, behavior: 'smooth' });
+	}
+
+	function nearestStepIndex() {
+		if (!stepsEl) return 0;
+		const containerCenter = stepsEl.scrollLeft + stepsEl.clientWidth / 2;
+		let closest = 0;
+		let closestDist = Infinity;
+		Array.from(stepsEl.children).forEach((li, i) => {
+			const dist = Math.abs(li.offsetLeft + li.offsetWidth / 2 - containerCenter);
+			if (dist < closestDist) {
+				closestDist = dist;
+				closest = i;
+			}
+		});
+		return closest;
+	}
+
+	function pauseStepsAutoplay() {
+		stepsPaused = true;
+		clearTimeout(stepResumeTimeout);
+	}
+
+	function resumeStepsAutoplay() {
+		clearTimeout(stepResumeTimeout);
+		// Grace period so the user can keep reading after they let go before it advances again.
+		stepResumeTimeout = setTimeout(() => {
+			stepsPaused = false;
+		}, 3000);
+	}
+
+	$effect(() => {
+		if (!browser || !stepsEl) return;
+
+		const mediaQuery = window.matchMedia('(max-width: 520px)');
+		let stepsInView = false;
+
+		// Only auto-advance while the section is actually on screen — otherwise
+		// there'd be nothing stopping it from scrolling the slider while the user
+		// is looking at a completely different part of the page.
+		const visibilityObserver = new IntersectionObserver(
+			([entry]) => {
+				stepsInView = entry.isIntersecting;
+			},
+			{ threshold: 0.4 }
+		);
+		visibilityObserver.observe(stepsEl);
+
+		function syncAutoplay() {
+			clearInterval(stepTimer);
+			if (!mediaQuery.matches) return;
+			stepTimer = setInterval(() => {
+				if (stepsPaused || !stepsInView) return;
+				const next = (nearestStepIndex() + 1) % stepsEl.children.length;
+				scrollToStep(next);
+			}, 3200);
+		}
+
+		syncAutoplay();
+		mediaQuery.addEventListener('change', syncAutoplay);
+
+		return () => {
+			clearInterval(stepTimer);
+			clearTimeout(stepResumeTimeout);
+			mediaQuery.removeEventListener('change', syncAutoplay);
+			visibilityObserver.disconnect();
+		};
+	});
 </script>
 
 <svelte:head>
@@ -329,7 +413,13 @@
 				<h2>One Simple Process</h2>
 			</div>
 
-			<ol class="cg-steps">
+			<ol
+				class="cg-steps"
+				bind:this={stepsEl}
+				onpointerdown={pauseStepsAutoplay}
+				onpointerup={resumeStepsAutoplay}
+				onpointercancel={resumeStepsAutoplay}
+			>
 				<li>
 					<div class="cg-step-title">Share the Details</div>
 					<div class="cg-step-body">Get in touch via the form below with the details of your watch.</div>
@@ -884,7 +974,30 @@
 		.cg-steps { grid-template-columns: 1fr 1fr; gap: 34px 24px; }
 		.cg-steps li::after { display: none; }
 	}
-	@media (max-width: 520px) { .cg-steps { grid-template-columns: 1fr; } }
+
+	/* Mobile: swipeable slider instead of a stacked list, so the form isn't pushed far down the page */
+	@media (max-width: 520px) {
+		.cg-steps {
+			--step-card-width: 78vw;
+			display: flex;
+			grid-template-columns: unset;
+			overflow-x: auto;
+			scroll-snap-type: x mandatory;
+			-webkit-overflow-scrolling: touch;
+			scrollbar-width: none;
+			gap: 18px;
+			margin: 0 calc(var(--gutter) * -1);
+			/* Side padding equal to the space either side of a centered card gives the
+			   browser room to actually center the first/last card instead of clamping
+			   them flush against the scroll boundary. */
+			padding: 4px calc((100vw - var(--step-card-width)) / 2) 6px;
+		}
+		.cg-steps::-webkit-scrollbar { display: none; }
+		.cg-steps li {
+			flex: 0 0 var(--step-card-width);
+			scroll-snap-align: center;
+		}
+	}
 
 	/* FORM */
 	.cg-form-section { background: linear-gradient(180deg, var(--cream) 0%, #f3e9e7 100%); }
