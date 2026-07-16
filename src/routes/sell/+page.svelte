@@ -109,12 +109,20 @@
 		return bytes < 1024 * 1024 ? `${Math.round(bytes / 1024)}KB` : `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
 	}
 
+	function isSameFile(a, b) {
+		return a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
+	}
+
 	function handlePhotoSelect(e) {
 		photoError = '';
 		const incoming = Array.from(e.target.files ?? []);
-		e.target.value = '';
+		const input = e.target;
+		setTimeout(() => (input.value = ''), 0);
 
 		for (const file of incoming) {
+			if (photoFiles.some((existing) => isSameFile(existing, file))) {
+				continue;
+			}
 			if (photoFiles.length >= MAX_PHOTOS) {
 				photoError = `You can attach up to ${MAX_PHOTOS} photos.`;
 				break;
@@ -341,6 +349,7 @@
 						<li>Typically achieves a higher price than an outright sale</li>
 						<li>Your watch remains yours until it sells</li>
 					</ul>
+					<a href="#start" class="cg-option-cta">Start Your Consignment &rarr;</a>
 				</div>
 
 				<div class="cg-option-divider"></div>
@@ -354,6 +363,7 @@
 						<li>A firm, competitive offer at current market value</li>
 						<li>Payment sent within one working day</li>
 					</ul>
+					<a href="#start" class="cg-option-cta">Get an Offer &rarr;</a>
 				</div>
 			</div>
 
@@ -837,9 +847,9 @@
 	.cg-section-head p { margin-top: 12px; color: var(--maroon-70); font-size: 0.98rem; }
 
 	/* OPTIONS */
-	.cg-options { display: grid; grid-template-columns: 1fr 1px 1fr; gap: 56px; max-width: 940px; margin: 0 auto; align-items: start; }
+	.cg-options { display: grid; grid-template-columns: 1fr 1px 1fr; gap: 56px; max-width: 940px; margin: 0 auto; align-items: stretch; }
 	.cg-option-divider { background: var(--maroon-15); width: 1px; align-self: stretch; }
-	.cg-option-col { text-align: center; }
+	.cg-option-col { text-align: center; display: flex; flex-direction: column; }
 	.cg-option-kicker {
 		font-family: var(--font-ui);
 		font-weight: 600;
@@ -869,6 +879,21 @@
 		position: relative;
 		line-height: 1.5;
 	}
+	.cg-option-cta {
+		display: inline-block;
+		margin-top: auto;
+		padding-top: 18px;
+		font-family: var(--font-ui);
+		font-size: 0.72rem;
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--maroon-45);
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+		transition: color 0.2s, border-color 0.2s;
+	}
+	.cg-option-cta:hover { color: var(--maroon); border-color: var(--maroon-45); }
 	.cg-option-points li::before {
 		content: '';
 		position: absolute;
