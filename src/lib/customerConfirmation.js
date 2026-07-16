@@ -50,25 +50,11 @@ const TEMPLATES = {
 			: 'We have received your enquiry and a member of our team will be in touch shortly to assist you.'
 	}),
 
-	'sell-valuation': () => ({
-		subject: 'Your Valuation Request Has Been Received · Watch Reserve',
-		heading: 'Your Valuation Request Has Been Received',
-		formName: 'Valuation Request Form',
-		intro: 'A member of our team will review the details you have provided and be in touch shortly with our offer.'
-	}),
-
-	'sell-consignment': () => ({
-		subject: 'Your Consignment Submission Has Been Received · Watch Reserve',
-		heading: 'Your Consignment Submission Has Been Received',
-		formName: 'Consignment Form',
-		intro: 'A member of our team will review your submission and be in touch shortly to discuss the next steps.'
-	}),
-
 	consignment: () => ({
 		subject: 'Your Valuation Request Has Been Received · Watch Reserve',
 		heading: 'Your Valuation Request Has Been Received',
-		formName: 'Sale and Consignment Page Valuation Form',
-		intro: 'A member of our team will review the details you have provided and be in touch shortly with your valuation.'
+		formName: 'Consignment Page Valuation Form',
+		intro: 'A member of our team will review the details you have provided and be in touch shortly with your valuation. We aim to respond within 30 minutes during business hours.'
 	}),
 
 	'part-exchange': ({ targetProduct } = {}) => ({
