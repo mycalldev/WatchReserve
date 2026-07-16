@@ -478,7 +478,16 @@
 								</div>
 								<div class="cg-field" class:cg-field-invalid={attempted && errors.year}>
 									<label for="cg-year">Year</label>
-									<input type="text" id="cg-year" placeholder="e.g. 2021" bind:value={year} />
+									<input
+										type="text"
+										id="cg-year"
+										placeholder="e.g. 2021"
+										inputmode="numeric"
+										pattern="[0-9]*"
+										maxlength="4"
+										bind:value={year}
+										oninput={(e) => (year = e.currentTarget.value.replace(/\D/g, ''))}
+									/>
 									{#if attempted && errors.year}<p class="cg-field-error" role="alert">{errors.year}</p>{/if}
 								</div>
 							{:else if step === 2}
@@ -589,7 +598,7 @@
 										>
 											<span class="cg-pref-radio"></span>
 											<span class="cg-pref-text"
-												><strong>The Best Possible Price</strong><span>Consignment. Sell for the strongest return.</span
+												><strong>Consignment</strong><span>Sell for the strongest return.</span
 												></span
 											>
 										</div>
@@ -603,8 +612,8 @@
 										>
 											<span class="cg-pref-radio"></span>
 											<span class="cg-pref-text"
-												><strong>A Fast, Guaranteed Sale</strong><span
-													>Outright. Sell to us directly, payment agreed up front.</span
+												><strong>Outright Sale</strong><span
+													>Sell to us directly, payment agreed up front.</span
 												></span
 											>
 										</div>
