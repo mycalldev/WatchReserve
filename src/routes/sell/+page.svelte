@@ -21,6 +21,8 @@
 
 	const MAX_PHOTOS = 4;
 	const MAX_PHOTO_SIZE = 4 * 1024 * 1024; // 4MB
+	const COMPRESS_MAX_DIM = 1600;
+	const COMPRESS_QUALITY = 0.82;
 	let photoFiles = $state([]);
 	let photoError = $state('');
 
@@ -109,18 +111,47 @@
 		return bytes < 1024 * 1024 ? `${Math.round(bytes / 1024)}KB` : `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
 	}
 
-	function isSameFile(a, b) {
-		return a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
+	function sourceKey(file) {
+		return `${file.name}|${file.size}|${file.lastModified}`;
 	}
 
-	function handlePhotoSelect(e) {
+	// Downscales and re-encodes to JPEG so the base64 payload we email stays small,
+	// regardless of the source photo's resolution (camera/HEIC photos can be 10MB+).
+	async function compressImage(file) {
+		if (file.type === 'image/svg+xml' || file.type === 'image/gif') return file;
+
+		try {
+			const bitmap = await createImageBitmap(file);
+			const scale = Math.min(1, COMPRESS_MAX_DIM / Math.max(bitmap.width, bitmap.height));
+			const width = Math.round(bitmap.width * scale);
+			const height = Math.round(bitmap.height * scale);
+
+			const canvas = document.createElement('canvas');
+			canvas.width = width;
+			canvas.height = height;
+			canvas.getContext('2d').drawImage(bitmap, 0, 0, width, height);
+			bitmap.close?.();
+
+			const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', COMPRESS_QUALITY));
+			if (!blob || blob.size >= file.size) return file;
+
+			const newName = file.name.replace(/\.\w+$/, '') + '.jpg';
+			return new File([blob], newName, { type: 'image/jpeg', lastModified: file.lastModified });
+		} catch {
+			// Decoding failed (e.g. HEIC in a browser without codec support) — fall back to the original file.
+			return file;
+		}
+	}
+
+	async function handlePhotoSelect(e) {
 		photoError = '';
 		const incoming = Array.from(e.target.files ?? []);
 		const input = e.target;
 		setTimeout(() => (input.value = ''), 0);
 
 		for (const file of incoming) {
-			if (photoFiles.some((existing) => isSameFile(existing, file))) {
+			const key = sourceKey(file);
+			if (photoFiles.some((existing) => existing._sourceKey === key)) {
 				continue;
 			}
 			if (photoFiles.length >= MAX_PHOTOS) {
@@ -135,7 +166,9 @@
 				photoError = `${file.name} is larger than 4MB.`;
 				continue;
 			}
-			photoFiles = [...photoFiles, file];
+			const compressed = await compressImage(file);
+			compressed._sourceKey = key;
+			photoFiles = [...photoFiles, compressed];
 		}
 	}
 
