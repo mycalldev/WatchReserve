@@ -516,9 +516,9 @@
 	}
 
 	.hero-headline {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 5vw, 4.5rem);
-		font-weight: 400;
+		font-weight: 500;
 		color: #ffffff;
 		margin: 0 0 32px 0;
 		line-height: 1.15;
@@ -715,9 +715,9 @@
 	}
 
 	.about-wr-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.8rem, 3vw, 2.6rem);
-		font-weight: 400;
+		font-weight: 500;
 		color: #160b11;
 		margin: 0 0 28px 0;
 		line-height: 1.2;
@@ -850,9 +850,9 @@
 	}
 
 	.yt-proof-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.875rem, 3.2vw, 2.5rem);
-		font-weight: 400;
+		font-weight: 500;
 		color: #160b11;
 		margin: 0;
 		line-height: 1.2;
@@ -944,9 +944,9 @@
 	}
 
 	.ig-proof-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.875rem, 3.2vw, 2.5rem);
-		font-weight: 400;
+		font-weight: 500;
 		color: #160b11;
 		margin: 0;
 		line-height: 1.2;
@@ -1059,9 +1059,9 @@
 	}
 
 	.sell-source-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 4vw, 3.5rem);
-		font-weight: 400;
+		font-weight: 500;
 		color: #ffffff;
 		margin: 0 0 32px 0;
 		line-height: 1.2;
@@ -1604,9 +1604,9 @@
 	}
 
 	.api-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 3.5vw, 3.25rem);
-		font-weight: 400;
+		font-weight: 500;
 		color: #160b11;
 		margin: 0 0 24px 0;
 		line-height: 1.15;
