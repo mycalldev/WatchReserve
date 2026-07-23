@@ -102,8 +102,6 @@
 				<p>25 Cabot Square, Canary Wharf, London E14 4QZ</p>
 			</div>
 		</section>
-
-		<p class="last-updated">Last Updated: {new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
 	</div>
 </section>
 
