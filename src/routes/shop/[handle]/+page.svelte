@@ -43,6 +43,19 @@
 		slideOverOpen = true;
 	}
 
+	// ── Finance disclaimer modal ────────────────────────────────────────────────
+	const FINANCE_URL = 'https://ideal4finance.com/loan-apply/thewrsltd-';
+	let financeModalOpen = $state(false);
+
+	function openFinanceModal() {
+		financeModalOpen = true;
+	}
+
+	function continueToFinance() {
+		window.open(FINANCE_URL, '_blank', 'noopener,noreferrer');
+		financeModalOpen = false;
+	}
+
 	function closeDrawer() {
 		slideOverOpen = false;
 	}
@@ -532,6 +545,12 @@
 						</svg>
 						Deposit
 					</button>
+					<button type="button" class="btn-action-outline" onclick={openFinanceModal}>
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<rect x="4" y="2" width="16" height="20" rx="0" ry="0"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10"/><line x1="12" y1="10" x2="12" y2="10"/><line x1="16" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="16" y1="14" x2="16" y2="18"/><line x1="8" y1="18" x2="12" y2="18"/>
+						</svg>
+						Apply For Finance
+					</button>
 				</div>
 			</div>
 
@@ -676,6 +695,35 @@
 	onclose={closeDrawer}
 	ondepositsuccess={() => (locallyReserved = true)}
 />
+
+<!-- ── FINANCE DISCLAIMER MODAL ── -->
+{#if financeModalOpen}
+	<div
+		class="finance-modal-overlay"
+		role="button"
+		tabindex="0"
+		aria-label="Close"
+		onclick={() => (financeModalOpen = false)}
+		onkeydown={(e) => (e.key === 'Escape' || e.key === 'Enter') && (financeModalOpen = false)}
+	>
+		<div
+			class="finance-modal"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="finance-modal-title"
+			onclick={(e) => e.stopPropagation()}
+			onkeydown={() => {}}
+		>
+			<h3 id="finance-modal-title" class="finance-modal-title">Before you continue</h3>
+			<p class="finance-modal-text">
+				Watch Reserve Ltd is an Introducer Appointed Representative of Ideal Sales Solutions Ltd, t/a Ideal4Finance. Ideal Sales Solutions Ltd is a credit broker and not a lender (FRN 703401). Finance available subject to status. The rate offered is always provisional and will depend upon your personal circumstances, the loan amount and the term.
+			</p>
+			<button type="button" class="finance-modal-continue" onclick={continueToFinance}>
+				Continue to Application
+			</button>
+		</div>
+	</div>
+{/if}
 
 
 <style>
@@ -1107,8 +1155,18 @@
 
 	.action-row-2 {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 10px;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 8px;
+	}
+
+	/* Tighten label spacing so all three fit on one row */
+	.action-row-2 .btn-action-dark,
+	.action-row-2 .btn-action-outline {
+		gap: 6px;
+		padding-left: 6px;
+		padding-right: 6px;
+		font-size: 0.72rem;
+		letter-spacing: 0.04em;
 	}
 
 	.btn-action-dark,
@@ -1166,6 +1224,63 @@
 
 	.btn-action-dark:disabled svg,
 	.btn-action-outline:disabled svg { color: #c9c1b8; }
+
+	/* ── FINANCE DISCLAIMER MODAL ── */
+	.finance-modal-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 1000;
+		background: rgba(22, 11, 17, 0.55);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 24px;
+	}
+	.finance-modal {
+		background: #ffffff;
+		max-width: 460px;
+		width: 100%;
+		padding: 40px 36px;
+		box-shadow: 0 24px 64px rgba(22, 11, 17, 0.28);
+		text-align: center;
+	}
+	.finance-modal-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		font-size: 1.375rem;
+		font-weight: 400;
+		color: #160b11;
+		margin: 0 0 18px;
+	}
+	.finance-modal-text {
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.75rem;
+		line-height: 1.7;
+		font-weight: 300;
+		color: #6b5f58;
+		margin: 0 0 28px;
+	}
+	.finance-modal-continue {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 52px;
+		font-family: 'Montserrat', sans-serif;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #ffffff;
+		background-color: #160b11;
+		border: 1.5px solid #160b11;
+		border-radius: 0;
+		cursor: pointer;
+		transition: background-color 0.22s ease, color 0.22s ease;
+	}
+	.finance-modal-continue:hover {
+		background-color: #a1846d;
+		border-color: #a1846d;
+	}
 
 	/* ── GOOGLE REVIEWS SOCIAL PROOF ── */
 	.product-trustpilot {
@@ -1345,11 +1460,15 @@
 		}
 
 		.btn-action-dark,
-		.btn-action-outline {
+		.btn-action-outline,
+		.action-row-2 .btn-action-dark,
+		.action-row-2 .btn-action-outline {
 			height: auto;
 			padding-top: 16px;
 			padding-bottom: 16px;
 			font-size: 0.8125rem;
+			letter-spacing: 0.1em;
+			gap: 8px;
 		}
 	}
 
