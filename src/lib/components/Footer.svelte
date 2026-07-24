@@ -230,7 +230,7 @@
 	.info-col--right  { text-align: right;  align-items: flex-end; }
 
 	.info-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.6875rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -250,7 +250,7 @@
 	}
 
 	.info-primary {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 1rem;
 		font-weight: 600;
 		color: #160b11;
@@ -261,7 +261,7 @@
 	a.info-primary:hover { color: #a1846d; }
 
 	.info-secondary {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		font-weight: 400;
 		color: rgba(22, 11, 17, 0.5);
@@ -313,7 +313,7 @@
 	}
 
 	.footer-description {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9rem;
 		color: rgba(255, 255, 255, 0.72);
 		line-height: 1.8;
@@ -324,7 +324,7 @@
 
 	/* Nav columns */
 	.footer-col-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.6875rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -346,7 +346,7 @@
 	.footer-nav a {
 		color: #ffffff;
 		text-decoration: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9rem;
 		font-weight: 400;
 		letter-spacing: 0.01em;
@@ -369,7 +369,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.6875rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -403,7 +403,7 @@
 	}
 
 	.api-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(255, 255, 255, 0.72);
 		line-height: 1.75;
@@ -418,7 +418,7 @@
 		background-color: #a1846d;
 		color: #ffffff;
 		text-decoration: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 700;
 		letter-spacing: 0.12em;
@@ -437,7 +437,7 @@
 	}
 
 	.api-learn-link {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		font-weight: 500;
 		color: #ffffff;
@@ -481,7 +481,7 @@
 	}
 
 	.copyright-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		color: rgba(22, 11, 17, 0.45);
 		margin: 0;
@@ -579,7 +579,7 @@
 	}
 
 	.footer-socials-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.6875rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;

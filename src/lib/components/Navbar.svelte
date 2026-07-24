@@ -183,7 +183,7 @@
 	.nav-links a {
 		color: #ffffff;
 		text-decoration: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 14px;
 		font-weight: 500;
 		letter-spacing: 0.05em;
@@ -328,7 +328,7 @@
 		display: block;
 		color: #ffffff;
 		text-decoration: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 16px;
 		font-weight: 500;
 		letter-spacing: 0.05em;
@@ -421,7 +421,7 @@
 		justify-content: center;
 		font-size: 11px;
 		font-weight: 600;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 	}
 
 	.cart-link {
@@ -457,7 +457,7 @@
 		justify-content: center;
 		font-size: 11px;
 		font-weight: 600;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 	}
 
 	@media (max-width: 1100px) {

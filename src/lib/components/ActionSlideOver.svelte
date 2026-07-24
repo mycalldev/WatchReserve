@@ -250,6 +250,7 @@
 
 			depElements = depStripe.elements({
 				clientSecret: depClientSecret,
+				fonts: [{ cssSrc: 'https://use.typekit.net/tli1hdo.css' }],
 				appearance: {
 					theme: 'stripe',
 					variables: {
@@ -257,7 +258,8 @@
 						colorText: '#160b11',
 						colorBackground: '#ffffff',
 						colorDanger: '#b04040',
-						fontFamily: 'Montserrat, system-ui, sans-serif',
+						fontFamily: 'acumin-pro, system-ui, sans-serif',
+						fontWeightNormal: '300',
 						borderRadius: '0px',
 						spacingUnit: '4px',
 						fontSizeBase: '15px'
@@ -942,7 +944,7 @@
 	}
 
 	.so-subtitle {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.725rem;
 		font-weight: 400;
 		color: rgba(22, 11, 17, 0.45);
@@ -1004,7 +1006,7 @@
 	}
 
 	.so-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.66rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -1023,7 +1025,7 @@
 	.so-textarea {
 		width: 100%;
 		box-sizing: border-box;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 		background-color: #ffffff;
@@ -1051,7 +1053,7 @@
 	.so-field--error .so-select { border-bottom-color: #c94040; background-color: #fff8f8; }
 
 	.so-hint-err {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		color: #c94040;
 		margin: 0;
@@ -1092,7 +1094,7 @@
 	.so-section-head:first-child { margin-top: 0; }
 
 	.so-section-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.65rem;
 		font-weight: 700;
 		letter-spacing: 0.16em;
@@ -1125,7 +1127,7 @@
 	}
 
 	.so-context-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.62rem;
 		font-weight: 700;
 		letter-spacing: 0.12em;
@@ -1141,7 +1143,7 @@
 
 	/* Privacy */
 	.so-privacy {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		color: rgba(22, 11, 17, 0.42);
 		line-height: 1.5;
@@ -1170,7 +1172,7 @@
 		background-color: #faf8f5;
 		border: 1px solid rgba(22, 11, 17, 0.08);
 		margin-top: 8px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		color: rgba(22, 11, 17, 0.55);
 		line-height: 1.5;
@@ -1186,7 +1188,7 @@
 		gap: 8px;
 		height: 50px;
 		padding: 0 24px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -1281,7 +1283,7 @@
 	}
 
 	.so-success-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.6);
 		line-height: 1.65;
@@ -1330,7 +1332,7 @@
 	}
 
 	.cart-item-vendor {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.65rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -1348,14 +1350,14 @@
 	}
 
 	.cart-item-variant {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		color: rgba(22, 11, 17, 0.5);
 		margin: 0;
 	}
 
 	.cart-item-price {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 600;
 		color: #160b11;
@@ -1388,7 +1390,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 	}
@@ -1416,7 +1418,7 @@
 		display: flex;
 		align-items: center;
 		gap: 6px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 500;
 		color: rgba(22, 11, 17, 0.55);
@@ -1435,7 +1437,7 @@
 	}
 
 	.cart-also-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.65rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -1457,7 +1459,7 @@
 		padding: 8px 14px;
 		background: none;
 		border: 1px solid rgba(22, 11, 17, 0.12);
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 600;
 		letter-spacing: 0.06em;
@@ -1516,7 +1518,7 @@
 	}
 
 	.dep-product-vendor {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.62rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -1538,7 +1540,7 @@
 	}
 
 	.dep-product-price {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9rem;
 		font-weight: 600;
 		color: #160b11;
@@ -1579,7 +1581,7 @@
 	}
 
 	.dep-info-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.62rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -1588,14 +1590,14 @@
 	}
 
 	.dep-info-value {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		font-weight: 600;
 		color: #160b11;
 	}
 
 	.dep-info-note {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		color: rgba(22, 11, 17, 0.55);
 		line-height: 1.6;
@@ -1621,7 +1623,7 @@
 		justify-content: space-between;
 		align-items: center;
 		gap: 12px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		color: rgba(22, 11, 17, 0.65);
 	}
@@ -1657,7 +1659,7 @@
 
 
 	.so-error-msg {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		color: #8b2635;
 		background-color: #fff5f5;
@@ -1721,7 +1723,7 @@
 	}
 
 	.gdpr-check-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.75);
 		line-height: 1.55;
@@ -1779,7 +1781,7 @@
 	}
 
 	.dep-kyc-heading {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -1789,7 +1791,7 @@
 	}
 
 	.dep-kyc-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.825rem;
 		line-height: 1.65;
 		color: rgba(22, 11, 17, 0.6);
@@ -1815,7 +1817,7 @@
 	}
 
 	.dep-payment-summary-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 11px;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
@@ -1824,7 +1826,7 @@
 	}
 
 	.dep-payment-summary-item {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 12px;
 		font-weight: 600;
 		color: #160b11;
@@ -1841,7 +1843,7 @@
 	}
 
 	.dep-payment-amount-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 12px;
 		font-weight: 600;
 		color: #160b11;
@@ -1855,7 +1857,7 @@
 	}
 
 	.dep-payment-balance-note {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 11px;
 		color: rgba(22, 11, 17, 0.5);
 		margin: 0;
@@ -1867,7 +1869,7 @@
 		align-items: center;
 		gap: 10px;
 		padding: 16px 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 13px;
 		color: rgba(22, 11, 17, 0.5);
 	}
@@ -1878,7 +1880,7 @@
 	}
 
 	.dep-payment-error {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 13px;
 		color: #b04040;
 		margin: 0 0 14px;
@@ -1898,7 +1900,7 @@
 		display: flex;
 		align-items: center;
 		gap: 6px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 11px;
 		color: rgba(22, 11, 17, 0.45);
 		margin-bottom: 8px;

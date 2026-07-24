@@ -186,7 +186,7 @@
 	}
 
 	.page-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -206,7 +206,7 @@
 	}
 
 	.page-subtitle {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(255, 255, 255, 0.45);
 		margin: 14px 0 0 0;
@@ -298,7 +298,7 @@
 	}
 
 	.empty-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		color: #888;
 		margin: 0;
@@ -311,7 +311,7 @@
 		align-items: center;
 		gap: 10px;
 		margin-top: 8px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9rem;
 		font-weight: 600;
 		letter-spacing: 0.04em;
@@ -398,7 +398,7 @@
 		align-items: center;
 		gap: 6px;
 		padding: 5px 10px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 500;
 		color: #6b5c55;
@@ -438,7 +438,7 @@
 	}
 
 	.card-vendor {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.68rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -474,7 +474,7 @@
 	}
 
 	.card-title {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.85rem, 1vw, 0.9375rem);
 		line-height: 1.45;
 		color: #3a2e33;
@@ -496,7 +496,7 @@
 	}
 
 	.card-price {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		font-weight: 600;
 		color: #160b11;
@@ -505,7 +505,7 @@
 	}
 
 	.card-sold {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		color: #c94040;
 		font-weight: 500;
@@ -520,7 +520,7 @@
 		gap: 7px;
 		margin-top: auto;
 		padding-top: 14px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.06em;
@@ -547,7 +547,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 10px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 500;
 		color: #160b11;

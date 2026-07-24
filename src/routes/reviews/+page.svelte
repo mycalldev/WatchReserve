@@ -49,7 +49,7 @@
 		z-index: 2;
 	}
 	.page-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -72,7 +72,7 @@
 		color: #a1846d;
 	}
 	.page-subtitle {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		color: rgba(255, 255, 255, 0.5);
 		margin: 0;

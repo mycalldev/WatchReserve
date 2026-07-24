@@ -89,6 +89,7 @@
 
 			elements = stripe.elements({
 				clientSecret,
+				fonts: [{ cssSrc: 'https://use.typekit.net/tli1hdo.css' }],
 				appearance: {
 					theme: 'stripe',
 					variables: {
@@ -96,7 +97,8 @@
 						colorText: '#160b11',
 						colorBackground: '#ffffff',
 						colorDanger: '#b04040',
-						fontFamily: 'Montserrat, system-ui, sans-serif',
+						fontFamily: 'acumin-pro, system-ui, sans-serif',
+						fontWeightNormal: '300',
 						borderRadius: '0px',
 						spacingUnit: '4px',
 						fontSizeBase: '15px'
@@ -783,7 +785,7 @@
 		padding: 80px 40px 120px;
 		min-height: calc(100vh - 200px);
 		box-sizing: border-box;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		color: #160b11;
 	}
 
@@ -806,7 +808,7 @@
 	}
 
 	.checkout-tagline {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
@@ -936,7 +938,7 @@
 
 	.field input,
 	.field select {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 1rem;
 		padding: 14px 16px;
 		border: 1px solid #e1dbd2;
@@ -1011,7 +1013,7 @@
 	}
 
 	.btn {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.85rem;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
@@ -1105,7 +1107,7 @@
 		background: #fffbeb;
 		border: 1px solid #d97706;
 		color: #92400e;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		line-height: 1.5;
 		margin-bottom: 4px;
@@ -1122,7 +1124,7 @@
 	}
 
 	.price-updated-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.65rem;
 		font-weight: 700;
 		letter-spacing: 0.08em;
@@ -1556,7 +1558,7 @@
 	}
 
 	.gdpr-check-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.75);
 		line-height: 1.55;

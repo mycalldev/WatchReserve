@@ -61,7 +61,8 @@
 		max-width: 100%;
 		width: 100%;
 		box-sizing: border-box;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
+		font-weight: 300;
 	}
 
 	:global(*, *::before, *::after) {

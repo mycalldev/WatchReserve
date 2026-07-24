@@ -20,7 +20,7 @@
 		border: none;
 		padding: 14px 32px;
 		border-radius: 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 1rem;
 		font-weight: 700;
 		cursor: pointer;

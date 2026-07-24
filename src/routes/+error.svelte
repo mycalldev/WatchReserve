@@ -115,7 +115,7 @@
 	}
 
 	.error-message {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		line-height: 1.7;
 		color: #4a4a4a;

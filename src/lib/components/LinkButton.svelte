@@ -25,7 +25,7 @@
 		gap: 12px;
 		color: #4a4a4a;
 		text-decoration: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 1rem;
 		font-weight: 500;
 		transition: all 0.3s ease;

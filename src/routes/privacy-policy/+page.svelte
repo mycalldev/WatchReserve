@@ -246,7 +246,7 @@
 	}
 
 	.privacy-date {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9rem;
 		color: rgba(22, 11, 17, 0.5);
 		font-weight: 400;
@@ -269,7 +269,7 @@
 	}
 
 	.subsection-title {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		font-weight: 600;
 		color: #160b11;
@@ -278,7 +278,7 @@
 	}
 
 	.privacy-section p {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.7;
 		color: #160b11;
@@ -294,7 +294,7 @@
 	}
 
 	.privacy-section li {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.7;
 		color: #160b11;

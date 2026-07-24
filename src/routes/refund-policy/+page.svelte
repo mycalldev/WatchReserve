@@ -127,7 +127,7 @@
 	}
 
 	.refund-intro {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		line-height: 1.7;
 		color: #160b11;
@@ -150,7 +150,7 @@
 	}
 
 	.refund-section p {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.7;
 		color: #160b11;
@@ -178,7 +178,7 @@
 	}
 
 	.option-heading {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.9rem, 1vw, 1rem);
 		font-weight: 600;
 		color: #160b11;
@@ -188,7 +188,7 @@
 	}
 
 	.refund-list {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.7;
 		color: #160b11;
@@ -225,7 +225,7 @@
 	}
 
 	.last-updated {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #666;
 		margin-top: 48px;

@@ -329,7 +329,7 @@
 		color: #c9a882;
 		padding: 5px 13px;
 		border-radius: 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -368,7 +368,7 @@
 
 	/* ── SUBTITLE ── */
 	.modal-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(255, 255, 255, 0.55);
 		margin: 0;
@@ -400,7 +400,7 @@
 	}
 
 	.field-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 600;
 		letter-spacing: 0.08em;
@@ -414,7 +414,7 @@
 		border: 1.5px solid #e8e3e1;
 		border-radius: 0;
 		background-color: #fdfcfc;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		color: #160b11;
 		outline: none;
@@ -438,7 +438,7 @@
 		color: #ffffff;
 		border: none;
 		border-radius: 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 600;
 		letter-spacing: 0.025em;
@@ -470,7 +470,7 @@
 	}
 
 	.submit-error {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		color: #c94040;
 		margin: 0;
@@ -518,7 +518,7 @@
 	}
 
 	.success-msg {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.6);
 		line-height: 1.65;
@@ -579,7 +579,7 @@
 	}
 
 	.gdpr-check-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #555;
 		line-height: 1.55;

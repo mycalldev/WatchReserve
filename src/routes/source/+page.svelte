@@ -278,7 +278,7 @@
 	}
 
 	.source-hero-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(1rem, 1.5vw, 1.25rem);
 		color: #ffffff;
 		margin: 0 0 48px 0;
@@ -368,7 +368,7 @@
 	}
 
 	.steps-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -388,7 +388,7 @@
 	}
 
 	.steps-subtitle {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.2vw, 1.0625rem);
 		color: rgba(255, 255, 255, 0.65);
 		margin: 0 auto;
@@ -450,7 +450,7 @@
 	}
 
 	.step-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.9rem, 1.1vw, 1rem);
 		color: rgba(255, 255, 255, 0.62);
 		line-height: 1.7;
@@ -549,7 +549,7 @@
 	}
 
 	.contact-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -569,7 +569,7 @@
 	}
 
 	.contact-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.9rem, 1.1vw, 1rem);
 		color: #6b5c55;
 		line-height: 1.7;
@@ -605,7 +605,7 @@
 	}
 
 	.sf-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.68rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -639,7 +639,7 @@
 	}
 
 	.sf-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -663,7 +663,7 @@
 	.sf-input {
 		width: 100%;
 		box-sizing: border-box;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		color: #160b11;
 		background-color: #ffffff;
@@ -689,14 +689,14 @@
 	}
 
 	.sf-hint-err {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		color: #c94040;
 		margin: 0;
 	}
 
 	.sf-privacy {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		color: rgba(22, 11, 17, 0.45);
 		line-height: 1.6;
@@ -724,7 +724,7 @@
 		color: #ffffff;
 		border: none;
 		border-radius: 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -787,7 +787,7 @@
 	}
 
 	.sf-success-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.6);
 		line-height: 1.65;
@@ -859,7 +859,7 @@
 	}
 
 	.gdpr-check-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.75);
 		line-height: 1.55;

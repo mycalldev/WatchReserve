@@ -177,7 +177,7 @@
 	}
 
 	.arrivals-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -324,7 +324,7 @@
 		gap: 6px;
 		padding: 5px 10px;
 		border-radius: 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 500;
 		color: #6b5c55;
@@ -351,7 +351,7 @@
 	}
 
 	.product-vendor {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -361,7 +361,7 @@
 	}
 
 	.product-title {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.85rem, 1vw, 0.9375rem);
 		line-height: 1.45;
 		color: #3a2e33;
@@ -384,7 +384,7 @@
 	}
 
 	.product-price {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		font-weight: 600;
 		color: #160b11;
@@ -411,7 +411,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 10px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 500;
 		color: #160b11;

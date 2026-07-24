@@ -133,7 +133,7 @@
 	}
 
 	.cookie-title {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		font-weight: 700;
 		letter-spacing: 0.09em;
@@ -143,7 +143,7 @@
 	}
 
 	.cookie-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		font-weight: 400;
 		color: rgba(255, 255, 255, 0.45);
@@ -177,7 +177,7 @@
 		background: transparent;
 		color: rgba(255, 255, 255, 0.5);
 		border: 1px solid rgba(255, 255, 255, 0.15);
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		font-weight: 600;
 		letter-spacing: 0.05em;
@@ -198,7 +198,7 @@
 		background: linear-gradient(135deg, #a1846d 0%, #8d7060 100%);
 		color: #ffffff;
 		border: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		font-weight: 600;
 		letter-spacing: 0.05em;

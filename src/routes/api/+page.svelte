@@ -172,7 +172,7 @@
 
 	/* ── SHARED ── */
 	.wi-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -243,7 +243,7 @@
 		border: 1px solid rgba(161, 132, 109, 0.4);
 		color: #c9a97d;
 		padding: 8px 20px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -291,7 +291,7 @@
 	}
 
 	.wi-hero-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(1rem, 1.3vw, 1.125rem);
 		color: rgba(255, 255, 255, 0.72);
 		margin: 0 auto 44px;
@@ -308,7 +308,7 @@
 		color: #ffffff;
 		text-decoration: none;
 		padding: 16px 36px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 500;
 		letter-spacing: 0.02em;
@@ -339,7 +339,7 @@
 	}
 
 	.wi-auth-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		color: #3a2a31;
 		line-height: 1.85;
@@ -447,7 +447,7 @@
 	}
 
 	.wi-banner-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.9rem, 1.1vw, 1rem);
 		color: rgba(255, 255, 255, 0.6);
 		line-height: 1.8;
@@ -473,7 +473,7 @@
 		border: 1px solid rgba(255, 255, 255, 0.18);
 		background-color: rgba(255, 255, 255, 0.07);
 		color: #ffffff;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		outline: none;
 		border-radius: 0;
@@ -497,7 +497,7 @@
 		color: #ffffff;
 		border: none;
 		padding: 15px 32px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 500;
 		letter-spacing: 0.03em;
@@ -514,7 +514,7 @@
 	}
 
 	.wi-banner-note {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		color: rgba(255, 255, 255, 0.35);
 		margin: 0;
@@ -538,7 +538,7 @@
 	}
 
 	.wi-success-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9rem;
 		color: rgba(255, 255, 255, 0.6);
 		margin: 0;
@@ -565,7 +565,7 @@
 	}
 
 	.wi-data-intro {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		color: #3a2a31;
 		line-height: 1.85;
@@ -609,7 +609,7 @@
 	}
 
 	.wi-data-desc {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9rem;
 		color: #5a4a51;
 		line-height: 1.8;
@@ -670,7 +670,7 @@
 	}
 
 	.gdpr-check-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(255, 255, 255, 0.78);
 		line-height: 1.55;

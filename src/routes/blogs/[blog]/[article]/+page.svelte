@@ -103,7 +103,7 @@
 		align-items: center;
 		gap: 8px;
 		padding: 14px 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		color: #999;
 		flex-wrap: wrap;
@@ -155,7 +155,7 @@
 		letter-spacing: -0.02em;
 	}
 	.hero-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-	.hero-date { font-family: 'Montserrat', sans-serif; font-size: 0.8125rem; color: rgba(255,255,255,0.5); }
+	.hero-date { font-family: 'acumin-pro', sans-serif; font-size: 0.8125rem; color: rgba(255,255,255,0.5); }
 
 	/* ── ARTICLE LAYOUT ── */
 	.article-page { background-color: #ffffff; }
@@ -180,7 +180,7 @@
 
 	/* ── CONTENT (Shopify HTML) ── */
 	.article-content {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 1rem;
 		line-height: 1.85;
 		color: #3a2e33;
@@ -222,7 +222,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 9px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 500;
 		color: #160b11;
@@ -245,7 +245,7 @@
 		padding-top: 64px;
 	}
 	.enquiry-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -263,7 +263,7 @@
 		line-height: 1.2;
 	}
 	.enquiry-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		color: rgba(22, 11, 17, 0.5);
 		margin: 0 0 48px 0;

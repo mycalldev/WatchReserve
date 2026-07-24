@@ -743,7 +743,7 @@
 		display: flex;
 		align-items: center;
 		gap: 10px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		color: #999;
 	}
@@ -875,7 +875,7 @@
 		right: 16px;
 		background-color: rgba(22, 11, 17, 0.55);
 		color: #ffffff;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 500;
 		letter-spacing: 0.04em;
@@ -940,7 +940,7 @@
 	}
 
 	.vendor {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.12em;
@@ -956,7 +956,7 @@
 		gap: 6px;
 		padding: 5px 12px;
 		border-radius: 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 400;
 		letter-spacing: 0.01em;
@@ -1002,7 +1002,7 @@
 	}
 
 	.compare-price {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 1.1rem;
 		color: #aaa;
 		text-decoration: line-through;
@@ -1029,7 +1029,7 @@
 	.meta-row:nth-child(even) { background-color: #fafaf9; }
 
 	.meta-key {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.06em;
@@ -1038,7 +1038,7 @@
 	}
 
 	.meta-value {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9rem;
 		color: #160b11;
 		font-weight: 400;
@@ -1046,7 +1046,7 @@
 
 	/* ── VARIANT PILLS ── */
 	.field-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.06em;
@@ -1066,7 +1066,7 @@
 		border-radius: 0;
 		border: 1px solid rgba(22, 11, 17, 0.2);
 		background: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 		cursor: pointer;
@@ -1095,7 +1095,7 @@
 		color: #ffffff;
 		border: none;
 		border-radius: 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -1135,7 +1135,7 @@
 		gap: 6px;
 		color: #a1846d;
 		text-decoration: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 500;
 		border-bottom: 1px solid rgba(161, 132, 109, 0.3);
@@ -1176,7 +1176,7 @@
 		justify-content: center;
 		gap: 8px;
 		height: 52px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -1252,7 +1252,7 @@
 		margin: 0 0 18px;
 	}
 	.finance-modal-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		line-height: 1.7;
 		font-weight: 300;
@@ -1265,7 +1265,7 @@
 		justify-content: center;
 		width: 100%;
 		height: 52px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -1305,7 +1305,7 @@
 		background-color: transparent;
 		color: rgba(22, 11, 17, 0.5);
 		border: 1.5px solid rgba(22, 11, 17, 0.15);
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -1339,7 +1339,7 @@
 	}
 
 	.form-error {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #dc2626;
 		margin: 0;
@@ -1365,7 +1365,7 @@
 	}
 
 	.description-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		color: #555;
 		line-height: 1.75;
@@ -1390,7 +1390,7 @@
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		font-weight: 500;
 		color: #555;
@@ -1507,7 +1507,7 @@
 	}
 
 	.specs-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.68rem;
 		font-weight: 700;
 		letter-spacing: 0.2em;
@@ -1544,7 +1544,7 @@
 		background: transparent;
 		border: 1px solid rgba(22, 11, 17, 0.18);
 		padding: 10px 24px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 600;
 		letter-spacing: 0.12em;
@@ -1594,7 +1594,7 @@
 	}
 
 	.spec-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 600;
 		letter-spacing: 0.14em;
@@ -1604,7 +1604,7 @@
 	}
 
 	.spec-value {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 400;
 		color: #160b11;
@@ -1614,7 +1614,7 @@
 	}
 
 	.specs-empty {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.35);
 		font-style: italic;

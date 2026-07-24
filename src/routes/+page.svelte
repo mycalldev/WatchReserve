@@ -5,13 +5,29 @@
 
 	import ApiTrialModal from '$lib/components/ApiTrialModal.svelte';
 	import { onMount, onDestroy } from 'svelte';
+	import { fade } from 'svelte/transition';
 
 	let { data } = $props();
 
 	const heroSlides = [
-		'/assets/hero/rose_daytona.jpg',
-		'/assets/hero/patek_slider.jpg',
-		'/assets/hero/API_Hero.jpg'
+		{
+			src: '/assets/hero/rose_daytona.jpg',
+			headline: 'Pre-Owned Rare Luxury Timepieces',
+			subheadline:
+				'Explore investment-grade timepieces - sourced, authenticated, and delivered by a team who knows your time is valuable.'
+		},
+		{
+			src: '/assets/hero/patek_slider.jpg',
+			headline: '0% Finance Now Available',
+			subheadline:
+				"Own the piece you've been waiting for, with the cost spread across monthly payments."
+		},
+		{
+			src: '/assets/hero/API_Hero.jpg',
+			headline: 'Pre-Owned Rare Luxury Timepieces',
+			subheadline:
+				'Explore investment-grade timepieces - sourced, authenticated, and delivered by a team who knows your time is valuable.'
+		}
 	];
 
 	let activeSlide = $state(0);
@@ -20,7 +36,7 @@
 	onMount(() => {
 		sliderInterval = setInterval(() => {
 			activeSlide = (activeSlide + 1) % heroSlides.length;
-		}, 3000);
+		}, 6000);
 	});
 
 	onDestroy(() => {
@@ -33,9 +49,9 @@
 
 <section class="hero-section">
 	<!-- Slider images -->
-	{#each heroSlides as src, i}
+	{#each heroSlides as slide, i}
 		<img
-			{src}
+			src={slide.src}
 			alt=""
 			aria-hidden="true"
 			class="hero-slide-img"
@@ -50,12 +66,22 @@
 
 	<div class="hero-container">
 		<div class="hero-content">
-			<h1 class="hero-headline">
-				Pre-Owned Rare Luxury Timepieces
-			</h1>
-			<p class="hero-subheadline">
-				Explore investment-grade timepieces - sourced, authenticated, and delivered by a team who knows your time is valuable.
-			</p>
+			<div class="hero-text-stack">
+				{#key activeSlide}
+					<div
+						class="hero-text-group"
+						in:fade={{ duration: 500, delay: 500 }}
+						out:fade={{ duration: 500 }}
+					>
+						<h1 class="hero-headline">
+							{heroSlides[activeSlide].headline}
+						</h1>
+						<p class="hero-subheadline">
+							{heroSlides[activeSlide].subheadline}
+						</p>
+					</div>
+				{/key}
+			</div>
 			<div class="hero-actions">
 				<Button href="/shop">Browse All Watches</Button>
 			</div>
@@ -68,7 +94,7 @@
 			<button
 				class="hero-dot"
 				class:hero-dot--active={i === activeSlide}
-				onclick={() => { activeSlide = i; clearInterval(sliderInterval); sliderInterval = setInterval(() => { activeSlide = (activeSlide + 1) % heroSlides.length; }, 3000); }}
+				onclick={() => { activeSlide = i; clearInterval(sliderInterval); sliderInterval = setInterval(() => { activeSlide = (activeSlide + 1) % heroSlides.length; }, 6000); }}
 				tabindex="-1"
 			></button>
 		{/each}
@@ -515,6 +541,14 @@
 		box-sizing: border-box;
 	}
 
+	.hero-text-stack {
+		display: grid;
+	}
+
+	.hero-text-group {
+		grid-area: 1 / 1;
+	}
+
 	.hero-headline {
 		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 5vw, 4.5rem);
@@ -532,7 +566,7 @@
 	}
 
 	.hero-subheadline {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(1rem, 1.5vw, 1.125rem);
 		color: #ffffff;
 		margin: 0 0 48px 0;
@@ -646,7 +680,7 @@
 	}
 
 	.trust-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.06em;
@@ -725,7 +759,7 @@
 	}
 
 	.about-wr-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.875rem, 1.1vw, 0.9375rem);
 		color: rgba(22, 11, 17, 0.65);
 		line-height: 1.8;
@@ -749,7 +783,7 @@
 		gap: 16px;
 		padding: 16px 0;
 		border-bottom: 1px solid rgba(22, 11, 17, 0.08);
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 500;
 		color: #160b11;
@@ -772,7 +806,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 10px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -840,7 +874,7 @@
 	}
 
 	.yt-proof-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -860,7 +894,7 @@
 	}
 
 	.yt-proof-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.05vw, 1.0625rem);
 		line-height: 1.75;
 		color: #3a2a31;
@@ -876,7 +910,7 @@
 		padding: 14px 26px;
 		background-color: #160b11;
 		color: #ffffff;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		font-weight: 600;
 		letter-spacing: 0.12em;
@@ -934,7 +968,7 @@
 	}
 
 	.ig-proof-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -954,7 +988,7 @@
 	}
 
 	.ig-proof-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.05vw, 1.0625rem);
 		line-height: 1.75;
 		color: #3a2a31;
@@ -970,7 +1004,7 @@
 		padding: 14px 26px;
 		background-color: #160b11;
 		color: #ffffff;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		font-weight: 600;
 		letter-spacing: 0.12em;
@@ -1069,7 +1103,7 @@
 	}
 
 	.sell-source-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.2vw, 1.125rem);
 		color: #ffffff;
 		line-height: 1.7;
@@ -1090,7 +1124,7 @@
 		justify-content: space-between;
 		color: #ffffff;
 		text-decoration: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.875rem, 1.1vw, 1rem);
 		font-weight: 500;
 		letter-spacing: 0.08em;
@@ -1337,7 +1371,7 @@
 	}
 
 	.expertise-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		color: #ffffff;
 		line-height: 1.7;
@@ -1450,7 +1484,7 @@
 		border: 1px solid rgba(161, 132, 109, 0.3);
 		color: #a1846d;
 		padding: 5px 14px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.68rem;
 		font-weight: 700;
 		letter-spacing: 0.16em;
@@ -1479,7 +1513,7 @@
 	}
 
 	.widget-coming-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #6b5c55;
 		line-height: 1.7;
@@ -1512,7 +1546,7 @@
 	}
 
 	.widget-preview-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.85rem;
 		font-weight: 400;
 		color: #160b11;
@@ -1538,7 +1572,7 @@
 	}
 
 	.widget-footer-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 600;
 		letter-spacing: 0.08em;
@@ -1547,7 +1581,7 @@
 	}
 
 	.widget-footer-note {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.68rem;
 		color: #c0b4ae;
 	}
@@ -1570,7 +1604,7 @@
 		border: 1px solid rgba(161, 132, 109, 0.25);
 		color: #a1846d;
 		padding: 6px 14px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -1619,7 +1653,7 @@
 	}
 
 	.api-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
 		color: rgba(22, 11, 17, 0.65);
 		line-height: 1.75;
@@ -1635,7 +1669,7 @@
 		color: #ffffff;
 		text-decoration: none;
 		padding: 14px 32px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 500;
 		letter-spacing: 0.02em;

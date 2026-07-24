@@ -146,7 +146,7 @@
 	}
 
 	.reviews-subtitle {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		color: rgba(255, 255, 255, 0.6);
 		margin: 0;
@@ -196,7 +196,7 @@
 	}
 
 	.review-title {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.82rem;
 		font-weight: 700;
 		color: #ffffff;
@@ -206,7 +206,7 @@
 	}
 
 	.review-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		color: rgba(255, 255, 255, 0.85);
 		line-height: 1.7;
@@ -225,7 +225,7 @@
 	}
 
 	.review-name {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		font-weight: 600;
 		color: #ffffff;
@@ -233,7 +233,7 @@
 	}
 
 	.review-date {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(255, 255, 255, 0.4);
 		letter-spacing: 0.01em;
@@ -253,7 +253,7 @@
 		border: 1px solid rgba(255, 255, 255, 0.35);
 		color: #ffffff;
 		text-decoration: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 600;
 		letter-spacing: 0.08em;

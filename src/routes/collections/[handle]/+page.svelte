@@ -223,7 +223,7 @@
 	}
 
 	.breadcrumb a {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		color: #888;
 		text-decoration: none;
@@ -233,7 +233,7 @@
 	.breadcrumb a:hover { color: #160b11; }
 
 	.breadcrumb span[aria-current] {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		color: #160b11;
 		font-weight: 500;
@@ -288,7 +288,7 @@
 	}
 
 	.hero-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -308,7 +308,7 @@
 	}
 
 	.hero-description {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.3vw, 1.0625rem);
 		color: rgba(255, 255, 255, 0.7);
 		margin: 0 0 28px 0;
@@ -342,7 +342,7 @@
 	}
 
 	.result-count {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #999;
 	}
@@ -354,7 +354,7 @@
 	}
 
 	.control-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		font-weight: 600;
 		letter-spacing: 0.08em;
@@ -367,7 +367,7 @@
 		background-color: #ffffff;
 		border: 1px solid rgba(22, 11, 17, 0.2);
 		padding: 9px 36px 9px 14px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 		cursor: pointer;
@@ -452,7 +452,7 @@
 		gap: 6px;
 		padding: 5px 10px;
 		border-radius: 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 500;
 		color: #6b5c55;
@@ -481,7 +481,7 @@
 	.product-meta-row { display: flex; align-items: center; min-height: 18px; }
 
 	.product-vendor {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.7rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -491,7 +491,7 @@
 	}
 
 	.product-title {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.85rem, 1vw, 0.9375rem);
 		line-height: 1.45;
 		color: #3a2e33;
@@ -514,7 +514,7 @@
 	}
 
 	.product-price {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		font-weight: 600;
 		color: #160b11;
@@ -542,7 +542,7 @@
 	}
 
 	.model-filter-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.12em;
@@ -563,7 +563,7 @@
 		padding: 7px 16px;
 		background-color: transparent;
 		border: 1px solid rgba(22, 11, 17, 0.15);
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		font-weight: 500;
 		letter-spacing: 0.04em;
@@ -593,7 +593,7 @@
 
 	/* Result count filter suffix */
 	.result-count-filter {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		color: #a1846d;
 		font-weight: 500;
@@ -612,7 +612,7 @@
 	}
 
 	.empty-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.95rem;
 		color: #888;
 		margin: 0;
@@ -622,7 +622,7 @@
 		background: none;
 		border: 1px solid #a1846d;
 		color: #a1846d;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.08em;

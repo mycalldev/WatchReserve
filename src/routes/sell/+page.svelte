@@ -784,7 +784,7 @@
 		--cream-18: rgba(250, 244, 243, 0.18);
 
 		--font-head: 'Georgia', 'Times New Roman', serif;
-		--font-ui: 'Montserrat', Arial, sans-serif;
+		--font-ui: 'acumin-pro', Arial, sans-serif;
 
 		--space-section: 52px;
 		--max-width: 1200px;

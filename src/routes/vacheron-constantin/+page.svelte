@@ -661,7 +661,7 @@
 	}
 
 	.hero-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.22em;
@@ -686,7 +686,7 @@
 	}
 
 	.hero-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.9rem, 1.4vw, 1.05rem);
 		color: rgba(255, 255, 255, 0.88);
 		margin: 0 0 44px;
@@ -701,7 +701,7 @@
 		padding: 18px 36px;
 		background: #a1846d;
 		color: #ffffff;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.85rem;
 		font-weight: 600;
 		letter-spacing: 0.12em;
@@ -720,7 +720,7 @@
 		align-items: center;
 		gap: 8px;
 		margin: 16px 0 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.82rem;
 		color: rgba(255, 255, 255, 0.9);
 	}
@@ -760,7 +760,7 @@
 	}
 
 	.content-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.2em;
@@ -784,7 +784,7 @@
 	}
 
 	.content-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.975rem;
 		line-height: 1.8;
 		color: #4a3f3a;
@@ -796,7 +796,7 @@
 		align-items: center;
 		gap: 10px;
 		margin-top: 12px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.12em;
@@ -821,7 +821,7 @@
 		padding: 16px 32px;
 		background: #422635;
 		color: #ffffff;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.14em;
@@ -881,7 +881,7 @@
 		position: absolute;
 		left: 20px;
 		top: 18px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.65rem;
 		font-weight: 700;
 		color: #a1846d;
@@ -889,7 +889,7 @@
 	}
 
 	.reasons-title {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		color: #160b11;
@@ -897,7 +897,7 @@
 	}
 
 	.reasons-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		color: #6a5f58;
 		line-height: 1.65;
@@ -927,7 +927,7 @@
 	}
 
 	.spec-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -937,7 +937,7 @@
 	}
 
 	.spec-value {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 		text-align: right;
@@ -978,7 +978,7 @@
 	}
 
 	.trust-banner-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 700;
 		color: #160b11;
@@ -986,7 +986,7 @@
 	}
 
 	.trust-banner-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		color: #6a5f58;
 		letter-spacing: 0.02em;
@@ -1013,7 +1013,7 @@
 		background: #faf7f2;
 		border: none;
 		cursor: pointer;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -1097,7 +1097,7 @@
 	}
 
 	.product-strip-ref {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 600;
 		letter-spacing: 0.16em;
@@ -1124,7 +1124,7 @@
 	}
 
 	.product-strip-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.65rem;
 		font-weight: 600;
 		letter-spacing: 0.16em;
@@ -1133,7 +1133,7 @@
 	}
 
 	.product-strip-value {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 500;
 		color: #ffffff;
@@ -1216,7 +1216,7 @@
 	}
 
 	.enquiry-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.22em;
@@ -1235,7 +1235,7 @@
 	}
 
 	.enquiry-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.95rem;
 		color: #6a5f58;
 		line-height: 1.7;
@@ -1265,7 +1265,7 @@
 	}
 
 	.form-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 600;
 		letter-spacing: 0.12em;
@@ -1274,7 +1274,7 @@
 	}
 
 	.form-input {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 1rem;
 		padding: 14px 16px;
 		border: 1px solid #e1dbd2;
@@ -1294,7 +1294,7 @@
 	}
 
 	.form-error {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		color: #b04040;
 	}
@@ -1312,7 +1312,7 @@
 		background: #ffffff;
 		border: none;
 		border-right: 1px solid #e1dbd2;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 500;
 		letter-spacing: 0.08em;
@@ -1341,7 +1341,7 @@
 	}
 
 	.form-submit-error {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.85rem;
 		color: #b04040;
 		padding: 12px 16px;
@@ -1358,7 +1358,7 @@
 		padding: 18px 32px;
 		background: #a1846d;
 		color: #ffffff;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.85rem;
 		font-weight: 600;
 		letter-spacing: 0.12em;
@@ -1394,7 +1394,7 @@
 	}
 
 	.form-privacy {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		color: #a89d94;
 		line-height: 1.6;
@@ -1465,7 +1465,7 @@
 	}
 
 	.gdpr-check-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #cdbfb1;
 		line-height: 1.55;
@@ -1502,7 +1502,7 @@
 	}
 
 	.form-success-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.95rem;
 		color: #6a5f58;
 		line-height: 1.7;
@@ -1585,7 +1585,7 @@
 		position: absolute;
 		bottom: 16px;
 		right: 20px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 600;
 		letter-spacing: 0.12em;

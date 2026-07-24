@@ -125,7 +125,7 @@
 	}
 	.page-header-content { position: relative; z-index: 2; }
 	.page-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -143,7 +143,7 @@
 		line-height: 1.12;
 	}
 	.page-subtitle {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		color: rgba(255, 255, 255, 0.45);
 		margin: 0;
@@ -166,7 +166,7 @@
 		background: none;
 		border: none;
 		border-bottom: 2px solid transparent;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 500;
 		color: #888;
@@ -177,7 +177,7 @@
 	}
 	.filter-pill:hover { color: #160b11; }
 	.filter-pill.active { color: #160b11; font-weight: 600; border-bottom-color: #a1846d; }
-	.article-count { font-family: 'Montserrat', sans-serif; font-size: 0.875rem; color: #999; margin: 0 0 32px 0; }
+	.article-count { font-family: 'acumin-pro', sans-serif; font-size: 0.875rem; color: #999; margin: 0 0 32px 0; }
 	.articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 	.article-card {
 		display: flex;
@@ -195,15 +195,15 @@
 	.card-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
 	.card-body { padding: 24px 24px 28px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
 	.card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-	.card-date { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; color: #999; letter-spacing: 0.02em; }
+	.card-date { font-family: 'acumin-pro', sans-serif; font-size: 0.75rem; color: #999; letter-spacing: 0.02em; }
 	.card-title { font-family: 'Georgia', 'Times New Roman', serif; font-size: clamp(1.1rem, 1.4vw, 1.3rem); font-weight: 400; color: #160b11; margin: 0; line-height: 1.4; letter-spacing: -0.01em; transition: color 0.2s ease; }
 	.article-card:hover .card-title { color: #a1846d; }
-	.card-excerpt { font-family: 'Montserrat', sans-serif; font-size: 0.875rem; color: #666; line-height: 1.65; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-	.read-more { display: inline-flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(22, 11, 17, 0.07); font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #a1846d; transition: gap 0.2s ease; }
+	.card-excerpt { font-family: 'acumin-pro', sans-serif; font-size: 0.875rem; color: #666; line-height: 1.65; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+	.read-more { display: inline-flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(22, 11, 17, 0.07); font-family: 'acumin-pro', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #a1846d; transition: gap 0.2s ease; }
 	.article-card:hover .read-more { gap: 11px; }
 	.empty-state { text-align: center; padding: 80px 20px; }
 	.empty-title { font-family: 'Georgia', 'Times New Roman', serif; font-size: 1.5rem; font-weight: 400; color: #160b11; margin: 0 0 12px 0; }
-	.empty-sub { font-family: 'Montserrat', sans-serif; font-size: 0.9375rem; color: #888; margin: 0; }
+	.empty-sub { font-family: 'acumin-pro', sans-serif; font-size: 0.9375rem; color: #888; margin: 0; }
 	@media (max-width: 1100px) { .articles-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
 	@media (max-width: 768px) { .blogs-container { padding: 40px 24px 72px; } .articles-grid { gap: 20px; } }
 	@media (max-width: 640px) { .page-header { padding: 60px 24px 52px; } .blogs-container { padding: 32px 16px 64px; } .articles-grid { grid-template-columns: 1fr; gap: 20px; } .card-body { padding: 20px 18px 22px; } }
@@ -220,7 +220,7 @@
 		padding-top: 64px;
 	}
 	.enquiry-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -237,7 +237,7 @@
 		line-height: 1.2;
 	}
 	.enquiry-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		color: #6b5c55;
 		line-height: 1.7;

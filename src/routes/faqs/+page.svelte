@@ -227,7 +227,7 @@
 	}
 
 	.faqs-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -247,7 +247,7 @@
 	}
 
 	.faqs-intro {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.75;
 		color: #3a2a31;
@@ -293,7 +293,7 @@
 		list-style: none;
 		cursor: pointer;
 		padding: 22px 44px 22px 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		font-weight: 500;
 		color: #160b11;
@@ -332,7 +332,7 @@
 	}
 
 	.faqs-answer p {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.9rem, 1.05vw, 1rem);
 		line-height: 1.75;
 		color: #3a2a31;
@@ -359,7 +359,7 @@
 		margin-top: 72px;
 		padding-top: 32px;
 		border-top: 1px solid rgba(22, 11, 17, 0.08);
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		color: #6b5c55;
 		line-height: 1.75;

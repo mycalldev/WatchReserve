@@ -439,7 +439,7 @@
 	}
 
 	.eq-trigger-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		font-weight: 600;
 		color: #160b11;
@@ -450,7 +450,7 @@
 	.eq-trigger--open .eq-trigger-label { color: #ffffff; }
 
 	.eq-trigger-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 400;
 		color: rgba(22, 11, 17, 0.5);
@@ -493,7 +493,7 @@
 	}
 
 	.eq-context-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.65rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -557,7 +557,7 @@
 	}
 
 	.eq-success-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.9375rem;
 		color: rgba(22, 11, 17, 0.6);
 		margin: 0;
@@ -573,7 +573,7 @@
 		padding: 12px 28px;
 		background: none;
 		border: 1px solid rgba(22, 11, 17, 0.2);
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -608,7 +608,7 @@
 
 	/* ── Label ── */
 	.eq-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.68rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -641,7 +641,7 @@
 	.eq-input {
 		width: 100%;
 		box-sizing: border-box;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 		background-color: #ffffff;
@@ -675,7 +675,7 @@
 	}
 
 	.eq-hint-err {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		color: #c94040;
 		margin: 0;
@@ -687,7 +687,7 @@
 	.eq-select {
 		width: 100%;
 		box-sizing: border-box;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 		background-color: #ffffff;
@@ -797,7 +797,7 @@
 	.eq-radio-tile--active svg { color: #a1846d; }
 
 	.eq-radio-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.825rem;
 		font-weight: 500;
 		color: #3a2e33;
@@ -810,7 +810,7 @@
 	.eq-textarea {
 		width: 100%;
 		box-sizing: border-box;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 		background-color: #ffffff;
@@ -833,7 +833,7 @@
 
 	/* ── Counter ── */
 	.eq-counter {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.68rem;
 		color: #bbb;
 		font-variant-numeric: tabular-nums;
@@ -845,7 +845,7 @@
 
 	/* ── Privacy ── */
 	.eq-privacy {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		color: rgba(22, 11, 17, 0.42);
 		line-height: 1.5;
@@ -865,7 +865,7 @@
 
 	/* ── Error ── */
 	.eq-error-msg {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		color: #8b2635;
 		background-color: #fff5f5;
@@ -888,7 +888,7 @@
 		color: #ffffff;
 		border: none;
 		border-radius: 0;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -994,7 +994,7 @@
 	}
 
 	.gdpr-check-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.75);
 		line-height: 1.55;

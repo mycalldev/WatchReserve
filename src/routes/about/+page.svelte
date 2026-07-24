@@ -126,7 +126,7 @@
 	/* ── SHARED PRIMITIVES ───────────────────────────────────────────── */
 	.au-eyebrow,
 	.au-section-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -199,7 +199,7 @@
 	}
 
 	.au-hero-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		line-height: 1.7;
 		color: rgba(255, 255, 255, 0.82);
@@ -225,7 +225,7 @@
 	}
 
 	.au-intro-text p {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.8;
 		color: #3a2a31;
@@ -283,7 +283,7 @@
 	}
 
 	.au-tech-text p {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.8;
 		color: #3a2a31;
@@ -319,7 +319,7 @@
 	}
 
 	.au-archive-text p {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		line-height: 1.8;
 		color: #3a2a31;
@@ -397,7 +397,7 @@
 	}
 
 	.au-cta-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
 		color: rgba(255, 255, 255, 0.72);
 		line-height: 1.7;
@@ -416,7 +416,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 10px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		font-weight: 600;
 		letter-spacing: 0.14em;

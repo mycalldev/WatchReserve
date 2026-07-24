@@ -636,7 +636,7 @@
 	}
 
 	.vm-header-eyebrow {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.68rem;
 		font-weight: 700;
 		letter-spacing: 0.16em;
@@ -702,7 +702,7 @@
 	}
 
 	.vm-step-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.65rem;
 		font-weight: 700;
 		letter-spacing: 0.14em;
@@ -768,7 +768,7 @@
 		padding: 7px 14px;
 		background: none;
 		border: 1px solid rgba(22, 11, 17, 0.14);
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		font-weight: 500;
 		color: rgba(22, 11, 17, 0.6);
@@ -839,7 +839,7 @@
 	}
 
 	.vm-model-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.68rem;
 		font-weight: 700;
 		letter-spacing: 0.18em;
@@ -848,7 +848,7 @@
 	}
 
 	.vm-model-hint {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		color: rgba(22, 11, 17, 0.35);
 	}
@@ -869,7 +869,7 @@
 		background: none;
 		border: none;
 		outline: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 1rem;
 		font-weight: 400;
 		color: #160b11;
@@ -918,7 +918,7 @@
 	}
 
 	.vm-model-preview-brand {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.65rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -943,7 +943,7 @@
 		background: none;
 		border: 1px solid rgba(22, 11, 17, 0.15);
 		padding: 7px 14px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		font-weight: 600;
 		letter-spacing: 0.08em;
@@ -1014,7 +1014,7 @@
 	}
 
 	.vm-summary-brand {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.62rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -1033,7 +1033,7 @@
 
 	/* Target-watch hint (step 3) */
 	.vm-target-hint {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
 		color: rgba(22, 11, 17, 0.45);
 		line-height: 1.6;
@@ -1074,7 +1074,7 @@
 	}
 
 	.vm-exchange-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.6rem;
 		font-weight: 700;
 		letter-spacing: 0.12em;
@@ -1110,7 +1110,7 @@
 	}
 
 	.vm-form-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.65rem;
 		font-weight: 700;
 		letter-spacing: 0.1em;
@@ -1129,7 +1129,7 @@
 		border: 1px solid #d8d0c8;
 		border-bottom: 2px solid #d8d0c8;
 		padding: 11px 14px;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: #160b11;
 		outline: none;
@@ -1154,7 +1154,7 @@
 	}
 
 	.vm-error {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		color: #c94040;
 		margin: 0;
@@ -1162,7 +1162,7 @@
 	}
 
 	.vm-privacy {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
 		color: rgba(22, 11, 17, 0.4);
 		line-height: 1.55;
@@ -1203,7 +1203,7 @@
 		background-color: #a1846d;
 		color: #ffffff;
 		border: none;
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		font-weight: 600;
 		letter-spacing: 0.1em;
@@ -1303,7 +1303,7 @@
 	.vm-radio-tile svg { color: #a1846d; flex-shrink: 0; }
 
 	.vm-radio-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.825rem;
 		font-weight: 500;
 		color: #3a2e33;
@@ -1358,7 +1358,7 @@
 	}
 
 	.vm-success-body {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.6);
 		line-height: 1.65;
@@ -1419,7 +1419,7 @@
 	}
 
 	.gdpr-check-label {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.75);
 		line-height: 1.55;

@@ -75,7 +75,7 @@
 	}
 
 	.view-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
 		color: #6b5c55;
 		line-height: 1.45;

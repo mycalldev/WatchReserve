@@ -2,10 +2,10 @@ import { env } from '$env/dynamic/private';
 
 const SHOPIFY_API_VERSION = '2024-10';
 
-const SHOPIFY_STORE_DOMAIN     = env.SHOPIFY_STORE_DOMAIN;
+const SHOPIFY_STORE_DOMAIN = env.SHOPIFY_STORE_DOMAIN;
 const SHOPIFY_STOREFRONT_TOKEN = env.SHOPIFY_STOREFRONT_TOKEN;
-const SHOPIFY_CLIENT_ID        = env.SHOPIFY_CLIENT_ID;
-const SHOPIFY_CLIENT_SECRET    = env.SHOPIFY_CLIENT_SECRET;
+const SHOPIFY_CLIENT_ID = env.SHOPIFY_CLIENT_ID;
+const SHOPIFY_CLIENT_SECRET = env.SHOPIFY_CLIENT_SECRET;
 
 // ── Storefront API (public) ──────────────────────────────────────────────────
 
@@ -50,9 +50,9 @@ async function getAdminToken() {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
-			client_id:     SHOPIFY_CLIENT_ID,
+			client_id: SHOPIFY_CLIENT_ID,
 			client_secret: SHOPIFY_CLIENT_SECRET,
-			grant_type:    'client_credentials'
+			grant_type: 'client_credentials'
 		})
 	});
 
@@ -63,20 +63,20 @@ async function getAdminToken() {
 	}
 
 	const payload = await res.json();
-	_adminToken        = payload.access_token;
-	_adminTokenExpiry  = Date.now() + (payload.expires_in ?? 86400) * 1000;
+	_adminToken = payload.access_token;
+	_adminTokenExpiry = Date.now() + (payload.expires_in ?? 86400) * 1000;
 
 	return _adminToken;
 }
 
 async function shopifyAdminFetch(query, variables = {}) {
-	const token    = await getAdminToken();
+	const token = await getAdminToken();
 	const endpoint = `https://${SHOPIFY_STORE_DOMAIN}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`;
 
 	const response = await fetch(endpoint, {
 		method: 'POST',
 		headers: {
-			'Content-Type':          'application/json',
+			'Content-Type': 'application/json',
 			'X-Shopify-Access-Token': token
 		},
 		body: JSON.stringify({ query, variables })
@@ -310,7 +310,13 @@ export async function getCollection(handle) {
 			return null;
 		}
 
-		console.log('[getCollection] raw response for handle:', handle, JSON.stringify(data?.collection ? { id: data.collection.id, title: data.collection.title } : null));
+		console.log(
+			'[getCollection] raw response for handle:',
+			handle,
+			JSON.stringify(
+				data?.collection ? { id: data.collection.id, title: data.collection.title } : null
+			)
+		);
 
 		if (!data?.collection) return null;
 
@@ -426,8 +432,12 @@ export async function getProducts() {
 
 		for (const { node } of edges) {
 			const metafields = node.metafields ?? [];
-			const statusMeta = metafields.find((m) => m && m.namespace === 'custom' && m.key === 'status');
-			const sortMeta = metafields.find((m) => m && m.namespace === 'custom' && m.key === 'sort_order');
+			const statusMeta = metafields.find(
+				(m) => m && m.namespace === 'custom' && m.key === 'status'
+			);
+			const sortMeta = metafields.find(
+				(m) => m && m.namespace === 'custom' && m.key === 'sort_order'
+			);
 			// Store { title, handle } pairs so the UI can build correct collection URLs
 			const collections = (node.collections?.edges ?? []).map(({ node: c }) => ({
 				title: c.title,
@@ -576,7 +586,9 @@ export async function getNewArrivals(limit = 12) {
 	for (const { node } of edges) {
 		const metafields = node.metafields ?? [];
 		const statusMeta = metafields.find((m) => m && m.namespace === 'custom' && m.key === 'status');
-		const sortMeta = metafields.find((m) => m && m.namespace === 'custom' && m.key === 'sort_order');
+		const sortMeta = metafields.find(
+			(m) => m && m.namespace === 'custom' && m.key === 'sort_order'
+		);
 		const status = statusMeta?.value?.trim() ?? null;
 		if (status?.toLowerCase() === 'new arrival') {
 			results.push({
@@ -908,7 +920,14 @@ export async function getArticle(blogHandle, articleHandle) {
 		excerpt: a.excerpt ?? '',
 		publishedAt: a.publishedAt,
 		tags: a.tags ?? [],
-		image: a.image ? { url: a.image.url, alt: a.image.altText ?? a.title, width: a.image.width, height: a.image.height } : null,
+		image: a.image
+			? {
+					url: a.image.url,
+					alt: a.image.altText ?? a.title,
+					width: a.image.width,
+					height: a.image.height
+				}
+			: null,
 		author: a.author?.name ?? null,
 		blogHandle: blog.handle,
 		blogTitle: blog.title
@@ -1081,7 +1100,13 @@ const COMPLETE_DRAFT_ORDER_MUTATION = `
   }
 `;
 
-export async function createShopifyOrder({ lineItems, email, shippingAddress, billingAddress, note }) {
+export async function createShopifyOrder({
+	lineItems,
+	email,
+	shippingAddress,
+	billingAddress,
+	note
+}) {
 	const createData = await shopifyAdminFetch(CREATE_DRAFT_ORDER_MUTATION, {
 		input: {
 			lineItems,
@@ -1134,4 +1159,85 @@ export async function setProductStatus(shopifyProductId, status) {
 
 	const { userErrors } = data.productUpdate;
 	if (userErrors?.length) throw new Error(userErrors.map((e) => e.message).join(', '));
+}
+
+// ── Create a watch product (Admin) ───────────────────────────────────────────
+
+const PRODUCT_CREATE_MUTATION = `
+  mutation CreateProduct($input: ProductInput!) {
+    productCreate(input: $input) {
+      product {
+        id
+        handle
+        title
+        vendor
+        variants(first: 1) {
+          edges { node { id } }
+        }
+      }
+      userErrors { field message }
+    }
+  }
+`;
+
+const PRODUCT_VARIANT_PRICE_MUTATION = `
+  mutation SetVariantPrice($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
+    productVariantsBulkUpdate(productId: $productId, variants: $variants) {
+      productVariants { id price }
+      userErrors { field message }
+    }
+  }
+`;
+
+/**
+ * Create a new watch as a Shopify product.
+ * As of Storefront/Admin API 2024-10, ProductInput no longer accepts inline
+ * variant pricing, so we create the product first (which yields a default
+ * variant) and then set the price on that variant with a bulk update.
+ *
+ * @param {{ title: string, vendor?: string, price: string|number, description?: string, status?: string, tags?: string[] }} watch
+ * @returns {Promise<{ id: string, handle: string, title: string }>}
+ */
+export async function createWatch({ title, vendor, price, description, status, tags = [] }) {
+	if (!title?.trim()) throw new Error('A watch title is required.');
+
+	const amount = Number(price);
+	if (!Number.isFinite(amount) || amount < 0) throw new Error('A valid price is required.');
+
+	const input = {
+		title: title.trim(),
+		vendor: vendor?.trim() || undefined,
+		descriptionHtml: description?.trim() || undefined,
+		tags,
+		status: 'DRAFT'
+	};
+
+	if (status?.trim()) {
+		input.metafields = [
+			{
+				namespace: 'custom',
+				key: 'status',
+				value: status.trim(),
+				type: 'single_line_text_field'
+			}
+		];
+	}
+
+	const createData = await shopifyAdminFetch(PRODUCT_CREATE_MUTATION, { input });
+
+	const { product, userErrors } = createData.productCreate;
+	if (userErrors?.length) throw new Error(userErrors.map((e) => e.message).join(', '));
+
+	const variantId = product.variants.edges[0]?.node.id;
+	if (variantId) {
+		const priceData = await shopifyAdminFetch(PRODUCT_VARIANT_PRICE_MUTATION, {
+			productId: product.id,
+			variants: [{ id: variantId, price: amount.toFixed(2) }]
+		});
+
+		const { userErrors: priceErrors } = priceData.productVariantsBulkUpdate;
+		if (priceErrors?.length) throw new Error(priceErrors.map((e) => e.message).join(', '));
+	}
+
+	return { id: product.id, handle: product.handle, title: product.title };
 }

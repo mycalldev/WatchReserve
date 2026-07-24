@@ -165,7 +165,7 @@
 	}
 
 	.contact-hero-sub {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.875rem, 1.5vw, 1rem);
 		font-weight: 400;
 		color: rgba(255, 255, 255, 0.75);
@@ -213,7 +213,7 @@
 	}
 
 	.contact-intro {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(1rem, 1.2vw, 1.125rem);
 		line-height: 1.7;
 		color: #4a4a4a;
@@ -243,7 +243,7 @@
 
 	.contact-link,
 	.contact-text {
-		font-family: 'Montserrat', sans-serif;
+		font-family: 'acumin-pro', sans-serif;
 		font-size: 1rem;
 		color: #160b11;
 		text-decoration: none;
