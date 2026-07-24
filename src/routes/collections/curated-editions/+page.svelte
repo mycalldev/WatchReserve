@@ -354,7 +354,7 @@
 	.control-label {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		color: #160b11;
@@ -620,7 +620,7 @@
 		color: #a1846d;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		padding: 10px 24px;

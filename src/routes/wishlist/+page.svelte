@@ -508,7 +508,7 @@
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
 		color: #c94040;
-		font-weight: 500;
+		font-weight: 700;
 		margin: 0;
 		letter-spacing: 0.04em;
 		text-transform: uppercase;
@@ -522,7 +522,7 @@
 		padding-top: 14px;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		color: #a1846d;

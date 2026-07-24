@@ -500,6 +500,7 @@
 	.status {
 		font-size: 0.6875rem;
 		letter-spacing: 0.05em;
+		font-weight: 700;
 		text-transform: uppercase;
 		display: inline-flex;
 		align-items: center;
@@ -670,7 +671,7 @@
 		border-radius: 4px;
 		padding: 10px 18px;
 		font-size: 0.75rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		cursor: pointer;

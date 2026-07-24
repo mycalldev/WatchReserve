@@ -415,7 +415,7 @@
 
 	.lf-optional {
 		font-size: 0.65rem;
-		font-weight: 500;
+		font-weight: 700;
 		letter-spacing: 0.06em;
 		color: #aaa;
 		text-transform: uppercase;
@@ -764,7 +764,7 @@
 		border: 1px solid rgba(22, 11, 17, 0.2);
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: #160b11;
@@ -792,7 +792,7 @@
 		border-radius: 0;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		cursor: pointer;

@@ -703,7 +703,7 @@
 		color: #ffffff;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.85rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		border: none;
@@ -798,7 +798,7 @@
 		margin-top: 12px;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: #160b11;
@@ -823,7 +823,7 @@
 		color: #ffffff;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		border: none;
@@ -929,7 +929,7 @@
 	.spec-label {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: #a1846d;
@@ -1099,7 +1099,7 @@
 	.product-strip-ref {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: #a1846d;
@@ -1126,7 +1126,7 @@
 	.product-strip-label {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.65rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: rgba(255, 255, 255, 0.45);
@@ -1267,7 +1267,7 @@
 	.form-label {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: #6a5f58;
@@ -1314,7 +1314,7 @@
 		border-right: 1px solid #e1dbd2;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 500;
+		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		color: #6a5f58;
@@ -1360,7 +1360,7 @@
 		color: #ffffff;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.85rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		border: 1px solid #a1846d;

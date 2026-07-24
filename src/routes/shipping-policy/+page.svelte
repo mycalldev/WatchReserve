@@ -187,7 +187,7 @@
 	.option-heading {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.9rem, 1vw, 1rem);
-		font-weight: 600;
+		font-weight: 700;
 		color: #160b11;
 		margin: 0 0 8px 0;
 		letter-spacing: 0.04em;

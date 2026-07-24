@@ -942,7 +942,7 @@
 	.vendor {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: #a1846d;
@@ -1031,7 +1031,7 @@
 	.meta-key {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		color: #999;
@@ -1048,7 +1048,7 @@
 	.field-label {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		color: #999;
@@ -1097,7 +1097,7 @@
 		border-radius: 0;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		cursor: pointer;
@@ -1178,7 +1178,7 @@
 		height: 52px;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		text-decoration: none;
@@ -1267,7 +1267,7 @@
 		height: 52px;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: #ffffff;
@@ -1307,7 +1307,7 @@
 		border: 1.5px solid rgba(22, 11, 17, 0.15);
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		cursor: pointer;
@@ -1546,7 +1546,7 @@
 		padding: 10px 24px;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: rgba(22, 11, 17, 0.4);
@@ -1596,7 +1596,7 @@
 	.spec-label {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.7rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: rgba(22, 11, 17, 0.4);

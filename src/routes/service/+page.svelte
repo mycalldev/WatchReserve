@@ -333,7 +333,7 @@
 		font-family: 'acumin-pro',
 			sans-serif;
 		font-size: 0.75rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
 		color: #a1846d;
@@ -558,7 +558,7 @@
 		text-decoration: none;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
-		font-weight: 500;
+		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		padding: 20px 24px;
@@ -954,7 +954,7 @@
 		color: #ffffff;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		padding: 8px 20px;
@@ -1136,7 +1136,7 @@
 	.warranty-unit {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: rgba(255, 255, 255, 0.5);

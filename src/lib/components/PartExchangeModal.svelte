@@ -945,7 +945,7 @@
 		padding: 7px 14px;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		color: rgba(22, 11, 17, 0.6);
@@ -1205,7 +1205,7 @@
 		border: none;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		cursor: pointer;

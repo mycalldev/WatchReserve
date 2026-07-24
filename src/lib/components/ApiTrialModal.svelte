@@ -402,7 +402,7 @@
 	.field-label {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		color: #999;

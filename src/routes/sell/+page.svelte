@@ -815,7 +815,7 @@
 
 	.cg-eyebrow {
 		font-family: var(--font-ui);
-		font-weight: 600;
+		font-weight: 700;
 		font-size: 0.72rem;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
@@ -839,7 +839,7 @@
 	.cg-hero-inner { position: relative; z-index: 2; max-width: 520px; padding: 20px 0; }
 	.cg-hero-eyebrow {
 		font-family: var(--font-ui);
-		font-weight: 600;
+		font-weight: 700;
 		font-size: 0.72rem;
 		letter-spacing: 0.22em;
 		text-transform: uppercase;
@@ -859,7 +859,7 @@
 		display: inline-block;
 		font-family: var(--font-ui);
 		font-size: 0.72rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		padding: 16px 36px;
@@ -885,7 +885,7 @@
 	.cg-option-col { text-align: center; display: flex; flex-direction: column; }
 	.cg-option-kicker {
 		font-family: var(--font-ui);
-		font-weight: 600;
+		font-weight: 700;
 		font-size: 0.64rem;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
@@ -918,7 +918,7 @@
 		padding-top: 18px;
 		font-family: var(--font-ui);
 		font-size: 0.72rem;
-		font-weight: 500;
+		font-weight: 700;
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		color: var(--maroon-45);
@@ -982,12 +982,12 @@
 		background: var(--cream-18);
 	}
 	.cg-steps li:last-child::after { display: none; }
-	.cg-step-title { font-family: var(--font-ui); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); margin-bottom: 9px; }
+	.cg-step-title { font-family: var(--font-ui); font-weight: 700; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); margin-bottom: 9px; }
 	.cg-step-body { font-size: 0.9rem; font-weight: 500; color: var(--cream-70); line-height: 1.55; }
 	.cg-step-split { display: block; margin-top: 8px; }
 	.cg-step-split .cg-tag {
 		font-family: var(--font-ui);
-		font-weight: 600;
+		font-weight: 700;
 		font-size: 0.6rem;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
@@ -997,7 +997,7 @@
 		margin-bottom: 1px;
 	}
 	.cg-how-note { margin-top: 38px; padding-top: 24px; border-top: 1px solid var(--cream-18); font-size: 0.9rem; font-weight: 300; color: var(--cream-70); max-width: 820px; }
-	.cg-how-note .cg-tag { font-family: var(--font-ui); font-weight: 600; font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); opacity: 0.75; margin-right: 8px; }
+	.cg-how-note .cg-tag { font-family: var(--font-ui); font-weight: 700; font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); opacity: 0.75; margin-right: 8px; }
 
 	@media (max-width: 820px) {
 		.cg-steps { grid-template-columns: 1fr 1fr; gap: 34px 24px; }
@@ -1049,7 +1049,7 @@
 	.cg-form-card { background: var(--white); border: 1px solid var(--maroon-15); padding: 52px 60px; box-shadow: 0 30px 70px rgba(22, 11, 17, 0.1); }
 	.cg-form-progress {
 		font-family: var(--font-ui);
-		font-weight: 600;
+		font-weight: 700;
 		font-size: 0.66rem;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
@@ -1066,7 +1066,7 @@
 	.cg-field label {
 		display: block;
 		font-family: var(--font-ui);
-		font-weight: 600;
+		font-weight: 700;
 		font-size: 0.66rem;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
@@ -1108,7 +1108,7 @@
 		display: inline-block;
 		font-family: var(--font-ui);
 		font-size: 0.72rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: var(--maroon);
@@ -1227,7 +1227,7 @@
 		margin-right: auto;
 		font-family: var(--font-ui);
 		font-size: 0.68rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: var(--maroon-45);
@@ -1262,7 +1262,7 @@
 	.cg-review-slide.cg-active { opacity: 1; pointer-events: auto; }
 	.cg-stars { color: var(--cream); letter-spacing: 4px; font-size: 0.9rem; margin: 0 0 20px; opacity: 0.85; }
 	.cg-review-quote { font-family: var(--font-head); font-size: clamp(1.35rem, 2.6vw, 1.85rem); line-height: 1.38; color: var(--cream); margin: 0 0 22px; }
-	.cg-review-name { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); opacity: 0.7; margin: 0; }
+	.cg-review-name { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); opacity: 0.7; margin: 0; }
 	.cg-review-source { font-weight: 400; opacity: 0.65; margin-left: 8px; }
 	.cg-review-dots { display: flex; gap: 10px; margin-top: 56px; }
 	.cg-review-dot { width: 8px; height: 8px; border-radius: 50%; background: transparent; border: 1px solid var(--cream-45); cursor: pointer; padding: 0; transition: background 0.2s; }
@@ -1271,7 +1271,7 @@
 	.cg-contact-block { border-left: 1px solid var(--cream-18); padding-left: 60px; }
 	.cg-contact-block h3 { color: var(--cream); margin-bottom: 22px; }
 	.cg-contact-line { margin-bottom: 20px; }
-	.cg-label { font-family: var(--font-ui); font-weight: 600; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); opacity: 0.55; margin-bottom: 5px; }
+	.cg-label { font-family: var(--font-ui); font-weight: 700; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cream); opacity: 0.55; margin-bottom: 5px; }
 	.cg-value { font-size: 0.98rem; font-weight: 300; color: var(--cream); }
 	.cg-value a { color: var(--cream); text-decoration: none; border-bottom: 1px solid var(--cream-45); padding-bottom: 1px; }
 	.cg-value a:hover { border-color: var(--cream); }

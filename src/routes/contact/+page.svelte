@@ -167,7 +167,7 @@
 	.contact-hero-sub {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.875rem, 1.5vw, 1rem);
-		font-weight: 400;
+		font-weight: 700;
 		color: rgba(255, 255, 255, 0.75);
 		margin: 0;
 		letter-spacing: 0.04em;

@@ -255,7 +255,7 @@
 		text-decoration: none;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		transition: background-color 0.25s ease, border-color 0.25s ease, gap 0.25s ease;

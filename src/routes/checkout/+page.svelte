@@ -811,6 +811,7 @@
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
 		letter-spacing: 0.2em;
+		font-weight: 700;
 		text-transform: uppercase;
 		color: #a1846d;
 		margin: 6px 0 0;
@@ -889,6 +890,7 @@
 	.step-label {
 		font-size: 0.8rem;
 		letter-spacing: 0.1em;
+		font-weight: 700;
 		text-transform: uppercase;
 	}
 
@@ -926,7 +928,7 @@
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: #6a5f58;
-		font-weight: 500;
+		font-weight: 700;
 	}
 
 	.field-label em {
@@ -975,7 +977,7 @@
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: #6a5f58;
-		font-weight: 600;
+		font-weight: 700;
 		margin-bottom: 16px;
 	}
 
@@ -1016,6 +1018,7 @@
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.85rem;
 		letter-spacing: 0.12em;
+		font-weight: 700;
 		text-transform: uppercase;
 		padding: 16px 32px;
 		border: 1px solid #160b11;
@@ -1071,6 +1074,7 @@
 		color: #6a5f58;
 		font-size: 0.85rem;
 		letter-spacing: 0.08em;
+		font-weight: 700;
 		text-transform: uppercase;
 		border: 1px solid #ece7df;
 		background: #faf7f2;
@@ -1146,6 +1150,7 @@
 		gap: 8px;
 		font-size: 0.75rem;
 		letter-spacing: 0.1em;
+		font-weight: 700;
 		text-transform: uppercase;
 		color: #6a5f58;
 	}
@@ -1172,7 +1177,7 @@
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: #a1846d;
-		font-weight: 500;
+		font-weight: 700;
 	}
 
 	.review-edit {
@@ -1181,6 +1186,7 @@
 		font-family: inherit;
 		font-size: 0.75rem;
 		letter-spacing: 0.1em;
+		font-weight: 700;
 		text-transform: uppercase;
 		color: #160b11;
 		cursor: pointer;
@@ -1251,6 +1257,7 @@
 		margin: 0 0 2px;
 		font-size: 0.68rem;
 		letter-spacing: 0.12em;
+		font-weight: 700;
 		text-transform: uppercase;
 		color: #a1846d;
 	}
@@ -1375,7 +1382,7 @@
 
 	.kyc-heading {
 		font-size: 0.78rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: #160b11;
@@ -1425,6 +1432,7 @@
 		text-decoration: none;
 		font-size: 0.85rem;
 		letter-spacing: 0.12em;
+		font-weight: 700;
 		text-transform: uppercase;
 		transition: background 0.2s ease;
 	}

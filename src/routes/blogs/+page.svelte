@@ -199,7 +199,7 @@
 	.card-title { font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif; font-size: clamp(1.1rem, 1.4vw, 1.3rem); font-weight: 400; color: #160b11; margin: 0; line-height: 1.4; letter-spacing: -0.01em; transition: color 0.2s ease; }
 	.article-card:hover .card-title { color: #a1846d; }
 	.card-excerpt { font-family: 'acumin-pro', sans-serif; font-size: 0.875rem; color: #666; line-height: 1.65; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-	.read-more { display: inline-flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(22, 11, 17, 0.07); font-family: 'acumin-pro', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #a1846d; transition: gap 0.2s ease; }
+	.read-more { display: inline-flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(22, 11, 17, 0.07); font-family: 'acumin-pro', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #a1846d; transition: gap 0.2s ease; }
 	.article-card:hover .read-more { gap: 11px; }
 	.empty-state { text-align: center; padding: 80px 20px; }
 	.empty-title { font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif; font-size: 1.5rem; font-weight: 400; color: #160b11; margin: 0 0 12px 0; }

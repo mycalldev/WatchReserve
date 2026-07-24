@@ -185,7 +185,7 @@
 		text-decoration: none;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 14px;
-		font-weight: 500;
+		font-weight: 700;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
 		transition: opacity 0.3s ease;
@@ -330,7 +330,7 @@
 		text-decoration: none;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 16px;
-		font-weight: 500;
+		font-weight: 700;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
 		padding: 20px 30px;

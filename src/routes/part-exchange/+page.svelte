@@ -201,7 +201,7 @@
 		color: #ffffff;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		text-decoration: none;
@@ -436,7 +436,7 @@
 		gap: 10px;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		padding: 16px 32px;

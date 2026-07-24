@@ -1018,7 +1018,7 @@
 	}
 
 	.so-req { color: #a1846d; font-size: 0.75rem; }
-	.so-optional { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.06em; color: #aaa; text-transform: uppercase; }
+	.so-optional { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; color: #aaa; text-transform: uppercase; }
 
 	.so-input,
 	.so-select,
@@ -1190,7 +1190,7 @@
 		padding: 0 24px;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		text-decoration: none;
@@ -1819,6 +1819,7 @@
 	.dep-payment-summary-label {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 11px;
+		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		color: rgba(22, 11, 17, 0.5);

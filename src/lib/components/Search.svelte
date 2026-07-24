@@ -345,7 +345,7 @@
 		color: #ffffff;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.72rem;
-		font-weight: 500;
+		font-weight: 700;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		padding: 6px 8px 6px 0;
@@ -359,6 +359,7 @@
 	.si-input::placeholder {
 		color: rgba(255, 255, 255, 0.45);
 		letter-spacing: 0.14em;
+		font-weight: 700;
 		text-transform: uppercase;
 	}
 
@@ -545,7 +546,7 @@
 	.results-count {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		color: #999;
