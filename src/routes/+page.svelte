@@ -602,6 +602,11 @@
 		pointer-events: all;
 	}
 
+	.hero-actions :global(.button) {
+		padding-left: 24px;
+		padding-right: 24px;
+	}
+
 	@media (max-width: 1024px) {
 		.hero-container {
 			padding: 80px 0;
