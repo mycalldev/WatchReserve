@@ -26,7 +26,8 @@
 		},
 		{
 			src: '/assets/hero/API_Hero.jpg',
-			headline: 'Turn Your Timepiece Into Value',
+			headline:
+				'<span class="hl-line">Turn Your Timepiece</span><span class="hl-line">Into Value</span>',
 			subheadline:
 				"Sell outright or consign with confidence, backed by a team who understands exactly what your watch is worth in today's market.",
 			cta: { label: 'Get a Valuation', href: '/sell' }
@@ -77,7 +78,7 @@
 						out:fade={{ duration: 500 }}
 					>
 						<h1 class="hero-headline">
-							{heroSlides[activeSlide].headline}
+							{@html heroSlides[activeSlide].headline}
 						</h1>
 						<p class="hero-subheadline">
 							{heroSlides[activeSlide].subheadline}
@@ -568,6 +569,17 @@
 	.hero-headline em {
 		font-style: normal;
 		font-weight: 400;
+	}
+
+	.hero-headline :global(.hl-line) {
+		display: block;
+		white-space: nowrap;
+	}
+
+	@media (max-width: 480px) {
+		.hero-headline :global(.hl-line) {
+			white-space: normal;
+		}
 	}
 
 	.hero-subheadline {
