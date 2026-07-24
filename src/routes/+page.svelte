@@ -562,7 +562,7 @@
 		color: #ffffff;
 		margin: 0 0 32px 0;
 		line-height: 1.15;
-		letter-spacing: -0.02em;
+		letter-spacing: -0.01em;
 		text-align: left;
 	}
 
@@ -772,7 +772,7 @@
 		color: #160b11;
 		margin: 0 0 28px 0;
 		line-height: 1.2;
-		letter-spacing: -0.02em;
+		letter-spacing: -0.01em;
 	}
 
 	.about-wr-body {
@@ -907,7 +907,7 @@
 		color: #160b11;
 		margin: 0;
 		line-height: 1.2;
-		letter-spacing: -0.015em;
+		letter-spacing: -0.005em;
 	}
 
 	.yt-proof-text {
@@ -1001,7 +1001,7 @@
 		color: #160b11;
 		margin: 0;
 		line-height: 1.2;
-		letter-spacing: -0.015em;
+		letter-spacing: -0.005em;
 	}
 
 	.ig-proof-text {
@@ -1116,7 +1116,7 @@
 		color: #ffffff;
 		margin: 0 0 32px 0;
 		line-height: 1.2;
-		letter-spacing: -0.02em;
+		letter-spacing: -0.01em;
 	}
 
 	.sell-source-text {
@@ -1286,7 +1286,7 @@
 		color: #ffffff;
 		margin: 0 0 8px 0;
 		line-height: 1.2;
-		letter-spacing: -0.02em;
+		letter-spacing: -0.01em;
 	}
 
 	.brand-description {
@@ -1384,7 +1384,7 @@
 		color: #ffffff;
 		margin: 0;
 		line-height: 1.3;
-		letter-spacing: -0.01em;
+		letter-spacing: 0;
 	}
 
 	.expertise-text {
@@ -1526,7 +1526,7 @@
 		color: #160b11;
 		margin: 0 0 12px 0;
 		line-height: 1.3;
-		letter-spacing: -0.01em;
+		letter-spacing: 0;
 	}
 
 	.widget-coming-sub {
@@ -1661,7 +1661,7 @@
 		color: #160b11;
 		margin: 0 0 24px 0;
 		line-height: 1.15;
-		letter-spacing: -0.02em;
+		letter-spacing: -0.01em;
 	}
 
 	.api-heading em {
