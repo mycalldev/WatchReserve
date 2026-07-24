@@ -359,7 +359,7 @@
 	}
 
 	.section-heading em {
-		font-style: italic;
+		font-style: normal;
 	}
 
 	.section-heading--dark {
@@ -493,7 +493,7 @@
 	}
 
 	.hero-headline em {
-		font-style: italic;
+		font-style: normal;
 	}
 
 	.hero-subheadline {
@@ -729,7 +729,7 @@
 		color: rgba(255, 255, 255, 0.85);
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8125rem;
-		font-style: italic;
+		font-style: normal;
 		letter-spacing: 0.03em;
 		padding: 40px 24px 18px;
 		border-radius: 0 0 8px 8px;

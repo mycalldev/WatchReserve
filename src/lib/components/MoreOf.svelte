@@ -226,7 +226,7 @@
 	}
 
 	.moreof-title em {
-		font-style: italic;
+		font-style: normal;
 		color: #422635;
 	}
 

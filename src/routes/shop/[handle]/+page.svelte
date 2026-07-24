@@ -1528,7 +1528,7 @@
 	}
 
 	.specs-heading em {
-		font-style: italic;
+		font-style: normal;
 		color: #a1846d;
 	}
 
@@ -1617,7 +1617,7 @@
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.875rem;
 		color: rgba(22, 11, 17, 0.35);
-		font-style: italic;
+		font-style: normal;
 		margin: 0;
 		padding: 20px 0;
 	}

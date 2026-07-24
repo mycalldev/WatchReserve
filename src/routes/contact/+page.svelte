@@ -208,7 +208,7 @@
 	}
 
 	.contact-title em {
-		font-style: italic;
+		font-style: normal;
 		font-weight: 400;
 	}
 

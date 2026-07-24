@@ -362,7 +362,7 @@
 	}
 
 	.modal-title em {
-		font-style: italic;
+		font-style: normal;
 		color: #b99578;
 	}
 

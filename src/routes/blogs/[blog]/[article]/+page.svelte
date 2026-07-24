@@ -175,7 +175,7 @@
 		border-left: 3px solid #a1846d;
 		padding-left: 24px;
 		margin: 0 0 48px 0;
-		font-style: italic;
+		font-style: normal;
 	}
 
 	/* ── CONTENT (Shopify HTML) ── */
@@ -210,7 +210,7 @@
 		border-left: 3px solid #a1846d;
 		margin: 2em 0;
 		padding: 4px 0 4px 24px;
-		font-style: italic;
+		font-style: normal;
 		color: #6b5c55;
 	}
 	:global(.article-content hr) { border: none; border-top: 1px solid rgba(22,11,17,0.1); margin: 2.5em 0; }

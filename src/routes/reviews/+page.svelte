@@ -68,7 +68,7 @@
 		line-height: 1.12;
 	}
 	.page-title em {
-		font-style: italic;
+		font-style: normal;
 		color: #a1846d;
 	}
 	.page-subtitle {

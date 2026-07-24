@@ -273,7 +273,7 @@
 	}
 
 	.source-hero-heading em {
-		font-style: italic;
+		font-style: normal;
 		font-weight: 400;
 	}
 

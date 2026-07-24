@@ -14,19 +14,22 @@
 			src: '/assets/hero/rose_daytona.jpg',
 			headline: 'Pre-Owned Rare Luxury Timepieces',
 			subheadline:
-				'Explore investment-grade timepieces - sourced, authenticated, and delivered by a team who knows your time is valuable.'
+				'Explore investment-grade timepieces - sourced, authenticated, and delivered by a team who knows your time is valuable.',
+			cta: { label: 'Browse All Watches', href: '/shop' }
 		},
 		{
 			src: '/assets/hero/patek_slider.jpg',
 			headline: '0% Finance Now Available',
 			subheadline:
-				"Own the piece you've been waiting for, with the cost spread across monthly payments."
+				"Own the piece you've been waiting for, with the cost spread across monthly payments.",
+			cta: { label: 'Browse All Watches', href: '/shop' }
 		},
 		{
 			src: '/assets/hero/API_Hero.jpg',
-			headline: 'Pre-Owned Rare Luxury Timepieces',
+			headline: 'Turn Your Timepiece Into Value',
 			subheadline:
-				'Explore investment-grade timepieces - sourced, authenticated, and delivered by a team who knows your time is valuable.'
+				"Sell outright or consign with confidence, backed by a team who understands exactly what your watch is worth in today's market.",
+			cta: { label: 'Get a Valuation', href: '/sell' }
 		}
 	];
 
@@ -79,11 +82,13 @@
 						<p class="hero-subheadline">
 							{heroSlides[activeSlide].subheadline}
 						</p>
+						<div class="hero-actions">
+							<Button href={heroSlides[activeSlide].cta.href}>
+								{heroSlides[activeSlide].cta.label}
+							</Button>
+						</div>
 					</div>
 				{/key}
-			</div>
-			<div class="hero-actions">
-				<Button href="/shop">Browse All Watches</Button>
 			</div>
 		</div>
 	</div>
@@ -561,13 +566,13 @@
 	}
 
 	.hero-headline em {
-		font-style: italic;
+		font-style: normal;
 		font-weight: 400;
 	}
 
 	.hero-subheadline {
 		font-family: 'acumin-pro', sans-serif;
-		font-size: clamp(1rem, 1.5vw, 1.125rem);
+		font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
 		color: #ffffff;
 		margin: 0 0 48px 0;
 		line-height: 1.7;
@@ -1648,7 +1653,7 @@
 	}
 
 	.api-heading em {
-		font-style: italic;
+		font-style: normal;
 		color: #a1846d;
 	}
 

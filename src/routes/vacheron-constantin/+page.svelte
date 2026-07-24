@@ -682,7 +682,7 @@
 	}
 
 	.hero-headline em {
-		font-style: italic;
+		font-style: normal;
 	}
 
 	.hero-sub {
@@ -780,7 +780,7 @@
 	}
 
 	.content-heading em {
-		font-style: italic;
+		font-style: normal;
 	}
 
 	.content-body {
@@ -1618,7 +1618,7 @@
 	}
 
 	.gallery-text-heading em {
-		font-style: italic;
+		font-style: normal;
 	}
 
 	.gallery-dots {

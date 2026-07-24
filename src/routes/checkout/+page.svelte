@@ -930,7 +930,7 @@
 	}
 
 	.field-label em {
-		font-style: italic;
+		font-style: normal;
 		text-transform: none;
 		letter-spacing: 0;
 		color: #a89d94;

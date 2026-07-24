@@ -187,7 +187,7 @@
 		padding-top: 24px;
 		border-top: 1px solid #e5e5e5;
 		text-align: center;
-		font-style: italic;
+		font-style: normal;
 	}
 
 	@media (max-width: 768px) {

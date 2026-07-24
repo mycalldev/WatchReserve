@@ -286,7 +286,7 @@
 	}
 
 	.wi-hero-title em {
-		font-style: italic;
+		font-style: normal;
 		color: #a1846d;
 	}
 

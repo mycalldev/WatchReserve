@@ -251,7 +251,7 @@
 		color: rgba(22, 11, 17, 0.5);
 		font-weight: 400;
 		margin: 0 0 56px 0;
-		font-style: italic;
+		font-style: normal;
 	}
 
 	.privacy-section {

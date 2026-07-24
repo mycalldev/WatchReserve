@@ -419,7 +419,7 @@
 		color: rgba(22, 11, 17, 0.5);
 		font-weight: 400;
 		margin: 0 0 64px 0;
-		font-style: italic;
+		font-style: normal;
 	}
 
 	.tos-part-header {

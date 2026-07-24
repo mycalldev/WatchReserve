@@ -68,6 +68,10 @@
 	:global(*, *::before, *::after) {
 		box-sizing: border-box;
 	}
+
+	:global(em, i, cite, address, blockquote) {
+		font-style: normal;
+	}
 </style>
 
 <!-- #A1846D Button Background -->
