@@ -699,7 +699,7 @@
 	.trust-text {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.8rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		color: #160b11;
@@ -929,7 +929,7 @@
 		color: #ffffff;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		text-decoration: none;
@@ -1023,7 +1023,7 @@
 		color: #ffffff;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.78rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		text-decoration: none;
@@ -1143,7 +1143,7 @@
 		text-decoration: none;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: clamp(0.875rem, 1.1vw, 1rem);
-		font-weight: 500;
+		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		padding: 20px 0;
@@ -1591,7 +1591,7 @@
 	.widget-footer-label {
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.7rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		color: #a1846d;
@@ -1623,7 +1623,7 @@
 		padding: 6px 14px;
 		font-family: 'acumin-pro', sans-serif;
 		font-size: 0.75rem;
-		font-weight: 600;
+		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		margin-bottom: 28px;
