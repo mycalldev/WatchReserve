@@ -71,7 +71,7 @@ async function sendDepositEmails(pi) {
 			<tr>
 				<td style="padding:28px 32px;border-bottom:2px solid #a1846d;">
 					<p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#a1846d;font-weight:700;">Watch Reserve</p>
-					<h2 style="margin:6px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">Your Deposit Has Been Received</h2>
+					<h2 style="margin:6px 0 0;font-family:'freight-display-pro',Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">Your Deposit Has Been Received</h2>
 				</td>
 			</tr>
 			<tr>
@@ -181,7 +181,7 @@ async function sendDepositEmails(pi) {
 			<tr>
 				<td style="padding:28px 32px;border-bottom:2px solid #a1846d;">
 					<p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#a1846d;font-weight:700;">Watch Reserve</p>
-					<h2 style="margin:6px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">New Deposit Received</h2>
+					<h2 style="margin:6px 0 0;font-family:'freight-display-pro',Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">New Deposit Received</h2>
 				</td>
 			</tr>
 			<tr>

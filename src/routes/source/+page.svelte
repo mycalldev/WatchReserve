@@ -262,7 +262,7 @@
 	}
 
 	.source-hero-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 5vw, 4.5rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -378,7 +378,7 @@
 	}
 
 	.steps-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 4vw, 3rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -423,7 +423,7 @@
 	}
 
 	.step-number {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 3rem;
 		font-weight: 400;
 		color: #a1846d;
@@ -440,7 +440,7 @@
 
 	/* Step copy */
 	.step-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.1rem, 1.5vw, 1.3rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -559,7 +559,7 @@
 	}
 
 	.contact-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.75rem, 3vw, 2.5rem);
 		font-weight: 400;
 		color: #160b11;
@@ -779,7 +779,7 @@
 	}
 
 	.sf-success-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.375rem;
 		font-weight: 400;
 		color: #160b11;

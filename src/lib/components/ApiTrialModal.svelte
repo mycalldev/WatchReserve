@@ -350,7 +350,7 @@
 
 	/* ── TITLE ── */
 	.modal-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.5rem, 4.5vw, 1.9rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -510,7 +510,7 @@
 	}
 
 	.success-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.375rem;
 		font-weight: 400;
 		color: #160b11;

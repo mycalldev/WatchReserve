@@ -1285,7 +1285,7 @@
 	}
 
 	.brand-name {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.5rem, 2.5vw, 2.5rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -1295,7 +1295,7 @@
 	}
 
 	.brand-description {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(0.875rem, 1.2vw, 1.125rem);
 		font-weight: 300;
 		color: #ffffff;
@@ -1383,7 +1383,7 @@
 	}
 
 	.expertise-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.5rem, 2.5vw, 2rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -1525,7 +1525,7 @@
 	}
 
 	.widget-coming-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.25rem, 2vw, 1.625rem);
 		font-weight: 400;
 		color: #160b11;

@@ -712,7 +712,7 @@
 	}
 
 	.vm-step-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.5rem;
 		font-weight: 400;
 		color: #160b11;
@@ -737,7 +737,7 @@
 		background: none;
 		border: none;
 		outline: none;
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 2rem;
 		font-weight: 400;
 		color: #160b11;
@@ -803,7 +803,7 @@
 	}
 
 	.vm-brand-crumb-name {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.75rem;
 		font-weight: 400;
 		color: #160b11;
@@ -927,7 +927,7 @@
 	}
 
 	.vm-model-preview-model {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1rem;
 		color: #160b11;
 		white-space: nowrap;
@@ -1023,7 +1023,7 @@
 	}
 
 	.vm-summary-model {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1rem;
 		color: #160b11;
 		white-space: nowrap;
@@ -1083,7 +1083,7 @@
 	}
 
 	.vm-exchange-value {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 0.95rem;
 		color: #160b11;
 		white-space: nowrap;
@@ -1350,7 +1350,7 @@
 	}
 
 	.vm-success-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.375rem;
 		font-weight: 400;
 		color: #160b11;

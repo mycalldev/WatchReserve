@@ -349,7 +349,7 @@
 	}
 
 	.section-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 4vw, 3.25rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -482,7 +482,7 @@
 	}
 
 	.hero-headline {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 5.5vw, 5rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -758,7 +758,7 @@
 	}
 
 	.pillar-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1rem;
 		font-weight: 400;
 		color: #160b11;
@@ -868,7 +868,7 @@
 	}
 
 	.insurance-card-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.25rem;
 		font-weight: 400;
 		color: #160b11;
@@ -1126,7 +1126,7 @@
 	}
 
 	.warranty-number {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(3rem, 6vw, 5rem);
 		font-weight: 400;
 		color: #a1846d;

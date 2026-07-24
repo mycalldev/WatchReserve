@@ -737,7 +737,7 @@
 	}
 
 	.lf-success-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.5rem;
 		font-weight: 400;
 		color: #160b11;

@@ -404,7 +404,7 @@
 	}
 
 	.tos-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 5vw, 3.5rem);
 		font-weight: 400;
 		color: #160b11;
@@ -434,7 +434,7 @@
 	}
 
 	.tos-part-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.75rem, 3vw, 2.5rem);
 		font-weight: 400;
 		color: #160b11;

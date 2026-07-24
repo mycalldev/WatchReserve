@@ -187,7 +187,7 @@
 	}
 
 	.arrivals-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 4vw, 3rem);
 		font-weight: 400;
 		color: #160b11;

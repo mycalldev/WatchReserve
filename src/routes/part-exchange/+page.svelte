@@ -147,7 +147,7 @@
 	}
 
 	.pe-section-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 3.6vw, 2.75rem);
 		font-weight: 400;
 		color: #160b11;
@@ -174,7 +174,7 @@
 	}
 
 	.pe-hero-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.25rem, 5vw, 3.75rem);
 		font-weight: 400;
 		color: #160b11;
@@ -286,7 +286,7 @@
 	}
 
 	.pe-swap-cap-label {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.25rem;
 		color: #160b11;
 		letter-spacing: -0.01em;
@@ -355,14 +355,14 @@
 	}
 
 	.pe-step-num {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1rem;
 		color: #a1846d;
 		letter-spacing: 0.1em;
 	}
 
 	.pe-step-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.25rem;
 		font-weight: 400;
 		color: #160b11;
@@ -405,7 +405,7 @@
 	}
 
 	.pe-cta-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.875rem, 3.5vw, 2.625rem);
 		font-weight: 400;
 		color: #ffffff;

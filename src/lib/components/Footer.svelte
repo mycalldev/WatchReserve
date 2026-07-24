@@ -240,7 +240,7 @@
 	}
 
 	.info-brand {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.0625rem;
 		font-weight: 400;
 		letter-spacing: 0.22em;
@@ -303,7 +303,7 @@
 	}
 
 	.footer-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.375rem, 2vw, 1.875rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -393,7 +393,7 @@
 	}
 
 	.api-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.25rem;
 		font-weight: 400;
 		color: #ffffff;

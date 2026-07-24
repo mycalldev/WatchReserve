@@ -96,7 +96,7 @@
 	}
 
 	.error-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(4rem, 10vw, 8rem);
 		font-weight: 400;
 		color: #160b11;
@@ -106,7 +106,7 @@
 	}
 
 	.error-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.75rem, 4vw, 2.5rem);
 		font-weight: 400;
 		color: #160b11;

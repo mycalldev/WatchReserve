@@ -237,7 +237,7 @@
 	}
 
 	.faqs-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.25rem, 5vw, 3.5rem);
 		font-weight: 400;
 		color: #160b11;
@@ -273,7 +273,7 @@
 	}
 
 	.faqs-section-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.375rem, 2vw, 1.75rem);
 		font-weight: 400;
 		color: #160b11;

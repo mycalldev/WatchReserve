@@ -92,7 +92,7 @@ export async function POST({ request }) {
 			<tr>
 				<td style="padding:28px 32px;border-bottom:2px solid #a1846d;">
 					<p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#a1846d;font-weight:700;">Watch Reserve</p>
-					<h2 style="margin:6px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">New Product Enquiry</h2>
+					<h2 style="margin:6px 0 0;font-family:'freight-display-pro',Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">New Product Enquiry</h2>
 				</td>
 			</tr>
 			<tr>
@@ -105,7 +105,7 @@ export async function POST({ request }) {
 			<tr>
 				<td style="padding:16px 32px;background:#f9f5f7;border-top:1px solid #e5e5e5;border-left:3px solid #422635;">
 					<p style="margin:0 0 4px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#a1846d;font-weight:700;">Enquiring About</p>
-					<p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:16px;color:#160b11;">${escapeHtml(productVendor)} ${escapeHtml(productTitle)}</p>
+					<p style="margin:0;font-family:'freight-display-pro',Georgia,'Times New Roman',serif;font-size:16px;color:#160b11;">${escapeHtml(productVendor)} ${escapeHtml(productTitle)}</p>
 					<p style="margin:4px 0 0;font-size:13px;color:#6b5c55;">
 						${productRef ? `Ref. ${escapeHtml(productRef)}` : ''}
 						${productRef && (productStatus || priceFormatted) ? ' &nbsp;·&nbsp; ' : ''}

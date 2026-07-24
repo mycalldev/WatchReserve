@@ -671,7 +671,7 @@
 	}
 
 	.hero-headline {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.8rem, 5.5vw, 5rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -770,7 +770,7 @@
 	}
 
 	.content-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 3vw, 2.75rem);
 		font-weight: 400;
 		color: #160b11;
@@ -1089,7 +1089,7 @@
 	}
 
 	.product-strip-name {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1rem, 1.6vw, 1.2rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -1226,7 +1226,7 @@
 	}
 
 	.enquiry-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 3vw, 2.75rem);
 		font-weight: 400;
 		color: #160b11;
@@ -1494,7 +1494,7 @@
 	}
 
 	.form-success-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.6rem;
 		font-weight: 400;
 		color: #160b11;
@@ -1608,7 +1608,7 @@
 	}
 
 	.gallery-text-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.6rem, 2.4vw, 2.25rem);
 		font-weight: 400;
 		color: #160b11;

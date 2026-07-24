@@ -978,7 +978,7 @@
 	.status-reserved .status-dot     { background-color: #422635; }
 
 	.title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.75rem, 3vw, 2.75rem);
 		font-weight: 400;
 		color: #160b11;
@@ -994,7 +994,7 @@
 	}
 
 	.price {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.5rem, 2.5vw, 2.25rem);
 		font-weight: 400;
 		color: #160b11;
@@ -1245,7 +1245,7 @@
 		text-align: center;
 	}
 	.finance-modal-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.375rem;
 		font-weight: 400;
 		color: #160b11;
@@ -1356,7 +1356,7 @@
 	}
 
 	.description-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.125rem;
 		font-weight: 400;
 		color: #160b11;
@@ -1518,7 +1518,7 @@
 	}
 
 	.specs-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.75rem, 2.5vw, 2.5rem);
 		font-weight: 400;
 		color: #160b11;

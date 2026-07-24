@@ -185,7 +185,7 @@
 	.wi-eyebrow--light { color: #c9a97d; }
 
 	.wi-section-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2rem, 3.5vw, 2.875rem);
 		font-weight: 400;
 		color: #160b11;
@@ -276,7 +276,7 @@
 	}
 
 	.wi-hero-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 6vw, 4.75rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -437,7 +437,7 @@
 	}
 
 	.wi-banner-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 4.5vw, 3.5rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -530,7 +530,7 @@
 	.wi-success svg { flex-shrink: 0; margin-top: 2px; }
 
 	.wi-success-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.375rem;
 		color: #ffffff;
 		margin: 0 0 8px 0;
@@ -600,7 +600,7 @@
 	}
 
 	.wi-data-label {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.125rem;
 		font-weight: 400;
 		color: #160b11;

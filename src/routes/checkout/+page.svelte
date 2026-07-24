@@ -800,7 +800,7 @@
 	}
 
 	.checkout-wordmark {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.75rem;
 		color: #160b11;
 		text-decoration: none;
@@ -893,7 +893,7 @@
 	}
 
 	.panel-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.75rem, 2.6vw, 2.25rem);
 		font-weight: 400;
 		margin: 0 0 8px;
@@ -1208,7 +1208,7 @@
 	}
 
 	.summary-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.4rem;
 		font-weight: 400;
 		margin: 0 0 24px;
@@ -1402,7 +1402,7 @@
 
 	.empty-title,
 	.complete-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.75rem, 3vw, 2.5rem);
 		font-weight: 400;
 		margin: 0 0 16px;

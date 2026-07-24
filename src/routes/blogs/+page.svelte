@@ -134,7 +134,7 @@
 		margin: 0 0 14px 0;
 	}
 	.page-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 5vw, 3.75rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -196,13 +196,13 @@
 	.card-body { padding: 24px 24px 28px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
 	.card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 	.card-date { font-family: 'acumin-pro', sans-serif; font-size: 0.75rem; color: #999; letter-spacing: 0.02em; }
-	.card-title { font-family: 'Georgia', 'Times New Roman', serif; font-size: clamp(1.1rem, 1.4vw, 1.3rem); font-weight: 400; color: #160b11; margin: 0; line-height: 1.4; letter-spacing: -0.01em; transition: color 0.2s ease; }
+	.card-title { font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif; font-size: clamp(1.1rem, 1.4vw, 1.3rem); font-weight: 400; color: #160b11; margin: 0; line-height: 1.4; letter-spacing: -0.01em; transition: color 0.2s ease; }
 	.article-card:hover .card-title { color: #a1846d; }
 	.card-excerpt { font-family: 'acumin-pro', sans-serif; font-size: 0.875rem; color: #666; line-height: 1.65; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 	.read-more { display: inline-flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(22, 11, 17, 0.07); font-family: 'acumin-pro', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #a1846d; transition: gap 0.2s ease; }
 	.article-card:hover .read-more { gap: 11px; }
 	.empty-state { text-align: center; padding: 80px 20px; }
-	.empty-title { font-family: 'Georgia', 'Times New Roman', serif; font-size: 1.5rem; font-weight: 400; color: #160b11; margin: 0 0 12px 0; }
+	.empty-title { font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif; font-size: 1.5rem; font-weight: 400; color: #160b11; margin: 0 0 12px 0; }
 	.empty-sub { font-family: 'acumin-pro', sans-serif; font-size: 0.9375rem; color: #888; margin: 0; }
 	@media (max-width: 1100px) { .articles-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
 	@media (max-width: 768px) { .blogs-container { padding: 40px 24px 72px; } .articles-grid { gap: 20px; } }
@@ -229,7 +229,7 @@
 		margin: 0 0 12px 0;
 	}
 	.enquiry-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.75rem, 3.5vw, 2.5rem);
 		font-weight: 400;
 		color: #160b11;

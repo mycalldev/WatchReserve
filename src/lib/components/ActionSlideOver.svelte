@@ -932,7 +932,7 @@
 	}
 
 	.so-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.0625rem;
 		font-weight: 400;
 		color: #160b11;
@@ -1136,7 +1136,7 @@
 	}
 
 	.so-context-item {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 0.9rem;
 		color: #160b11;
 	}
@@ -1275,7 +1275,7 @@
 	}
 
 	.so-success-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.25rem;
 		font-weight: 400;
 		color: #160b11;
@@ -1342,7 +1342,7 @@
 	}
 
 	.cart-item-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 0.9375rem;
 		color: #160b11;
 		margin: 0;
@@ -1528,7 +1528,7 @@
 	}
 
 	.dep-product-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 0.9rem;
 		color: #160b11;
 		margin: 0;
@@ -1850,7 +1850,7 @@
 	}
 
 	.dep-payment-amount-val {
-		font-family: Georgia, 'Times New Roman', serif;
+		font-family: 'freight-display-pro', Georgia, 'Times New Roman', serif;
 		font-size: 20px;
 		font-weight: 400;
 		color: #a1846d;

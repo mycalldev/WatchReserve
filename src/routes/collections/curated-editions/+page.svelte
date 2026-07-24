@@ -289,7 +289,7 @@
 	}
 
 	.hero-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 6vw, 5rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -600,7 +600,7 @@
 	.empty-state { text-align: center; padding: 100px 20px; }
 
 	.empty-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.5rem;
 		font-weight: 400;
 		color: #160b11;

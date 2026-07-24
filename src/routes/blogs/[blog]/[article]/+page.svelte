@@ -146,7 +146,7 @@
 		margin: 0 auto;
 	}
 	.hero-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.75rem, 4vw, 3rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -168,7 +168,7 @@
 
 	/* ── EXCERPT ── */
 	.article-excerpt {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.1rem, 1.5vw, 1.25rem);
 		color: #3a2e33;
 		line-height: 1.7;
@@ -190,7 +190,7 @@
 	:global(.article-content h2),
 	:global(.article-content h3),
 	:global(.article-content h4) {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-weight: 400;
 		color: #160b11;
 		letter-spacing: -0.02em;
@@ -254,7 +254,7 @@
 		margin: 0 0 12px 0;
 	}
 	.enquiry-heading {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.75rem, 3.5vw, 2.5rem);
 		font-weight: 400;
 		color: #160b11;

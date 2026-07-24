@@ -147,7 +147,7 @@ function buildHtml({ heading, formName, intro, firstName, summary, submittedAt }
 			<tr>
 				<td style="padding:28px 32px;border-bottom:2px solid #a1846d;">
 					<p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#a1846d;font-weight:700;">Watch Reserve</p>
-					<h2 style="margin:6px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">${escapeHtml(heading)}</h2>
+					<h2 style="margin:6px 0 0;font-family:'freight-display-pro',Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">${escapeHtml(heading)}</h2>
 				</td>
 			</tr>
 
@@ -170,7 +170,7 @@ function buildHtml({ heading, formName, intro, firstName, summary, submittedAt }
 			<tr>
 				<td style="padding:20px 32px;background:#f9f5f2;border-top:1px solid #e5e5e5;border-left:3px solid #a1846d;">
 					<p style="margin:0 0 8px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#a1846d;font-weight:700;">Need to Speak with Us Sooner?</p>
-					<p style="margin:0 0 18px;font-family:Georgia,'Times New Roman',serif;font-size:18px;font-weight:400;color:#160b11;">
+					<p style="margin:0 0 18px;font-family:'freight-display-pro',Georgia,'Times New Roman',serif;font-size:18px;font-weight:400;color:#160b11;">
 						<a href="tel:${PHONE_TEL}" style="color:#160b11;text-decoration:none;">${PHONE_DISPLAY}</a>
 					</p>
 					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size:14px;line-height:1.75;">

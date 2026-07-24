@@ -509,7 +509,7 @@
 	}
 
 	.eq-context-model {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 0.9375rem;
 		color: #160b11;
 		font-weight: 400;
@@ -548,7 +548,7 @@
 	}
 
 	.eq-success-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: 1.5rem;
 		font-weight: 400;
 		color: #160b11;

@@ -196,7 +196,7 @@
 	}
 
 	.page-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 5vw, 3.5rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -289,7 +289,7 @@
 	}
 
 	.empty-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(1.5rem, 3vw, 2rem);
 		font-weight: 400;
 		color: #160b11;

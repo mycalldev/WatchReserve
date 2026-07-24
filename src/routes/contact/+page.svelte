@@ -155,7 +155,7 @@
 	}
 
 	.contact-hero-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 6vw, 4.5rem);
 		font-weight: 400;
 		color: #ffffff;
@@ -198,7 +198,7 @@
 	}
 
 	.contact-title {
-		font-family: 'Georgia', 'Times New Roman', serif;
+		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		font-size: clamp(2.5rem, 5vw, 4rem);
 		font-weight: 400;
 		color: #160b11;
