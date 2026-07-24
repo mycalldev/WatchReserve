@@ -783,7 +783,7 @@
 		--cream-45: rgba(250, 244, 243, 0.45);
 		--cream-18: rgba(250, 244, 243, 0.18);
 
-		--font-head: 'Georgia', 'Times New Roman', serif;
+		--font-head: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
 		--font-ui: 'acumin-pro', Arial, sans-serif;
 
 		--space-section: 52px;
@@ -851,7 +851,7 @@
 		gap: 16px;
 	}
 	.cg-hero-eyebrow::before { content: ''; width: 44px; height: 1px; background: var(--white); opacity: 0.6; }
-	.cg-hero .cg-hero-title { color: var(--white); margin-bottom: 24px; line-height: 1.06; max-width: 440px; }
+	.cg-hero .cg-hero-title { color: var(--white); margin-bottom: 24px; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.2; letter-spacing: -0.02em; max-width: 440px; }
 	.cg-hero-text { color: var(--white); opacity: 0.9; font-size: 1.02rem; font-weight: 300; max-width: 400px; margin: 0 0 34px; }
 
 	/* BUTTONS */
