@@ -1,9 +1,8 @@
 import { fail } from '@sveltejs/kit';
 import { dev } from '$app/environment';
 import { env } from '$env/dynamic/private';
-import fs from 'node:fs';
-import path from 'node:path';
 import crypto from 'node:crypto';
+import subscriptionsMarkdown from '$lib/data/watchreserve-subscriptions.md?raw';
 
 const COOKIE_NAME = 'wr_internal_session';
 const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
@@ -98,10 +97,7 @@ function parseRowNotes(content, serviceNames) {
 }
 
 function loadSubscriptionsTable() {
-	const filePath =
-		env.INTERNAL_SPREADSHEET_PATH ??
-		path.resolve(process.cwd(), '../watchreserve-subscriptions.md');
-	const content = fs.readFileSync(filePath, 'utf-8');
+	const content = subscriptionsMarkdown;
 	const tableLines = content.split('\n').filter((line) => line.trim().startsWith('|'));
 	if (tableLines.length < 2) return { headers: [], rows: [] };
 
