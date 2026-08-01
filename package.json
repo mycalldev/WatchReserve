@@ -8,6 +8,8 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
+		"handles": "node scripts/rename-product-handles.mjs",
+		"handles:apply": "node scripts/rename-product-handles.mjs --apply",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write ."
 	},

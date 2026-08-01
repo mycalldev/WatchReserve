@@ -97,7 +97,7 @@
 		if (thumbsRef) {
 			const thumb = thumbsRef.querySelectorAll('.thumb')[index];
 			if (thumb) {
-				const scrollLeft = thumb.offsetLeft - (thumbsRef.offsetWidth / 2) + (thumb.offsetWidth / 2);
+				const scrollLeft = thumb.offsetLeft - thumbsRef.offsetWidth / 2 + thumb.offsetWidth / 2;
 				thumbsRef.scrollTo({ left: scrollLeft, behavior: 'smooth' });
 			}
 		}
@@ -116,7 +116,16 @@
 		if (e.key === 'ArrowRight') nextImage();
 	}
 
-	const DETAIL_TAGS = ['reference', 'year', 'material', 'condition', 'movement', 'case-size', 'box', 'papers'];
+	const DETAIL_TAGS = [
+		'reference',
+		'year',
+		'material',
+		'condition',
+		'movement',
+		'case-size',
+		'box',
+		'papers'
+	];
 
 	const productDetails = $derived(
 		product.tags
@@ -134,9 +143,7 @@
 
 	// Extract status from metafields (custom.status), fallback to null
 	const productStatus = $derived(() => {
-		const m = product.metafields?.find(
-			(f) => f && f.namespace === 'custom' && f.key === 'status'
-		);
+		const m = product.metafields?.find((f) => f && f.namespace === 'custom' && f.key === 'status');
 		return m?.value?.trim() ?? null;
 	});
 
@@ -145,7 +152,7 @@
 		return productStatus() ? productStatus().toLowerCase().replace(/\s+/g, '-') : null;
 	});
 
-	const effectiveStatusLabel = $derived(() => locallyReserved ? 'Reserved' : productStatus());
+	const effectiveStatusLabel = $derived(() => (locallyReserved ? 'Reserved' : productStatus()));
 
 	const isBlockedByStatus = $derived(() => {
 		const slug = statusSlug();
@@ -161,9 +168,7 @@
 
 	// Extract view count from metafields (custom.viewed), fallback to null
 	const viewedCount = $derived(() => {
-		const m = product.metafields?.find(
-			(f) => f && f.namespace === 'custom' && f.key === 'viewed'
-		);
+		const m = product.metafields?.find((f) => f && f.namespace === 'custom' && f.key === 'viewed');
 		return m?.value ?? null;
 	});
 
@@ -175,9 +180,16 @@
 				case 'boolean':
 					return value === 'true' ? 'Yes' : 'No';
 				case 'date':
-					return new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(value));
+					return new Intl.DateTimeFormat('en-GB', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric'
+					}).format(new Date(value));
 				case 'date_time':
-					return new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value));
+					return new Intl.DateTimeFormat('en-GB', {
+						dateStyle: 'medium',
+						timeStyle: 'short'
+					}).format(new Date(value));
 				case 'number_decimal':
 					return parseFloat(value).toLocaleString('en-GB');
 				case 'number_integer':
@@ -228,7 +240,10 @@
 	// e.g. "Audemars Piguet" → "audemars-piguet"
 	const vendorHandle = $derived(
 		product.vendor
-			? product.vendor.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+			? product.vendor
+					.toLowerCase()
+					.replace(/\s+/g, '-')
+					.replace(/[^a-z0-9-]/g, '')
 			: null
 	);
 
@@ -246,11 +261,11 @@
 			label: 'Watch',
 			fields: [
 				{ key: 'reference', label: 'Reference' },
-				{ key: 'brand',     label: 'Brand'     },
-				{ key: 'model',     label: 'Model'     },
-				{ key: 'year',      label: 'Year'      },
+				{ key: 'brand', label: 'Brand' },
+				{ key: 'model', label: 'Model' },
+				{ key: 'year', label: 'Year' },
 				{ key: 'condition', label: 'Condition' },
-				{ key: 'functions', label: 'Functions' },
+				{ key: 'functions', label: 'Functions' }
 			]
 		},
 		{
@@ -258,29 +273,29 @@
 			label: 'Calibre',
 			fields: [
 				{ key: 'movement_calibre', label: 'Movement Calibre' },
-				{ key: 'power_reserve',    label: 'Power Reserve'    },
+				{ key: 'power_reserve', label: 'Power Reserve' }
 			]
 		},
 		{
 			id: 'case',
 			label: 'Case',
 			fields: [
-				{ key: 'dial',             label: 'Dial Colour'      },
-				{ key: 'diameter',         label: 'Diameter'         },
-				{ key: 'case_material',    label: 'Material'         },
-				{ key: 'water_resistance', label: 'Water Resistance' },
+				{ key: 'dial', label: 'Dial Colour' },
+				{ key: 'diameter', label: 'Diameter' },
+				{ key: 'case_material', label: 'Material' },
+				{ key: 'water_resistance', label: 'Water Resistance' }
 			]
 		},
 		{
 			id: 'bracelet',
 			label: 'Bracelet',
 			fields: [
-				{ key: 'clasp_material',   label: 'Clasp Material'  },
-				{ key: 'clasp_type',       label: 'Clasp Type'      },
-				{ key: 'colour',           label: 'Colour'          },
-				{ key: 'bracelet_material', label: 'Material'       },
+				{ key: 'clasp_material', label: 'Clasp Material' },
+				{ key: 'clasp_type', label: 'Clasp Type' },
+				{ key: 'colour', label: 'Colour' },
+				{ key: 'bracelet_material', label: 'Material' }
 			]
-		},
+		}
 	];
 
 	let activeSpecTab = $state('watch');
@@ -310,9 +325,9 @@
 
 	// Match an image by alt text equal to the active tab id, fall back to first image
 	const activeTabImage = $derived(
-		product.images.find((img) => img.altText?.toLowerCase().trim() === activeSpecTab)
-			?? product.images[0]
-			?? null
+		product.images.find((img) => img.altText?.toLowerCase().trim() === activeSpecTab) ??
+			product.images[0] ??
+			null
 	);
 
 	// Build a normalised product object for the wishlist store
@@ -333,7 +348,15 @@
 
 <svelte:head>
 	<title>{product.title} — Watch Reserve</title>
-	<meta name="description" content="{product.vendor && product.vendor !== 'My Store' ? product.vendor + ' ' : ''}{product.title}. {product.description?.slice(0, 150)}" />
+	<meta
+		name="description"
+		content="{product.vendor && product.vendor !== 'My Store'
+			? product.vendor + ' '
+			: ''}{product.title}. {product.description?.slice(0, 150)}"
+	/>
+	{#if data.canonical}
+		<link rel="canonical" href={data.canonical} />
+	{/if}
 </svelte:head>
 
 <!-- Breadcrumb -->
@@ -351,12 +374,21 @@
 
 <main class="product-page">
 	<div class="product-layout">
-
 		<!-- ── IMAGE GALLERY ── -->
-		<div class="gallery" role="region" aria-label="Product images" onkeydown={handleKeydown} tabindex="0">
+		<div
+			class="gallery"
+			role="region"
+			aria-label="Product images"
+			onkeydown={handleKeydown}
+			tabindex="0"
+		>
 			<div class="main-image-wrap">
 				{#each product.images as img, i}
-					<div class="main-image-slide" class:active={i === activeImageIndex} aria-hidden={i !== activeImageIndex}>
+					<div
+						class="main-image-slide"
+						class:active={i === activeImageIndex}
+						aria-hidden={i !== activeImageIndex}
+					>
 						<img
 							src={img.url}
 							alt={img.altText}
@@ -367,13 +399,41 @@
 				{/each}
 
 				{#if product.images.length > 1}
-					<button class="gallery-arrow gallery-arrow-prev" onclick={prevImage} disabled={activeImageIndex === 0} aria-label="Previous image">
-						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<button
+						class="gallery-arrow gallery-arrow-prev"
+						onclick={prevImage}
+						disabled={activeImageIndex === 0}
+						aria-label="Previous image"
+					>
+						<svg
+							width="20"
+							height="20"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
 							<path d="M15 18L9 12L15 6" />
 						</svg>
 					</button>
-					<button class="gallery-arrow gallery-arrow-next" onclick={nextImage} disabled={activeImageIndex === product.images.length - 1} aria-label="Next image">
-						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<button
+						class="gallery-arrow gallery-arrow-next"
+						onclick={nextImage}
+						disabled={activeImageIndex === product.images.length - 1}
+						aria-label="Next image"
+					>
+						<svg
+							width="20"
+							height="20"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
 							<path d="M9 18L15 12L9 6" />
 						</svg>
 					</button>
@@ -424,9 +484,16 @@
 
 			{#if productStatus()?.toLowerCase() !== 'sold'}
 				<div class="price-row">
-					<span class="price">{formatPrice(selectedVariant?.price ?? product.minPrice, selectedVariant?.currencyCode ?? product.currencyCode)}</span>
+					<span class="price"
+						>{formatPrice(
+							selectedVariant?.price ?? product.minPrice,
+							selectedVariant?.currencyCode ?? product.currencyCode
+						)}</span
+					>
 					{#if selectedVariant?.compareAtPrice && selectedVariant.compareAtPrice > selectedVariant.price}
-						<span class="compare-price">{formatPrice(selectedVariant.compareAtPrice, selectedVariant.currencyCode)}</span>
+						<span class="compare-price"
+							>{formatPrice(selectedVariant.compareAtPrice, selectedVariant.currencyCode)}</span
+						>
 					{/if}
 				</div>
 			{/if}
@@ -466,7 +533,10 @@
 
 			<!-- Status -->
 			{#if effectiveStatusLabel()}
-				<div class="status-badge status-{statusSlug()}" aria-label="Status: {effectiveStatusLabel()}">
+				<div
+					class="status-badge status-{statusSlug()}"
+					aria-label="Status: {effectiveStatusLabel()}"
+				>
 					<span class="status-dot" aria-hidden="true"></span>
 					{effectiveStatusLabel()}
 				</div>
@@ -484,40 +554,54 @@
 			<form
 				method="POST"
 				action="?/addToCart"
-			use:enhance={() => {
-				adding = true;
-				added = false;
-				return async ({ result, update }) => {
-					await update({ reset: false });
-					adding = false;
-					if (result.type === 'success' && result.data?.success) {
-						added = true;
-						slideOverCheckoutUrl = result.data.checkoutUrl ?? null;
-						if (result.data.totalQuantity != null) cart.set(result.data.totalQuantity);
-						openDrawer('cart');
-						setTimeout(() => (added = false), 3000);
-					}
-				};
-			}}
+				use:enhance={() => {
+					adding = true;
+					added = false;
+					return async ({ result, update }) => {
+						await update({ reset: false });
+						adding = false;
+						if (result.type === 'success' && result.data?.success) {
+							added = true;
+							slideOverCheckoutUrl = result.data.checkoutUrl ?? null;
+							if (result.data.totalQuantity != null) cart.set(result.data.totalQuantity);
+							openDrawer('cart');
+							setTimeout(() => (added = false), 3000);
+						}
+					};
+				}}
 			>
-			<input type="hidden" name="variantId" value={selectedVariantId} />
-			<input type="hidden" name="quantity" value={quantity} />
+				<input type="hidden" name="variantId" value={selectedVariantId} />
+				<input type="hidden" name="quantity" value={quantity} />
 
-			<button type="submit" class="add-btn" disabled={!isAvailable || isBlockedByStatus() || adding}>
-				{#if adding}
-					<span class="spinner" aria-hidden="true"></span>
-					Adding…
-				{:else if added}
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<polyline points="20 6 9 17 4 12" />
-					</svg>
-					Added to Cart
-				{:else if statusCtaLabel()}
-					{statusCtaLabel()}
-				{:else}
-					{isAvailable ? 'Add to Cart' : 'Unavailable'}
-				{/if}
-			</button>
+				<button
+					type="submit"
+					class="add-btn"
+					disabled={!isAvailable || isBlockedByStatus() || adding}
+				>
+					{#if adding}
+						<span class="spinner" aria-hidden="true"></span>
+						Adding…
+					{:else if added}
+						<svg
+							width="18"
+							height="18"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
+						>
+							<polyline points="20 6 9 17 4 12" />
+						</svg>
+						Added to Cart
+					{:else if statusCtaLabel()}
+						{statusCtaLabel()}
+					{:else}
+						{isAvailable ? 'Add to Cart' : 'Unavailable'}
+					{/if}
+				</button>
 			</form>
 
 			<!-- Secondary action buttons -->
@@ -529,8 +613,18 @@
 						onclick={() => openDrawer('part-exchange')}
 						disabled={isBlockedByStatus()}
 					>
-						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-							<path d="M3 7h18m0 0l-4-4m4 4l-4 4M21 17H3m0 0l4-4m-4 4l4 4"/>
+						<svg
+							width="15"
+							height="15"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
+						>
+							<path d="M3 7h18m0 0l-4-4m4 4l-4 4M21 17H3m0 0l4-4m-4 4l4 4" />
 						</svg>
 						Part Exchange
 					</button>
@@ -540,14 +634,54 @@
 						onclick={() => openDrawer('deposit')}
 						disabled={isBlockedByStatus()}
 					>
-						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-							<rect x="1" y="4" width="22" height="16" rx="0" ry="0"/><line x1="1" y1="10" x2="23" y2="10"/>
+						<svg
+							width="15"
+							height="15"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
+						>
+							<rect x="1" y="4" width="22" height="16" rx="0" ry="0" /><line
+								x1="1"
+								y1="10"
+								x2="23"
+								y2="10"
+							/>
 						</svg>
 						Deposit
 					</button>
 					<button type="button" class="btn-action-outline" onclick={openFinanceModal}>
-						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-							<rect x="4" y="2" width="16" height="20" rx="0" ry="0"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10"/><line x1="12" y1="10" x2="12" y2="10"/><line x1="16" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="16" y1="14" x2="16" y2="18"/><line x1="8" y1="18" x2="12" y2="18"/>
+						<svg
+							width="15"
+							height="15"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
+						>
+							<rect x="4" y="2" width="16" height="20" rx="0" ry="0" /><line
+								x1="8"
+								y1="6"
+								x2="16"
+								y2="6"
+							/><line x1="8" y1="10" x2="8" y2="10" /><line x1="12" y1="10" x2="12" y2="10" /><line
+								x1="16"
+								y1="10"
+								x2="16"
+								y2="10"
+							/><line x1="8" y1="14" x2="8" y2="14" /><line x1="12" y1="14" x2="12" y2="14" /><line
+								x1="16"
+								y1="14"
+								x2="16"
+								y2="18"
+							/><line x1="8" y1="18" x2="12" y2="18" />
 						</svg>
 						Apply For Finance
 					</button>
@@ -578,7 +712,9 @@
 					stroke-linejoin="round"
 					aria-hidden="true"
 				>
-					<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+					<path
+						d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+					/>
 				</svg>
 				{isSaved ? 'Saved to Wishlist' : 'Save to Wishlist'}
 			</button>
@@ -600,25 +736,58 @@
 			<!-- Trust signals -->
 			<div class="trust-strip">
 				<div class="trust-item">
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+					<svg
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.8"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"
+					>
+						<path
+							d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+						/>
 					</svg>
 					Authenticated & Verified
 				</div>
 				<div class="trust-item">
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<svg
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.8"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"
+					>
 						<path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
 					</svg>
 					Insured Delivery
 				</div>
 				<div class="trust-item">
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+					<svg
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.8"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"
+					>
+						<path
+							d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+						/>
 					</svg>
 					Secure Payment
 				</div>
 			</div>
-
 		</div>
 	</div>
 </main>
@@ -626,7 +795,6 @@
 <!-- ── PRODUCT SPECIFICATIONS ── -->
 <section class="specs-section" aria-label="Product Specifications">
 	<div class="specs-container">
-
 		<div class="specs-top">
 			<div class="specs-top-text">
 				<p class="specs-eyebrow">Technical Detail</p>
@@ -642,7 +810,7 @@
 						aria-controls="specs-panel"
 						class="specs-tab"
 						class:active={activeSpecTab === tab.id}
-						onclick={() => activeSpecTab = tab.id}
+						onclick={() => (activeSpecTab = tab.id)}
 					>
 						{tab.label}
 					</button>
@@ -652,7 +820,6 @@
 
 		<!-- Body -->
 		<div class="specs-body" id="specs-panel" role="tabpanel">
-
 			<!-- Spec fields -->
 			<dl class="specs-list">
 				{#if currentTabFields.length > 0}
@@ -677,7 +844,6 @@
 					/>
 				</div>
 			{/if}
-
 		</div>
 	</div>
 </section>
@@ -689,8 +855,8 @@
 <ActionSlideOver
 	open={slideOverOpen}
 	type={slideOverType ?? 'cart'}
-	product={product}
-	selectedVariant={selectedVariant}
+	{product}
+	{selectedVariant}
 	checkoutUrl={slideOverCheckoutUrl}
 	onclose={closeDrawer}
 	ondepositsuccess={() => (locallyReserved = true)}
@@ -716,7 +882,10 @@
 		>
 			<h3 id="finance-modal-title" class="finance-modal-title">Before you continue</h3>
 			<p class="finance-modal-text">
-				Watch Reserve Ltd is an Introducer Appointed Representative of Ideal Sales Solutions Ltd, t/a Ideal4Finance. Ideal Sales Solutions Ltd is a credit broker and not a lender (FRN 703401). Finance available subject to status. The rate offered is always provisional and will depend upon your personal circumstances, the loan amount and the term.
+				Watch Reserve Ltd is an Introducer Appointed Representative of Ideal Sales Solutions Ltd,
+				t/a Ideal4Finance. Ideal Sales Solutions Ltd is a credit broker and not a lender (FRN
+				703401). Finance available subject to status. The rate offered is always provisional and
+				will depend upon your personal circumstances, the loan amount and the term.
 			</p>
 			<button type="button" class="finance-modal-continue" onclick={continueToFinance}>
 				Continue to Application
@@ -724,7 +893,6 @@
 		</div>
 	</div>
 {/if}
-
 
 <style>
 	/* ── BREADCRUMB ── */
@@ -754,7 +922,9 @@
 		transition: color 0.2s ease;
 	}
 
-	.breadcrumb-inner a:hover { color: #160b11; }
+	.breadcrumb-inner a:hover {
+		color: #160b11;
+	}
 
 	.breadcrumb-inner span[aria-current] {
 		color: #160b11;
@@ -770,7 +940,9 @@
 		color: #160b11 !important;
 	}
 
-	.sep { color: #ccc; }
+	.sep {
+		color: #ccc;
+	}
 
 	/* ── LAYOUT ── */
 	.product-page {
@@ -866,8 +1038,12 @@
 		cursor: default;
 	}
 
-	.gallery-arrow-prev { left: 16px; }
-	.gallery-arrow-next { right: 16px; }
+	.gallery-arrow-prev {
+		left: 16px;
+	}
+	.gallery-arrow-next {
+		right: 16px;
+	}
 
 	.image-counter {
 		position: absolute;
@@ -892,7 +1068,9 @@
 		scrollbar-width: none;
 	}
 
-	.thumbnails::-webkit-scrollbar { display: none; }
+	.thumbnails::-webkit-scrollbar {
+		display: none;
+	}
 
 	.gallery :global(.eq-root) {
 		margin-top: 24px;
@@ -909,12 +1087,18 @@
 		cursor: pointer;
 		padding: 0;
 		background: none;
-		transition: border-color 0.2s ease, transform 0.2s ease;
+		transition:
+			border-color 0.2s ease,
+			transform 0.2s ease;
 	}
 
-	.thumb:hover { transform: translateY(-2px); }
+	.thumb:hover {
+		transform: translateY(-2px);
+	}
 
-	.thumb.active { border-color: #160b11; }
+	.thumb.active {
+		border-color: #160b11;
+	}
 
 	.thumb img {
 		width: 100%;
@@ -972,10 +1156,18 @@
 		flex-shrink: 0;
 	}
 
-	.status-available .status-dot    { background-color: #22a05a; }
-	.status-sold .status-dot         { background-color: #c94040; }
-	.status-new-arrival .status-dot  { background-color: #c9a230; }
-	.status-reserved .status-dot     { background-color: #422635; }
+	.status-available .status-dot {
+		background-color: #22a05a;
+	}
+	.status-sold .status-dot {
+		background-color: #c94040;
+	}
+	.status-new-arrival .status-dot {
+		background-color: #c9a230;
+	}
+	.status-reserved .status-dot {
+		background-color: #422635;
+	}
 
 	.title {
 		font-family: 'freight-display-pro', 'Georgia', 'Times New Roman', serif;
@@ -1025,8 +1217,12 @@
 		border-bottom: 1px solid rgba(22, 11, 17, 0.06);
 	}
 
-	.meta-row:last-child { border-bottom: none; }
-	.meta-row:nth-child(even) { background-color: #fafaf9; }
+	.meta-row:last-child {
+		border-bottom: none;
+	}
+	.meta-row:nth-child(even) {
+		background-color: #fafaf9;
+	}
 
 	.meta-key {
 		font-family: 'acumin-pro', sans-serif;
@@ -1073,7 +1269,9 @@
 		transition: all 0.2s ease;
 	}
 
-	.variant-pill:hover:not(:disabled) { border-color: #160b11; }
+	.variant-pill:hover:not(:disabled) {
+		border-color: #160b11;
+	}
 
 	.variant-pill.selected {
 		background-color: #160b11;
@@ -1114,20 +1312,29 @@
 		box-shadow: 0 6px 20px rgba(161, 132, 109, 0.35);
 	}
 
-	.add-btn:active:not(:disabled) { transform: translateY(0); }
-	.add-btn:disabled { background-color: #ccc; cursor: not-allowed; }
+	.add-btn:active:not(:disabled) {
+		transform: translateY(0);
+	}
+	.add-btn:disabled {
+		background-color: #ccc;
+		cursor: not-allowed;
+	}
 
 	.spinner {
 		width: 16px;
 		height: 16px;
-		border: 2px solid rgba(255,255,255,0.3);
+		border: 2px solid rgba(255, 255, 255, 0.3);
 		border-top-color: #ffffff;
 		border-radius: 50%;
 		animation: spin 0.7s linear infinite;
 		flex-shrink: 0;
 	}
 
-	@keyframes spin { to { transform: rotate(360deg); } }
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
 
 	.checkout-link {
 		display: inline-flex;
@@ -1140,10 +1347,15 @@
 		font-weight: 500;
 		border-bottom: 1px solid rgba(161, 132, 109, 0.3);
 		padding-bottom: 2px;
-		transition: border-color 0.2s ease, color 0.2s ease;
+		transition:
+			border-color 0.2s ease,
+			color 0.2s ease;
 	}
 
-	.checkout-link:hover { color: #8a6f59; border-color: #8a6f59; }
+	.checkout-link:hover {
+		color: #8a6f59;
+		border-color: #8a6f59;
+	}
 
 	/* ── SECONDARY ACTION BUTTONS ── */
 	.action-stack {
@@ -1184,7 +1396,11 @@
 		text-decoration: none;
 		cursor: pointer;
 		border-radius: 0;
-		transition: background-color 0.22s ease, color 0.22s ease, transform 0.2s ease, box-shadow 0.22s ease;
+		transition:
+			background-color 0.22s ease,
+			color 0.22s ease,
+			transform 0.2s ease,
+			box-shadow 0.22s ease;
 		white-space: nowrap;
 	}
 
@@ -1206,13 +1422,20 @@
 	}
 
 	.btn-action-dark:active:not(:disabled),
-	.btn-action-outline:active:not(:disabled) { transform: translateY(0); }
+	.btn-action-outline:active:not(:disabled) {
+		transform: translateY(0);
+	}
 
 	.btn-action-dark svg,
-	.btn-action-outline svg { color: #a1846d; transition: color 0.2s ease; }
+	.btn-action-outline svg {
+		color: #a1846d;
+		transition: color 0.2s ease;
+	}
 
 	.btn-action-dark:hover:not(:disabled) svg,
-	.btn-action-outline:hover:not(:disabled) svg { color: #8a6f59; }
+	.btn-action-outline:hover:not(:disabled) svg {
+		color: #8a6f59;
+	}
 
 	.btn-action-dark:disabled,
 	.btn-action-outline:disabled {
@@ -1223,7 +1446,9 @@
 	}
 
 	.btn-action-dark:disabled svg,
-	.btn-action-outline:disabled svg { color: #c9c1b8; }
+	.btn-action-outline:disabled svg {
+		color: #c9c1b8;
+	}
 
 	/* ── FINANCE DISCLAIMER MODAL ── */
 	.finance-modal-overlay {
@@ -1275,7 +1500,9 @@
 		border: 1.5px solid #160b11;
 		border-radius: 0;
 		cursor: pointer;
-		transition: background-color 0.22s ease, color 0.22s ease;
+		transition:
+			background-color 0.22s ease,
+			color 0.22s ease;
 	}
 	.finance-modal-continue:hover {
 		background-color: #a1846d;
@@ -1371,10 +1598,19 @@
 		line-height: 1.75;
 	}
 
-	:global(.description-body p) { margin: 0 0 14px 0; }
-	:global(.description-body p:last-child) { margin-bottom: 0; }
-	:global(.description-body ul, .description-body ol) { padding-left: 20px; margin: 0 0 14px 0; }
-	:global(.description-body li) { margin-bottom: 6px; }
+	:global(.description-body p) {
+		margin: 0 0 14px 0;
+	}
+	:global(.description-body p:last-child) {
+		margin-bottom: 0;
+	}
+	:global(.description-body ul, .description-body ol) {
+		padding-left: 20px;
+		margin: 0 0 14px 0;
+	}
+	:global(.description-body li) {
+		margin-bottom: 6px;
+	}
 
 	/* ── TRUST STRIP ── */
 	.trust-strip {
@@ -1396,17 +1632,22 @@
 		color: #555;
 	}
 
-	.trust-item svg { color: #a1846d; flex-shrink: 0; }
-
-
+	.trust-item svg {
+		color: #a1846d;
+		flex-shrink: 0;
+	}
 
 	/* ── RESPONSIVE ── */
 	@media (max-width: 1100px) {
-		.product-layout { gap: 56px; }
+		.product-layout {
+			gap: 56px;
+		}
 	}
 
 	@media (max-width: 900px) {
-		.breadcrumb { padding: 12px 20px; }
+		.breadcrumb {
+			padding: 12px 20px;
+		}
 
 		.product-page {
 			padding: 36px 20px 72px;
@@ -1432,13 +1673,16 @@
 			width: min(100%, 520px);
 			justify-content: center;
 		}
-
 	}
 
 	@media (max-width: 640px) {
-		.breadcrumb { padding: 12px 16px; }
+		.breadcrumb {
+			padding: 12px 16px;
+		}
 
-		.product-page { padding: 24px 16px 56px; }
+		.product-page {
+			padding: 24px 16px 56px;
+		}
 
 		.meta-row {
 			grid-template-columns: 100px 1fr;
@@ -1453,7 +1697,10 @@
 			font-size: 0.8125rem;
 		}
 
-		.trust-strip { flex-direction: column; gap: 12px; }
+		.trust-strip {
+			flex-direction: column;
+			gap: 12px;
+		}
 
 		.action-row-2 {
 			grid-template-columns: 1fr;
@@ -1473,10 +1720,19 @@
 	}
 
 	@media (max-width: 480px) {
-		.product-page { padding: 20px 14px 48px; }
-		.breadcrumb { padding: 10px 14px; }
-		.main-image-wrap { border-radius: 0; }
-		.thumb { width: 60px; height: 60px; }
+		.product-page {
+			padding: 20px 14px 48px;
+		}
+		.breadcrumb {
+			padding: 10px 14px;
+		}
+		.main-image-wrap {
+			border-radius: 0;
+		}
+		.thumb {
+			width: 60px;
+			height: 60px;
+		}
 	}
 
 	/* ── PRODUCT SPECIFICATIONS ── */
@@ -1551,7 +1807,10 @@
 		text-transform: uppercase;
 		color: rgba(22, 11, 17, 0.4);
 		cursor: pointer;
-		transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+		transition:
+			background-color 0.2s ease,
+			border-color 0.2s ease,
+			color 0.2s ease;
 	}
 
 	.specs-tab:hover {
@@ -1645,7 +1904,9 @@
 	}
 
 	@media (max-width: 768px) {
-		.specs-section { padding: 56px 20px 64px; }
+		.specs-section {
+			padding: 56px 20px 64px;
+		}
 
 		.specs-top {
 			flex-direction: column;
@@ -1653,7 +1914,9 @@
 			gap: 28px;
 		}
 
-		.specs-tabs { justify-content: flex-start; }
+		.specs-tabs {
+			justify-content: flex-start;
+		}
 
 		.specs-body {
 			grid-template-columns: 1fr;
@@ -1662,7 +1925,12 @@
 	}
 
 	@media (max-width: 480px) {
-		.specs-section { padding: 44px 16px 52px; }
-		.specs-tab { padding: 9px 16px; font-size: 0.68rem; }
+		.specs-section {
+			padding: 44px 16px 52px;
+		}
+		.specs-tab {
+			padding: 9px 16px;
+			font-size: 0.68rem;
+		}
 	}
 </style>

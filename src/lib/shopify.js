@@ -1,4 +1,5 @@
 import { env } from '$env/dynamic/private';
+import { buildProductHandle } from './productHandle.js';
 
 const SHOPIFY_API_VERSION = '2024-10';
 
@@ -1206,6 +1207,10 @@ export async function createWatch({ title, vendor, price, description, status, t
 
 	const input = {
 		title: title.trim(),
+		// Set the handle explicitly — Shopify's auto-generated one is derived from
+		// the title once and never revisited, which is what produced handles like
+		// `rolex-submariner-1`. See src/lib/productHandle.js.
+		handle: buildProductHandle({ vendor, title }),
 		vendor: vendor?.trim() || undefined,
 		descriptionHtml: description?.trim() || undefined,
 		tags,

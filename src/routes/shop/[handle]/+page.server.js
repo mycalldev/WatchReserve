@@ -1,5 +1,13 @@
-import { getProduct, getMetafieldDefinitions, getProductsByVendor, getRecentProducts, createCart, addToCart } from '$lib/shopify.js';
-import { error } from '@sveltejs/kit';
+import {
+	getProduct,
+	getMetafieldDefinitions,
+	getProductsByVendor,
+	getRecentProducts,
+	createCart,
+	addToCart
+} from '$lib/shopify.js';
+import { error, redirect } from '@sveltejs/kit';
+import { resolveHandleAlias } from '$lib/handleAliases.js';
 
 // Metafields that are always fetched regardless of Admin API definitions
 const REQUIRED_IDENTIFIERS = [
@@ -25,10 +33,10 @@ const REQUIRED_IDENTIFIERS = [
 	{ namespace: 'custom', key: 'clasp_material' },
 	{ namespace: 'custom', key: 'clasp_type' },
 	{ namespace: 'custom', key: 'colour' },
-	{ namespace: 'custom', key: 'bracelet_material' },
+	{ namespace: 'custom', key: 'bracelet_material' }
 ];
 
-export async function load({ params }) {
+export async function load({ params, url }) {
 	// Fetch product metafield definitions from Admin API (best-effort)
 	const [productDefinitions, categoryDefinitions] = await Promise.allSettled([
 		getMetafieldDefinitions('PRODUCT'),
@@ -52,6 +60,11 @@ export async function load({ params }) {
 	const product = await getProduct(params.handle, identifiers);
 
 	if (!product) {
+		// The handle may be one we renamed. Send old links to the current URL
+		// rather than 404ing them.
+		const current = resolveHandleAlias(params.handle);
+		if (current) redirect(301, `/shop/${current}${url.search}`);
+
 		throw error(404, 'Product not found');
 	}
 
@@ -84,16 +97,17 @@ export async function load({ params }) {
 		const recent = await getRecentProducts(params.handle, 8).catch(() => []);
 		// Merge: vendor matches first, then fill with recent (deduped by id)
 		const existing = new Set(relatedProducts.map((p) => p.id));
-		relatedProducts = [
-			...relatedProducts,
-			...recent.filter((p) => !existing.has(p.id))
-		].slice(0, 8);
+		relatedProducts = [...relatedProducts, ...recent.filter((p) => !existing.has(p.id))].slice(
+			0,
+			8
+		);
 	}
 
 	return {
 		product: { ...product, metafields: enrichedMetafields },
 		metafieldsByGroup,
-		relatedProducts
+		relatedProducts,
+		canonical: `${url.origin}/shop/${product.handle}`
 	};
 }
 
