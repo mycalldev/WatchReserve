@@ -71,24 +71,31 @@
 							{#each data.headers as header (header)}
 								<th>{header}</th>
 							{/each}
+							<th class="col-indicator"></th>
 						</tr>
 					</thead>
 					<tbody>
 						{#each data.rows as row, rowIndex (rowIndex)}
 							<tr
 								class="row-toggle"
+								class:has-note={!!row.note}
 								class:expanded={expandedRow === rowIndex}
-								onclick={() => toggleRow(rowIndex)}
-								aria-expanded={expandedRow === rowIndex}
+								onclick={() => row.note && toggleRow(rowIndex)}
+								aria-expanded={row.note ? expandedRow === rowIndex : undefined}
 							>
 								{#each row.cells as cell, cellIndex (cellIndex)}
 									<td>{cell}</td>
 								{/each}
+								<td class="col-indicator">
+									{#if row.note}
+										<span class="chevron" aria-hidden="true">▾</span>
+									{/if}
+								</td>
 							</tr>
-							{#if expandedRow === rowIndex}
+							{#if row.note && expandedRow === rowIndex}
 								<tr class="row-detail">
-									<td colspan={data.headers.length}>
-										{row.note ?? 'No additional notes for this row.'}
+									<td colspan={data.headers.length + 1}>
+										{row.note}
 									</td>
 								</tr>
 							{/if}
@@ -256,16 +263,32 @@
 		color: #422635;
 	}
 
-	.row-toggle {
+	.row-toggle.has-note {
 		cursor: pointer;
 	}
 
-	.row-toggle:hover {
+	.row-toggle.has-note:hover {
 		background: #fdfbf9;
 	}
 
-	.row-toggle.expanded {
+	.row-toggle.has-note.expanded {
 		background: #f5efe9;
+	}
+
+	.col-indicator {
+		width: 32px;
+		white-space: nowrap;
+	}
+
+	.chevron {
+		display: inline-block;
+		color: #a1846d;
+		font-size: 0.8rem;
+		transition: transform 0.15s ease;
+	}
+
+	.row-toggle.expanded .chevron {
+		transform: rotate(-180deg);
 	}
 
 	.row-detail td {
