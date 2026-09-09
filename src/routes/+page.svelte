@@ -18,19 +18,19 @@
 			cta: { label: 'Browse All Watches', href: '/shop' }
 		},
 		{
-			src: '/assets/hero/patek_slider.jpg',
-			headline: '0% Finance Now Available',
-			subheadline:
-				"Own the piece you've been waiting for, with the cost spread across monthly payments.",
-			cta: { label: 'Browse All Watches', href: '/shop' }
-		},
-		{
 			src: '/assets/hero/API_Hero.jpg',
 			headline:
 				'<span class="hl-line">Turn Your Timepiece</span><span class="hl-line">Into Value</span>',
 			subheadline:
 				"Sell outright or consign with confidence, backed by a team who understands exactly what your watch is worth in today's market.",
 			cta: { label: 'Get a Valuation', href: '/sell' }
+		},
+		{
+			src: '/assets/hero/patek_slider.jpg',
+			headline: '0% Finance Now Available',
+			subheadline:
+				"Own the piece you've been waiting for, with the cost spread across monthly payments.",
+			cta: { label: 'Browse All Watches', href: '/shop' }
 		}
 	];
 

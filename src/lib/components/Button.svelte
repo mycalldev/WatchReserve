@@ -14,7 +14,10 @@
 
 <style>
 	.button {
-		display: inline-block;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
 		background-color: #ffffff;
 		color: #160B11;
 		border: none;
