@@ -1454,7 +1454,7 @@
 	.reviews-section {
 		width: 100%;
 		background-color: #ffffff;
-		padding: 80px 40px;
+		padding: 40px 40px;
 		box-sizing: border-box;
 		border-top: 1px solid rgba(22, 11, 17, 0.07);
 		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
@@ -1466,11 +1466,11 @@
 	}
 
 	@media (max-width: 768px) {
-		.reviews-section { padding: 60px 20px; }
+		.reviews-section { padding: 32px 20px; }
 	}
 
 	@media (max-width: 480px) {
-		.reviews-section { padding: 48px 16px; }
+		.reviews-section { padding: 24px 16px; }
 	}
 
 	/* ── API SECTION ── */
