@@ -3,7 +3,7 @@
 	import LinkButton from '$lib/components/LinkButton.svelte';
 	import NewArrivals from '$lib/components/NewArrivals.svelte';
 
-	import ApiTrialModal from '$lib/components/ApiTrialModal.svelte';
+	import FreeValuationModal from '$lib/components/FreeValuationModal.svelte';
 	import { onMount, onDestroy } from 'svelte';
 	import { fade } from 'svelte/transition';
 
@@ -49,7 +49,7 @@
 </script>
 
 
-<ApiTrialModal />
+<FreeValuationModal />
 
 <section class="hero-section">
 	<!-- Slider images -->

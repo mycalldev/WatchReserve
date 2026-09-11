@@ -36,7 +36,8 @@ const TEMPLATES = {
 		subject: "We've Received Your Enquiry · Watch Reserve",
 		heading: "We've Received Your Enquiry",
 		formName: 'Contact Form',
-		intro: 'We have received your enquiry and a member of our team will be in touch shortly to assist you.'
+		intro:
+			'We have received your enquiry and a member of our team will be in touch shortly to assist you.'
 	}),
 
 	'product-enquiry': ({ productLabel } = {}) => ({
@@ -54,7 +55,8 @@ const TEMPLATES = {
 		subject: 'Your Valuation Request Has Been Received · Watch Reserve',
 		heading: 'Your Valuation Request Has Been Received',
 		formName: 'Consignment Page Valuation Form',
-		intro: 'A member of our team will review the details you have provided and be in touch shortly with your valuation. We aim to respond within 30 minutes during business hours.'
+		intro:
+			'A member of our team will review the details you have provided and be in touch shortly with your valuation. We aim to respond within 30 minutes during business hours.'
 	}),
 
 	'part-exchange': ({ targetProduct } = {}) => ({
@@ -83,7 +85,17 @@ const TEMPLATES = {
 		subject: "You're On the Watch Reserve Intelligence Waitlist",
 		heading: "You're On the Waitlist",
 		formName: 'Waitlist Form',
-		intro: 'You will be among the first to receive access when we launch, along with exclusive early insights and updates.'
+		intro:
+			'You will be among the first to receive access when we launch, along with exclusive early insights and updates.'
+	}),
+
+	'free-valuation': () => ({
+		subject: 'September Month Free Valuation · Watch Reserve',
+		heading: 'September Month Free Valuation',
+		formName: 'Free Valuation Request',
+		intro:
+			'A member of the Watch Reserve team will be in contact with you very soon with a link to upload images and details of your timepiece.',
+		signoff: 'Kind Regards,\nWatch Reserve Team'
 	}),
 
 	'landing-enquiry': () => ({
@@ -97,7 +109,8 @@ const TEMPLATES = {
 		subject: 'Your Order Is Being Verified · Watch Reserve',
 		heading: 'Your Order Is Being Verified',
 		formName: 'Checkout Form',
-		intro: 'As part of our standard verification process for high-value timepieces, a member of our team will be in touch shortly to complete a brief identity check and arrange your payment.'
+		intro:
+			'As part of our standard verification process for high-value timepieces, a member of our team will be in touch shortly to complete a brief identity check and arrange your payment.'
 	}),
 
 	'kyc-deposit': ({ productLabel } = {}) => ({
@@ -113,7 +126,9 @@ const TEMPLATES = {
 };
 
 function filterRows(rows) {
-	return rows.filter((r) => r.value !== undefined && r.value !== null && String(r.value).trim() !== '');
+	return rows.filter(
+		(r) => r.value !== undefined && r.value !== null && String(r.value).trim() !== ''
+	);
 }
 
 function renderSummaryHtmlRows(rows) {
@@ -131,12 +146,16 @@ function renderSummaryTextRows(rows) {
 	return filterRows(rows).map((r) => `${r.label}: ${r.value}`);
 }
 
-function buildHtml({ heading, formName, intro, firstName, summary, submittedAt }) {
+function buildHtml({ heading, formName, intro, firstName, summary, submittedAt, signoff }) {
 	const greeting = firstName ? `Dear ${escapeHtml(firstName)},` : 'Dear Customer,';
 	const summaryHtml = renderSummaryHtmlRows([
 		{ label: 'Submitted', value: submittedAt },
 		...summary
 	]);
+	const signoffHtml = escapeHtml(signoff ?? 'Warm regards,\nThe Watch Reserve Team').replace(
+		/\n/g,
+		'<br/>'
+	);
 
 	return `
 <!doctype html>
@@ -188,7 +207,7 @@ function buildHtml({ heading, formName, intro, firstName, summary, submittedAt }
 
 			<tr>
 				<td style="padding:24px 32px 28px;border-top:1px solid #e5e5e5;">
-					<p style="margin:0;font-size:14px;line-height:1.7;color:#3a2a31;">Warm regards,<br/>The Watch Reserve Team</p>
+					<p style="margin:0;font-size:14px;line-height:1.7;color:#3a2a31;">${signoffHtml}</p>
 				</td>
 			</tr>
 
@@ -204,12 +223,13 @@ function buildHtml({ heading, formName, intro, firstName, summary, submittedAt }
 </html>`.trim();
 }
 
-function buildText({ heading, formName, intro, firstName, summary, submittedAt }) {
+function buildText({ heading, formName, intro, firstName, summary, submittedAt, signoff }) {
 	const greeting = firstName ? `Dear ${firstName},` : 'Dear Customer,';
 	const summaryLines = renderSummaryTextRows([
 		{ label: 'Submitted', value: submittedAt },
 		...summary
 	]);
+	const signoffLines = (signoff ?? 'Warm regards,\nThe Watch Reserve Team').split('\n');
 
 	return [
 		heading,
@@ -226,8 +246,7 @@ function buildText({ heading, formName, intro, firstName, summary, submittedAt }
 		`Address:       ${ADDRESS}`,
 		`Opening Hours: ${OPENING_HOURS}`,
 		'',
-		'Warm regards,',
-		'The Watch Reserve Team',
+		...signoffLines,
 		'',
 		`Watch Reserve · ${ADDRESS}`,
 		'www.watchreserve.co.uk'
@@ -246,7 +265,13 @@ function buildText({ heading, formName, intro, firstName, summary, submittedAt }
  *   summary?: Array<{ label: string, value: string }>
  * }} args
  */
-export async function sendCustomerConfirmation({ to, firstName, formType, details = {}, summary = [] }) {
+export async function sendCustomerConfirmation({
+	to,
+	firstName,
+	formType,
+	details = {},
+	summary = []
+}) {
 	if (!to) return;
 
 	const builder = TEMPLATES[formType];
