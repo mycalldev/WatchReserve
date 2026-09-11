@@ -205,91 +205,9 @@
 	</div>
 </section>
 
-<!-- ── API SECTION ── -->
-<section class="api-section">
-	<div class="api-widget-col">
-		<div class="api-widget">
-
-			<div class="widget-coming-badge">
-				<span class="widget-brand-dot" aria-hidden="true"></span>
-				Coming Soon
-			</div>
-
-			<h3 class="widget-coming-title">Watch Reserve Intelligence</h3>
-			<p class="widget-coming-sub">
-				A new kind of data layer — built exclusively for collectors who want to know more than just the price.
-			</p>
-
-			<ul class="widget-preview-list" aria-label="Upcoming data features">
-				<li class="widget-preview-item">
-					<span class="widget-preview-icon" aria-hidden="true">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-					</span>
-					<span class="widget-preview-label">Real-Time Market Valuations</span>
-					<span class="widget-preview-lock" aria-hidden="true">
-						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-					</span>
-				</li>
-				<li class="widget-preview-item">
-					<span class="widget-preview-icon" aria-hidden="true">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-					</span>
-					<span class="widget-preview-label">Price History & Trend Analysis</span>
-					<span class="widget-preview-lock" aria-hidden="true">
-						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-					</span>
-				</li>
-				<li class="widget-preview-item">
-					<span class="widget-preview-icon" aria-hidden="true">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-					</span>
-					<span class="widget-preview-label">Rarity & Collector Demand Scores</span>
-					<span class="widget-preview-lock" aria-hidden="true">
-						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-					</span>
-				</li>
-				<li class="widget-preview-item">
-					<span class="widget-preview-icon" aria-hidden="true">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-					</span>
-					<span class="widget-preview-label">Provenance & Authentication Data</span>
-					<span class="widget-preview-lock" aria-hidden="true">
-						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-					</span>
-				</li>
-				<li class="widget-preview-item">
-					<span class="widget-preview-icon" aria-hidden="true">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-					</span>
-					<span class="widget-preview-label">Collection Portfolio Tracking</span>
-					<span class="widget-preview-lock" aria-hidden="true">
-						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-					</span>
-				</li>
-			</ul>
-
-			<div class="widget-footer">
-				<span class="widget-footer-label">Watch Reserve Intelligence</span>
-				<span class="widget-footer-note">Members only · Joining soon</span>
-			</div>
-
-		</div>
-	</div>
-	<div class="api-content-col">
-		<div class="api-live-badge">
-			<span class="api-pulse-dot" aria-hidden="true"></span>
-			Coming Soon
-		</div>
-		<h2 class="api-heading">
-			Built for<br /><em>Collectors</em>
-		</h2>
-		<p class="api-body">
-			The Watch Reserve Intelligence platform is coming. We're building something beyond pricing data: a complete collector intelligence layer covering rarity, provenance, market trends, and portfolio value, exclusively for members.
-		</p>
-		<a href="/api" class="api-cta">
-			Join the Waiting List
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-		</a>
+<section class="reviews-section">
+	<div class="reviews-inner">
+		<div class="elfsight-app-deaa2cf4-ebad-4bfa-83c3-47476e08ab47" data-elfsight-app-lazy></div>
 	</div>
 </section>
 
@@ -428,8 +346,92 @@
 </section>
 
 
-<section class="reviews-section">
-	<div class="elfsight-app-deaa2cf4-ebad-4bfa-83c3-47476e08ab47" data-elfsight-app-lazy></div>
+<!-- ── API SECTION ── -->
+<section class="api-section">
+	<div class="api-widget-col">
+		<div class="api-widget">
+
+			<div class="widget-coming-badge">
+				<span class="widget-brand-dot" aria-hidden="true"></span>
+				Coming Soon
+			</div>
+
+			<h3 class="widget-coming-title">Watch Reserve Intelligence</h3>
+			<p class="widget-coming-sub">
+				A new kind of data layer — built exclusively for collectors who want to know more than just the price.
+			</p>
+
+			<ul class="widget-preview-list" aria-label="Upcoming data features">
+				<li class="widget-preview-item">
+					<span class="widget-preview-icon" aria-hidden="true">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+					</span>
+					<span class="widget-preview-label">Real-Time Market Valuations</span>
+					<span class="widget-preview-lock" aria-hidden="true">
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+					</span>
+				</li>
+				<li class="widget-preview-item">
+					<span class="widget-preview-icon" aria-hidden="true">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+					</span>
+					<span class="widget-preview-label">Price History & Trend Analysis</span>
+					<span class="widget-preview-lock" aria-hidden="true">
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+					</span>
+				</li>
+				<li class="widget-preview-item">
+					<span class="widget-preview-icon" aria-hidden="true">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+					</span>
+					<span class="widget-preview-label">Rarity & Collector Demand Scores</span>
+					<span class="widget-preview-lock" aria-hidden="true">
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+					</span>
+				</li>
+				<li class="widget-preview-item">
+					<span class="widget-preview-icon" aria-hidden="true">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+					</span>
+					<span class="widget-preview-label">Provenance & Authentication Data</span>
+					<span class="widget-preview-lock" aria-hidden="true">
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+					</span>
+				</li>
+				<li class="widget-preview-item">
+					<span class="widget-preview-icon" aria-hidden="true">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+					</span>
+					<span class="widget-preview-label">Collection Portfolio Tracking</span>
+					<span class="widget-preview-lock" aria-hidden="true">
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+					</span>
+				</li>
+			</ul>
+
+			<div class="widget-footer">
+				<span class="widget-footer-label">Watch Reserve Intelligence</span>
+				<span class="widget-footer-note">Members only · Joining soon</span>
+			</div>
+
+		</div>
+	</div>
+	<div class="api-content-col">
+		<div class="api-live-badge">
+			<span class="api-pulse-dot" aria-hidden="true"></span>
+			Coming Soon
+		</div>
+		<h2 class="api-heading">
+			Built for<br /><em>Collectors</em>
+		</h2>
+		<p class="api-body">
+			The Watch Reserve Intelligence platform is coming. We're building something beyond pricing data: a complete collector intelligence layer covering rarity, provenance, market trends, and portfolio value, exclusively for members.
+		</p>
+		<a href="/api" class="api-cta">
+			Join the Waiting List
+			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+		</a>
+	</div>
 </section>
 
 <!-- ── INSTAGRAM SOCIAL PROOF ─────────────────────────────────────────── -->
@@ -1456,6 +1458,11 @@
 		box-sizing: border-box;
 		border-top: 1px solid rgba(22, 11, 17, 0.07);
 		border-bottom: 1px solid rgba(22, 11, 17, 0.07);
+	}
+
+	.reviews-inner {
+		max-width: 1200px;
+		margin: 0 auto;
 	}
 
 	@media (max-width: 768px) {
