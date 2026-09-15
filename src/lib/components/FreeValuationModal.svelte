@@ -1,6 +1,7 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
 	import { trackEvent } from '$lib/ga.js';
+	import { setAskMeLater } from '$lib/askMeLater.js';
 
 	const STORAGE_KEY = 'wr_valuation_modal_dismissed_until';
 	const SUPPRESS_HOURS = 24;
@@ -80,6 +81,12 @@
 		} catch {
 			/* ignore */
 		}
+	}
+
+	function askMeLater() {
+		setAskMeLater();
+		trackEvent('form_dismiss', { form_name: 'free_valuation_popup', action: 'ask_me_later' });
+		dismiss();
 	}
 
 	function handleKeydown(e) {
@@ -346,6 +353,8 @@
 									</svg>
 								{/if}
 							</button>
+
+							<button type="button" class="ask-later-btn" onclick={askMeLater}>Ask Me Later</button>
 						</form>
 					{/if}
 				</div>
@@ -671,6 +680,26 @@
 		opacity: 0.4;
 		cursor: not-allowed;
 		box-shadow: none;
+	}
+
+	.ask-later-btn {
+		width: 100%;
+		background: none;
+		border: none;
+		cursor: pointer;
+		margin-top: -6px;
+		padding: 6px;
+		font-family: 'acumin-pro', sans-serif;
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: #8d7060;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		transition: color 0.2s ease;
+	}
+
+	.ask-later-btn:hover {
+		color: #160b11;
 	}
 
 	.submit-error {

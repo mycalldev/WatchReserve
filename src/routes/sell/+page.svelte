@@ -1,9 +1,10 @@
 <script>
 	import { browser } from '$app/environment';
+	import AskMeLaterReminder from '$lib/components/AskMeLaterReminder.svelte';
 
 	const STORAGE_KEY = 'wr_consignment_form';
 
-	const TOTAL = 4;
+	const TOTAL = 3;
 	let step = $state(1);
 	let done = $state(false);
 	let submitting = $state(false);
@@ -26,12 +27,11 @@
 	let photoFiles = $state([]);
 	let photoError = $state('');
 
-	let preference = $state('both');
-
 	let firstName = $state('');
 	let lastName = $state('');
 	let email = $state('');
 	let phone = $state('');
+	let contactMethods = $state([]);
 	let gdprConsent = $state(false);
 
 	let honeypot = $state('');
@@ -49,11 +49,11 @@
 				condition = saved.condition ?? '';
 				hasBox = saved.hasBox ?? '';
 				hasPapers = saved.hasPapers ?? '';
-				preference = saved.preference ?? 'both';
 				firstName = saved.firstName ?? '';
 				lastName = saved.lastName ?? '';
 				email = saved.email ?? '';
 				phone = saved.phone ?? '';
+				contactMethods = Array.isArray(saved.contactMethods) ? saved.contactMethods : [];
 				gdprConsent = saved.gdprConsent ?? false;
 			}
 		} catch {
@@ -72,11 +72,11 @@
 			condition,
 			hasBox,
 			hasPapers,
-			preference,
 			firstName,
 			lastName,
 			email,
 			phone,
+			contactMethods,
 			gdprConsent
 		};
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -98,7 +98,7 @@
 			if (!condition) e.condition = 'Please select a condition.';
 			if (!hasBox) e.hasBox = 'Please let us know if you have the box.';
 			if (!hasPapers) e.hasPapers = 'Please let us know if you have the papers.';
-		} else if (step === 4) {
+		} else if (step === 3) {
 			if (!firstName.trim()) e.firstName = 'First name is required.';
 			if (!lastName.trim()) e.lastName = 'Last name is required.';
 			if (!email.trim()) e.email = 'Email is required.';
@@ -221,11 +221,11 @@
 					hasBox,
 					hasPapers,
 					photos,
-					preference,
 					firstName,
 					lastName,
 					email,
 					phone,
+					contactMethods,
 					gdprConsent
 				})
 			});
@@ -257,6 +257,12 @@
 	function back() {
 		attempted = false;
 		if (step > 1) step -= 1;
+	}
+
+	function toggleContactMethod(method) {
+		contactMethods = contactMethods.includes(method)
+			? contactMethods.filter((m) => m !== method)
+			: [...contactMethods, method];
 	}
 
 	const reviews = [
@@ -348,6 +354,8 @@
 <svelte:head>
 	<title>Sell or Consign Your Watch | Watch Reserve</title>
 </svelte:head>
+
+<AskMeLaterReminder />
 
 <div class="cg-page">
 	<!-- HERO -->
@@ -613,56 +621,6 @@
 									{#if photoError}<p class="cg-form-error">{photoError}</p>{/if}
 								</div>
 							{:else if step === 3}
-								<div class="cg-field">
-									<label for="cg-pref">What Are You Looking For? <span class="cg-optional">(optional)</span></label>
-									<div class="cg-pref-group" id="cg-pref">
-										<div
-											class="cg-pref"
-											class:cg-selected={preference === 'both'}
-											onclick={() => (preference = 'both')}
-											onkeydown={(e) => e.key === 'Enter' && (preference = 'both')}
-											role="button"
-											tabindex="0"
-										>
-											<span class="cg-pref-radio"></span>
-											<span class="cg-pref-text"
-												><strong>Show Me Both</strong><span
-													>See your consignment estimate and outright offer side by side.</span
-												></span
-											>
-										</div>
-										<div
-											class="cg-pref"
-											class:cg-selected={preference === 'consignment'}
-											onclick={() => (preference = 'consignment')}
-											onkeydown={(e) => e.key === 'Enter' && (preference = 'consignment')}
-											role="button"
-											tabindex="0"
-										>
-											<span class="cg-pref-radio"></span>
-											<span class="cg-pref-text"
-												><strong>Consignment</strong><span>Sell for the strongest return.</span
-												></span
-											>
-										</div>
-										<div
-											class="cg-pref"
-											class:cg-selected={preference === 'outright'}
-											onclick={() => (preference = 'outright')}
-											onkeydown={(e) => e.key === 'Enter' && (preference = 'outright')}
-											role="button"
-											tabindex="0"
-										>
-											<span class="cg-pref-radio"></span>
-											<span class="cg-pref-text"
-												><strong>Outright Sale</strong><span
-													>Sell to us directly, payment agreed up front.</span
-												></span
-											>
-										</div>
-									</div>
-								</div>
-							{:else if step === 4}
 								<div class="cg-field-row">
 									<div class="cg-field" class:cg-field-invalid={attempted && errors.firstName}>
 										<label for="cg-fname">First Name</label>
@@ -683,6 +641,21 @@
 								<div class="cg-field">
 									<label for="cg-phone">Phone <span class="cg-optional">(optional)</span></label>
 									<input type="tel" id="cg-phone" placeholder="Best number to reach you" bind:value={phone} autocomplete="tel" />
+								</div>
+								<div class="cg-field">
+									<label for="cg-contact-pref">Preferred Method of Contact <span class="cg-optional">(optional)</span></label>
+									<div class="cg-choice-group" id="cg-contact-pref">
+										{#each ['Phone', 'Email', 'WhatsApp'] as opt}
+											<span
+												class="cg-choice"
+												class:cg-selected={contactMethods.includes(opt)}
+												onclick={() => toggleContactMethod(opt)}
+												onkeydown={(e) => e.key === 'Enter' && toggleContactMethod(opt)}
+												role="button"
+												tabindex="0">{opt}</span
+											>
+										{/each}
+									</div>
 								</div>
 								<label class="cg-gdpr-wrap">
 									<input type="checkbox" bind:checked={gdprConsent} class="cg-gdpr-input" />
@@ -1157,25 +1130,6 @@
 	}
 	.cg-choice:hover { border-color: var(--maroon-45); }
 	.cg-choice.cg-selected { background: var(--maroon); color: var(--cream); border-color: var(--maroon); }
-
-	.cg-pref-group { display: grid; gap: 10px; }
-	.cg-pref {
-		display: flex;
-		align-items: flex-start;
-		gap: 14px;
-		padding: 16px 18px;
-		background: var(--white);
-		border: 1px solid var(--maroon-15);
-		cursor: pointer;
-		transition: border-color 0.15s, background 0.15s;
-	}
-	.cg-pref:hover { border-color: var(--maroon-45); }
-	.cg-pref.cg-selected { border-color: var(--maroon); background: var(--maroon-08); }
-	.cg-pref-radio { flex-shrink: 0; margin-top: 3px; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--maroon-45); position: relative; }
-	.cg-pref.cg-selected .cg-pref-radio { border-color: var(--maroon); }
-	.cg-pref.cg-selected .cg-pref-radio::after { content: ''; position: absolute; inset: 3px; background: var(--maroon); border-radius: 50%; }
-	.cg-pref-text strong { display: block; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.04em; margin-bottom: 2px; }
-	.cg-pref-text span { font-size: 0.82rem; font-weight: 300; color: var(--maroon-70); }
 
 	.cg-hp-field {
 		position: absolute;

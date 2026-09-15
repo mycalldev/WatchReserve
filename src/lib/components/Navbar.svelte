@@ -2,7 +2,10 @@
 	import Search from '$lib/components/Search.svelte';
 	import { wishlist } from '$lib/stores/wishlist.svelte.js';
 	import { cart } from '$lib/stores/cart.svelte.js';
+	import { page } from '$app/state';
 	let isMenuOpen = $state(false);
+
+	const isValuationLink = $derived(page.url.pathname === '/valuation-link');
 
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
@@ -21,112 +24,118 @@
 </script>
 
 <nav class="navbar">
-	<div class="navbar-container">
+	<div class="navbar-container" class:offer-mode={isValuationLink}>
 		<a href="/" class="logo-link">
 			<img src="/assets/branding/Logo_Horizontal_Cream.avif" alt="Watch Reserve" class="logo" />
 		</a>
 
-		<ul class="nav-links">
-			<li><a href="/shop">SHOP</a></li>
-			<li><a href="/sell">SELL</a></li>
-			<li><a href="/source">SOURCE</a></li>
-			<li><a href="/blogs">BLOGS & GUIDES</a></li>
-			<li><a href="/api">INTELLIGENCE</a></li>
-			<li><a href="/contact">CONTACT</a></li>
-		</ul>
+		{#if isValuationLink}
+			<span class="offer-text">September Free Valuation Offer</span>
+		{:else}
+			<ul class="nav-links">
+				<li><a href="/shop">SHOP</a></li>
+				<li><a href="/sell">SELL</a></li>
+				<li><a href="/source">SOURCE</a></li>
+				<li><a href="/blogs">BLOGS & GUIDES</a></li>
+				<li><a href="/api">INTELLIGENCE</a></li>
+				<li><a href="/contact">CONTACT</a></li>
+			</ul>
 
-		<div class="navbar-right">
-			<Search />
-			<a href="/wishlist" class="wishlist-link" aria-label="Wishlist{wishlist.count > 0 ? ` (${wishlist.count} saved)` : ''}">
-				<svg
-					class="wishlist-icon"
-					width="22"
-					height="22"
-					viewBox="0 0 24 24"
-					fill={wishlist.count > 0 ? 'currentColor' : 'none'}
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					aria-hidden="true"
-				>
-					<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-				</svg>
-				{#if wishlist.count > 0}
-					<span class="wishlist-badge">{wishlist.count}</span>
-				{/if}
-			</a>
-			<a href="/checkout" class="cart-link" aria-label="Cart{cart.count > 0 ? ` (${cart.count} item${cart.count === 1 ? '' : 's'})` : ''}">
-				<svg
-					class="cart-icon"
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z"
+			<div class="navbar-right">
+				<Search />
+				<a href="/wishlist" class="wishlist-link" aria-label="Wishlist{wishlist.count > 0 ? ` (${wishlist.count} saved)` : ''}">
+					<svg
+						class="wishlist-icon"
+						width="22"
+						height="22"
+						viewBox="0 0 24 24"
+						fill={wishlist.count > 0 ? 'currentColor' : 'none'}
 						stroke="currentColor"
 						stroke-width="2"
 						stroke-linecap="round"
 						stroke-linejoin="round"
-					/>
-					<path
-						d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/>
-					<path
-						d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/>
-				</svg>
-				{#if cart.count > 0}
-					<span class="cart-badge">{cart.count}</span>
-				{/if}
-			</a>
-		</div>
+						aria-hidden="true"
+					>
+						<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+					</svg>
+					{#if wishlist.count > 0}
+						<span class="wishlist-badge">{wishlist.count}</span>
+					{/if}
+				</a>
+				<a href="/checkout" class="cart-link" aria-label="Cart{cart.count > 0 ? ` (${cart.count} item${cart.count === 1 ? '' : 's'})` : ''}">
+					<svg
+						class="cart-icon"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+						<path
+							d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+						<path
+							d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
+					{#if cart.count > 0}
+						<span class="cart-badge">{cart.count}</span>
+					{/if}
+				</a>
+			</div>
 
-		<button
-			class="burger-menu"
-			onclick={toggleMenu}
-			aria-label="Toggle menu"
-			aria-expanded={isMenuOpen}
-		>
-			<span class="burger-line" class:open={isMenuOpen}></span>
-			<span class="burger-line" class:open={isMenuOpen}></span>
-			<span class="burger-line" class:open={isMenuOpen}></span>
-		</button>
+			<button
+				class="burger-menu"
+				onclick={toggleMenu}
+				aria-label="Toggle menu"
+				aria-expanded={isMenuOpen}
+			>
+				<span class="burger-line" class:open={isMenuOpen}></span>
+				<span class="burger-line" class:open={isMenuOpen}></span>
+				<span class="burger-line" class:open={isMenuOpen}></span>
+			</button>
+		{/if}
 	</div>
 
 	<!-- Mobile Menu -->
-	<div class="mobile-menu" class:open={isMenuOpen}>
-		<div
-			class="mobile-menu-overlay"
-			onclick={closeMenu}
-			onkeydown={handleOverlayKeydown}
-			role="button"
-			tabindex="0"
-			aria-label="Close menu"
-		></div>
-		<div class="mobile-menu-content">
-			<ul class="mobile-nav-links">
-			<li><a href="/shop" onclick={closeMenu}>SHOP</a></li>
-			<li><a href="/sell" onclick={closeMenu}>SELL</a></li>
-			<li><a href="/source" onclick={closeMenu}>SOURCE</a></li>
-			<li><a href="/blogs" onclick={closeMenu}>BLOGS & GUIDES</a></li>
-			<li><a href="/api" onclick={closeMenu}>INTELLIGENCE</a></li>
-				<li><a href="/wishlist" onclick={closeMenu}>WISHLIST{wishlist.count > 0 ? ` (${wishlist.count})` : ''}</a></li>
-				<li class="contact-li"><a href="/contact" onclick={closeMenu} class="mobile-contact-link">CONTACT</a></li>
-			</ul>
+	{#if !isValuationLink}
+		<div class="mobile-menu" class:open={isMenuOpen}>
+			<div
+				class="mobile-menu-overlay"
+				onclick={closeMenu}
+				onkeydown={handleOverlayKeydown}
+				role="button"
+				tabindex="0"
+				aria-label="Close menu"
+			></div>
+			<div class="mobile-menu-content">
+				<ul class="mobile-nav-links">
+				<li><a href="/shop" onclick={closeMenu}>SHOP</a></li>
+				<li><a href="/sell" onclick={closeMenu}>SELL</a></li>
+				<li><a href="/source" onclick={closeMenu}>SOURCE</a></li>
+				<li><a href="/blogs" onclick={closeMenu}>BLOGS & GUIDES</a></li>
+				<li><a href="/api" onclick={closeMenu}>INTELLIGENCE</a></li>
+					<li><a href="/wishlist" onclick={closeMenu}>WISHLIST{wishlist.count > 0 ? ` (${wishlist.count})` : ''}</a></li>
+					<li class="contact-li"><a href="/contact" onclick={closeMenu} class="mobile-contact-link">CONTACT</a></li>
+				</ul>
+			</div>
 		</div>
-	</div>
+	{/if}
 </nav>
 
 <style>
@@ -201,6 +210,17 @@
 		align-items: center;
 		gap: 16px;
 		flex-shrink: 0;
+	}
+
+	.offer-text {
+		margin-left: auto;
+		color: #ffffff;
+		font-family: 'acumin-pro', sans-serif;
+		font-size: 14px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		text-align: right;
 	}
 
 	.burger-menu {
@@ -473,6 +493,10 @@
 		.nav-links a {
 			font-size: 12px;
 		}
+
+		.offer-text {
+			font-size: 12px;
+		}
 	}
 
 	@media (max-width: 1024px) {
@@ -486,6 +510,10 @@
 		}
 
 		.nav-links a {
+			font-size: 11.5px;
+		}
+
+		.offer-text {
 			font-size: 11.5px;
 		}
 	}
@@ -551,6 +579,27 @@
 
 		.mobile-menu.open .mobile-menu-content {
 			transform: translateY(56px);
+		}
+
+		/* Valuation-link route: single-row layout, no burger/utility row to wrap around */
+		.navbar-container.offer-mode {
+			flex-wrap: nowrap;
+			align-items: center;
+			padding: 12px 20px;
+		}
+
+		.navbar-container.offer-mode .logo-link {
+			order: 0;
+			flex: 0 0 auto;
+			padding: 0;
+		}
+
+		.offer-text {
+			font-size: 10px;
+			letter-spacing: 0.05em;
+			line-height: 1.3;
+			white-space: normal;
+			max-width: 45vw;
 		}
 	}
 </style>

@@ -22,11 +22,12 @@ function escapeHtml(v) {
 		.replace(/'/g, '&#39;');
 }
 
-const PREFERENCE_LABELS = {
-	both:         'Show Me Both',
-	consignment:  'The Best Possible Price (Consignment)',
-	outright:     'A Fast, Guaranteed Sale (Outright)'
-};
+const CONTACT_METHODS = ['Phone', 'Email', 'WhatsApp'];
+
+function parseContactMethods(raw) {
+	if (!Array.isArray(raw)) return [];
+	return CONTACT_METHODS.filter((method) => raw.includes(method));
+}
 
 const MAX_PHOTOS = 4;
 const MAX_PHOTO_SIZE = 4 * 1024 * 1024; // 4MB, matches the client-side cap
@@ -66,15 +67,16 @@ export async function POST({ request }) {
 	const hasBox      = clean(body.hasBox);
 	const hasPapers   = clean(body.hasPapers);
 	const photoAttachments = parsePhotoAttachments(body.photos);
-	const preference  = clean(body.preference);
 	const firstName   = clean(body.firstName);
 	const lastName    = clean(body.lastName);
 	const email       = clean(body.email);
 	const phone       = clean(body.phone);
+	const contactMethods = parseContactMethods(body.contactMethods);
 	const gdprConsent = body.gdprConsent === true;
+	const source      = clean(body.source) || 'Sale and Consignment Page · Get Your Instant Valuation';
 
 	const name = [firstName, lastName].filter(Boolean).join(' ');
-	const preferenceLabel = PREFERENCE_LABELS[preference] ?? preference;
+	const contactMethodsLabel = contactMethods.join(', ');
 
 	if (firstName.length < 1)    return json({ error: 'First name is required.' },           { status: 400 });
 	if (lastName.length < 1)     return json({ error: 'Last name is required.' },             { status: 400 });
@@ -95,7 +97,7 @@ export async function POST({ request }) {
 			</tr>
 			<tr>
 				<td style="padding:16px 32px 8px;">
-					<p style="margin:0;display:inline-block;padding:5px 12px;background:#faf0e6;border:1px solid #a1846d;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#a1846d;font-weight:700;">Sale and Consignment Page · Get Your Instant Valuation</p>
+					<p style="margin:0;display:inline-block;padding:5px 12px;background:#faf0e6;border:1px solid #a1846d;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#a1846d;font-weight:700;">${escapeHtml(source)}</p>
 				</td>
 			</tr>
 			<tr>
@@ -134,10 +136,6 @@ export async function POST({ request }) {
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Photos</td>
 							<td style="color:#160b11;">${photoAttachments.length} image${photoAttachments.length === 1 ? '' : 's'} attached</td>
 						</tr>` : ''}
-						${preferenceLabel ? `<tr>
-							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Preference</td>
-							<td style="color:#160b11;">${escapeHtml(preferenceLabel)}</td>
-						</tr>` : ''}
 					</table>
 				</td>
 			</tr>
@@ -157,6 +155,10 @@ export async function POST({ request }) {
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Phone</td>
 							<td><a href="tel:${escapeHtml(phone)}" style="color:#a1846d;text-decoration:none;">${escapeHtml(phone)}</a></td>
 						</tr>` : ''}
+						${contactMethodsLabel ? `<tr>
+							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Preferred Contact Method</td>
+							<td style="color:#160b11;">${escapeHtml(contactMethodsLabel)}</td>
+						</tr>` : ''}
 						<tr>
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Marketing Opt-in</td>
 							<td style="color:#160b11;">${gdprConsent ? 'Yes' : 'No'}</td>
@@ -166,7 +168,7 @@ export async function POST({ request }) {
 			</tr>
 			<tr>
 				<td style="padding:16px 32px;background:#faf8f6;border-top:1px solid #e5e5e5;font-size:11px;color:#6b5c55;text-align:center;">
-					Submitted via the Sale and Consignment page · Reply directly to respond to the client.
+					Submitted via ${escapeHtml(source)} · Reply directly to respond to the client.
 				</td>
 			</tr>
 		</table>
@@ -175,7 +177,7 @@ export async function POST({ request }) {
 
 	const text = [
 		'New Sale and Consignment Submission — Watch Reserve',
-		'Source: Sale and Consignment Page · Get Your Instant Valuation',
+		`Source: ${source}`,
 		'',
 		'— Watch Details —',
 		`Brand: ${brand}`,
@@ -186,15 +188,15 @@ export async function POST({ request }) {
 		hasBox         ? `Has Box: ${hasBox}`              : null,
 		hasPapers      ? `Has Papers: ${hasPapers}`        : null,
 		photoAttachments.length ? `Photos: ${photoAttachments.length} image${photoAttachments.length === 1 ? '' : 's'} attached` : null,
-		preferenceLabel ? `Preference: ${preferenceLabel}` : null,
 		'',
 		'— Contact Details —',
 		`Full Name: ${name}`,
 		`Email: ${email}`,
 		phone ? `Phone: ${phone}` : null,
+		contactMethodsLabel ? `Preferred Contact Method: ${contactMethodsLabel}` : null,
 		`Marketing Opt-in: ${gdprConsent ? 'Yes' : 'No'}`,
 		'',
-		'— Submitted via the Watch Reserve Sale and Consignment page'
+		`— Submitted via ${source}`
 	]
 		.filter(Boolean)
 		.join('\n');
@@ -227,13 +229,13 @@ export async function POST({ request }) {
 				{ label: 'Condition', value: condition },
 				{ label: 'Has Box', value: hasBox },
 				{ label: 'Has Papers', value: hasPapers },
-				{ label: 'Preference', value: preferenceLabel },
 				{ label: 'Phone', value: phone },
+				{ label: 'Preferred Contact Method', value: contactMethodsLabel },
 				{ label: 'Marketing Opt-in', value: gdprConsent ? 'Yes' : 'No' }
 			]
 		});
 
-		await syncToKlaviyo(email, firstName, gdprConsent, 'Sale and Consignment · Get Your Instant Valuation');
+		await syncToKlaviyo(email, firstName, gdprConsent, source);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[consignment] unexpected error:', err);
