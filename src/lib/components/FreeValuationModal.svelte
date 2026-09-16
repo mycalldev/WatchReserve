@@ -884,16 +884,67 @@
 		}
 	}
 
-	@media (max-width: 480px) {
-		.modal-header {
-			padding: 88px 22px 30px;
+	@media (max-width: 600px) {
+		.modal {
+			width: 90vw;
+			height: 90dvh;
 		}
-		.modal-body {
-			padding: 28px 22px 44px;
-		}
+
 		.close-btn {
-			width: 36px;
-			height: 36px;
+			top: 12px;
+			right: 12px;
+			width: 30px;
+			height: 30px;
+		}
+
+		.modal-header {
+			justify-content: flex-start;
+			padding: 16px 50px 14px 18px;
+		}
+
+		.modal-header-content {
+			gap: 10px;
+		}
+
+		.modal-title {
+			font-size: clamp(1.3rem, 6vw, 1.7rem);
+			line-height: 1.15;
+		}
+
+		.modal-sub {
+			font-size: 0.82rem;
+			line-height: 1.4;
+		}
+
+		.modal-body {
+			padding: 16px 18px 18px;
+		}
+
+		.modal-body-content {
+			gap: 16px;
+		}
+
+		.modal-form {
+			gap: 13px;
+		}
+
+		.field-input {
+			padding: 10px 12px;
+		}
+
+		.submit-btn {
+			height: 44px;
+			margin-top: 0;
+		}
+
+		.ask-later-btn {
+			margin-top: 2px;
+			padding: 4px;
+		}
+
+		.gdpr-check-label {
+			font-size: 0.8rem;
+			line-height: 1.4;
 		}
 	}
 </style>

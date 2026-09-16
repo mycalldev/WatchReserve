@@ -39,6 +39,7 @@ export async function POST({ request }) {
 	const fullName = clean(body.fullName);
 	const email = clean(body.email);
 	const gdprConsent = body.gdprConsent === true;
+	const source = clean(body.source) || 'Homepage Popup · Limited Time Offer';
 
 	if (!fullName) return json({ error: 'Please enter your full name.' }, { status: 400 });
 	if (!isValidEmail(email)) return json({ error: 'A valid email address is required.' }, { status: 400 });
@@ -56,7 +57,7 @@ export async function POST({ request }) {
 			</tr>
 			<tr>
 				<td style="padding:16px 32px 8px;">
-					<p style="margin:0;display:inline-block;padding:5px 12px;background:#faf0e6;border:1px solid #a1846d;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#a1846d;font-weight:700;">Homepage Popup · Limited Time Offer</p>
+					<p style="margin:0;display:inline-block;padding:5px 12px;background:#faf0e6;border:1px solid #a1846d;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#a1846d;font-weight:700;">${escapeHtml(source)}</p>
 				</td>
 			</tr>
 			<tr>
@@ -79,7 +80,7 @@ export async function POST({ request }) {
 			</tr>
 			<tr>
 				<td style="padding:16px 32px;background:#faf8f6;border-top:1px solid #e5e5e5;font-size:11px;color:#6b5c55;text-align:center;">
-					Submitted via the homepage Free Valuation popup.
+					Submitted via ${escapeHtml(source)}.
 				</td>
 			</tr>
 		</table>
@@ -88,13 +89,13 @@ export async function POST({ request }) {
 
 	const text = [
 		'New Free Valuation Request — Watch Reserve',
-		'Source: Homepage Popup · Limited Time Offer',
+		`Source: ${source}`,
 		'',
 		`Full Name: ${fullName}`,
 		`Email:     ${email}`,
 		`Marketing Opt-in: ${gdprConsent ? 'Yes' : 'No'}`,
 		'',
-		'— Submitted via the homepage Free Valuation popup'
+		`— Submitted via ${source}`
 	].join('\n');
 
 	try {
@@ -123,7 +124,7 @@ export async function POST({ request }) {
 			]
 		});
 
-		await syncToKlaviyo(email, fullName.split(' ')[0], gdprConsent, 'Free Valuation Popup');
+		await syncToKlaviyo(email, fullName.split(' ')[0], gdprConsent, source);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[free-valuation] unexpected error:', err);

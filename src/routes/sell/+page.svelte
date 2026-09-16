@@ -774,6 +774,7 @@
 		--cream: #faf4f3;
 		--maroon: #422635;
 		--deep-maroon: #160b11;
+		--gold: #a1846d;
 
 		--maroon-70: rgba(66, 38, 53, 0.7);
 		--maroon-45: rgba(66, 38, 53, 0.45);
@@ -869,8 +870,8 @@
 		text-decoration: none;
 		transition: background 0.2s, color 0.2s, border-color 0.2s;
 	}
-	.cg-btn-primary { background: var(--maroon); color: var(--cream); }
-	.cg-btn-primary:hover { background: var(--deep-maroon); }
+	.cg-btn-primary { background: var(--gold); color: var(--white); }
+	.cg-btn-primary:hover { background: #8a6f59; }
 	.cg-btn-cream { background: var(--cream); color: var(--maroon); }
 	.cg-btn-cream:hover { background: var(--white); }
 
