@@ -5,6 +5,25 @@
 	const STORAGE_KEY = 'wr_consignment_form';
 
 	const TOTAL = 3;
+	const ROLEX_MODELS = [
+		'Submariner',
+		'Datejust',
+		'Day-Date',
+		'GMT-Master II',
+		'Daytona',
+		'Explorer',
+		'Explorer II',
+		'Sea-Dweller',
+		'Yacht-Master',
+		'Yacht-Master II',
+		'Milgauss',
+		'Air-King',
+		'Sky-Dweller',
+		'Cellini',
+		'Oyster Perpetual',
+		'Pearlmaster',
+		'Other'
+	];
 	let step = $state(1);
 	let done = $state(false);
 	let submitting = $state(false);
@@ -498,7 +517,7 @@
 							{#if step === 1}
 								<div class="cg-field" class:cg-field-invalid={attempted && errors.brand}>
 									<label for="cg-brand">Brand</label>
-									<select id="cg-brand" bind:value={brand}>
+									<select id="cg-brand" bind:value={brand} onchange={() => (model = '')}>
 										<option value="" disabled selected>Select a brand</option>
 										<option>Rolex</option>
 										<option>Patek Philippe</option>
@@ -519,7 +538,16 @@
 								<div class="cg-field-row">
 									<div class="cg-field" class:cg-field-invalid={attempted && errors.model}>
 										<label for="cg-model">Model</label>
-										<input type="text" id="cg-model" placeholder="" bind:value={model} />
+										{#if brand === 'Rolex'}
+											<select id="cg-model" bind:value={model}>
+												<option value="" disabled selected>Select a model</option>
+												{#each ROLEX_MODELS as m}
+													<option>{m}</option>
+												{/each}
+											</select>
+										{:else}
+											<input type="text" id="cg-model" placeholder="" bind:value={model} />
+										{/if}
 										{#if attempted && errors.model}<p class="cg-field-error" role="alert">{errors.model}</p>{/if}
 									</div>
 									<div class="cg-field">
@@ -1063,7 +1091,17 @@
 		outline: none;
 		transition: border-color 0.2s;
 	}
-	.cg-field select { border-radius: 4px; }
+	.cg-field select {
+		border-radius: 4px;
+		appearance: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		padding-right: 40px;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23422635' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 14px center;
+		background-size: 12px 8px;
+	}
 	.cg-field input:focus,
 	.cg-field select:focus { border-color: var(--maroon); }
 	.cg-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }

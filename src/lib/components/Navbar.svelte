@@ -25,9 +25,15 @@
 
 <nav class="navbar">
 	<div class="navbar-container" class:offer-mode={isValuationLink}>
-		<a href="/" class="logo-link">
-			<img src="/assets/branding/Logo_Horizontal_Cream.avif" alt="Watch Reserve" class="logo" />
-		</a>
+		{#if isValuationLink}
+			<span class="logo-link">
+				<img src="/assets/branding/Logo_Horizontal_Cream.avif" alt="Watch Reserve" class="logo" />
+			</span>
+		{:else}
+			<a href="/" class="logo-link">
+				<img src="/assets/branding/Logo_Horizontal_Cream.avif" alt="Watch Reserve" class="logo" />
+			</a>
+		{/if}
 
 		{#if isValuationLink}
 			<span class="offer-text">September Free Valuation Offer</span>
@@ -595,11 +601,7 @@
 		}
 
 		.offer-text {
-			font-size: 10px;
-			letter-spacing: 0.05em;
-			line-height: 1.3;
-			white-space: normal;
-			max-width: 45vw;
+			display: none;
 		}
 	}
 </style>

@@ -5,6 +5,30 @@
 	const SOURCE = 'Valuation Link Page · September Free Valuation Offer';
 
 	const TOTAL = 3;
+	const STEP_TITLES = {
+		1: 'Tell Us About Your Watch',
+		2: 'The Condition of the Watch',
+		3: 'Tell Us About You'
+	};
+	const ROLEX_MODELS = [
+		'Submariner',
+		'Datejust',
+		'Day-Date',
+		'GMT-Master II',
+		'Daytona',
+		'Explorer',
+		'Explorer II',
+		'Sea-Dweller',
+		'Yacht-Master',
+		'Yacht-Master II',
+		'Milgauss',
+		'Air-King',
+		'Sky-Dweller',
+		'Cellini',
+		'Oyster Perpetual',
+		'Pearlmaster',
+		'Other'
+	];
 	let step = $state(1);
 	let done = $state(false);
 	let submitting = $state(false);
@@ -325,9 +349,8 @@
 			<div class="cg-hero-inner">
 				<h1 class="cg-hero-title">Claim Your Free Valuation</h1>
 				<p class="cg-hero-text">
-					Thank you for your interest in a free valuation this September. Complete the short form below with
-					your watch's details and one of our specialists will be in touch with your valuation shortly — free,
-					confidential, and with no obligation to sell.
+					Thank you for your interest in the Free Valuation this September. Complete the short form below and
+					one of our experts will be in touch with your valuation.
 				</p>
 				<a href="#start" class="cg-btn cg-btn-cream">Start My Free Valuation</a>
 			</div>
@@ -345,11 +368,16 @@
 
 			<div class="cg-form-wrap">
 				<div class="cg-form-card">
-					<div class="cg-form-progress">
-						<span>{done ? 'Complete' : `Step ${step} of ${TOTAL}`}</span>
-						<span class="cg-progress-track"
-							><span class="cg-progress-fill" style="width:{progressPct}%"></span></span
-						>
+					<div class="cg-form-header">
+						{#if !done}
+							<h3 class="cg-step-title">{STEP_TITLES[step]}</h3>
+						{/if}
+						<div class="cg-form-progress">
+							<span>{done ? 'Complete' : `Step ${step} of ${TOTAL}`}</span>
+							<span class="cg-progress-track"
+								><span class="cg-progress-fill" style="width:{progressPct}%"></span></span
+							>
+						</div>
 					</div>
 
 					{#if done}
@@ -366,7 +394,7 @@
 							{#if step === 1}
 								<div class="cg-field" class:cg-field-invalid={attempted && errors.brand}>
 									<label for="cg-brand">Brand</label>
-									<select id="cg-brand" bind:value={brand}>
+									<select id="cg-brand" bind:value={brand} onchange={() => (model = '')}>
 										<option value="" disabled selected>Select a brand</option>
 										<option>Rolex</option>
 										<option>Patek Philippe</option>
@@ -387,7 +415,16 @@
 								<div class="cg-field-row">
 									<div class="cg-field" class:cg-field-invalid={attempted && errors.model}>
 										<label for="cg-model">Model</label>
-										<input type="text" id="cg-model" placeholder="" bind:value={model} />
+										{#if brand === 'Rolex'}
+											<select id="cg-model" bind:value={model}>
+												<option value="" disabled selected>Select a model</option>
+												{#each ROLEX_MODELS as m}
+													<option>{m}</option>
+												{/each}
+											</select>
+										{:else}
+											<input type="text" id="cg-model" placeholder="" bind:value={model} />
+										{/if}
 										{#if attempted && errors.model}<p class="cg-field-error" role="alert">{errors.model}</p>{/if}
 									</div>
 									<div class="cg-field">
@@ -743,6 +780,13 @@
 	.cg-form-section { background: linear-gradient(180deg, var(--cream) 0%, #f3e9e7 100%); }
 	.cg-form-wrap { max-width: 1080px; margin: 0 auto; }
 	.cg-form-card { background: var(--white); border: 1px solid var(--maroon-15); padding: 52px 60px; box-shadow: 0 30px 70px rgba(22, 11, 17, 0.1); }
+	.cg-form-header {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 20px;
+		margin-bottom: 36px;
+	}
 	.cg-form-progress {
 		font-family: var(--font-ui);
 		font-weight: 700;
@@ -750,13 +794,29 @@
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
 		color: var(--maroon-45);
-		margin-bottom: 26px;
 		display: flex;
 		align-items: center;
 		gap: 12px;
+		flex-shrink: 0;
+		width: 180px;
 	}
 	.cg-progress-track { flex: 1; height: 2px; background: var(--maroon-15); position: relative; }
 	.cg-progress-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--maroon); transition: width 0.35s ease; }
+
+	.cg-step-title {
+		font-size: 1.4rem;
+		margin: 0;
+	}
+
+	@media (max-width: 620px) {
+		.cg-form-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 12px;
+			margin-bottom: 28px;
+		}
+		.cg-form-progress { width: 100%; }
+	}
 
 	.cg-field { margin-bottom: 22px; }
 	.cg-field label {
@@ -786,7 +846,17 @@
 		outline: none;
 		transition: border-color 0.2s;
 	}
-	.cg-field select { border-radius: 4px; }
+	.cg-field select {
+		border-radius: 4px;
+		appearance: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		padding-right: 40px;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23422635' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 14px center;
+		background-size: 12px 8px;
+	}
 	.cg-field input:focus,
 	.cg-field select:focus { border-color: var(--maroon); }
 	.cg-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
