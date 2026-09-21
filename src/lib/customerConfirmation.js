@@ -10,6 +10,8 @@ const PHONE_DISPLAY = '+44 (0)20 8150 1987';
 const PHONE_TEL = '+442081501987';
 const ADDRESS = '25 Cabot Square, Canary Wharf, London E14 4QA';
 const OPENING_HOURS = 'Mon – Sat: 10:00AM – 6:00PM';
+const VALUATION_LINK_URL = 'https://www.watchreserve.co.uk/valuation-link';
+const VALUATION_LINK_DELAY_MS = 5 * 60 * 1000;
 
 const TZ = 'Europe/London';
 const LOCALE = 'en-GB';
@@ -98,6 +100,21 @@ const TEMPLATES = {
 		signoff: 'Kind Regards,\nWatch Reserve Team'
 	}),
 
+	'valuation-link': () => ({
+		subject: 'Your Secure Valuation Link · Watch Reserve',
+		heading: 'Your Secure Valuation Link',
+		formName: 'Free Valuation Request',
+		intro:
+			'Thank you for submitting your details. To complete your request, please visit the secure link below to attach clear images and details of your watch. This helps our specialists prepare an accurate valuation.',
+		cta: {
+			label: 'Open Secure Valuation Link',
+			url: VALUATION_LINK_URL,
+			description:
+				'Please use this secure page to upload clear images of your watch and add details such as the brand, model, reference, condition, box and papers.'
+		},
+		signoff: 'Kind Regards,\nWatch Reserve Team'
+	}),
+
 	'landing-enquiry': () => ({
 		subject: "We've Received Your Enquiry · Watch Reserve",
 		heading: "We've Received Your Enquiry",
@@ -146,7 +163,28 @@ function renderSummaryTextRows(rows) {
 	return filterRows(rows).map((r) => `${r.label}: ${r.value}`);
 }
 
-function buildHtml({ heading, formName, intro, firstName, summary, submittedAt, signoff }) {
+function renderCtaHtml(cta) {
+	if (!cta) return '';
+
+	return `
+		<div style="margin-top:24px;padding:20px;background:#f9f5f2;border-left:3px solid #a1846d;">
+			<p style="margin:0 0 8px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#a1846d;font-weight:700;">Next Step</p>
+			<p style="margin:0 0 18px;font-size:14px;line-height:1.7;color:#3a2a31;">${escapeHtml(cta.description)}</p>
+			<p style="margin:0 0 16px;">
+				<a href="${escapeHtml(cta.url)}" style="display:inline-block;padding:13px 20px;background:#a1846d;color:#ffffff;text-decoration:none;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">${escapeHtml(cta.label)}</a>
+			</p>
+			<p style="margin:0;font-size:12px;line-height:1.6;color:#6b5c55;">If the button does not open, copy and paste this link into your browser:<br/>
+				<a href="${escapeHtml(cta.url)}" style="color:#a1846d;word-break:break-all;">${escapeHtml(cta.url)}</a>
+			</p>
+		</div>`.trim();
+}
+
+function renderCtaText(cta) {
+	if (!cta) return [];
+	return ['', 'NEXT STEP', cta.description, '', cta.label, cta.url];
+}
+
+function buildHtml({ heading, formName, intro, firstName, summary, submittedAt, signoff, cta }) {
 	const greeting = firstName ? `Dear ${escapeHtml(firstName)},` : 'Dear Customer,';
 	const summaryHtml = renderSummaryHtmlRows([
 		{ label: 'Submitted', value: submittedAt },
@@ -174,6 +212,7 @@ function buildHtml({ heading, formName, intro, firstName, summary, submittedAt, 
 				<td style="padding:28px 32px 16px;">
 					<p style="margin:0 0 14px;font-size:14px;line-height:1.7;color:#3a2a31;">${greeting}</p>
 					<p style="margin:0;font-size:14px;line-height:1.7;color:#3a2a31;">Thank you for filling out the ${escapeHtml(formName)}. ${escapeHtml(intro)}</p>
+					${renderCtaHtml(cta)}
 				</td>
 			</tr>
 
@@ -223,7 +262,7 @@ function buildHtml({ heading, formName, intro, firstName, summary, submittedAt, 
 </html>`.trim();
 }
 
-function buildText({ heading, formName, intro, firstName, summary, submittedAt, signoff }) {
+function buildText({ heading, formName, intro, firstName, summary, submittedAt, signoff, cta }) {
 	const greeting = firstName ? `Dear ${firstName},` : 'Dear Customer,';
 	const summaryLines = renderSummaryTextRows([
 		{ label: 'Submitted', value: submittedAt },
@@ -237,6 +276,7 @@ function buildText({ heading, formName, intro, firstName, summary, submittedAt, 
 		greeting,
 		'',
 		`Thank you for filling out the ${formName}. ${intro}`,
+		...renderCtaText(cta),
 		'',
 		'YOUR SUBMISSION',
 		...summaryLines,
@@ -298,5 +338,36 @@ export async function sendCustomerConfirmation({
 		}
 	} catch (err) {
 		console.error('[customerConfirmation] unexpected error:', err);
+	}
+}
+
+/**
+ * Schedules the follow-up email containing the secure Valuation Link page.
+ * The initial confirmation is sent separately and immediately after submission.
+ * Resend owns the delay, so this does not depend on a long-running server process.
+ */
+export async function scheduleValuationLinkEmail({ to, firstName }) {
+	if (!to) return;
+
+	const template = TEMPLATES['valuation-link']();
+	const submittedAt = formatSubmittedAt();
+	const scheduledAt = new Date(Date.now() + VALUATION_LINK_DELAY_MS).toISOString();
+
+	try {
+		const { error } = await resend.emails.send({
+			from: FROM,
+			to: [to],
+			replyTo: REPLY_TO,
+			subject: template.subject,
+			html: buildHtml({ ...template, firstName, summary: [], submittedAt }),
+			text: buildText({ ...template, firstName, summary: [], submittedAt }),
+			scheduledAt
+		});
+
+		if (error) {
+			console.error('[customerConfirmation] scheduled valuation link error:', error);
+		}
+	} catch (err) {
+		console.error('[customerConfirmation] scheduled valuation link unexpected error:', err);
 	}
 }

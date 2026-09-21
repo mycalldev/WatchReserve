@@ -34,3 +34,9 @@
 - **Changed:** `src/routes/+layout.svelte`, `src/lib/components/Navbar.svelte`
 - Wrapped the announcement bar and navigation in one sticky site header so the homepage valuation CTA remains available while visitors browse.
 - The navigation remains visually unchanged, while the combined header stays pinned at the top on desktop and mobile without relying on fixed navbar-height offsets.
+
+## 5. Scheduled Valuation Link follow-up email
+- **Changed:** `src/lib/customerConfirmation.js`, `src/routes/api/free-valuation/+server.js`
+- Kept the existing confirmation email immediate after a valid popup or Ask Me Later submission.
+- Added a separate professional Valuation Link email scheduled through Resend for five minutes after submission.
+- The email explains that the recipient should use the secure page to attach images and watch details, and includes both a prominent CTA button and the full URL as a fallback.

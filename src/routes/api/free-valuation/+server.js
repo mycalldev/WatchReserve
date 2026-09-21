@@ -2,16 +2,20 @@ import { json } from '@sveltejs/kit';
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
 import { syncToKlaviyo } from '$lib/klaviyo.js';
-import { sendCustomerConfirmation } from '$lib/customerConfirmation.js';
+import { scheduleValuationLinkEmail, sendCustomerConfirmation } from '$lib/customerConfirmation.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
-const TO   = 'info@watchreserve.co.uk';
+const TO = 'info@watchreserve.co.uk';
 const FROM = 'Watch Reserve <noreply@watchreserve.co.uk>';
 
-function clean(v) { return String(v ?? '').trim(); }
+function clean(v) {
+	return String(v ?? '').trim();
+}
 
-function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+function isValidEmail(v) {
+	return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+}
 
 function escapeHtml(v) {
 	return String(v ?? '')
@@ -42,7 +46,8 @@ export async function POST({ request }) {
 	const source = clean(body.source) || 'Homepage Popup · Limited Time Offer';
 
 	if (!fullName) return json({ error: 'Please enter your full name.' }, { status: 400 });
-	if (!isValidEmail(email)) return json({ error: 'A valid email address is required.' }, { status: 400 });
+	if (!isValidEmail(email))
+		return json({ error: 'A valid email address is required.' }, { status: 400 });
 
 	const html = `
 <!doctype html>
@@ -110,7 +115,10 @@ export async function POST({ request }) {
 
 		if (error) {
 			console.error('[free-valuation] resend error:', error);
-			return json({ error: 'Failed to submit your request. Please try again later.' }, { status: 502 });
+			return json(
+				{ error: 'Failed to submit your request. Please try again later.' },
+				{ status: 502 }
+			);
 		}
 
 		await sendCustomerConfirmation({
@@ -124,10 +132,18 @@ export async function POST({ request }) {
 			]
 		});
 
+		await scheduleValuationLinkEmail({
+			to: email,
+			firstName: fullName.split(' ')[0]
+		});
+
 		await syncToKlaviyo(email, fullName.split(' ')[0], gdprConsent, source);
 		return json({ success: true });
 	} catch (err) {
 		console.error('[free-valuation] unexpected error:', err);
-		return json({ error: 'Failed to submit your request. Please try again later.' }, { status: 500 });
+		return json(
+			{ error: 'Failed to submit your request. Please try again later.' },
+			{ status: 500 }
+		);
 	}
 }
