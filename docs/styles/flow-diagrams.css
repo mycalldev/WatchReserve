@@ -1,0 +1,183 @@
+/* Shared Watch Reserve documentation and flowchart styles.
+ * Usage: docs/styles/README.md. Full-page stylesheet; not scoped for app UI.
+ */
+:root {
+	--paper: #faf8f6;
+	--card: #fff;
+	--ink: #1c120f;
+	--muted: #73665e;
+	--accent: #a1846d;
+	--tint: #f3e9df;
+	--line: #b8aaa0;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--paper: #150e0c;
+		--card: #211815;
+		--ink: #f5efe9;
+		--muted: #beaea3;
+		--accent: #c9a882;
+		--tint: #392b22;
+		--line: #806e60;
+	}
+}
+* {
+	box-sizing: border-box;
+}
+body {
+	margin: 0;
+	background: var(--paper);
+	color: var(--ink);
+	font:
+		16px/1.6 Arial,
+		sans-serif;
+}
+main {
+	max-width: 1160px;
+	margin: 50px auto;
+	padding: 0 24px;
+}
+h1,
+h2 {
+	font-family: Georgia, serif;
+	font-weight: 400;
+	line-height: 1.2;
+}
+h1 {
+	font-size: 46px;
+	margin: 12px 0;
+}
+h2 {
+	font-size: 28px;
+}
+a {
+	color: var(--accent);
+}
+.eyebrow {
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	font-size: 12px;
+	color: var(--accent);
+}
+.intro {
+	max-width: 800px;
+	color: var(--muted);
+}
+figure {
+	margin: 32px 0 48px;
+}
+.scroll {
+	overflow-x: auto;
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: var(--card);
+}
+svg {
+	display: block;
+	width: 1080px;
+	max-width: none;
+}
+svg text {
+	fill: var(--ink);
+	font:
+		15px Arial,
+		sans-serif;
+	text-anchor: middle;
+}
+svg .sub {
+	fill: var(--muted);
+	font-size: 12px;
+}
+.node {
+	fill: var(--card);
+	stroke: var(--line);
+	stroke-width: 1.5;
+}
+.offer {
+	fill: var(--tint);
+	stroke: var(--accent);
+	stroke-width: 2;
+}
+.system {
+	fill: var(--card);
+	stroke: var(--line);
+	stroke-dasharray: 6 4;
+}
+.end {
+	fill: var(--paper);
+	stroke: var(--line);
+	stroke-dasharray: 3 4;
+}
+.decision {
+	fill: var(--card);
+	stroke: var(--accent);
+	stroke-width: 1.5;
+}
+.edge {
+	fill: none;
+	stroke: var(--accent);
+	stroke-width: 1.6;
+	marker-end: url(#arrow);
+}
+.label {
+	font-size: 12px;
+	fill: var(--muted);
+}
+figcaption {
+	color: var(--muted);
+	font-size: 14px;
+	margin-top: 14px;
+}
+table {
+	border-collapse: collapse;
+	width: 100%;
+	font-size: 14px;
+}
+td,
+th {
+	text-align: left;
+	padding: 14px;
+	border-bottom: 1px solid var(--line);
+	vertical-align: top;
+}
+th {
+	color: var(--accent);
+}
+code {
+	font-size: 12px;
+}
+li {
+	margin: 8px 0;
+}
+.badge {
+	display: inline-block;
+	border: 1px dashed var(--accent);
+	padding: 3px 10px;
+	font-size: 12px;
+	color: var(--accent);
+}
+@media print {
+	body {
+		background: white;
+	}
+	main {
+		margin: 0;
+		max-width: none;
+	}
+	.scroll {
+		overflow: visible;
+	}
+	svg {
+		width: 100%;
+		height: auto;
+	}
+	figure {
+		break-inside: avoid;
+	}
+	h1 {
+		font-size: 32px;
+	}
+	a {
+		color: inherit;
+	}
+}
