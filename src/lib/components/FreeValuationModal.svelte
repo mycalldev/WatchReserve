@@ -1,10 +1,7 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
 	import { trackEvent } from '$lib/ga.js';
-	import { setAskMeLater } from '$lib/askMeLater.js';
-
-	const STORAGE_KEY = 'wr_valuation_modal_dismissed_until';
-	const SUPPRESS_HOURS = 24;
+	import { hasValuationSubmitted, setAskMeLater, setValuationSubmitted } from '$lib/askMeLater.js';
 
 	let visible = $state(false);
 	let animateIn = $state(false);
@@ -44,19 +41,9 @@
 		window.scrollTo(0, lockedScrollY);
 	}
 
-	function isDismissed() {
-		try {
-			const until = localStorage.getItem(STORAGE_KEY);
-			if (!until) return false;
-			return Date.now() < parseInt(until, 10);
-		} catch {
-			return false;
-		}
-	}
-
 	function show() {
 		if (triggered) return;
-		if (isDismissed()) return;
+		if (hasValuationSubmitted()) return;
 		triggered = true;
 		clearTimeout(timeoutId);
 		removeListeners();
@@ -76,11 +63,6 @@
 			visible = false;
 			unlockBodyScroll();
 		}, 360);
-		try {
-			localStorage.setItem(STORAGE_KEY, String(Date.now() + SUPPRESS_HOURS * 3600 * 1000));
-		} catch {
-			/* ignore */
-		}
 	}
 
 	function askMeLater() {
@@ -158,6 +140,7 @@
 			if (!res.ok) {
 				submitError = data?.error || 'Something went wrong. Please try again.';
 			} else {
+				setValuationSubmitted();
 				submitted = true;
 				trackEvent('form_submit', { form_name: 'free_valuation_popup' });
 				setTimeout(() => dismiss(), 3200);
@@ -170,7 +153,7 @@
 	}
 
 	onMount(() => {
-		if (isDismissed()) return;
+		if (hasValuationSubmitted()) return;
 
 		// Trigger as soon as the user starts scrolling
 		window.addEventListener('scroll', show, { once: true, passive: true });
@@ -886,8 +869,14 @@
 
 	@media (max-width: 600px) {
 		.modal {
+			left: 5vw;
 			width: 90vw;
 			height: 90dvh;
+			transform: translateY(-50%) scale(0.97);
+		}
+
+		.modal.visible {
+			transform: translateY(-50%) scale(1);
 		}
 
 		.close-btn {
