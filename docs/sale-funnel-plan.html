@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Watch Reserve — Sale funnel proposal</title>
+		<link rel="stylesheet" href="styles/flow-diagrams.css" />
+		<style>
+			.options {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 18px;
+				margin: 28px 0;
+			}
+			.option {
+				border: 1px solid var(--line);
+				border-radius: 12px;
+				padding: 24px;
+				background: var(--card);
+			}
+			.option.remote {
+				border: 2px solid var(--accent);
+				background: var(--tint);
+			}
+			.option h3 {
+				font:
+					28px Georgia,
+					serif;
+				margin: 14px 0;
+			}
+			.option p {
+				font-size: 14px;
+			}
+			.cta {
+				display: block;
+				border: 1px solid var(--accent);
+				padding: 10px 12px;
+				margin-top: 20px;
+				text-align: center;
+				font-size: 14px;
+				color: var(--ink);
+			}
+			.remote .cta {
+				background: var(--ink);
+				color: var(--paper);
+				border-color: var(--ink);
+			}
+			.note {
+				border-left: 3px solid var(--accent);
+				padding: 12px 20px;
+				background: var(--tint);
+			}
+			@media (max-width: 750px) {
+				.options {
+					grid-template-columns: 1fr;
+				}
+			}
+			@media print {
+				.options {
+					grid-template-columns: repeat(3, 1fr);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div class="eyebrow">Watch Reserve · Sale funnel · Discussion draft · 20 September 2026</div>
+			<h1>Three ways in. One clear next step.</h1>
+			<p class="intro">
+				Goal: turn homepage visitors into completed /sell enquiries, with Remote Sale given the
+				strongest visual emphasis. This is a proposed funnel, not an implemented homepage section.
+				The shared three-step form already exists.
+			</p>
+			<span class="badge">Planning branch: sale-funnel</span>
+			<h2>01 / The homepage invitation</h2>
+			<p>
+				<strong>Sell your watch, your way.</strong><br />Choose Fast Sale, Digital Sale or Remote
+				Sale. Tell us about your watch and our team will help you take the next step.
+			</p>
+			<div class="options">
+				<article class="option">
+					<div class="eyebrow">01 · Speed first</div>
+					<h3>Fast Sale</h3>
+					<p>
+						Want a quick sale? Submit your watch details, then arrange to bring or deliver your
+						watch to our office for assessment.
+					</p>
+					<p>
+						Prefer a valuation without an initial office visit or delivery? Explore Remote Sale
+						below.
+					</p>
+					<span class="cta">Explore Fast Sale →</span>
+				</article>
+				<article class="option">
+					<div class="eyebrow">02 · Online exposure</div>
+					<h3>Digital Sale</h3>
+					<p>
+						Bring or deliver your watch to our office. Watch Reserve promotes it across all our
+						online platforms to help find a buyer.
+					</p>
+					<p>Start with your watch details and our team will explain the next steps.</p>
+					<span class="cta">Explore Digital Sale →</span>
+				</article>
+				<article class="option remote">
+					<div class="eyebrow">03 · Our recommended route*</div>
+					<h3>Remote Sale</h3>
+					<p>
+						<strong>A fast, hassle-free valuation, wherever you are.</strong> Upload photos and
+						details of your watch. Our team reviews your submission and takes it from there—no
+						initial office visit or delivery needed.
+					</p>
+					<p>
+						Once the next steps and sale terms are agreed, Watch Reserve promotes your watch across
+						all our online platforms.
+					</p>
+					<span class="cta">Get My Remote Valuation →</span>
+				</article>
+			</div>
+			<p class="intro">
+				Draft copy; the CTA treatments above are visual examples. “Our recommended route” expresses
+				Watch Reserve’s preference. Fast and Digital involve bringing or delivering the watch to the
+				office; Remote starts with the seller’s photos and watch details.
+			</p>
+			<p class="note">
+				Lead with the practical Remote benefit: “Upload your photos. Get your valuation. We’ll
+				handle the next steps.” Use the strongest border, background and CTA for Remote. Fast Sale
+				prioritises a quick sale; Remote makes the initial valuation convenient. A quick valuation
+				does not promise a quick completed sale.
+			</p>
+			<h2>02 / Proposed visitor journey</h2>
+			<figure>
+				<div class="scroll">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 1080 1300"
+						role="img"
+						aria-labelledby="funnel-title"
+					>
+						<title id="funnel-title">
+							Proposed sale funnel: three homepage choices converge on one adaptable sell form
+						</title>
+						<defs>
+							<marker
+								id="arrow"
+								viewBox="0 0 10 10"
+								refX="9"
+								refY="5"
+								markerWidth="7"
+								markerHeight="7"
+								orient="auto"
+							>
+								<path d="M0 0 L10 5 L0 10 Z" fill="var(--accent)" />
+							</marker>
+						</defs>
+						<path class="edge" d="M540 90 V115 H180 V145" />
+						<path class="edge" d="M540 90 V145" />
+						<path class="edge" d="M540 115 H900 V145" />
+						<path class="edge" d="M180 235 V290" />
+						<path class="edge" d="M540 235 V290" />
+						<path class="edge" d="M900 235 V290" />
+						<path class="edge" d="M180 355 V390 H540 V430" />
+						<path class="edge" d="M540 355 V430" />
+						<path class="edge" d="M900 355 V390 H540" />
+						<path class="edge" d="M325 470 H385" />
+						<path class="edge" d="M540 510 V565" />
+						<path class="edge" d="M540 630 V680" />
+						<path class="edge" d="M540 745 V795" />
+						<path class="edge" d="M540 860 V915" />
+						<path class="edge" d="M385 950 H325" />
+						<text class="label" x="355" y="937">Failure</text>
+						<path class="edge" d="M180 990 V1020 H730 V950 H695" />
+						<text class="label" x="731" y="1006">Retry</text>
+						<path class="edge" d="M540 990 V1045" />
+						<text class="label" x="570" y="1027">Success</text>
+						<path class="edge" d="M540 1120 V1150 H180 V1180" />
+						<path class="edge" d="M540 1120 V1180" />
+						<path class="edge" d="M540 1150 H900 V1180" />
+						<rect class="node offer" x="385" y="25" width="310" height="65" rx="8" />
+						<text class="" x="540.0" y="52.5">Homepage: three ways to sell</text>
+						<text class="sub" x="540.0" y="72.5">New section — proposed</text>
+						<rect class="node node" x="35" y="145" width="290" height="90" rx="8" />
+						<text class="" x="180.0" y="175.0">01 · Fast Sale</text>
+						<text class="sub" x="180.0" y="195.0">Bring / deliver watch to office</text>
+						<text class="sub" x="180.0" y="215.0">CTA: Explore Fast Sale</text>
+						<rect class="node offer" x="395" y="145" width="290" height="90" rx="8" />
+						<text class="" x="540.0" y="175.0">02 · Digital Sale</text>
+						<text class="sub" x="540.0" y="195.0">Office handover + online promotion</text>
+						<text class="sub" x="540.0" y="215.0">CTA: Explore Digital Sale</text>
+						<rect class="node offer" x="755" y="145" width="290" height="90" rx="8" />
+						<text class="" x="900.0" y="175.0">03 · Remote Sale</text>
+						<text class="sub" x="900.0" y="195.0">Photos + details; no initial office visit</text>
+						<text class="sub" x="900.0" y="215.0">CTA: Get My Remote Valuation</text>
+						<rect class="node system" x="35" y="290" width="290" height="65" rx="8" />
+						<text class="" x="180.0" y="317.5">/sell?sale_type=fast#start</text>
+						<text class="sub" x="180.0" y="337.5">Proposed option tracking</text>
+						<rect class="node system" x="395" y="290" width="290" height="65" rx="8" />
+						<text class="" x="540.0" y="317.5">/sell?sale_type=digital#start</text>
+						<text class="sub" x="540.0" y="337.5">Proposed option tracking</text>
+						<rect class="node system" x="755" y="290" width="290" height="65" rx="8" />
+						<text class="" x="900.0" y="317.5">/sell?sale_type=remote#start</text>
+						<text class="sub" x="900.0" y="337.5">Proposed option tracking</text>
+						<rect class="node offer" x="385" y="430" width="310" height="80" rx="8" />
+						<text class="" x="540.0" y="455.0">One form, selected route visible</text>
+						<text class="sub" x="540.0" y="475.0">Matching heading + change option</text>
+						<text class="sub" x="540.0" y="495.0">Recommended architecture — proposed</text>
+						<rect class="node node" x="35" y="430" width="290" height="80" rx="8" />
+						<text class="" x="180.0" y="455.0">Direct /sell visitor</text>
+						<text class="sub" x="180.0" y="475.0">Choose a route or “Help me choose”</text>
+						<text class="sub" x="180.0" y="495.0">Do not silently default to Remote</text>
+						<rect class="node node" x="385" y="565" width="310" height="65" rx="8" />
+						<text class="" x="540.0" y="592.5">1 · Your watch</text>
+						<text class="sub" x="540.0" y="612.5">Brand, model, reference, year</text>
+						<rect class="node node" x="385" y="680" width="310" height="65" rx="8" />
+						<text class="" x="540.0" y="707.5">2 · Condition and photos</text>
+						<text class="sub" x="540.0" y="727.5">Remote: photos required (proposed)</text>
+						<rect class="node node" x="385" y="795" width="310" height="65" rx="8" />
+						<text class="" x="540.0" y="822.5">3 · Your contact details</text>
+						<text class="sub" x="540.0" y="842.5">Name, email; phone optional</text>
+						<rect class="node system" x="385" y="915" width="310" height="75" rx="8" />
+						<text class="" x="540.0" y="937.5">Submit to /api/sell</text>
+						<text class="sub" x="540.0" y="957.5">Add selected sale type + entry source</text>
+						<text class="sub" x="540.0" y="977.5">New metadata — proposed</text>
+						<rect class="node offer" x="35" y="915" width="290" height="75" rx="8" />
+						<text class="" x="180.0" y="947.5">Error: explain and allow retry</text>
+						<text class="sub" x="180.0" y="967.5">Keep entered details and choice</text>
+						<rect class="node offer" x="385" y="1045" width="310" height="75" rx="8" />
+						<text class="" x="540.0" y="1067.5">Enquiry received</text>
+						<text class="sub" x="540.0" y="1087.5">Confirm selected sale route</text>
+						<text class="sub" x="540.0" y="1107.5">Team reviews watch and contacts seller</text>
+						<rect class="node end" x="35" y="1180" width="290" height="80" rx="8" />
+						<text class="" x="180.0" y="1205.0">Fast Sale follow-up</text>
+						<text class="sub" x="180.0" y="1225.0">Office assessment, then offer</text>
+						<text class="sub" x="180.0" y="1245.0">Terms and timings to define</text>
+						<rect class="node end" x="395" y="1180" width="290" height="80" rx="8" />
+						<text class="" x="540.0" y="1205.0">Digital Sale follow-up</text>
+						<text class="sub" x="540.0" y="1225.0">Office handover; agree listing terms</text>
+						<text class="sub" x="540.0" y="1245.0">Promote across online platforms</text>
+						<rect class="node end" x="755" y="1180" width="290" height="80" rx="8" />
+						<text class="" x="900.0" y="1205.0">Review photos + details</text>
+						<text class="sub" x="900.0" y="1225.0">Valuation + team-led next steps</text>
+						<text class="sub" x="900.0" y="1245.0">Agree terms, then online promotion</text>
+					</svg>
+				</div>
+				<figcaption>
+					Gold-tinted nodes mark visible UI. Dashed nodes mark system steps or follow-up stages.
+					Option tracking, tailored headings and Remote photo requirements are proposed;
+					/sell#start, the three-step form and /api/sell already exist. Fast and Digital require
+					bringing or delivering the watch to the office. Remote begins with a valuation from the
+					submitted photos and details, with no initial office handover. The team requests more
+					information if the images are insufficient, then handles the valuation and next steps.
+					Both Digital and Remote include online promotion once terms are agreed. Later Remote
+					inspection or delivery arrangements remain to be defined.
+				</figcaption>
+			</figure>
+			<h2>03 / One form or three?</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>Approach</th>
+						<th>Visitor experience</th>
+						<th>Planning assessment</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><strong>One adaptable form — proposed starting point</strong></td>
+						<td>
+							All three CTAs land at the form. The chosen route is visible, editable and included in
+							the enquiry.
+						</td>
+						<td>
+							The existing core questions apply to all three routes. Reuse the form and tailor its
+							heading, short explanation and any genuinely necessary conditional questions.
+						</td>
+					</tr>
+					<tr>
+						<td>Three separate forms</td>
+						<td>Each route has its own questions and submission journey.</td>
+						<td>
+							Consider only if eligibility, required information or operations differ enough to
+							justify separate experiences. Shared components can still prevent duplicate validation
+							and upload code.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>
+				The proposal keeps one adaptable form and the existing three steps. For Remote, make the
+				photo step central: explain that the valuation is based on the submitted images and details,
+				and propose requiring usable photos before submission. Keep photos optional for Fast and
+				Digital enquiries, where the watch is brought or delivered to the office. These conditional
+				requirements are proposed; photos are currently optional for every submission.
+			</p>
+			<h2>04 / Make the landing feel connected</h2>
+			<ul>
+				<li>
+					Carry the selected route in <code>sale_type</code>: <code>fast</code>,
+					<code>digital</code> or <code>remote</code>. Use the existing <code>#start</code> anchor
+					and account for the sticky header.
+				</li>
+				<li>
+					Show “Your choice: Remote Sale” and “Get your remote watch valuation”. Explain: “Upload
+					clear photos and your watch details. Our team will review them and contact you with your
+					valuation and next steps.” Keep the option editable without losing entered details.
+				</li>
+				<li>
+					For direct visitors, allow a route choice or “Help me choose”. Do not infer Remote from a
+					missing or invalid URL value.
+				</li>
+				<li>
+					A valid explicit CTA choice should take precedence over a saved choice. Preserve the
+					watch/contact draft, and show any resumed step clearly. Test both fresh and resumed
+					visits.
+				</li>
+				<li>
+					Update the current /sell copy, which describes only Consignment and Outright Sale. Its
+					success message also currently says “Consignment Page Valuation Form”.
+				</li>
+				<li>
+					The existing Ask Me Later reminder can appear on /sell. Decide whether to suppress it for
+					this focused funnel visit so it does not compete with the main form.
+				</li>
+			</ul>
+			<h2>05 / Capture the choice and measure completion</h2>
+			<p>
+				Proposed additions: validate the final sale type on the server; include it in the internal
+				notification, customer confirmation and Klaviyo profile metadata. Keep entry source and sale
+				type separate, and retain the initial choice if the visitor changes route.
+			</p>
+			<table>
+				<thead>
+					<tr>
+						<th>Proposed event</th>
+						<th>When</th>
+						<th>Useful properties</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>sale_options_view</td>
+						<td>Homepage section becomes visible</td>
+						<td>Section version</td>
+					</tr>
+					<tr>
+						<td>sale_option_select</td>
+						<td>A card CTA is clicked</td>
+						<td>Initial sale type, entry source</td>
+					</tr>
+					<tr>
+						<td>sell_form_start</td>
+						<td>First meaningful form interaction</td>
+						<td>Sale type, fresh/resumed</td>
+					</tr>
+					<tr>
+						<td>sell_form_step_complete</td>
+						<td>A step passes validation</td>
+						<td>Step, sale type</td>
+					</tr>
+					<tr>
+						<td>sell_form_submit_success</td>
+						<td>API confirms submission</td>
+						<td>Initial and final sale type, source</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>
+				Use the existing consent-aware analytics helper; do not send names, emails, phone numbers or
+				watch photos to analytics. Compare completed enquiries per section viewer and per form
+				starter, plus the Remote share of completed enquiries. Treat click share as supporting
+				evidence. Consent-based analytics will cover only part of the audience; assess enquiry
+				quality and eventual sales separately through internal reporting.
+			</p>
+			<h2>06 / Decisions needed before implementation</h2>
+			<ol>
+				<li>
+					<strong>After the remote valuation:</strong> confirm when physical inspection or delivery
+					is needed, who handles it, and how listing approval follows. The initial valuation uses
+					seller-submitted photos and details; later custody arrangements remain to be defined.
+				</li>
+				<li>
+					<strong>Fast Sale:</strong> is this the current outright-purchase service? Confirm
+					eligibility, offer/payment timing and any genuine price-versus-speed trade-off.
+				</li>
+				<li>
+					<strong>Commercial terms:</strong> agree fees, seller responsibilities and the stage at
+					which listing permission is obtained for Digital and Remote.
+				</li>
+				<li>
+					<strong>Photo requirements:</strong> agree the minimum usable images and the process for
+					requesting clearer photos or missing details. Proposed guidance: clear views of the dial,
+					case/back and condition, within the existing four-image upload limit. Revalidate Remote
+					requirements if a visitor changes route on a later step.
+				</li>
+			</ol>
+			<p class="intro">
+				Basis: current <a href="../src/routes/sell/+page.svelte">/sell page</a>,
+				<a href="../src/routes/api/sell/+server.js">submission endpoint</a> and the requested
+				three-option funnel. Styling: <a href="styles/flow-diagrams.css">shared diagram CSS</a>. No
+				customer-facing application changes have been made.
+			</p>
+		</main>
+	</body>
+</html>

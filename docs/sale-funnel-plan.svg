@@ -1,0 +1,293 @@
+<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 1080 1300"
+						role="img"
+						aria-labelledby="funnel-title"
+					>
+						<title id="funnel-title">
+							Proposed sale funnel: three homepage choices converge on one adaptable sell form
+						</title>
+						<style>/* Shared Watch Reserve documentation and flowchart styles.
+ * Usage: docs/styles/README.md. Full-page stylesheet; not scoped for app UI.
+ */
+:root {
+	--paper: #faf8f6;
+	--card: #fff;
+	--ink: #1c120f;
+	--muted: #73665e;
+	--accent: #a1846d;
+	--tint: #f3e9df;
+	--line: #b8aaa0;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--paper: #150e0c;
+		--card: #211815;
+		--ink: #f5efe9;
+		--muted: #beaea3;
+		--accent: #c9a882;
+		--tint: #392b22;
+		--line: #806e60;
+	}
+}
+* {
+	box-sizing: border-box;
+}
+body {
+	margin: 0;
+	background: var(--paper);
+	color: var(--ink);
+	font:
+		16px/1.6 Arial,
+		sans-serif;
+}
+main {
+	max-width: 1160px;
+	margin: 50px auto;
+	padding: 0 24px;
+}
+h1,
+h2 {
+	font-family: Georgia, serif;
+	font-weight: 400;
+	line-height: 1.2;
+}
+h1 {
+	font-size: 46px;
+	margin: 12px 0;
+}
+h2 {
+	font-size: 28px;
+}
+a {
+	color: var(--accent);
+}
+.eyebrow {
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	font-size: 12px;
+	color: var(--accent);
+}
+.intro {
+	max-width: 800px;
+	color: var(--muted);
+}
+figure {
+	margin: 32px 0 48px;
+}
+.scroll {
+	overflow-x: auto;
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	background: var(--card);
+}
+svg {
+	display: block;
+	width: 1080px;
+	max-width: none;
+}
+svg text {
+	fill: var(--ink);
+	font:
+		15px Arial,
+		sans-serif;
+	text-anchor: middle;
+}
+svg .sub {
+	fill: var(--muted);
+	font-size: 12px;
+}
+.node {
+	fill: var(--card);
+	stroke: var(--line);
+	stroke-width: 1.5;
+}
+.offer {
+	fill: var(--tint);
+	stroke: var(--accent);
+	stroke-width: 2;
+}
+.system {
+	fill: var(--card);
+	stroke: var(--line);
+	stroke-dasharray: 6 4;
+}
+.end {
+	fill: var(--paper);
+	stroke: var(--line);
+	stroke-dasharray: 3 4;
+}
+.decision {
+	fill: var(--card);
+	stroke: var(--accent);
+	stroke-width: 1.5;
+}
+.edge {
+	fill: none;
+	stroke: var(--accent);
+	stroke-width: 1.6;
+	marker-end: url(#arrow);
+}
+.label {
+	font-size: 12px;
+	fill: var(--muted);
+}
+figcaption {
+	color: var(--muted);
+	font-size: 14px;
+	margin-top: 14px;
+}
+table {
+	border-collapse: collapse;
+	width: 100%;
+	font-size: 14px;
+}
+td,
+th {
+	text-align: left;
+	padding: 14px;
+	border-bottom: 1px solid var(--line);
+	vertical-align: top;
+}
+th {
+	color: var(--accent);
+}
+code {
+	font-size: 12px;
+}
+li {
+	margin: 8px 0;
+}
+.badge {
+	display: inline-block;
+	border: 1px dashed var(--accent);
+	padding: 3px 10px;
+	font-size: 12px;
+	color: var(--accent);
+}
+@media print {
+	body {
+		background: white;
+	}
+	main {
+		margin: 0;
+		max-width: none;
+	}
+	.scroll {
+		overflow: visible;
+	}
+	svg {
+		width: 100%;
+		height: auto;
+	}
+	figure {
+		break-inside: avoid;
+	}
+	h1 {
+		font-size: 32px;
+	}
+	a {
+		color: inherit;
+	}
+}
+</style><defs>
+							<marker
+								id="arrow"
+								viewBox="0 0 10 10"
+								refX="9"
+								refY="5"
+								markerWidth="7"
+								markerHeight="7"
+								orient="auto"
+							>
+								<path d="M0 0 L10 5 L0 10 Z" fill="var(--accent)" />
+							</marker>
+						</defs>
+						<path class="edge" d="M540 90 V115 H180 V145" />
+						<path class="edge" d="M540 90 V145" />
+						<path class="edge" d="M540 115 H900 V145" />
+						<path class="edge" d="M180 235 V290" />
+						<path class="edge" d="M540 235 V290" />
+						<path class="edge" d="M900 235 V290" />
+						<path class="edge" d="M180 355 V390 H540 V430" />
+						<path class="edge" d="M540 355 V430" />
+						<path class="edge" d="M900 355 V390 H540" />
+						<path class="edge" d="M325 470 H385" />
+						<path class="edge" d="M540 510 V565" />
+						<path class="edge" d="M540 630 V680" />
+						<path class="edge" d="M540 745 V795" />
+						<path class="edge" d="M540 860 V915" />
+						<path class="edge" d="M385 950 H325" />
+						<text class="label" x="355" y="937">Failure</text>
+						<path class="edge" d="M180 990 V1020 H730 V950 H695" />
+						<text class="label" x="731" y="1006">Retry</text>
+						<path class="edge" d="M540 990 V1045" />
+						<text class="label" x="570" y="1027">Success</text>
+						<path class="edge" d="M540 1120 V1150 H180 V1180" />
+						<path class="edge" d="M540 1120 V1180" />
+						<path class="edge" d="M540 1150 H900 V1180" />
+						<rect class="node offer" x="385" y="25" width="310" height="65" rx="8" />
+						<text class="" x="540.0" y="52.5">Homepage: three ways to sell</text>
+						<text class="sub" x="540.0" y="72.5">New section — proposed</text>
+						<rect class="node node" x="35" y="145" width="290" height="90" rx="8" />
+						<text class="" x="180.0" y="175.0">01 · Fast Sale</text>
+						<text class="sub" x="180.0" y="195.0">Bring / deliver watch to office</text>
+						<text class="sub" x="180.0" y="215.0">CTA: Explore Fast Sale</text>
+						<rect class="node offer" x="395" y="145" width="290" height="90" rx="8" />
+						<text class="" x="540.0" y="175.0">02 · Digital Sale</text>
+						<text class="sub" x="540.0" y="195.0">Office handover + online promotion</text>
+						<text class="sub" x="540.0" y="215.0">CTA: Explore Digital Sale</text>
+						<rect class="node offer" x="755" y="145" width="290" height="90" rx="8" />
+						<text class="" x="900.0" y="175.0">03 · Remote Sale</text>
+						<text class="sub" x="900.0" y="195.0">Photos + details; no initial office visit</text>
+						<text class="sub" x="900.0" y="215.0">CTA: Get My Remote Valuation</text>
+						<rect class="node system" x="35" y="290" width="290" height="65" rx="8" />
+						<text class="" x="180.0" y="317.5">/sell?sale_type=fast#start</text>
+						<text class="sub" x="180.0" y="337.5">Proposed option tracking</text>
+						<rect class="node system" x="395" y="290" width="290" height="65" rx="8" />
+						<text class="" x="540.0" y="317.5">/sell?sale_type=digital#start</text>
+						<text class="sub" x="540.0" y="337.5">Proposed option tracking</text>
+						<rect class="node system" x="755" y="290" width="290" height="65" rx="8" />
+						<text class="" x="900.0" y="317.5">/sell?sale_type=remote#start</text>
+						<text class="sub" x="900.0" y="337.5">Proposed option tracking</text>
+						<rect class="node offer" x="385" y="430" width="310" height="80" rx="8" />
+						<text class="" x="540.0" y="455.0">One form, selected route visible</text>
+						<text class="sub" x="540.0" y="475.0">Matching heading + change option</text>
+						<text class="sub" x="540.0" y="495.0">Recommended architecture — proposed</text>
+						<rect class="node node" x="35" y="430" width="290" height="80" rx="8" />
+						<text class="" x="180.0" y="455.0">Direct /sell visitor</text>
+						<text class="sub" x="180.0" y="475.0">Choose a route or “Help me choose”</text>
+						<text class="sub" x="180.0" y="495.0">Do not silently default to Remote</text>
+						<rect class="node node" x="385" y="565" width="310" height="65" rx="8" />
+						<text class="" x="540.0" y="592.5">1 · Your watch</text>
+						<text class="sub" x="540.0" y="612.5">Brand, model, reference, year</text>
+						<rect class="node node" x="385" y="680" width="310" height="65" rx="8" />
+						<text class="" x="540.0" y="707.5">2 · Condition and photos</text>
+						<text class="sub" x="540.0" y="727.5">Remote: photos required (proposed)</text>
+						<rect class="node node" x="385" y="795" width="310" height="65" rx="8" />
+						<text class="" x="540.0" y="822.5">3 · Your contact details</text>
+						<text class="sub" x="540.0" y="842.5">Name, email; phone optional</text>
+						<rect class="node system" x="385" y="915" width="310" height="75" rx="8" />
+						<text class="" x="540.0" y="937.5">Submit to /api/sell</text>
+						<text class="sub" x="540.0" y="957.5">Add selected sale type + entry source</text>
+						<text class="sub" x="540.0" y="977.5">New metadata — proposed</text>
+						<rect class="node offer" x="35" y="915" width="290" height="75" rx="8" />
+						<text class="" x="180.0" y="947.5">Error: explain and allow retry</text>
+						<text class="sub" x="180.0" y="967.5">Keep entered details and choice</text>
+						<rect class="node offer" x="385" y="1045" width="310" height="75" rx="8" />
+						<text class="" x="540.0" y="1067.5">Enquiry received</text>
+						<text class="sub" x="540.0" y="1087.5">Confirm selected sale route</text>
+						<text class="sub" x="540.0" y="1107.5">Team reviews watch and contacts seller</text>
+						<rect class="node end" x="35" y="1180" width="290" height="80" rx="8" />
+						<text class="" x="180.0" y="1205.0">Fast Sale follow-up</text>
+						<text class="sub" x="180.0" y="1225.0">Office assessment, then offer</text>
+						<text class="sub" x="180.0" y="1245.0">Terms and timings to define</text>
+						<rect class="node end" x="395" y="1180" width="290" height="80" rx="8" />
+						<text class="" x="540.0" y="1205.0">Digital Sale follow-up</text>
+						<text class="sub" x="540.0" y="1225.0">Office handover; agree listing terms</text>
+						<text class="sub" x="540.0" y="1245.0">Promote across online platforms</text>
+						<rect class="node end" x="755" y="1180" width="290" height="80" rx="8" />
+						<text class="" x="900.0" y="1205.0">Review photos + details</text>
+						<text class="sub" x="900.0" y="1225.0">Valuation + team-led next steps</text>
+						<text class="sub" x="900.0" y="1245.0">Agree terms, then online promotion</text>
+					</svg>
