@@ -150,9 +150,7 @@
 		width: 100%;
 		padding: 0;
 		margin: 0;
-		position: sticky;
-		top: 0;
-		z-index: 1001;
+		position: relative;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 	}
 
@@ -526,9 +524,7 @@
 
 	@media (max-width: 768px) {
 		.navbar {
-			position: sticky;
-			top: 0;
-			z-index: 1001;
+			position: relative;
 		}
 
 		/* Two-row mobile layout */
@@ -605,4 +601,3 @@
 		}
 	}
 </style>
-

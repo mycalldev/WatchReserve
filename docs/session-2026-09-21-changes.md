@@ -29,3 +29,8 @@
 ## 3. Mobile popup alignment corrected
 - **Changed:** `src/lib/components/FreeValuationModal.svelte`
 - Updated the mobile modal positioning to use equal 5vw side gutters and a vertical-only centering transform, preventing the popup from appearing slightly offset to the right while the page scroll is locked.
+
+## 4. Announcement bar made sticky with the navigation
+- **Changed:** `src/routes/+layout.svelte`, `src/lib/components/Navbar.svelte`
+- Wrapped the announcement bar and navigation in one sticky site header so the homepage valuation CTA remains available while visitors browse.
+- The navigation remains visually unchanged, while the combined header stays pinned at the top on desktop and mobile without relying on fixed navbar-height offsets.

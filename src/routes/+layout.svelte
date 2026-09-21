@@ -17,18 +17,20 @@
 	<script src="https://elfsightcdn.com/platform.js" async></script>
 </svelte:head>
 
-<div class="announcement-banner">
-	{#if isHome}
-		<a class="announcement-link" href={resolve('/sell#start')}>
-			<span>Request your <strong>FREE September Valuation Today</strong></span>
-			<span class="announcement-arrow" aria-hidden="true">→</span>
-		</a>
-	{:else}
-		<div class="elfsight-app-3792420a-7204-4b4b-b884-4ed4c4b7956f" data-elfsight-app-lazy></div>
-	{/if}
-</div>
+<header class="site-header">
+	<div class="announcement-banner">
+		{#if isHome}
+			<a class="announcement-link" href={resolve('/sell#start')}>
+				<span>Request your <strong>FREE September Valuation Today</strong></span>
+				<span class="announcement-arrow" aria-hidden="true">→</span>
+			</a>
+		{:else}
+			<div class="elfsight-app-3792420a-7204-4b4b-b884-4ed4c4b7956f" data-elfsight-app-lazy></div>
+		{/if}
+	</div>
 
-<Navbar />
+	<Navbar />
+</header>
 
 {@render children()}
 
@@ -57,6 +59,12 @@
 		min-height: 0;
 		max-height: 50px;
 		overflow: hidden;
+	}
+
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 1001;
 	}
 
 	.announcement-banner :global([class^='elfsight-app-']) {
