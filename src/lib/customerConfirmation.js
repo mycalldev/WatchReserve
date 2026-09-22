@@ -33,6 +33,13 @@ function formatSubmittedAt(date = new Date()) {
 	}).format(date);
 }
 
+function formatOfferMonth(date = new Date()) {
+	return new Intl.DateTimeFormat(LOCALE, {
+		timeZone: TZ,
+		month: 'long'
+	}).format(date);
+}
+
 const TEMPLATES = {
 	contact: () => ({
 		subject: "We've Received Your Enquiry · Watch Reserve",
@@ -92,20 +99,23 @@ const TEMPLATES = {
 	}),
 
 	'free-valuation': () => ({
-		subject: 'September Month Free Valuation · Watch Reserve',
-		heading: 'September Month Free Valuation',
-		formName: 'Free Valuation Request',
+		subject: `${formatOfferMonth()} Free Valuation · Watch Reserve`,
+		heading: `${formatOfferMonth()} Free Valuation`,
+		formName: `${formatOfferMonth()} Free Valuation Request`,
 		intro:
-			'A member of the Watch Reserve team will be in contact with you very soon with a link to upload images and details of your timepiece.',
+			'A member of the Watch Reserve team will be in contact with you very soon with a secure link to upload images and details of your timepiece.',
+		introFollowUp:
+			'If you have not received your secure link within 20 minutes, please reach out to Watch Reserve via info@watchreserve.co.uk',
 		signoff: 'Kind Regards,\nWatch Reserve Team'
 	}),
 
 	'valuation-link': () => ({
-		subject: 'Your Secure Valuation Link · Watch Reserve',
-		heading: 'Your Secure Valuation Link',
+		subject: `Your Secure Valuation Link - ${formatOfferMonth()} Offer`,
+		heading: `Your Secure Valuation Link - ${formatOfferMonth()} Offer`,
 		formName: 'Free Valuation Request',
 		intro:
-			'Thank you for submitting your details. To complete your request, please visit the secure link below to attach clear images and details of your watch. This helps our specialists prepare an accurate valuation.',
+			'To complete your request, please visit the secure link below to attach clear images and details of your watch. This helps our specialists prepare an accurate valuation.',
+		introNewParagraph: true,
 		cta: {
 			label: 'Open Secure Valuation Link',
 			url: VALUATION_LINK_URL,
@@ -184,8 +194,21 @@ function renderCtaText(cta) {
 	return ['', 'NEXT STEP', cta.description, '', cta.label, cta.url];
 }
 
-function buildHtml({ heading, formName, intro, firstName, summary, submittedAt, signoff, cta }) {
+function buildHtml({
+	heading,
+	formName,
+	intro,
+	introNewParagraph,
+	introFollowUp,
+	firstName,
+	summary,
+	submittedAt,
+	signoff,
+	cta
+}) {
 	const greeting = firstName ? `Dear ${escapeHtml(firstName)},` : 'Dear Customer,';
+	const introSeparator = introNewParagraph ? '<br/><br/>' : ' ';
+	const introFollowUpHtml = introFollowUp ? `<br/><br/>${escapeHtml(introFollowUp)}` : '';
 	const summaryHtml = renderSummaryHtmlRows([
 		{ label: 'Submitted', value: submittedAt },
 		...summary
@@ -211,7 +234,7 @@ function buildHtml({ heading, formName, intro, firstName, summary, submittedAt, 
 			<tr>
 				<td style="padding:28px 32px 16px;">
 					<p style="margin:0 0 14px;font-size:14px;line-height:1.7;color:#3a2a31;">${greeting}</p>
-					<p style="margin:0;font-size:14px;line-height:1.7;color:#3a2a31;">Thank you for filling out the ${escapeHtml(formName)}. ${escapeHtml(intro)}</p>
+					<p style="margin:0;font-size:14px;line-height:1.7;color:#3a2a31;">Thank you for filling out the ${escapeHtml(formName)}.${introSeparator}${escapeHtml(intro)}${introFollowUpHtml}</p>
 					${renderCtaHtml(cta)}
 				</td>
 			</tr>
@@ -262,8 +285,21 @@ function buildHtml({ heading, formName, intro, firstName, summary, submittedAt, 
 </html>`.trim();
 }
 
-function buildText({ heading, formName, intro, firstName, summary, submittedAt, signoff, cta }) {
+function buildText({
+	heading,
+	formName,
+	intro,
+	introNewParagraph,
+	introFollowUp,
+	firstName,
+	summary,
+	submittedAt,
+	signoff,
+	cta
+}) {
 	const greeting = firstName ? `Dear ${firstName},` : 'Dear Customer,';
+	const introSeparator = introNewParagraph ? '\n\n' : ' ';
+	const introFollowUpText = introFollowUp ? `\n\n${introFollowUp}` : '';
 	const summaryLines = renderSummaryTextRows([
 		{ label: 'Submitted', value: submittedAt },
 		...summary
@@ -275,7 +311,7 @@ function buildText({ heading, formName, intro, firstName, summary, submittedAt, 
 		'',
 		greeting,
 		'',
-		`Thank you for filling out the ${formName}. ${intro}`,
+		`Thank you for filling out the ${formName}.${introSeparator}${intro}${introFollowUpText}`,
 		...renderCtaText(cta),
 		'',
 		'YOUR SUBMISSION',

@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { consumeAskMeLater } from '$lib/askMeLater.js';
+	import FormSuccess from '$lib/components/FormSuccess.svelte';
 
 	let visible = $state(false);
 	let animateIn = $state(false);
@@ -105,18 +106,32 @@
 </script>
 
 {#if visible}
-	<div class="ask-later-panel" class:visible={animateIn} role="dialog" aria-label="Free valuation reminder">
+	<div
+		class="ask-later-panel"
+		class:visible={animateIn}
+		role="dialog"
+		aria-label="Free valuation reminder"
+	>
 		<button class="ask-later-close" onclick={dismiss} aria-label="Close">
-			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+			<svg
+				width="14"
+				height="14"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
 				<line x1="18" y1="6" x2="6" y2="18" />
 				<line x1="6" y1="6" x2="18" y2="18" />
 			</svg>
 		</button>
 
 		{#if submitted}
-			<p class="ask-later-eyebrow">Thank You</p>
-			<h3 class="ask-later-title">Request Received!</h3>
-			<p class="ask-later-text">A member of our team will be in touch shortly with your free valuation.</p>
+			<FormSuccess
+				message="A member of our team will be in touch shortly with your free valuation."
+			/>
 		{:else}
 			<p class="ask-later-eyebrow">Still Deciding?</p>
 			<h3 class="ask-later-title">Your Free Valuation Is Ready When You Are</h3>
@@ -184,7 +199,9 @@
 		width: min(320px, calc(100vw - 40px));
 		background: #ffffff;
 		border-left: 4px solid #a1846d;
-		box-shadow: 0 20px 50px rgba(22, 11, 17, 0.25), 0 2px 8px rgba(0, 0, 0, 0.1);
+		box-shadow:
+			0 20px 50px rgba(22, 11, 17, 0.25),
+			0 2px 8px rgba(0, 0, 0, 0.1);
 		padding: 26px 26px 24px;
 		transform: translateX(-130%);
 		opacity: 0;
@@ -314,7 +331,9 @@
 		font-size: 0.88rem;
 		color: #160b11;
 		outline: none;
-		transition: border-color 0.2s ease, background-color 0.2s ease;
+		transition:
+			border-color 0.2s ease,
+			background-color 0.2s ease;
 		box-sizing: border-box;
 	}
 
