@@ -408,3 +408,59 @@ trailer
 startxref
 27611
 %%EOF
+
+21 2 obj
+<< /Count 15 /Kids [4 0 R 7 0 R 8 0 R 9 0 R 10 0 R 11 0 R 12 0 R 13 0 R 14 0 R 15 0 R 16 0 R 17 0 R 18 0 R 35 0 R 37 0 R] /Type /Pages >>
+endobj
+37 0 obj
+<< /Contents 38 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 21 0 R /Resources << /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] >> /Rotate 0 /Type /Page >>
+endobj
+38 0 obj
+<< /Length 661 >>
+stream
+BT
+/F2 18 Tf
+50 790 Td
+(Watch Reserve Session History) Tj
+/F1 11 Tf
+50 765 Td
+(22 September 2026) Tj
+/F2 13 Tf
+50 748 Td
+(Mobile popup confirmation layout) Tj
+/F1 10 Tf
+50 723 Td
+(- Centred the shared success message in the fixed mobile modal.) Tj
+/F1 10 Tf
+50 706 Td
+(- Disabled the modal internal scroll position in the success state.) Tj
+/F1 10 Tf
+50 689 Td
+(- Hid the stacked form header while the success message is shown.) Tj
+/F2 13 Tf
+50 672 Td
+(Changed files) Tj
+/F1 10 Tf
+50 647 Td
+(src/lib/components/FreeValuationModal.svelte) Tj
+/F2 13 Tf
+50 630 Td
+(Validation) Tj
+/F1 10 Tf
+50 605 Td
+(Targeted Prettier, ESLint, and git diff --check passed.) Tj
+ET
+endstream
+endobj
+xref
+21 1
+0000027772 00002 n
+37 1
+0000027926 00000 n
+38 1
+0000028115 00000 n
+trailer
+<< /Size 39 /Root 19 0 R /Info 20 0 R /Prev 27611 >>
+startxref
+28827
+%%EOF

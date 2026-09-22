@@ -189,6 +189,7 @@
 	<div
 		class="modal"
 		class:visible={animateIn}
+		class:success-view={submitted}
 		role="dialog"
 		aria-modal="true"
 		aria-labelledby="modal-title"
@@ -807,6 +808,22 @@
 			order: 2;
 			padding: 28px 32px 32px;
 			overflow-y: visible;
+		}
+
+		/* Keep the success state centred in the fixed modal instead of the form's scroll position. */
+		.modal.success-view .modal-inner {
+			overflow: hidden;
+		}
+
+		.modal.success-view .modal-header {
+			display: none;
+		}
+
+		.modal.success-view .modal-body {
+			flex: 1 1 auto;
+			min-height: 0;
+			height: 100%;
+			overflow: hidden;
 		}
 
 		.close-btn {
