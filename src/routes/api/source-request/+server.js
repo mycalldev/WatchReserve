@@ -119,7 +119,7 @@ export async function POST({ request }) {
 		`Model:      ${model}`,
 		reference ? `Reference:  ${reference}` : null,
 		'',
-		'— Submitted via the Watch Reserve source page'
+		'— Submitted via Watch Reserve source page'
 	]
 		.filter(Boolean)
 		.join('\n');

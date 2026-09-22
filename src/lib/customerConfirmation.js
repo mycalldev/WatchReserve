@@ -85,7 +85,7 @@ const TEMPLATES = {
 	}),
 
 	waitlist: () => ({
-		subject: "You're On the Watch Reserve Intelligence Waitlist",
+		subject: "You're On Watch Reserve Intelligence's Waitlist",
 		heading: "You're On the Waitlist",
 		formName: 'Waitlist Form',
 		intro:
@@ -97,10 +97,10 @@ const TEMPLATES = {
 		heading: `${getOfferMonth()} Free Valuation\nConfirmation Email`,
 		formName: `${getOfferMonth()} Free Valuation Request`,
 		intro:
-			'A member of the Watch Reserve team will be in contact with you very soon with a secure link to upload images and details of your timepiece.',
+			'A member of our team at Watch Reserve will be in contact with you very soon with a secure link to upload images and details of your timepiece.',
 		introFollowUp:
 			'If you have not received your secure link within 20 minutes, please reach out to Watch Reserve via info@watchreserve.co.uk',
-		signoff: 'Kind Regards,\nWatch Reserve Team'
+		signoff: 'Warm Regards,\nWatch Reserve Team'
 	}),
 
 	'valuation-link': () => ({
@@ -116,7 +116,7 @@ const TEMPLATES = {
 			description:
 				'Please use this secure page to upload clear images of your watch and add details such as the brand, model, reference, condition, box and papers.'
 		},
-		signoff: 'Kind Regards,\nWatch Reserve Team'
+		signoff: 'Warm Regards,\nWatch Reserve Team'
 	}),
 
 	'landing-enquiry': () => ({
@@ -208,7 +208,7 @@ function buildHtml({
 		{ label: 'Submitted', value: submittedAt },
 		...summary
 	]);
-	const signoffHtml = escapeHtml(signoff ?? 'Warm regards,\nThe Watch Reserve Team').replace(
+	const signoffHtml = escapeHtml(signoff ?? 'Warm Regards,\nWatch Reserve Team').replace(
 		/\n/g,
 		'<br/>'
 	);
@@ -299,7 +299,7 @@ function buildText({
 		{ label: 'Submitted', value: submittedAt },
 		...summary
 	]);
-	const signoffLines = (signoff ?? 'Warm regards,\nThe Watch Reserve Team').split('\n');
+	const signoffLines = (signoff ?? 'Warm Regards,\nWatch Reserve Team').split('\n');
 
 	return [
 		heading,

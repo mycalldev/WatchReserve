@@ -133,7 +133,7 @@ async function sendDepositEmails(pi) {
 			<tr>
 				<td style="padding:0 32px 24px;">
 					<p style="margin:0;font-size:14px;line-height:1.7;color:#160b11;">
-						A member of the Watch Reserve team will be in touch shortly to arrange collection or delivery and to finalise the balance payment.
+						A member of our team at Watch Reserve will be in touch shortly to arrange collection or delivery and to finalise the balance payment.
 					</p>
 					<p style="margin:14px 0 0;font-size:14px;line-height:1.7;color:#160b11;">
 						If you have any questions in the meantime, please contact us at
@@ -164,7 +164,7 @@ async function sendDepositEmails(pi) {
 		`Deposit Paid (10%):  ${depositFmt}`,
 		`Balance Due:         ${balanceFmt}`,
 		``,
-		`A member of the Watch Reserve team will be in touch to arrange collection or delivery.`,
+		`A member of our team at Watch Reserve will be in touch to arrange collection or delivery.`,
 		``,
 		`Questions? Email info@watchreserve.co.uk or call +44 (0)20 8150 1987.`,
 		``,

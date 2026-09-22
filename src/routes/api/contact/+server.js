@@ -130,7 +130,7 @@ export async function POST({ request }) {
 			</tr>` : ''}
 			<tr>
 				<td style="padding:16px 32px;background:#faf8f6;border-top:1px solid #e5e5e5;font-size:11px;color:#6b5c55;text-align:center;">
-					Submitted via the Watch Reserve contact form · Reply directly to this email to respond to the enquirer.
+					Submitted via Watch Reserve contact form · Reply directly to this email to respond to the enquirer.
 				</td>
 			</tr>
 		</table>
@@ -150,7 +150,7 @@ export async function POST({ request }) {
 		'',
 		message ? `Message:\n${message}` : null,
 		'',
-		'— Submitted via the Watch Reserve contact form'
+		'— Submitted via Watch Reserve contact form'
 	]
 		.filter(Boolean)
 		.join('\n');

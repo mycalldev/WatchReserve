@@ -185,7 +185,7 @@ export async function POST({ request }) {
 		'',
 		message           ? `Message:\n${message}`           : null,
 		'',
-		'— Submitted via the Watch Reserve product page'
+		'— Submitted via Watch Reserve product page'
 	]
 		.filter(Boolean)
 		.join('\n');

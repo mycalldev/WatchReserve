@@ -72,7 +72,7 @@ export async function POST({ request }) {
 			</tr>
 			<tr>
 				<td style="padding:16px 32px;background:#faf8f6;border-top:1px solid #e5e5e5;font-size:11px;color:#6b5c55;text-align:center;">
-					Submitted via the Watch Reserve Intelligence page · Join the Waitlist.
+					Submitted via Watch Reserve Intelligence page · Join the Waitlist.
 				</td>
 			</tr>
 		</table>
@@ -87,7 +87,7 @@ export async function POST({ request }) {
 		`Email:      ${email}`,
 		`Marketing Opt-in: ${gdprConsent ? 'Yes' : 'No'}`,
 		'',
-		'— Submitted via the Watch Reserve Intelligence page'
+		'— Submitted via Watch Reserve Intelligence page'
 	]
 		.filter(Boolean)
 		.join('\n');
