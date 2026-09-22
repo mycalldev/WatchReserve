@@ -69,6 +69,8 @@
 	}
 
 	function closeSearch() {
+		inputRef?.blur();
+		rootRef?.querySelector('input')?.blur();
 		expanded     = false;
 		open         = false;
 		query        = '';
@@ -92,8 +94,9 @@
 			activeIndex = Math.max(activeIndex - 1, 0);
 		} else if (e.key === 'Enter' && activeIndex >= 0) {
 			e.preventDefault();
-			goto(`/shop/${results[activeIndex].handle}`);
+			const result = results[activeIndex];
 			closeSearch();
+			goto(`/shop/${result.handle}`);
 		}
 	}
 
@@ -435,7 +438,8 @@
 		outline: none;
 		color: #ffffff;
 		font-family: 'acumin-pro', sans-serif;
-		font-size: 0.875rem;
+		/* 16px prevents iOS Safari from zooming the page when this input is focused. */
+		font-size: 1rem;
 		font-weight: 300;
 		min-width: 0;
 	}
