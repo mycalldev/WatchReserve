@@ -1,6 +1,7 @@
 <script>
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
+	import { getOfferMonth } from '$lib/offer.js';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
@@ -8,8 +9,10 @@
 	import LiveChat from '$lib/components/LiveChat.svelte';
 
 	const favicon = '/favicon.png';
+	const offerMonth = getOfferMonth();
 	let { children } = $props();
 	const isHome = $derived(page.url.pathname === '/');
+	const isValuationLink = $derived(page.url.pathname === '/valuation-link');
 </script>
 
 <svelte:head>
@@ -21,7 +24,7 @@
 	<div class="announcement-banner">
 		{#if isHome}
 			<a class="announcement-link" href={resolve('/sell#start')}>
-				<span>Request your <strong>FREE September Valuation Today</strong></span>
+				<span>Request your <strong>FREE {offerMonth} Valuation Today</strong></span>
 				<span class="announcement-arrow" aria-hidden="true">→</span>
 			</a>
 		{:else}
@@ -40,7 +43,9 @@
 
 <ConditionalGA />
 
-<LiveChat />
+{#if !isValuationLink}
+	<LiveChat />
+{/if}
 
 <!-- #A1846D Button Background -->
 <!-- #160B11 Navbar Background -->

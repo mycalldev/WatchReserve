@@ -3,6 +3,7 @@ import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
 import { syncToKlaviyo } from '$lib/klaviyo.js';
 import { sendCustomerConfirmation } from '$lib/customerConfirmation.js';
+import { isValuationLinkSource } from '$lib/offer.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -74,7 +75,7 @@ export async function POST({ request }) {
 	const contactMethods = parseContactMethods(body.contactMethods);
 	const gdprConsent = body.gdprConsent === true;
 	const source      = clean(body.source) || 'Sale and Consignment Page · Get Your Instant Valuation';
-	const isValuationLinkSubmission = source === 'Valuation Link Page · September Free Valuation Offer';
+	const isValuationLinkSubmission = isValuationLinkSource(source);
 
 	const name = [firstName, lastName].filter(Boolean).join(' ');
 	const contactMethodsLabel = contactMethods.join(', ');

@@ -3,9 +3,11 @@
 	import { wishlist } from '$lib/stores/wishlist.svelte.js';
 	import { cart } from '$lib/stores/cart.svelte.js';
 	import { page } from '$app/state';
+	import { getOfferMonth } from '$lib/offer.js';
 	let isMenuOpen = $state(false);
 
 	const isValuationLink = $derived(page.url.pathname === '/valuation-link');
+	const offerMonth = getOfferMonth();
 
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
@@ -36,7 +38,7 @@
 		{/if}
 
 		{#if isValuationLink}
-			<span class="offer-text">September Free Valuation Offer</span>
+			<span class="offer-text">{offerMonth} Free Valuation Offer</span>
 		{:else}
 			<ul class="nav-links">
 				<li><a href="/shop">SHOP</a></li>

@@ -1,9 +1,11 @@
 <script>
 	import { browser } from '$app/environment';
 	import { tick } from 'svelte';
+	import { getOfferMonth, getValuationLinkSource } from '$lib/offer.js';
 
 	const STORAGE_KEY = 'wr_valuation_link_form';
-	const SOURCE = 'Valuation Link Page · September Free Valuation Offer';
+	const offerMonth = getOfferMonth();
+	const SOURCE = getValuationLinkSource();
 
 	const TOTAL = 2;
 	const STEP_TITLES = {
@@ -324,7 +326,7 @@
 </script>
 
 <svelte:head>
-	<title>Claim Your Free September Valuation | Watch Reserve</title>
+	<title>Claim Your Free {offerMonth} Valuation | Watch Reserve</title>
 </svelte:head>
 
 <div class="cg-page">
@@ -335,7 +337,7 @@
 			<div class="cg-hero-inner">
 				<h1 class="cg-hero-title">Claim Your Free Valuation</h1>
 				<p class="cg-hero-text">
-					Thank you for your interest in the Free Valuation this September. Complete the short form below and
+					Thank you for your interest in the Free Valuation this {offerMonth}. Complete the short form below and
 					one of our experts will be in touch with your valuation.
 				</p>
 				<a href="#start" class="cg-btn cg-btn-cream">Start My Free Valuation</a>
@@ -347,7 +349,7 @@
 	<section class="cg-section cg-form-section" id="start">
 		<div class="cg-container">
 			<div class="cg-section-head cg-center">
-				<span class="cg-offer-badge"><span class="cg-offer-dot" aria-hidden="true"></span>Free September Valuation</span>
+				<span class="cg-offer-badge"><span class="cg-offer-dot" aria-hidden="true"></span>Free {offerMonth} Valuation</span>
 				<h2>Tell Us About Your Watch</h2>
 				<p>A few quick details is all it takes. Our specialists aim to respond within 30 minutes during business hours.</p>
 			</div>
@@ -370,7 +372,7 @@
 						<div class="cg-form-done">
 							<h3>Thank You</h3>
 							<p>
-								Thank you for claiming your free September valuation. A member of our team will review the
+								Thank you for claiming your free {offerMonth} valuation. A member of our team will review the
 								details you have provided and be in touch shortly with your valuation. We aim to respond within
 								30 minutes during business hours.
 							</p>
@@ -658,7 +660,6 @@
 	.cg-hero {
 		position: relative;
 		min-height: 64vh;
-		min-height: 64dvh;
 		display: flex;
 		align-items: center;
 		overflow: hidden;
@@ -677,11 +678,12 @@
 	.cg-hero-text { color: var(--white); opacity: 0.9; font-size: 1.02rem; font-weight: 300; max-width: 440px; margin: 0 0 34px; }
 
 	@media (max-width: 820px) {
-		.cg-hero { min-height: 58vh; min-height: 58dvh; }
+		.cg-hero { min-height: 58vh; }
 	}
 
 	@media (max-width: 520px) {
-		.cg-hero { min-height: 72vh; min-height: 72dvh; }
+		/* Keep the hero height stable while mobile browser chrome expands/collapses. */
+		.cg-hero { min-height: 72vh; }
 		.cg-hero-inner { max-width: 100%; padding: 32px 0; }
 		.cg-hero-text { max-width: 100%; }
 	}

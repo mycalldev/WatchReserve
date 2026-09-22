@@ -3,6 +3,9 @@
 	import { trackEvent } from '$lib/ga.js';
 	import { hasValuationSubmitted, setAskMeLater, setValuationSubmitted } from '$lib/askMeLater.js';
 	import FormSuccess from '$lib/components/FormSuccess.svelte';
+	import { getOfferMonth } from '$lib/offer.js';
+
+	const offerMonth = getOfferMonth();
 
 	let visible = $state(false);
 	let animateIn = $state(false);
@@ -159,8 +162,8 @@
 		// Trigger as soon as the user starts scrolling
 		window.addEventListener('scroll', show, { once: true, passive: true });
 
-		// Fallback: show after 6s even with no scroll
-		timeoutId = setTimeout(show, 6000);
+		// Fallback: show after 3s even with no scroll
+		timeoutId = setTimeout(show, 3000);
 	});
 
 	onDestroy(() => {
@@ -220,7 +223,7 @@
 					</h2>
 
 					<p class="modal-sub">
-						For the Month of September we are offering a Free Valuation on your Time Piece. Submit
+						For the Month of {offerMonth} we are offering a Free Valuation on your Time Piece. Submit
 						your Name and Email below and we'll be in touch with a confirmation email.
 					</p>
 				</div>

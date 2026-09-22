@@ -1,5 +1,6 @@
 import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
+import { getOfferMonth } from '$lib/offer.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -30,13 +31,6 @@ function formatSubmittedAt(date = new Date()) {
 		timeZone: TZ,
 		dateStyle: 'long',
 		timeStyle: 'short'
-	}).format(date);
-}
-
-function formatOfferMonth(date = new Date()) {
-	return new Intl.DateTimeFormat(LOCALE, {
-		timeZone: TZ,
-		month: 'long'
 	}).format(date);
 }
 
@@ -99,9 +93,9 @@ const TEMPLATES = {
 	}),
 
 	'free-valuation': () => ({
-		subject: `${formatOfferMonth()} Free Valuation · Watch Reserve`,
-		heading: `${formatOfferMonth()} Free Valuation`,
-		formName: `${formatOfferMonth()} Free Valuation Request`,
+		subject: `${getOfferMonth()} Free Valuation · Watch Reserve`,
+		heading: `${getOfferMonth()} Free Valuation\nConfirmation Email`,
+		formName: `${getOfferMonth()} Free Valuation Request`,
 		intro:
 			'A member of the Watch Reserve team will be in contact with you very soon with a secure link to upload images and details of your timepiece.',
 		introFollowUp:
@@ -110,8 +104,8 @@ const TEMPLATES = {
 	}),
 
 	'valuation-link': () => ({
-		subject: `Your Secure Valuation Link - ${formatOfferMonth()} Offer`,
-		heading: `Your Secure Valuation Link - ${formatOfferMonth()} Offer`,
+		subject: `Your Secure Valuation Link - ${getOfferMonth()} Offer`,
+		heading: `Your Secure Valuation Link - ${getOfferMonth()} Offer`,
 		formName: 'Free Valuation Request',
 		intro:
 			'To complete your request, please visit the secure link below to attach clear images and details of your watch. This helps our specialists prepare an accurate valuation.',
@@ -207,6 +201,7 @@ function buildHtml({
 	cta
 }) {
 	const greeting = firstName ? `Dear ${escapeHtml(firstName)},` : 'Dear Customer,';
+	const headingHtml = escapeHtml(heading).replace(/\n/g, '<br/>');
 	const introSeparator = introNewParagraph ? '<br/><br/>' : ' ';
 	const introFollowUpHtml = introFollowUp ? `<br/><br/>${escapeHtml(introFollowUp)}` : '';
 	const summaryHtml = renderSummaryHtmlRows([
@@ -227,7 +222,7 @@ function buildHtml({
 			<tr>
 				<td style="padding:28px 32px;border-bottom:2px solid #a1846d;">
 					<p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#a1846d;font-weight:700;">Watch Reserve</p>
-					<h2 style="margin:6px 0 0;font-family:'freight-display-pro',Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">${escapeHtml(heading)}</h2>
+					<h2 style="margin:6px 0 0;font-family:'freight-display-pro',Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">${headingHtml}</h2>
 				</td>
 			</tr>
 
