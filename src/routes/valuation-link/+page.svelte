@@ -5,11 +5,10 @@
 	const STORAGE_KEY = 'wr_valuation_link_form';
 	const SOURCE = 'Valuation Link Page · September Free Valuation Offer';
 
-	const TOTAL = 3;
+	const TOTAL = 2;
 	const STEP_TITLES = {
 		1: 'Tell Us About Your Watch',
-		2: 'The Condition of the Watch',
-		3: 'Tell Us About You'
+		2: 'The Condition of the Watch'
 	};
 	const ROLEX_MODELS = [
 		'Submariner',
@@ -53,12 +52,7 @@
 	let photoFiles = $state([]);
 	let photoError = $state('');
 
-	let firstName = $state('');
-	let lastName = $state('');
-	let email = $state('');
-	let phone = $state('');
 	let contactMethods = $state([]);
-	let gdprConsent = $state(false);
 
 	let honeypot = $state('');
 
@@ -67,7 +61,7 @@
 			const raw = localStorage.getItem(STORAGE_KEY);
 			if (raw) {
 				const saved = JSON.parse(raw);
-				step = saved.step ?? 1;
+				step = Math.min(saved.step ?? 1, TOTAL);
 				brand = saved.brand ?? '';
 				model = saved.model ?? '';
 				reference = saved.reference ?? '';
@@ -75,12 +69,7 @@
 				condition = saved.condition ?? '';
 				hasBox = saved.hasBox ?? '';
 				hasPapers = saved.hasPapers ?? '';
-				firstName = saved.firstName ?? '';
-				lastName = saved.lastName ?? '';
-				email = saved.email ?? '';
-				phone = saved.phone ?? '';
 				contactMethods = Array.isArray(saved.contactMethods) ? saved.contactMethods : [];
-				gdprConsent = saved.gdprConsent ?? false;
 			}
 		} catch {
 			// Ignore corrupt/unreadable storage — form just starts blank.
@@ -98,21 +87,12 @@
 			condition,
 			hasBox,
 			hasPapers,
-			firstName,
-			lastName,
-			email,
-			phone,
-			contactMethods,
-			gdprConsent
+			contactMethods
 		};
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 	});
 
 	const progressPct = $derived(done ? 100 : (step / TOTAL) * 100);
-
-	function isValidEmail(v) {
-		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-	}
 
 	const errors = $derived.by(() => {
 		const e = {};
@@ -124,11 +104,6 @@
 			if (!condition) e.condition = 'Please select a condition.';
 			if (!hasBox) e.hasBox = 'Please let us know if you have the box.';
 			if (!hasPapers) e.hasPapers = 'Please let us know if you have the papers.';
-		} else if (step === 3) {
-			if (!firstName.trim()) e.firstName = 'First name is required.';
-			if (!lastName.trim()) e.lastName = 'Last name is required.';
-			if (!email.trim()) e.email = 'Email is required.';
-			else if (!isValidEmail(email)) e.email = 'Please enter a valid email address.';
 		}
 		return e;
 	});
@@ -247,12 +222,7 @@
 					hasBox,
 					hasPapers,
 					photos,
-					firstName,
-					lastName,
-					email,
-					phone,
 					contactMethods,
-					gdprConsent,
 					source: SOURCE
 				})
 			});
@@ -434,7 +404,7 @@
 										{#if brand === 'Rolex'}
 											<select id="cg-model" bind:value={model}>
 												<option value="" disabled selected>Select a model</option>
-												{#each ROLEX_MODELS as m}
+												{#each ROLEX_MODELS as m (m)}
 													<option>{m}</option>
 												{/each}
 											</select>
@@ -466,7 +436,7 @@
 								<div class="cg-field" class:cg-field-invalid={attempted && errors.condition}>
 									<label for="cg-condition">Condition</label>
 									<div class="cg-choice-group" id="cg-condition">
-										{#each ['Unworn', 'Excellent', 'Good', 'Fair'] as opt}
+										{#each ['Unworn', 'Excellent', 'Good', 'Fair'] as opt (opt)}
 											<span
 												class="cg-choice"
 												class:cg-selected={condition === opt}
@@ -482,7 +452,7 @@
 								<div class="cg-field" class:cg-field-invalid={attempted && errors.hasBox}>
 									<label for="cg-box">Do You Have the Box?</label>
 									<div class="cg-choice-group" id="cg-box">
-										{#each ['Yes', 'No'] as opt}
+										{#each ['Yes', 'No'] as opt (opt)}
 											<span
 												class="cg-choice"
 												class:cg-selected={hasBox === opt}
@@ -498,7 +468,7 @@
 								<div class="cg-field" class:cg-field-invalid={attempted && errors.hasPapers}>
 									<label for="cg-papers">Do You Have the Papers?</label>
 									<div class="cg-choice-group" id="cg-papers">
-										{#each ['Yes', 'No'] as opt}
+										{#each ['Yes', 'No'] as opt (opt)}
 											<span
 												class="cg-choice"
 												class:cg-selected={hasPapers === opt}
@@ -541,32 +511,11 @@
 									{/if}
 									{#if photoError}<p class="cg-form-error">{photoError}</p>{/if}
 								</div>
-							{:else if step === 3}
-								<div class="cg-field-row">
-									<div class="cg-field" class:cg-field-invalid={attempted && errors.firstName}>
-										<label for="cg-fname">First Name</label>
-										<input type="text" id="cg-fname" placeholder="First name" bind:value={firstName} />
-										{#if attempted && errors.firstName}<p class="cg-field-error" role="alert">{errors.firstName}</p>{/if}
-									</div>
-									<div class="cg-field" class:cg-field-invalid={attempted && errors.lastName}>
-										<label for="cg-lname">Last Name</label>
-										<input type="text" id="cg-lname" placeholder="Last name" bind:value={lastName} />
-										{#if attempted && errors.lastName}<p class="cg-field-error" role="alert">{errors.lastName}</p>{/if}
-									</div>
-								</div>
-								<div class="cg-field" class:cg-field-invalid={attempted && errors.email}>
-									<label for="cg-email">Email</label>
-									<input type="email" id="cg-email" placeholder="you@example.com" bind:value={email} autocomplete="email" />
-									{#if attempted && errors.email}<p class="cg-field-error" role="alert">{errors.email}</p>{/if}
-								</div>
-								<div class="cg-field">
-									<label for="cg-phone">Phone <span class="cg-optional">(optional)</span></label>
-									<input type="tel" id="cg-phone" placeholder="Best number to reach you" bind:value={phone} autocomplete="tel" />
-								</div>
-								<div class="cg-field">
+								<div class="cg-field cg-contact-preference">
 									<label for="cg-contact-pref">Preferred Method of Contact <span class="cg-optional">(optional)</span></label>
+									<p class="cg-field-hint">How would you prefer our team to contact you?</p>
 									<div class="cg-choice-group" id="cg-contact-pref">
-										{#each ['Phone', 'Email', 'WhatsApp'] as opt}
+										{#each ['Phone', 'Email', 'WhatsApp'] as opt (opt)}
 											<span
 												class="cg-choice"
 												class:cg-selected={contactMethods.includes(opt)}
@@ -578,11 +527,6 @@
 										{/each}
 									</div>
 								</div>
-								<label class="cg-gdpr-wrap">
-									<input type="checkbox" bind:checked={gdprConsent} class="cg-gdpr-input" />
-									<span class="cg-gdpr-box" aria-hidden="true"></span>
-									<span class="cg-gdpr-label">I am happy to receive updates and offers from Watch Reserve by email.</span>
-								</label>
 								{#if submitError}<p class="cg-form-error" role="alert">{submitError}</p>{/if}
 							{/if}
 
@@ -617,7 +561,7 @@
 			<div class="cg-reviews-grid">
 				<div class="cg-review-block">
 					<div class="cg-review-stage">
-						{#each reviews as review, i}
+						{#each reviews as review, i (review.name)}
 							<div class="cg-review-slide" class:cg-active={activeReview === i}>
 								<div class="cg-stars">★ ★ ★ ★ ★</div>
 								<p class="cg-review-quote">"{review.quote}"</p>
@@ -626,7 +570,7 @@
 						{/each}
 					</div>
 					<div class="cg-review-dots">
-						{#each reviews as _, i}
+						{#each reviews as review, i (review.name)}
 							<button
 								class="cg-review-dot"
 								class:cg-active={activeReview === i}
@@ -847,8 +791,6 @@
 	}
 	.cg-optional { font-weight: 400; opacity: 0.6; letter-spacing: 0.08em; }
 	.cg-field input[type='text'],
-	.cg-field input[type='email'],
-	.cg-field input[type='tel'],
 	.cg-field select {
 		width: 100%;
 		font-family: var(--font-ui);
@@ -880,8 +822,6 @@
 
 	.cg-field-error { margin: 8px 0 0; font-family: var(--font-ui); font-size: 0.74rem; color: #a33; }
 	.cg-field-invalid input[type='text'],
-	.cg-field-invalid input[type='email'],
-	.cg-field-invalid input[type='tel'],
 	.cg-field-invalid select { border-color: #a33; }
 	.cg-field-invalid .cg-choice-group { border: 1px solid #a33; padding: 8px; }
 
@@ -939,6 +879,12 @@
 	}
 	.cg-choice:hover { border-color: var(--maroon-45); }
 	.cg-choice.cg-selected { background: var(--maroon); color: var(--cream); border-color: var(--maroon); }
+	.cg-contact-preference {
+		margin-top: 30px;
+		padding-top: 24px;
+		border-top: 1px solid var(--maroon-15);
+	}
+	.cg-contact-preference .cg-field-hint { margin-top: -2px; margin-bottom: 12px; }
 
 	.cg-hp-field {
 		position: absolute;
@@ -948,38 +894,6 @@
 		height: 1px;
 		overflow: hidden;
 	}
-
-	.cg-gdpr-wrap {
-		display: flex;
-		align-items: flex-start;
-		gap: 12px;
-		cursor: pointer;
-		user-select: none;
-		margin-top: 20px;
-		padding: 16px 18px;
-		background: var(--maroon-08);
-		border: 1px solid var(--maroon-15);
-		border-left: 3px solid var(--maroon);
-		transition: background 0.2s ease;
-	}
-	.cg-gdpr-wrap:hover { background: var(--maroon-15); }
-	.cg-gdpr-input { position: absolute; opacity: 0; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
-	.cg-gdpr-box { flex-shrink: 0; width: 19px; height: 19px; border: 1.5px solid var(--maroon-45); background-color: var(--white); position: relative; margin-top: 1px; transition: border-color 0.2s ease, background-color 0.2s ease; }
-	.cg-gdpr-wrap:hover .cg-gdpr-box { border-color: var(--maroon); }
-	.cg-gdpr-input:checked + .cg-gdpr-box { background-color: var(--maroon); border-color: var(--maroon); }
-	.cg-gdpr-input:checked + .cg-gdpr-box::after {
-		content: '';
-		position: absolute;
-		left: 5px;
-		top: 2px;
-		width: 6px;
-		height: 10px;
-		border: 2px solid var(--white);
-		border-top: none;
-		border-left: none;
-		transform: rotate(45deg);
-	}
-	.cg-gdpr-label { font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; color: var(--maroon); line-height: 1.55; }
 
 	.cg-form-error { margin-top: 14px; font-family: var(--font-ui); font-size: 0.8rem; color: #a33; }
 	.cg-form-nav { display: flex; justify-content: flex-end; align-items: center; margin-top: 32px; gap: 14px; }
@@ -1007,6 +921,18 @@
 			padding: 36px 28px;
 			scroll-margin-top: 72px;
 		}
+		.cg-contact-preference {
+			margin-top: 26px;
+			padding-top: 22px;
+		}
+		.cg-contact-preference .cg-choice-group { gap: 8px; }
+		.cg-contact-preference .cg-choice {
+			flex: 1 1 calc(50% - 4px);
+			text-align: center;
+			padding: 11px 10px;
+		}
+		.cg-form-nav { margin-top: 28px; }
+		.cg-form-nav .cg-btn-primary { flex: 1; text-align: center; }
 	}
 
 	/* REVIEWS */

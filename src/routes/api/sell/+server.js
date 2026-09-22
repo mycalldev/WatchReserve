@@ -74,13 +74,16 @@ export async function POST({ request }) {
 	const contactMethods = parseContactMethods(body.contactMethods);
 	const gdprConsent = body.gdprConsent === true;
 	const source      = clean(body.source) || 'Sale and Consignment Page · Get Your Instant Valuation';
+	const isValuationLinkSubmission = source === 'Valuation Link Page · September Free Valuation Offer';
 
 	const name = [firstName, lastName].filter(Boolean).join(' ');
 	const contactMethodsLabel = contactMethods.join(', ');
 
-	if (firstName.length < 1)    return json({ error: 'First name is required.' },           { status: 400 });
-	if (lastName.length < 1)     return json({ error: 'Last name is required.' },             { status: 400 });
-	if (!isValidEmail(email))    return json({ error: 'A valid email address is required.' },{ status: 400 });
+	if (!isValuationLinkSubmission) {
+		if (firstName.length < 1) return json({ error: 'First name is required.' }, { status: 400 });
+		if (lastName.length < 1) return json({ error: 'Last name is required.' }, { status: 400 });
+		if (!isValidEmail(email)) return json({ error: 'A valid email address is required.' }, { status: 400 });
+	}
 	if (!brand)                  return json({ error: 'Watch brand is required.' },           { status: 400 });
 	if (!model)                  return json({ error: 'Watch model is required.' },           { status: 400 });
 
@@ -145,12 +148,15 @@ export async function POST({ request }) {
 					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size:14px;line-height:1.75;">
 						<tr>
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;width:160px;vertical-align:top;">Full Name</td>
-							<td style="color:#160b11;font-weight:600;">${escapeHtml(name)}</td>
+							<td style="color:#160b11;font-weight:600;">${escapeHtml(name || 'Provided at initial valuation request')}</td>
 						</tr>
-						<tr>
+						${email ? `<tr>
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Email</td>
 							<td><a href="mailto:${escapeHtml(email)}" style="color:#a1846d;text-decoration:none;">${escapeHtml(email)}</a></td>
-						</tr>
+						</tr>` : `<tr>
+							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Email</td>
+							<td style="color:#6b5c55;">Provided at initial valuation request</td>
+						</tr>`}
 						${phone ? `<tr>
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Phone</td>
 							<td><a href="tel:${escapeHtml(phone)}" style="color:#a1846d;text-decoration:none;">${escapeHtml(phone)}</a></td>
@@ -190,8 +196,8 @@ export async function POST({ request }) {
 		photoAttachments.length ? `Photos: ${photoAttachments.length} image${photoAttachments.length === 1 ? '' : 's'} attached` : null,
 		'',
 		'— Contact Details —',
-		`Full Name: ${name}`,
-		`Email: ${email}`,
+		`Full Name: ${name || 'Provided at initial valuation request'}`,
+		`Email: ${email || 'Provided at initial valuation request'}`,
 		phone ? `Phone: ${phone}` : null,
 		contactMethodsLabel ? `Preferred Contact Method: ${contactMethodsLabel}` : null,
 		`Marketing Opt-in: ${gdprConsent ? 'Yes' : 'No'}`,
@@ -205,8 +211,8 @@ export async function POST({ request }) {
 		const { error } = await resend.emails.send({
 			from: FROM,
 			to: [TO],
-			replyTo: email,
-			subject: `Sale and Consignment Valuation · ${brand} ${model} · ${name}`,
+			replyTo: isValidEmail(email) ? email : TO,
+			subject: `Sale and Consignment Valuation · ${brand} ${model} · ${name || 'Existing valuation lead'}`,
 			html,
 			text,
 			...(photoAttachments.length ? { attachments: photoAttachments } : {})
@@ -217,25 +223,27 @@ export async function POST({ request }) {
 			return json({ error: 'Failed to send request. Please try again later.' }, { status: 502 });
 		}
 
-		await sendCustomerConfirmation({
-			to: email,
-			firstName,
-			formType: 'consignment',
-			summary: [
-				{ label: 'Brand', value: brand },
-				{ label: 'Model', value: model },
-				{ label: 'Reference', value: reference },
-				{ label: 'Year', value: year },
-				{ label: 'Condition', value: condition },
-				{ label: 'Has Box', value: hasBox },
-				{ label: 'Has Papers', value: hasPapers },
-				{ label: 'Phone', value: phone },
-				{ label: 'Preferred Contact Method', value: contactMethodsLabel },
-				{ label: 'Marketing Opt-in', value: gdprConsent ? 'Yes' : 'No' }
-			]
-		});
+		if (isValidEmail(email)) {
+			await sendCustomerConfirmation({
+				to: email,
+				firstName,
+				formType: 'consignment',
+				summary: [
+					{ label: 'Brand', value: brand },
+					{ label: 'Model', value: model },
+					{ label: 'Reference', value: reference },
+					{ label: 'Year', value: year },
+					{ label: 'Condition', value: condition },
+					{ label: 'Has Box', value: hasBox },
+					{ label: 'Has Papers', value: hasPapers },
+					{ label: 'Phone', value: phone },
+					{ label: 'Preferred Contact Method', value: contactMethodsLabel },
+					{ label: 'Marketing Opt-in', value: gdprConsent ? 'Yes' : 'No' }
+				]
+			});
 
-		await syncToKlaviyo(email, firstName, gdprConsent, source);
+			await syncToKlaviyo(email, firstName, gdprConsent, source);
+		}
 		return json({ success: true });
 	} catch (err) {
 		console.error('[consignment] unexpected error:', err);
