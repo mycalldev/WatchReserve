@@ -1,4 +1,6 @@
 <script>
+	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 	const favicon = '/favicon.png';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
@@ -7,6 +9,7 @@
 	import LiveChat from '$lib/components/LiveChat.svelte';
 
 	let { children } = $props();
+	const isHome = $derived(page.url.pathname === '/');
 </script>
 
 <svelte:head>
@@ -14,11 +17,20 @@
 	<script src="https://elfsightcdn.com/platform.js" async></script>
 </svelte:head>
 
-<div class="announcement-banner">
-	<div class="elfsight-app-3792420a-7204-4b4b-b884-4ed4c4b7956f" data-elfsight-app-lazy></div>
-</div>
+<header class="site-header">
+	<div class="announcement-banner">
+		{#if isHome}
+			<a class="announcement-link" href={resolve('/sell#start')}>
+				<span>Request your <strong>FREE September Valuation Today</strong></span>
+				<span class="announcement-arrow" aria-hidden="true">→</span>
+			</a>
+		{:else}
+			<div class="elfsight-app-3792420a-7204-4b4b-b884-4ed4c4b7956f" data-elfsight-app-lazy></div>
+		{/if}
+	</div>
 
-<Navbar />
+	<Navbar />
+</header>
 
 {@render children()}
 
@@ -46,6 +58,54 @@
 	.announcement-banner :global([class^='elfsight-app-']) {
 		max-width: 100%;
 		width: fit-content !important;
+	}
+
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 1001;
+	}
+
+	.announcement-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		color: #160b11;
+		font-family: 'acumin-pro', sans-serif;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		line-height: 1.2;
+		text-align: center;
+		text-decoration: none;
+		text-transform: uppercase;
+		transition: color 0.2s ease;
+	}
+
+	.announcement-link:hover {
+		color: #a1846d;
+	}
+
+	.announcement-arrow {
+		font-size: 1.15em;
+		transition: transform 0.2s ease;
+	}
+
+	.announcement-link:hover .announcement-arrow {
+		transform: translateX(3px);
+	}
+
+	@media (max-width: 480px) {
+		.announcement-banner {
+			padding: 7px 12px;
+		}
+
+		.announcement-link {
+			gap: 6px;
+			font-size: 0.68rem;
+			letter-spacing: 0.05em;
+		}
 	}
 
 	:global(html) {
