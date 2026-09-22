@@ -34,3 +34,25 @@ commit the completed changes. Before committing:
 Only commit the changes relevant to the user's request, including the session
 log update. If `docs/session.pdf` does not exist yet, create it as the initial
 session document before committing.
+
+## Project notes
+
+Consult `docs/project-notes.md` before changing pages, components, or
+integrations covered by an existing project note. Preserve those decisions
+unless the user explicitly changes them, and add a dated note when the user
+establishes a new project-wide decision or third-party service reminder.
+
+## Google Reviews status check
+
+When working on this project, scan the repository for the current Google
+Reviews rating and status before finalising relevant work. Check source files,
+configuration, assets, and project notes for rating or review references using
+search terms such as `Google Reviews`, `rating`, `reviews`, and `stars`.
+
+- If the project records a rating below five stars, show a clear reminder to
+  the user that the Valuation Link page top bar may need updating.
+- If the rating cannot be verified from the project, show the same reminder
+  rather than assuming that the rating is still five stars.
+- Do not silently change the top bar based only on this check. Report the
+  finding and wait for the user's direction before changing the credibility
+  message.

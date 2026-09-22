@@ -1,5 +1,6 @@
 <script>
 	import { browser } from '$app/environment';
+	import { tick } from 'svelte';
 
 	const STORAGE_KEY = 'wr_valuation_link_form';
 	const SOURCE = 'Valuation Link Page · September Free Valuation Offer';
@@ -34,6 +35,7 @@
 	let submitting = $state(false);
 	let submitError = $state('');
 	let attempted = $state(false);
+	let formCardEl = $state();
 
 	let brand = $state('');
 	let model = $state('');
@@ -269,19 +271,33 @@
 		}
 	}
 
-	function next() {
+	async function scrollToFormTop() {
+		if (!browser || window.innerWidth > 620 || !formCardEl) return;
+
+		await tick();
+		const navbar = document.querySelector('.navbar');
+		const navbarOffset = (navbar?.getBoundingClientRect().height ?? 0) + 16;
+		const top = Math.max(0, formCardEl.getBoundingClientRect().top + window.scrollY - navbarOffset);
+		window.scrollTo({ top, behavior: 'smooth' });
+	}
+
+	async function next() {
 		attempted = true;
 		if (Object.keys(errors).length > 0) return;
 		attempted = false;
 		if (step < TOTAL) {
 			step += 1;
+			await scrollToFormTop();
 			return;
 		}
 		submitConsignment();
 	}
-	function back() {
+	async function back() {
 		attempted = false;
-		if (step > 1) step -= 1;
+		if (step > 1) {
+			step -= 1;
+			await scrollToFormTop();
+		}
 	}
 
 	function toggleContactMethod(method) {
@@ -367,7 +383,7 @@
 			</div>
 
 			<div class="cg-form-wrap">
-				<div class="cg-form-card">
+				<div class="cg-form-card" bind:this={formCardEl}>
 					<div class="cg-form-header">
 						{#if !done}
 							<h3 class="cg-step-title">{STEP_TITLES[step]}</h3>
@@ -986,7 +1002,12 @@
 	.cg-form-done h3 { margin-bottom: 14px; }
 	.cg-form-done p { color: var(--maroon-70); font-weight: 300; margin: 0; }
 
-	@media (max-width: 620px) { .cg-form-card { padding: 36px 28px; } }
+	@media (max-width: 620px) {
+		.cg-form-card {
+			padding: 36px 28px;
+			scroll-margin-top: 72px;
+		}
+	}
 
 	/* REVIEWS */
 	.cg-reviews { position: relative; background: var(--maroon); color: var(--cream); overflow: hidden; }
