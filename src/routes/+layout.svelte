@@ -1,13 +1,13 @@
 <script>
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	const favicon = '/favicon.png';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
 	import ConditionalGA from '$lib/components/ConditionalGA.svelte';
 	import LiveChat from '$lib/components/LiveChat.svelte';
 
+	const favicon = '/favicon.png';
 	let { children } = $props();
 	const isHome = $derived(page.url.pathname === '/');
 </script>
@@ -42,6 +42,12 @@
 
 <LiveChat />
 
+<!-- #A1846D Button Background -->
+<!-- #160B11 Navbar Background -->
+<!-- #422635 Banner Background -->
+<!-- #160B11 Button Text -->
+<!-- #E5E5E5 Button Link Text -->
+
 <style>
 	.announcement-banner {
 		width: 100%;
@@ -55,15 +61,15 @@
 		overflow: hidden;
 	}
 
-	.announcement-banner :global([class^='elfsight-app-']) {
-		max-width: 100%;
-		width: fit-content !important;
-	}
-
 	.site-header {
 		position: sticky;
 		top: 0;
 		z-index: 1001;
+	}
+
+	.announcement-banner :global([class^='elfsight-app-']) {
+		max-width: 100%;
+		width: fit-content !important;
 	}
 
 	.announcement-link {
@@ -133,9 +139,3 @@
 		font-style: normal;
 	}
 </style>
-
-<!-- #A1846D Button Background -->
-<!-- #160B11 Navbar Background -->
-<!-- #422635 Banner Background -->
-<!-- #160B11 Button Text -->
- <!-- #E5E5E5 Button Link Text -->

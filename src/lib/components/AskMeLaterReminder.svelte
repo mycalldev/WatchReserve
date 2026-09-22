@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
-	import { consumeAskMeLater } from '$lib/askMeLater.js';
+	import { consumeAskMeLater, setValuationSubmitted } from '$lib/askMeLater.js';
+	import { trackEvent } from '$lib/ga.js';
 	import FormSuccess from '$lib/components/FormSuccess.svelte';
 
 	let visible = $state(false);
@@ -77,7 +78,9 @@
 			if (!res.ok) {
 				submitError = data?.error || 'Something went wrong. Please try again.';
 			} else {
+				setValuationSubmitted();
 				submitted = true;
+				trackEvent('form_submit', { form_name: 'ask_me_later_reminder' });
 				setTimeout(() => dismiss(), 3200);
 			}
 		} catch {
