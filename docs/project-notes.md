@@ -25,3 +25,11 @@ pages, components, or integrations are changed.
   navbar, or social-proof content is updated.
 - Add similar reminders here for other third-party services, integrations, or
   external dependencies when a project decision depends on them.
+
+## 23 September 2026 — Valuation email wording
+
+- Use “Warm Regards” for customer email sign-offs across the popup modal,
+  Ask Me Later, Valuation Link page, and Sell form, including the scheduled
+  secure valuation link email. Keep the wording shared between HTML and text.
+- Label staff notifications for these forms sent to info@watchreserve.co.uk
+  with “[Internal]” in the subject and “Internal” in the HTML and plain-text body.

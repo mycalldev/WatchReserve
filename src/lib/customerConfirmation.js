@@ -6,6 +6,7 @@ const resend = new Resend(RESEND_API_KEY);
 
 const FROM = 'Watch Reserve <noreply@watchreserve.co.uk>';
 const REPLY_TO = 'info@watchreserve.co.uk';
+const SIGNOFF = 'Warm Regards,\nWatch Reserve Team';
 
 const PHONE_DISPLAY = '+44 (0)20 8150 1987';
 const PHONE_TEL = '+442081501987';
@@ -100,7 +101,7 @@ const TEMPLATES = {
 			'A member of our team at Watch Reserve will be in contact with you very soon with a secure link to upload images and details of your timepiece.',
 		introFollowUp:
 			'If you have not received your secure link within 20 minutes, please reach out to Watch Reserve via info@watchreserve.co.uk',
-		signoff: 'Warm Regards,\nWatch Reserve Team'
+		signoff: SIGNOFF
 	}),
 
 	'valuation-link': () => ({
@@ -116,7 +117,7 @@ const TEMPLATES = {
 			description:
 				'Please use this secure page to upload clear images of your watch and add details such as the brand, model, reference, condition, box and papers.'
 		},
-		signoff: 'Warm Regards,\nWatch Reserve Team'
+		signoff: SIGNOFF
 	}),
 
 	'landing-enquiry': () => ({
@@ -208,7 +209,7 @@ function buildHtml({
 		{ label: 'Submitted', value: submittedAt },
 		...summary
 	]);
-	const signoffHtml = escapeHtml(signoff ?? 'Warm Regards,\nWatch Reserve Team').replace(
+	const signoffHtml = escapeHtml(signoff ?? SIGNOFF).replace(
 		/\n/g,
 		'<br/>'
 	);
@@ -299,7 +300,7 @@ function buildText({
 		{ label: 'Submitted', value: submittedAt },
 		...summary
 	]);
-	const signoffLines = (signoff ?? 'Warm Regards,\nWatch Reserve Team').split('\n');
+	const signoffLines = (signoff ?? SIGNOFF).split('\n');
 
 	return [
 		heading,

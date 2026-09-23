@@ -56,7 +56,7 @@ export async function POST({ request }) {
 		<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #e5e5e5;">
 			<tr>
 				<td style="padding:28px 32px;border-bottom:2px solid #a1846d;">
-					<p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#a1846d;font-weight:700;">Watch Reserve</p>
+					<p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#a1846d;font-weight:700;">Watch Reserve · Internal</p>
 					<h2 style="margin:6px 0 0;font-family:'freight-display-pro',Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">New Free Valuation Request</h2>
 				</td>
 			</tr>
@@ -93,7 +93,7 @@ export async function POST({ request }) {
 </html>`.trim();
 
 	const text = [
-		'New Free Valuation Request — Watch Reserve',
+		'Internal · New Free Valuation Request — Watch Reserve',
 		`Source: ${source}`,
 		'',
 		`Full Name: ${fullName}`,
@@ -108,7 +108,7 @@ export async function POST({ request }) {
 			from: FROM,
 			to: [TO],
 			replyTo: email,
-			subject: `Free Valuation Request · ${fullName}`,
+			subject: `[Internal] Free Valuation Request · ${fullName}`,
 			html,
 			text
 		});
