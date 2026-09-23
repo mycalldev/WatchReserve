@@ -247,9 +247,9 @@
 		if (!browser || window.innerWidth > 620 || !formCardEl) return;
 
 		await tick();
-		const navbar = document.querySelector('.navbar');
-		const navbarOffset = (navbar?.getBoundingClientRect().height ?? 0) + 16;
-		const top = Math.max(0, formCardEl.getBoundingClientRect().top + window.scrollY - navbarOffset);
+		const header = document.querySelector('.site-header');
+		const formOffset = (header?.getBoundingClientRect().height ?? 0) + 48;
+		const top = Math.max(0, formCardEl.getBoundingClientRect().top + window.scrollY - formOffset);
 		window.scrollTo({ top, behavior: 'smooth' });
 	}
 
