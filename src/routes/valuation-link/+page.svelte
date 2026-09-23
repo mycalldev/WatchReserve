@@ -54,6 +54,7 @@
 	let photoFiles = $state([]);
 	let photoError = $state('');
 
+	let phone = $state('');
 	let contactMethods = $state([]);
 
 	let honeypot = $state('');
@@ -71,6 +72,7 @@
 				condition = saved.condition ?? '';
 				hasBox = saved.hasBox ?? '';
 				hasPapers = saved.hasPapers ?? '';
+				phone = saved.phone ?? '';
 				contactMethods = Array.isArray(saved.contactMethods) ? saved.contactMethods : [];
 			}
 		} catch {
@@ -89,6 +91,7 @@
 			condition,
 			hasBox,
 			hasPapers,
+			phone,
 			contactMethods
 		};
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -103,6 +106,7 @@
 			if (!model.trim()) e.model = 'Please enter the model.';
 			if (!year.trim()) e.year = 'Please enter the year.';
 		} else if (step === 2) {
+			if (!phone.trim()) e.phone = 'Please enter your mobile number.';
 			if (!condition) e.condition = 'Please select a condition.';
 			if (!hasBox) e.hasBox = 'Please let us know if you have the box.';
 			if (!hasPapers) e.hasPapers = 'Please let us know if you have the papers.';
@@ -224,6 +228,7 @@
 					hasBox,
 					hasPapers,
 					photos,
+					phone,
 					contactMethods,
 					source: SOURCE
 				})
@@ -512,6 +517,20 @@
 										</ul>
 									{/if}
 									{#if photoError}<p class="cg-form-error">{photoError}</p>{/if}
+								</div>
+								<div class="cg-field" class:cg-field-invalid={attempted && errors.phone}>
+									<label for="cg-phone">Mobile Number</label>
+									<input
+										type="tel"
+										id="cg-phone"
+										name="phone"
+										autocomplete="tel"
+										bind:value={phone}
+										required
+										aria-invalid={attempted && !!errors.phone}
+										aria-describedby={attempted && errors.phone ? 'cg-phone-error' : undefined}
+									/>
+									{#if attempted && errors.phone}<p id="cg-phone-error" class="cg-field-error" role="alert">{errors.phone}</p>{/if}
 								</div>
 								<div class="cg-field cg-contact-preference">
 									<label for="cg-contact-pref">Preferred Method of Contact <span class="cg-optional">(optional)</span></label>

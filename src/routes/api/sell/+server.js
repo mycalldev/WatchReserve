@@ -80,6 +80,10 @@ export async function POST({ request }) {
 	const name = [firstName, lastName].filter(Boolean).join(' ');
 	const contactMethodsLabel = contactMethods.join(', ');
 
+	if (isValuationLinkSubmission && !phone) {
+		return json({ error: 'Please enter your mobile number.' }, { status: 400 });
+	}
+
 	if (!isValuationLinkSubmission) {
 		if (firstName.length < 1) return json({ error: 'First name is required.' }, { status: 400 });
 		if (lastName.length < 1) return json({ error: 'Last name is required.' }, { status: 400 });
