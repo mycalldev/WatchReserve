@@ -28,7 +28,6 @@
 	];
 	let step = $state(1);
 	let done = $state(false);
-	let successDismissed = $state(false);
 	let submittedCardHeight = $state(0);
 	let submitting = $state(false);
 	let submitError = $state('');
@@ -218,14 +217,6 @@
 			}))
 		);
 	}
-
-	$effect(() => {
-		if (!done) return;
-		const timeout = window.setTimeout(() => {
-			successDismissed = true;
-		}, 6000);
-		return () => window.clearTimeout(timeout);
-	});
 
 	function completeSubmission() {
 		submittedCardHeight = formCardEl?.getBoundingClientRect().height ?? 0;
@@ -536,14 +527,12 @@
 					</div>
 
 					{#if done}
-						{#if !successDismissed}
-							<div class="cg-form-done">
-								<FormSuccess
-									title="Thank You"
-									message="Thank you for filling out the Consignment Page Valuation Form. A member of our team will review the details you have provided and be in touch shortly with your valuation. We aim to respond within 30 minutes during business hours."
-								/>
-							</div>
-						{/if}
+						<div class="cg-form-done">
+							<FormSuccess
+								title="Thank You"
+								message="Thank you for filling out the Consignment Page Valuation Form. A member of our team will review the details you have provided and be in touch shortly with your valuation. We aim to respond within 30 minutes during business hours."
+							/>
+						</div>
 					{:else}
 						<form novalidate onsubmit={(e) => e.preventDefault()}>
 							{#if step === 1}
