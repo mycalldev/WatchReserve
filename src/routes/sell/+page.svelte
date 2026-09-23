@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { tick } from 'svelte';
 	import AskMeLaterReminder from '$lib/components/AskMeLaterReminder.svelte';
+	import FormSuccess from '$lib/components/FormSuccess.svelte';
 
 	const STORAGE_KEY = 'wr_consignment_form';
 
@@ -27,6 +28,8 @@
 	];
 	let step = $state(1);
 	let done = $state(false);
+	let successDismissed = $state(false);
+	let submittedCardHeight = $state(0);
 	let submitting = $state(false);
 	let submitError = $state('');
 	let attempted = $state(false);
@@ -216,11 +219,24 @@
 		);
 	}
 
+	$effect(() => {
+		if (!done) return;
+		const timeout = window.setTimeout(() => {
+			successDismissed = true;
+		}, 6000);
+		return () => window.clearTimeout(timeout);
+	});
+
+	function completeSubmission() {
+		submittedCardHeight = formCardEl?.getBoundingClientRect().height ?? 0;
+		done = true;
+	}
+
 	async function submitConsignment() {
 		if (honeypot) {
 			// Honeypot field was filled in — almost certainly a bot. Pretend
 			// success without actually submitting the enquiry.
-			done = true;
+			completeSubmission();
 			return;
 		}
 
@@ -256,7 +272,7 @@
 				submitError = data.error || 'Failed to send your request. Please try again.';
 				return;
 			}
-			done = true;
+			completeSubmission();
 			if (browser) localStorage.removeItem(STORAGE_KEY);
 		} catch {
 			submitError = 'Failed to send your request. Please try again.';
@@ -511,7 +527,7 @@
 			</div>
 
 			<div class="cg-form-wrap">
-				<div class="cg-form-card" bind:this={formCardEl}>
+				<div class="cg-form-card" bind:this={formCardEl} style:--submitted-card-height={`${submittedCardHeight}px`}>
 					<div class="cg-form-progress">
 						<span>{done ? 'Complete' : `Step ${step} of ${TOTAL}`}</span>
 						<span class="cg-progress-track"
@@ -520,14 +536,14 @@
 					</div>
 
 					{#if done}
-						<div class="cg-form-done">
-							<h3>Thank You</h3>
-							<p>
-								Thank you for filling out the Consignment Page Valuation Form. A member of our team will review the
-								details you have provided and be in touch shortly with your valuation. We aim to respond within 30
-								minutes during business hours.
-							</p>
-						</div>
+						{#if !successDismissed}
+							<div class="cg-form-done">
+								<FormSuccess
+									title="Thank You"
+									message="Thank you for filling out the Consignment Page Valuation Form. A member of our team will review the details you have provided and be in touch shortly with your valuation. We aim to respond within 30 minutes during business hours."
+								/>
+							</div>
+						{/if}
 					{:else}
 						<form novalidate onsubmit={(e) => e.preventDefault()}>
 							{#if step === 1}
@@ -1245,14 +1261,31 @@
 	.cg-link-back[hidden] { visibility: hidden; }
 
 	.cg-form-done { text-align: center; padding: 20px 0; }
-	.cg-form-done h3 { margin-bottom: 14px; }
-	.cg-form-done p { color: var(--maroon-70); font-weight: 300; margin: 0; }
 
 	@media (max-width: 620px) {
 		.cg-form-card {
 			padding: 36px 28px;
 			scroll-margin-top: 124px;
+			min-height: var(--submitted-card-height, 0px);
 		}
+
+		.cg-form-done {
+			box-sizing: border-box;
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			z-index: 1100;
+			width: min(calc(100vw - 32px), 420px);
+			max-height: calc(100svh - 32px);
+			overflow-y: auto;
+			padding: 24px 20px;
+			background: var(--white);
+			border: 1px solid var(--maroon-15);
+			box-shadow: 0 24px 60px rgba(22, 11, 17, 0.24);
+			transform: translate(-50%, -50%);
+		}
+
+		.cg-form-done :global(.form-success) { padding: 0; }
 	}
 
 	/* REVIEWS */
