@@ -33,3 +33,32 @@ pages, components, or integrations are changed.
   secure valuation link email. Keep the wording shared between HTML and text.
 - Label staff notifications for these forms sent to info@watchreserve.co.uk
   with “[Internal]” in the subject and “Internal” in the HTML and plain-text body.
+
+## 24 September 2026 — Top bar after valuation requests
+
+- After a successful submission of the Free Valuation popup or Ask Me Later
+  form, replace the homepage valuation CTA with the existing Google Reviews
+  widget immediately.
+- Use the shared valuation-submitted flag so the Google Reviews state survives
+  navigation and refreshes, including previously submitted requests in the same
+  browser. Dismissing a form or clicking Ask Me Later alone does not switch it.
+- Keep the existing Google Reviews top bar on the Valuation Link page and other
+  pages. Do not introduce a hard-coded rating.
+
+## 24 September 2026 — Valuation Link customer confirmation
+
+- Give Valuation Link submissions their own customer confirmation wording:
+  “{month} Free Valuation”, using the shared Europe/London offer month.
+- Use this wording in the email subject, heading and form name in both HTML
+  and plain text. Do not call this funnel consignment.
+- Keep the Sell page customer confirmation's Consignment Page Valuation Form
+  wording and the scheduled valuation-link invitation as separate templates.
+
+## 24 September 2026 — Monthly free valuation wording
+
+- Derive the offer month from Europe/London time throughout the popup,
+  Ask Me Later, navigation, Valuation Link page and their success messages.
+- Keep open pages updated at month rollover and when returning to the tab.
+- Use the current offer month in customer and internal free valuation emails;
+  use the scheduled delivery month for the delayed secure-link email.
+- Preserve historical review dates and the Sell page's consignment wording.

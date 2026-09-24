@@ -1,7 +1,13 @@
 <script>
+	import { onMount } from 'svelte';
+	import {
+		hasValuationSubmitted,
+		VALUATION_SUBMITTED_KEY,
+		VALUATION_SUBMITTED_EVENT
+	} from '$lib/askMeLater.js';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import { getOfferMonth } from '$lib/offer.js';
+	import { offerMonth } from '$lib/offerMonth.js';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
@@ -9,8 +15,25 @@
 	import LiveChat from '$lib/components/LiveChat.svelte';
 
 	const favicon = '/favicon.png';
-	const offerMonth = getOfferMonth();
 	let { children } = $props();
+	let valuationSubmitted = $state(false);
+
+	onMount(() => {
+		valuationSubmitted = hasValuationSubmitted();
+		const onSubmitted = () => { valuationSubmitted = true; };
+		const onStorage = (event) => {
+			if (event.key === VALUATION_SUBMITTED_KEY || event.key === null) {
+				valuationSubmitted = hasValuationSubmitted();
+			}
+		};
+		window.addEventListener(VALUATION_SUBMITTED_EVENT, onSubmitted);
+		window.addEventListener('storage', onStorage);
+		return () => {
+			window.removeEventListener(VALUATION_SUBMITTED_EVENT, onSubmitted);
+			window.removeEventListener('storage', onStorage);
+		};
+	});
+
 	const isHome = $derived(page.url.pathname === '/');
 	const isValuationLink = $derived(page.url.pathname === '/valuation-link');
 </script>
@@ -22,9 +45,9 @@
 
 <header class="site-header">
 	<div class="announcement-banner">
-		{#if isHome}
+		{#if isHome && !valuationSubmitted}
 			<a class="announcement-link" href={resolve('/sell#start')}>
-				<span>Request your <strong>FREE {offerMonth} Valuation Today</strong></span>
+				<span>Request your <strong>FREE {$offerMonth} Valuation Today</strong></span>
 				<span class="announcement-arrow" aria-hidden="true">→</span>
 			</a>
 		{:else}

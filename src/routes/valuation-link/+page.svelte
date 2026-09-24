@@ -1,11 +1,13 @@
 <script>
 	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { tick } from 'svelte';
-	import { getOfferMonth, getValuationLinkSource } from '$lib/offer.js';
+	import FormSuccess from '$lib/components/FormSuccess.svelte';
+	import { getValuationLinkSource } from '$lib/offer.js';
+	import { offerMonth } from '$lib/offerMonth.js';
 
 	const STORAGE_KEY = 'wr_valuation_link_form';
-	const offerMonth = getOfferMonth();
-	const SOURCE = getValuationLinkSource();
 
 	const TOTAL = 2;
 	const STEP_TITLES = {
@@ -37,11 +39,17 @@
 	let submitError = $state('');
 	let attempted = $state(false);
 	let formCardEl = $state();
+	let stepTitleEl = $state();
+	let successEl = $state();
 
 	let brand = $state('');
 	let model = $state('');
 	let reference = $state('');
-	let year = $state('');
+	let dialDescription = $state('');
+	const YEAR_OPTIONS = Array.from({ length: 17 }, (_, index) => String(2026 - index));
+	let yearSelection = $state('2026');
+	let otherYear = $state();
+	const year = $derived(yearSelection === 'Other' ? String(otherYear ?? '') : yearSelection);
 
 	let condition = $state('');
 	let hasBox = $state('');
@@ -54,6 +62,8 @@
 	let photoFiles = $state([]);
 	let photoError = $state('');
 
+	let fullName = $state('');
+	let email = $state('');
 	let phone = $state('');
 	let contactMethods = $state([]);
 
@@ -68,10 +78,18 @@
 				brand = saved.brand ?? '';
 				model = saved.model ?? '';
 				reference = saved.reference ?? '';
-				year = saved.year ?? '';
+				dialDescription = saved.dialDescription ?? '';
+				const savedYear = String(saved.year ?? '').trim();
+				yearSelection = saved.yearSelection === 'Other'
+					? 'Other'
+					: YEAR_OPTIONS.includes(savedYear) ? savedYear : savedYear ? 'Other' : '2026';
+				const savedOtherYear = saved.otherYear ?? (yearSelection === 'Other' ? savedYear : '');
+				otherYear = /^\d{4}$/.test(String(savedOtherYear)) ? Number(savedOtherYear) : undefined;
 				condition = saved.condition ?? '';
 				hasBox = saved.hasBox ?? '';
 				hasPapers = saved.hasPapers ?? '';
+				fullName = saved.fullName ?? '';
+				email = saved.email ?? '';
 				phone = saved.phone ?? '';
 				contactMethods = Array.isArray(saved.contactMethods) ? saved.contactMethods : [];
 			}
@@ -87,14 +105,28 @@
 			brand,
 			model,
 			reference,
+			dialDescription,
+			yearSelection,
+			otherYear,
 			year,
 			condition,
 			hasBox,
 			hasPapers,
+			fullName,
+			email,
 			phone,
 			contactMethods
 		};
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+	});
+
+	$effect(() => {
+		if (!done) return;
+		void scrollToFormTop(true);
+		const redirectTimer = setTimeout(() => {
+			void goto(resolve('/'));
+		}, 6000);
+		return () => clearTimeout(redirectTimer);
 	});
 
 	const progressPct = $derived(done ? 100 : (step / TOTAL) * 100);
@@ -104,9 +136,13 @@
 		if (step === 1) {
 			if (!brand) e.brand = 'Please select a brand.';
 			if (!model.trim()) e.model = 'Please enter the model.';
-			if (!year.trim()) e.year = 'Please enter the year.';
+			if (!/^[1-9]\d{3}$/.test(year)) e.year = 'Please enter a valid four-digit year.';
 		} else if (step === 2) {
-			if (!phone.trim()) e.phone = 'Please enter your mobile number.';
+			if (!fullName.trim()) e.fullName = 'Please enter your full name.';
+			if (!email.trim()) e.email = 'Please enter your email address.';
+			else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) e.email = 'Please enter a valid email address.';
+			if (!phone.trim()) e.phone = 'Please enter your phone number.';
+			else if (!/^[0-9]{11}$/.test(phone.trim())) e.phone = 'Please enter exactly 11 digits.';
 			if (!condition) e.condition = 'Please select a condition.';
 			if (!hasBox) e.hasBox = 'Please let us know if you have the box.';
 			if (!hasPapers) e.hasPapers = 'Please let us know if you have the papers.';
@@ -203,6 +239,7 @@
 	}
 
 	async function submitConsignment() {
+		if (submitting || done) return;
 		if (honeypot) {
 			// Honeypot field was filled in — almost certainly a bot. Pretend
 			// success without actually submitting the enquiry.
@@ -223,14 +260,18 @@
 					brand,
 					model,
 					reference,
+					dialDescription: dialDescription.trim(),
 					year,
 					condition,
 					hasBox,
 					hasPapers,
 					photos,
-					phone,
+					firstName: fullName.trim().split(/\s+/)[0],
+					lastName: fullName.trim().split(/\s+/).slice(1).join(' '),
+					email: email.trim(),
+					phone: phone.trim(),
 					contactMethods,
-					source: SOURCE
+					source: getValuationLinkSource()
 				})
 			});
 
@@ -248,17 +289,26 @@
 		}
 	}
 
-	async function scrollToFormTop() {
-		if (!browser || window.innerWidth > 620 || !formCardEl) return;
+	async function scrollToFormTop(afterSubmission = false) {
+		if (!browser) return;
 
 		await tick();
+		if (!formCardEl) return;
+		const focusTarget = afterSubmission ? successEl : stepTitleEl;
+		focusTarget?.focus({ preventScroll: true });
 		const header = document.querySelector('.site-header');
 		const formOffset = (header?.getBoundingClientRect().height ?? 0) + 48;
 		const top = Math.max(0, formCardEl.getBoundingClientRect().top + window.scrollY - formOffset);
-		window.scrollTo({ top, behavior: 'smooth' });
+		window.scrollTo({
+			top,
+			behavior: afterSubmission || window.matchMedia('(prefers-reduced-motion: reduce)').matches
+				? 'instant'
+				: 'smooth'
+		});
 	}
 
 	async function next() {
+		if (submitting || done) return;
 		attempted = true;
 		if (Object.keys(errors).length > 0) return;
 		attempted = false;
@@ -270,6 +320,7 @@
 		submitConsignment();
 	}
 	async function back() {
+		if (submitting || done) return;
 		attempted = false;
 		if (step > 1) {
 			step -= 1;
@@ -331,7 +382,7 @@
 </script>
 
 <svelte:head>
-	<title>Claim Your Free {offerMonth} Valuation | Watch Reserve</title>
+	<title>Claim Your Free {$offerMonth} Valuation | Watch Reserve</title>
 </svelte:head>
 
 <div class="cg-page">
@@ -342,7 +393,7 @@
 			<div class="cg-hero-inner">
 				<h1 class="cg-hero-title">Claim Your Free Valuation</h1>
 				<p class="cg-hero-text">
-					Thank you for your interest in the Free Valuation this {offerMonth}. Complete the short form below and
+					Thank you for your interest in the Free Valuation this {$offerMonth}. Complete the short form below and
 					one of our experts will be in touch with your valuation.
 				</p>
 				<a href="#start" class="cg-btn cg-btn-cream">Start My Free Valuation</a>
@@ -354,33 +405,31 @@
 	<section class="cg-section cg-form-section" id="start">
 		<div class="cg-container">
 			<div class="cg-section-head cg-center">
-				<span class="cg-offer-badge"><span class="cg-offer-dot" aria-hidden="true"></span>Free {offerMonth} Valuation</span>
+				<span class="cg-offer-badge"><span class="cg-offer-dot" aria-hidden="true"></span>Free {$offerMonth} Valuation</span>
 				<h2>Tell Us About Your Watch</h2>
 				<p>A few quick details is all it takes. Our specialists aim to respond within 30 minutes during business hours.</p>
 			</div>
 
 			<div class="cg-form-wrap">
 				<div class="cg-form-card" bind:this={formCardEl}>
-					<div class="cg-form-header">
-						{#if !done}
-							<h3 class="cg-step-title">{STEP_TITLES[step]}</h3>
-						{/if}
-						<div class="cg-form-progress">
-							<span>{done ? 'Complete' : `Step ${step} of ${TOTAL}`}</span>
-							<span class="cg-progress-track"
-								><span class="cg-progress-fill" style="width:{progressPct}%"></span></span
-							>
+					{#if !done}
+						<div class="cg-form-header">
+							<h3 class="cg-step-title" bind:this={stepTitleEl} tabindex="-1">{STEP_TITLES[step]}</h3>
+							<div class="cg-form-progress">
+								<span>Step {step} of {TOTAL}</span>
+								<span class="cg-progress-track"
+									><span class="cg-progress-fill" style="width:{progressPct}%"></span></span
+								>
+							</div>
 						</div>
-					</div>
+					{/if}
 
 					{#if done}
-						<div class="cg-form-done">
-							<h3>Thank You</h3>
-							<p>
-								Thank you for claiming your free {offerMonth} valuation. A member of our team will review the
-								details you have provided and be in touch shortly with your valuation. We aim to respond within
-								30 minutes during business hours.
-							</p>
+						<div class="cg-form-done" bind:this={successEl} tabindex="-1" role="region" aria-label="Valuation submitted">
+							<FormSuccess
+								title="Thank You"
+								message={`Thank you for claiming your free ${$offerMonth} valuation. A member of our team will review the details you have provided and be in touch shortly with your valuation. We aim to respond within 30 minutes during business hours.`}
+							/>
 						</div>
 					{:else}
 						<form novalidate onsubmit={(e) => e.preventDefault()}>
@@ -425,20 +474,39 @@
 										<input type="text" id="cg-ref" placeholder="e.g. 116500LN" bind:value={reference} />
 									</div>
 								</div>
+								<div class="cg-field">
+									<label for="cg-dial-description">Dial Description <span class="cg-optional">(optional)</span></label>
+									<input type="text" id="cg-dial-description" name="dialDescription" bind:value={dialDescription} />
+								</div>
 								<div class="cg-field" class:cg-field-invalid={attempted && errors.year}>
 									<label for="cg-year">Year</label>
-									<input
-										type="text"
-										id="cg-year"
-										placeholder="e.g. 2021"
-										inputmode="numeric"
-										pattern="[0-9]*"
-										maxlength="4"
-										bind:value={year}
-										oninput={(e) => (year = e.currentTarget.value.replace(/\D/g, ''))}
-									/>
-									{#if attempted && errors.year}<p class="cg-field-error" role="alert">{errors.year}</p>{/if}
+									<select id="cg-year" name="yearSelection" bind:value={yearSelection} required>
+										{#each YEAR_OPTIONS as option (option)}
+											<option value={option}>{option}</option>
+										{/each}
+										<option value="Other">Other</option>
+									</select>
 								</div>
+								{#if yearSelection === 'Other'}
+									<div class="cg-field" class:cg-field-invalid={attempted && errors.year}>
+										<label for="cg-other-year">Enter Year</label>
+										<input
+											type="number"
+											id="cg-other-year"
+											name="otherYear"
+											placeholder="e.g. 2009"
+											inputmode="numeric"
+											min="1000"
+											max="9999"
+											step="1"
+											bind:value={otherYear}
+											required
+											aria-invalid={attempted && !!errors.year}
+											aria-describedby={attempted && errors.year ? 'cg-year-error' : undefined}
+										/>
+										{#if attempted && errors.year}<p id="cg-year-error" class="cg-field-error" role="alert">{errors.year}</p>{/if}
+									</div>
+								{/if}
 							{:else if step === 2}
 								<div class="cg-field" class:cg-field-invalid={attempted && errors.condition}>
 									<label for="cg-condition">Condition</label>
@@ -518,12 +586,42 @@
 									{/if}
 									{#if photoError}<p class="cg-form-error">{photoError}</p>{/if}
 								</div>
+								<div class="cg-field" class:cg-field-invalid={attempted && errors.fullName}>
+									<label for="cg-fullName">Full Name</label>
+									<input
+										type="text"
+										id="cg-fullName"
+										name="fullName"
+										autocomplete="name"
+										bind:value={fullName}
+										required
+										aria-invalid={attempted && !!errors.fullName}
+										aria-describedby={attempted && errors.fullName ? 'cg-fullName-error' : undefined}
+									/>
+									{#if attempted && errors.fullName}<p id="cg-fullName-error" class="cg-field-error" role="alert">{errors.fullName}</p>{/if}
+								</div>
+								<div class="cg-field" class:cg-field-invalid={attempted && errors.email}>
+									<label for="cg-email">Email</label>
+									<input
+										type="email"
+										id="cg-email"
+										name="email"
+										autocomplete="email"
+										bind:value={email}
+										required
+										aria-invalid={attempted && !!errors.email}
+										aria-describedby={attempted && errors.email ? 'cg-email-error' : undefined}
+									/>
+									{#if attempted && errors.email}<p id="cg-email-error" class="cg-field-error" role="alert">{errors.email}</p>{/if}
+								</div>
 								<div class="cg-field" class:cg-field-invalid={attempted && errors.phone}>
-									<label for="cg-phone">Mobile Number</label>
+									<label for="cg-phone">Phone</label>
 									<input
 										type="tel"
 										id="cg-phone"
 										name="phone"
+										inputmode="numeric"
+										pattern="[0-9]{11}"
 										autocomplete="tel"
 										bind:value={phone}
 										required
@@ -564,8 +662,8 @@
 							</div>
 
 							<div class="cg-form-nav">
-								<button type="button" class="cg-link-back" hidden={step === 1} onclick={back}>Back</button>
-								<button type="button" class="cg-btn cg-btn-primary" onclick={next} disabled={submitting} aria-busy={submitting}
+								<button type="button" class="cg-link-back" hidden={step === 1} onclick={back} disabled={submitting || done}>Back</button>
+								<button type="button" class="cg-btn cg-btn-primary" onclick={next} disabled={submitting || done} aria-busy={submitting}
 									>{step === TOTAL ? (submitting ? 'Submitting…' : 'Submit') : 'Continue'}</button
 								>
 							</div>
@@ -799,6 +897,13 @@
 		.cg-form-progress { width: 100%; }
 	}
 
+	.cg-field input:not([type='file']),
+	.cg-field select,
+	.cg-field .cg-file-btn {
+		box-sizing: border-box;
+		height: 44px;
+	}
+	.cg-field .cg-file-btn { display: flex; align-items: center; }
 	.cg-field { margin-bottom: 22px; }
 	.cg-field label {
 		display: block;
@@ -811,6 +916,9 @@
 		margin-bottom: 9px;
 	}
 	.cg-optional { font-weight: 400; opacity: 0.6; letter-spacing: 0.08em; }
+	.cg-field input[type='number'],
+	.cg-field input[type='email'],
+	.cg-field input[type='tel'],
 	.cg-field input[type='text'],
 	.cg-field select {
 		width: 100%;
@@ -842,6 +950,9 @@
 	@media (max-width: 520px) { .cg-field-row { grid-template-columns: 1fr; } }
 
 	.cg-field-error { margin: 8px 0 0; font-family: var(--font-ui); font-size: 0.74rem; color: #a33; }
+	.cg-field-invalid input[type='number'],
+	.cg-field-invalid input[type='email'],
+	.cg-field-invalid input[type='tel'],
 	.cg-field-invalid input[type='text'],
 	.cg-field-invalid select { border-color: #a33; }
 	.cg-field-invalid .cg-choice-group { border: 1px solid #a33; padding: 8px; }
@@ -934,8 +1045,6 @@
 	.cg-link-back[hidden] { visibility: hidden; }
 
 	.cg-form-done { text-align: center; padding: 20px 0; }
-	.cg-form-done h3 { margin-bottom: 14px; }
-	.cg-form-done p { color: var(--maroon-70); font-weight: 300; margin: 0; }
 
 	@media (max-width: 620px) {
 		.cg-form-card {

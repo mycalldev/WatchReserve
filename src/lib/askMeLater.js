@@ -1,5 +1,6 @@
 export const ASK_ME_LATER_KEY = 'wr_ask_me_later';
 export const VALUATION_SUBMITTED_KEY = 'wr_valuation_submitted';
+export const VALUATION_SUBMITTED_EVENT = 'wr:valuation-submitted';
 
 export function setAskMeLater() {
 	try {
@@ -14,6 +15,10 @@ export function setValuationSubmitted() {
 		localStorage.setItem(VALUATION_SUBMITTED_KEY, String(Date.now()));
 	} catch {
 		/* ignore */
+	}
+	// Notify the current page even when browser storage is unavailable.
+	if (typeof window !== 'undefined') {
+		window.dispatchEvent(new Event(VALUATION_SUBMITTED_EVENT));
 	}
 }
 

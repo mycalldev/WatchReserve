@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import { offerMonth } from '$lib/offerMonth.js';
 	import { consumeAskMeLater, setValuationSubmitted } from '$lib/askMeLater.js';
 	import { trackEvent } from '$lib/ga.js';
 	import FormSuccess from '$lib/components/FormSuccess.svelte';
@@ -48,6 +49,7 @@
 
 	async function handleSubmit(e) {
 		e.preventDefault();
+		if (submitting || submitted) return;
 
 		if (!validate()) return;
 
@@ -133,11 +135,11 @@
 
 		{#if submitted}
 			<FormSuccess
-				message="A member of our team will be in touch shortly with your free valuation."
+				message={`A member of our team will be in touch shortly with your free ${$offerMonth} valuation.`}
 			/>
 		{:else}
 			<p class="ask-later-eyebrow">Still Deciding?</p>
-			<h3 class="ask-later-title">Your Free Valuation Is Ready When You Are</h3>
+			<h3 class="ask-later-title">Your Free {$offerMonth} Valuation Is Ready When You Are</h3>
 			<p class="ask-later-text">
 				You asked us to check back. The form below takes 30 seconds, with no obligation to sell.
 			</p>
@@ -185,7 +187,7 @@
 					<span>I am happy to receive updates and offers from Watch Reserve by email.</span>
 				</label>
 
-				<button type="submit" class="ask-later-cta" disabled={submitting}>
+				<button type="submit" class="ask-later-cta" disabled={submitting || submitted} aria-busy={submitting}>
 					{submitting ? 'Submitting…' : 'Get My Free Valuation'}
 				</button>
 			</form>
@@ -370,6 +372,7 @@
 	.ask-later-gdpr input {
 		margin-top: 2px;
 		flex-shrink: 0;
+		accent-color: #a1846d;
 	}
 
 	.ask-later-form .ask-later-cta {

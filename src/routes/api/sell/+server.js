@@ -3,7 +3,7 @@ import { RESEND_API_KEY } from '$env/static/private';
 import { Resend } from 'resend';
 import { syncToKlaviyo } from '$lib/klaviyo.js';
 import { sendCustomerConfirmation } from '$lib/customerConfirmation.js';
-import { isValuationLinkSource } from '$lib/offer.js';
+import { isValuationLinkSource, getOfferMonth, getValuationLinkSource } from '$lib/offer.js';
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -60,34 +60,58 @@ export async function POST({ request }) {
 		return json({ error: 'Invalid request body.' }, { status: 400 });
 	}
 
+	if (!body || typeof body !== 'object' || Array.isArray(body)) {
+		return json({ error: 'Invalid request body.' }, { status: 400 });
+	}
+
 	const brand       = clean(body.brand);
 	const model       = clean(body.model);
 	const reference   = clean(body.reference);
+	const dialDescription = typeof body.dialDescription === 'string' ? body.dialDescription.trim() : '';
 	const year        = clean(body.year);
 	const condition   = clean(body.condition);
 	const hasBox      = clean(body.hasBox);
 	const hasPapers   = clean(body.hasPapers);
 	const photoAttachments = parsePhotoAttachments(body.photos);
-	const firstName   = clean(body.firstName);
-	const lastName    = clean(body.lastName);
-	const email       = clean(body.email);
+	const firstName   = typeof body.firstName === 'string' ? body.firstName.trim() : '';
+	const lastName    = typeof body.lastName === 'string' ? body.lastName.trim() : '';
+	const email       = typeof body.email === 'string' ? body.email.trim() : '';
 	const phone       = clean(body.phone);
 	const contactMethods = parseContactMethods(body.contactMethods);
 	const gdprConsent = body.gdprConsent === true;
-	const source      = clean(body.source) || 'Sale and Consignment Page · Get Your Instant Valuation';
+	let source        = clean(body.source) || 'Sale and Consignment Page · Get Your Instant Valuation';
 	const isValuationLinkSubmission = isValuationLinkSource(source);
+	if (isValuationLinkSubmission) source = getValuationLinkSource();
+	const valuationLabel = isValuationLinkSubmission
+		? `${getOfferMonth()} Free Valuation`
+		: 'Sale and Consignment Valuation';
+	const submissionHeading = isValuationLinkSubmission
+		? `New ${valuationLabel} Submission`
+		: 'New Sale and Consignment Submission';
 
 	const name = [firstName, lastName].filter(Boolean).join(' ');
 	const contactMethodsLabel = contactMethods.join(', ');
 
-	if (isValuationLinkSubmission && !phone) {
-		return json({ error: 'Please enter your mobile number.' }, { status: 400 });
+	if (isValuationLinkSubmission && !/^[1-9]\d{3}$/.test(year)) {
+		return json({ error: 'Please enter a valid four-digit year.' }, { status: 400 });
 	}
+
+	if ((body.phone != null && typeof body.phone !== 'string') || (phone && !/^[0-9]{11}$/.test(phone))) {
+		return json({ error: 'Please enter exactly 11 digits for your phone number.' }, { status: 400 });
+	}
+
+	if (isValuationLinkSubmission && !phone) {
+		return json({ error: 'Please enter your phone number.' }, { status: 400 });
+	}
+
+	if (isValuationLinkSubmission && !name) {
+		return json({ error: 'Full name is required.' }, { status: 400 });
+	}
+	if (!isValidEmail(email)) return json({ error: 'A valid email address is required.' }, { status: 400 });
 
 	if (!isValuationLinkSubmission) {
 		if (firstName.length < 1) return json({ error: 'First name is required.' }, { status: 400 });
 		if (lastName.length < 1) return json({ error: 'Last name is required.' }, { status: 400 });
-		if (!isValidEmail(email)) return json({ error: 'A valid email address is required.' }, { status: 400 });
 	}
 	if (!brand)                  return json({ error: 'Watch brand is required.' },           { status: 400 });
 	if (!model)                  return json({ error: 'Watch model is required.' },           { status: 400 });
@@ -100,7 +124,7 @@ export async function POST({ request }) {
 			<tr>
 				<td style="padding:28px 32px;border-bottom:2px solid #a1846d;">
 					<p style="margin:0;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#a1846d;font-weight:700;">Watch Reserve · Internal</p>
-					<h2 style="margin:6px 0 0;font-family:'freight-display-pro',Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">New Sale and Consignment Submission</h2>
+					<h2 style="margin:6px 0 0;font-family:'freight-display-pro',Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#160b11;">${escapeHtml(submissionHeading)}</h2>
 				</td>
 			</tr>
 			<tr>
@@ -123,6 +147,10 @@ export async function POST({ request }) {
 						${reference ? `<tr>
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Reference</td>
 							<td style="color:#160b11;">${escapeHtml(reference)}</td>
+						</tr>` : ''}
+						${dialDescription ? `<tr>
+							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Dial Description</td>
+							<td style="color:#160b11;">${escapeHtml(dialDescription)}</td>
 						</tr>` : ''}
 						${year ? `<tr>
 							<td style="padding:6px 12px 6px 0;color:#6b5c55;vertical-align:top;">Year</td>
@@ -187,13 +215,14 @@ export async function POST({ request }) {
 </html>`.trim();
 
 	const text = [
-		'Internal · New Sale and Consignment Submission — Watch Reserve',
+		`Internal · ${submissionHeading} — Watch Reserve`,
 		`Source: ${source}`,
 		'',
 		'— Watch Details —',
 		`Brand: ${brand}`,
 		`Model: ${model}`,
 		reference      ? `Reference: ${reference}`         : null,
+		dialDescription ? `Dial Description: ${dialDescription}` : null,
 		year           ? `Year: ${year}`                   : null,
 		condition      ? `Condition: ${condition}`         : null,
 		hasBox         ? `Has Box: ${hasBox}`              : null,
@@ -217,7 +246,7 @@ export async function POST({ request }) {
 			from: FROM,
 			to: [TO],
 			replyTo: isValidEmail(email) ? email : TO,
-			subject: `[Internal] Sale and Consignment Valuation · ${brand} ${model} · ${name || 'Existing valuation lead'}`,
+			subject: `[Internal] ${valuationLabel} · ${brand} ${model} · ${name || 'Existing valuation lead'}`,
 			html,
 			text,
 			...(photoAttachments.length ? { attachments: photoAttachments } : {})
@@ -232,15 +261,18 @@ export async function POST({ request }) {
 			await sendCustomerConfirmation({
 				to: email,
 				firstName,
-				formType: 'consignment',
+				formType: isValuationLinkSubmission ? 'valuation-link-submission' : 'consignment',
 				summary: [
 					{ label: 'Brand', value: brand },
 					{ label: 'Model', value: model },
 					{ label: 'Reference', value: reference },
+					{ label: 'Dial Description', value: dialDescription },
 					{ label: 'Year', value: year },
 					{ label: 'Condition', value: condition },
 					{ label: 'Has Box', value: hasBox },
 					{ label: 'Has Papers', value: hasPapers },
+					{ label: 'Full Name', value: name },
+					{ label: 'Email', value: email },
 					{ label: 'Phone', value: phone },
 					{ label: 'Preferred Contact Method', value: contactMethodsLabel },
 					{ label: 'Marketing Opt-in', value: gdprConsent ? 'Yes' : 'No' }

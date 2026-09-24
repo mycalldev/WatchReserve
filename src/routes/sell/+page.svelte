@@ -126,6 +126,7 @@
 			if (!lastName.trim()) e.lastName = 'Last name is required.';
 			if (!email.trim()) e.email = 'Email is required.';
 			else if (!isValidEmail(email)) e.email = 'Please enter a valid email address.';
+			if (phone.trim() && !/^[0-9]{11}$/.test(phone.trim())) e.phone = 'Please enter exactly 11 digits.';
 		}
 		return e;
 	});
@@ -224,6 +225,7 @@
 	}
 
 	async function submitConsignment() {
+		if (submitting || done) return;
 		if (honeypot) {
 			// Honeypot field was filled in — almost certainly a bot. Pretend
 			// success without actually submitting the enquiry.
@@ -252,7 +254,7 @@
 					firstName,
 					lastName,
 					email,
-					phone,
+					phone: phone.trim(),
 					contactMethods,
 					gdprConsent
 				})
@@ -283,6 +285,7 @@
 	}
 
 	async function next() {
+		if (submitting || done) return;
 		attempted = true;
 		if (Object.keys(errors).length > 0) return;
 		attempted = false;
@@ -294,6 +297,7 @@
 		submitConsignment();
 	}
 	async function back() {
+		if (submitting || done) return;
 		attempted = false;
 		if (step > 1) {
 			step -= 1;
@@ -687,9 +691,21 @@
 									<input type="email" id="cg-email" placeholder="you@example.com" bind:value={email} autocomplete="email" />
 									{#if attempted && errors.email}<p class="cg-field-error" role="alert">{errors.email}</p>{/if}
 								</div>
-								<div class="cg-field">
+								<div class="cg-field" class:cg-field-invalid={attempted && errors.phone}>
 									<label for="cg-phone">Phone <span class="cg-optional">(optional)</span></label>
-									<input type="tel" id="cg-phone" placeholder="Best number to reach you" bind:value={phone} autocomplete="tel" />
+									<input
+										type="tel"
+										id="cg-phone"
+										name="phone"
+										placeholder="Best number to reach you"
+										bind:value={phone}
+										autocomplete="tel"
+										inputmode="numeric"
+										pattern="[0-9]{11}"
+										aria-invalid={attempted && !!errors.phone}
+										aria-describedby={attempted && errors.phone ? 'cg-phone-error' : undefined}
+									/>
+									{#if attempted && errors.phone}<p id="cg-phone-error" class="cg-field-error" role="alert">{errors.phone}</p>{/if}
 								</div>
 								<div class="cg-field">
 									<label for="cg-contact-pref">Preferred Method of Contact <span class="cg-optional">(optional)</span></label>
@@ -727,8 +743,8 @@
 							</div>
 
 							<div class="cg-form-nav">
-								<button type="button" class="cg-link-back" hidden={step === 1} onclick={back}>Back</button>
-								<button type="button" class="cg-btn cg-btn-primary" onclick={next} disabled={submitting} aria-busy={submitting}
+								<button type="button" class="cg-link-back" hidden={step === 1} onclick={back} disabled={submitting || done}>Back</button>
+								<button type="button" class="cg-btn cg-btn-primary" onclick={next} disabled={submitting || done} aria-busy={submitting}
 									>{step === TOTAL ? (submitting ? 'Submitting…' : 'Submit') : 'Continue'}</button
 								>
 							</div>

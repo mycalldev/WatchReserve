@@ -63,6 +63,17 @@ const TEMPLATES = {
 			'A member of our team will review the details you have provided and be in touch shortly with your valuation. We aim to respond within 30 minutes during business hours.'
 	}),
 
+	'valuation-link-submission': () => {
+		const offerMonth = getOfferMonth();
+		return {
+			subject: `Your ${offerMonth} Free Valuation Request Has Been Received · Watch Reserve`,
+			heading: `Your ${offerMonth} Free Valuation Request Has Been Received`,
+			formName: `${offerMonth} Free Valuation Form`,
+			intro:
+				'A member of our team will review the details you have provided and be in touch shortly with your free valuation. We aim to respond within 30 minutes during business hours.'
+		};
+	},
+
 	'part-exchange': ({ targetProduct } = {}) => ({
 		subject: targetProduct
 			? `Your Part Exchange Request Has Been Received · ${targetProduct}`
@@ -98,16 +109,16 @@ const TEMPLATES = {
 		heading: `${getOfferMonth()} Free Valuation\nConfirmation Email`,
 		formName: `${getOfferMonth()} Free Valuation Request`,
 		intro:
-			'A member of our team at Watch Reserve will be in contact with you very soon with a secure link to upload images and details of your timepiece.',
+			'We have received your form and a member of our team at Watch Reserve will be in contact with you very soon with a secure link to upload images and details of your timepiece.',
 		introFollowUp:
 			'If you have not received your secure link within 20 minutes, please reach out to Watch Reserve via info@watchreserve.co.uk',
 		signoff: SIGNOFF
 	}),
 
-	'valuation-link': () => ({
-		subject: `Your Secure Valuation Link - ${getOfferMonth()} Offer`,
-		heading: `Your Secure Valuation Link - ${getOfferMonth()} Offer`,
-		formName: 'Free Valuation Request',
+	'valuation-link': ({ date = new Date() } = {}) => ({
+		subject: `Your Secure Valuation Link - ${getOfferMonth(date)} Offer`,
+		heading: `Your Secure Valuation Link - ${getOfferMonth(date)} Offer`,
+		formName: `${getOfferMonth(date)} Free Valuation Request`,
 		intro:
 			'To complete your request, please visit the secure link below to attach clear images and details of your watch. This helps our specialists prepare an accurate valuation.',
 		introNewParagraph: true,
@@ -381,9 +392,10 @@ export async function sendCustomerConfirmation({
 export async function scheduleValuationLinkEmail({ to, firstName }) {
 	if (!to) return;
 
-	const template = TEMPLATES['valuation-link']();
+	const scheduledDate = new Date(Date.now() + VALUATION_LINK_DELAY_MS);
+	const template = TEMPLATES['valuation-link']({ date: scheduledDate });
 	const submittedAt = formatSubmittedAt();
-	const scheduledAt = new Date(Date.now() + VALUATION_LINK_DELAY_MS).toISOString();
+	const scheduledAt = scheduledDate.toISOString();
 
 	try {
 		const { error } = await resend.emails.send({

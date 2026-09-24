@@ -3,9 +3,8 @@
 	import { trackEvent } from '$lib/ga.js';
 	import { hasValuationSubmitted, setAskMeLater, setValuationSubmitted } from '$lib/askMeLater.js';
 	import FormSuccess from '$lib/components/FormSuccess.svelte';
-	import { getOfferMonth } from '$lib/offer.js';
+	import { offerMonth } from '$lib/offerMonth.js';
 
-	const offerMonth = getOfferMonth();
 
 	let visible = $state(false);
 	let animateIn = $state(false);
@@ -112,6 +111,7 @@
 
 	async function handleSubmit(e) {
 		e.preventDefault();
+		if (submitting || submitted) return;
 
 		if (!validate()) {
 			(fieldErrors.fullName ? nameInputEl : emailInputEl)?.focus();
@@ -224,7 +224,7 @@
 					</h2>
 
 					<p class="modal-sub">
-						For the Month of {offerMonth} we are offering a Free Valuation on your Time Piece. Submit
+						For the Month of {$offerMonth} we are offering a Free Valuation on your Time Piece. Submit
 						your Name and Email below and we'll be in touch with a confirmation email.
 					</p>
 				</div>
@@ -235,7 +235,7 @@
 				<div class="modal-body-content">
 					{#if submitted}
 						<FormSuccess
-							message="A member of our team will be in touch shortly with your free valuation."
+							message={`A member of our team will be in touch shortly with your free ${$offerMonth} valuation.`}
 						/>
 					{:else}
 						<form class="modal-form" onsubmit={handleSubmit} novalidate>
@@ -302,7 +302,7 @@
 								>
 							</label>
 
-							<button type="submit" class="submit-btn" disabled={submitting}>
+							<button type="submit" class="submit-btn" disabled={submitting || submitted} aria-busy={submitting}>
 								{#if submitting}
 									<span class="spinner" aria-hidden="true"></span>
 									Submitting…
