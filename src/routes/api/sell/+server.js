@@ -64,6 +64,12 @@ export async function POST({ request }) {
 		return json({ error: 'Invalid request body.' }, { status: 400 });
 	}
 
+	// Honeypot: bots commonly fill every field, including this hidden one.
+	// Pretend success without sending emails or syncing the lead.
+	if (clean(body.website)) {
+		return json({ success: true });
+	}
+
 	const brand       = clean(body.brand);
 	const model       = clean(body.model);
 	const reference   = clean(body.reference);

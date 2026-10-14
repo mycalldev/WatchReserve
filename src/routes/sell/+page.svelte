@@ -256,7 +256,8 @@
 					email,
 					phone: phone.trim(),
 					contactMethods,
-					gdprConsent
+					gdprConsent,
+					website: honeypot.trim()
 				})
 			});
 

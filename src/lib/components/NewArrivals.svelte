@@ -15,7 +15,6 @@
 	});
 
 	const visibleCount = $derived(
-		windowWidth <= 480 ? 1 :
 		windowWidth <= 768 ? 2 :
 		windowWidth <= 1200 ? 3 : 4
 	);
@@ -65,7 +64,6 @@
 
 		<div class="arrivals-header">
 			<div class="arrivals-title-group">
-				<p class="arrivals-eyebrow">Just In</p>
 				<h2 class="arrivals-title">New Arrivals</h2>
 			</div>
 			<div class="carousel-controls">
@@ -115,10 +113,12 @@
 								</div>
 							{/if}
 
-							<div class="status-badge status-{statusSlug}" aria-label="Status: {status ?? 'New Arrival'}">
+							{#if status && statusSlug !== 'new-arrival'}
+							<div class="status-badge status-{statusSlug}" aria-label="Status: {status}">
 								<span class="status-dot" aria-hidden="true"></span>
-								{status ?? 'New Arrival'}
+								{status}
 							</div>
+							{/if}
 						</div>
 
 						<div class="product-details">
@@ -156,7 +156,7 @@
 	.arrivals-section {
 		width: 100%;
 		background-color: #faf8f5;
-		padding: 100px 40px;
+		padding: 72px 40px 100px;
 		box-sizing: border-box;
 	}
 
@@ -174,16 +174,6 @@
 		margin-bottom: 48px;
 		flex-wrap: wrap;
 		gap: 24px;
-	}
-
-	.arrivals-eyebrow {
-		font-family: 'acumin-pro', sans-serif;
-		font-size: 0.72rem;
-		font-weight: 700;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: #c9a230;
-		margin: 0 0 10px 0;
 	}
 
 	.arrivals-title {
@@ -251,6 +241,7 @@
 	/* ── CARD WRAPPER ── */
 	.product-card-wrap {
 		flex: 0 0 calc(25% - 18px);
+		min-width: 0;
 		position: relative;
 	}
 
@@ -338,7 +329,6 @@
 	.status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 	.status-available .status-dot   { background-color: #22a05a; }
 	.status-sold .status-dot        { background-color: #c94040; }
-	.status-new-arrival .status-dot { background-color: #c9a230; }
 	.status-reserved .status-dot    { background-color: #422635; }
 
 	/* ── CARD DETAILS ── */
@@ -380,7 +370,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		margin-top: 10px;
+		margin-top: auto;
+		padding-top: 10px;
 	}
 
 	.product-price {
@@ -444,20 +435,49 @@
 
 	@media (max-width: 768px) {
 		.arrivals-section { padding: 60px 20px; }
-		.arrivals-header { margin-bottom: 36px; }
+		.arrivals-container { display: grid; grid-template-columns: minmax(0, 1fr); }
+		.arrivals-header { display: contents; }
+		.arrivals-title-group { grid-area: 1 / 1; margin-bottom: 36px; }
+		.carousel-wrapper { grid-area: 2 / 1; }
+		.carousel-controls {
+			grid-area: 2 / 1;
+			align-self: center;
+			justify-content: space-between;
+			margin-inline: -8px;
+			z-index: 3;
+			pointer-events: none;
+		}
+		.carousel-btn {
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background-color: #ffffff;
+			color: #160b11;
+			border: 1px solid rgba(22, 11, 17, 0.08);
+			box-shadow: 0 2px 8px rgba(22, 11, 17, 0.16);
+			pointer-events: auto;
+		}
+		.carousel-btn svg { width: 16px; height: 16px; }
+		.carousel-btn:hover:not(:disabled) {
+			background-color: #ffffff;
+			transform: none;
+			box-shadow: 0 2px 10px rgba(22, 11, 17, 0.24);
+		}
+		.carousel-btn:disabled { opacity: 0.5; }
+		.arrivals-footer { grid-area: 3 / 1; }
 		.carousel-track {
-			transform: translateX(calc(var(--index) * -1 * (50% + 10px)));
+			transform: translateX(calc(var(--index) * -1 * (50% + 12px)));
 		}
 		.product-card-wrap { flex: 0 0 calc(50% - 12px); }
 	}
 
 	@media (max-width: 480px) {
 		.arrivals-section { padding: 50px 16px; }
-		.arrivals-header { flex-direction: column; align-items: flex-start; gap: 20px; }
 		.carousel-track {
 			gap: 16px;
-			transform: translateX(calc(var(--index) * -1 * (100% + 16px)));
+			transform: translateX(calc(var(--index) * -1 * (50% + 8px)));
 		}
-		.product-card-wrap { flex: 0 0 100%; }
+		.product-card-wrap { flex: 0 0 calc(50% - 8px); }
+		.product-details { padding: 12px 10px 14px; }
 	}
 </style>

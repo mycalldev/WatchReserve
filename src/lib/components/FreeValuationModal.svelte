@@ -10,6 +10,7 @@
 	let animateIn = $state(false);
 	let submitted = $state(false);
 	let submitting = $state(false);
+	const SUCCESS_DISPLAY_MS = 6000;
 
 	let fullName = $state('');
 	let email = $state('');
@@ -122,7 +123,7 @@
 		// quietly treat it as success without contacting the server as a genuine lead.
 		if (honeypot.trim()) {
 			submitted = true;
-			setTimeout(() => dismiss(), 3200);
+			setTimeout(() => dismiss(), SUCCESS_DISPLAY_MS);
 			return;
 		}
 
@@ -147,7 +148,7 @@
 				setValuationSubmitted();
 				submitted = true;
 				trackEvent('form_submit', { form_name: 'free_valuation_popup' });
-				setTimeout(() => dismiss(), 3200);
+				setTimeout(() => dismiss(), SUCCESS_DISPLAY_MS);
 			}
 		} catch {
 			submitError = 'Something went wrong. Please try again.';
@@ -235,7 +236,7 @@
 				<div class="modal-body-content">
 					{#if submitted}
 						<FormSuccess
-							message={`A member of our team will be in touch shortly with your free ${$offerMonth} valuation.`}
+							message={`A confirmation email will be sent immediately to the email address provided. A member of our team will be in touch shortly with your free ${$offerMonth} valuation.`}
 						/>
 					{:else}
 						<form class="modal-form" onsubmit={handleSubmit} novalidate>
